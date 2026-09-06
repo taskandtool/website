@@ -1,6 +1,6 @@
 // Build the site for publishing:
-//   dist/            every static asset (public/), the built CSS, and every
-//                    page pre-rendered to HTML (index.html, about.html, ...)
+//   dist/            every static asset (public/ and brand/logo/), the built
+//                    CSS, and every page pre-rendered to HTML
 //   build/worker.mjs the app bundled as one ES module for the edge, reached
 //                    only for paths that are not a file in dist/ (form posts,
 //                    dynamic routes, the 404 page)
@@ -19,24 +19,30 @@ function step(label: string) {
   console.log(`== ${label}`);
 }
 
-step("css");
-const css = spawnSync(
-  "node_modules/.bin/tailwindcss",
-  ["-i", "styles/input.css", "-o", "public/site.css", "--minify"],
-  { stdio: "inherit" },
-);
-if (css.status !== 0) {
-  console.error("tailwind failed");
-  process.exit(css.status ?? 1);
+function run(label: string, cmd: string, args: string[]) {
+  const r = spawnSync(cmd, args, { stdio: "inherit" });
+  if (r.status !== 0) {
+    console.error(`${label} failed`);
+    process.exit(r.status ?? 1);
+  }
 }
+
+step("css");
+run("css", "npm", ["run", "--silent", "css"]);
 
 step("static assets");
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync("public", dist, { recursive: true });
+if (existsSync("brand/logo")) {
+  cpSync("brand/logo", join(dist, "brand", "logo"), {
+    recursive: true,
+    filter: (src) => !src.endsWith("README.md"),
+  });
+}
 
 step("pages");
-const paths = [...pages.map((p) => p.path)];
+const paths = pages.map((p) => p.path);
 for (const path of paths) {
   const res = await app.request(path);
   if (res.status !== 200) {
@@ -68,9 +74,5 @@ await build({
   define: { "process.env.NODE_ENV": '"production"' },
   logLevel: "warning",
 });
-if (!existsSync(join(out, "worker.mjs"))) {
-  console.error("worker bundle missing");
-  process.exit(1);
-}
 console.log(`   src/worker.ts -> ${join(out, "worker.mjs")}`);
 console.log(`\nbuilt: ${paths.length} page(s) + 404 in ${dist}/, Worker in ${out}/worker.mjs`);

@@ -45,16 +45,19 @@ missing (a fresh clone, a replaced machine), re-run it; it is idempotent:
 bash ~/app/.claude/skills/website/setup.sh
 ```
 
-Before showing work: `npm run check` (brand file, DESIGN.md and tokens in
-step, page paths, the edge rule) and `npm run typecheck`. Then read the
+Before showing work: `npm run check` (the brand contract, DESIGN.md and the
+theme in step, page paths, the edge rule, and the refuse list: no hex or
+default Tailwind colours, gradients, blur, tracking or leading overrides,
+weights above 700, `animate-*`) and `npm run typecheck`. Then read the
 page yourself at 390px and 1280px (the `design` skill's review gate).
 
 ## The shape
 
 ```
-brand/            brand.json (facts, fonts, logo) · tokens.css (the design tokens) · voice.md
-DESIGN.md         the rules the tokens serve; read before designing, update when a token changes
-src/site.ts       the site object: brand, nav, the Page type
+brand/            the portable brand folder (BRAND.md): brand.json · voice.md · logo/
+styles/theme.css  the website's design tokens: roles onto the brand colours, type scale, edges, rhythm
+DESIGN.md         the identity block and the rules the tokens serve; read before designing
+src/site.ts       the site object: brand (brand.json over src/brand-defaults.ts), nav, the Page type
 src/layout.tsx    the document: head (title, description, fonts), header, footer, render()
 src/components/   Section, Eyebrow, Button; add shared pieces here
 src/pages/*.tsx   one module per page: `page` (path, title, description) + `Body`
@@ -62,9 +65,9 @@ src/pages/index.ts  the list of pages, in nav order — a page exists once it is
 src/app.tsx       the Hono app: a GET per listed page, dynamic routes, the 404
 src/db.ts         sql(env) on DATABASE_URL (Neon HTTP driver), only when the app has a database
 src/server.ts     the machine entry (Node); src/worker.ts the edge entry
-styles/input.css  the stylesheet source → public/site.css
+styles/input.css  the stylesheet source → public/site.css (brand.css is generated, theme.css is yours)
 public/           static files, served as-is: images, favicon, robots.txt
-scripts/          dev.mjs · build.ts · check.mjs · deploy.py
+scripts/          dev.mjs · brand.mjs · build.ts · check.mjs · deploy.py
 ```
 
 ## Adding a page
@@ -76,28 +79,41 @@ scripts/          dev.mjs · build.ts · check.mjs · deploy.py
    pre-rendered `dist/<name>.html` at publish, served at `/<name>`.
 3. Put it in the header nav through `site.nav` in `src/site.ts` when it
    belongs there (at most four links; more go in a menu).
-4. Build the page from `Section`, the type classes, and the tokens. No hex
-   values, no `tracking-*`/`leading-*`/`font-bold` in markup (`DESIGN.md`).
+4. Build the page from `Section`, the type classes, and the tokens. The
+   Tailwind default palette, shadows, radii, blurs, and animations are
+   switched off in the theme, so only the site's tokens exist as classes;
+   `npm run check` refuses the rest (`DESIGN.md`: Do's and Don'ts).
 
 Nested paths work the same way: `/services/roofing` becomes
 `dist/services/roofing.html`.
 
-## Changing the brand
+## Changing the brand and the theme
 
-- A colour, size, radius, or rhythm value: `brand/tokens.css`, then the
-  matching row in `DESIGN.md`. The dev service rebuilds the CSS; on a
-  one-off run `npm run css`.
-- Fonts: the family in `tokens.css` (`--font-display`, `--font-body`) and
-  the Google Fonts URL in `brand/brand.json`. Self-hosted fonts go in
-  `public/fonts/` with `@font-face` in `styles/input.css`.
-- Name, tagline, contact details, social links, logo: `brand/brand.json`.
-  The logo file itself lives in `public/brand/` and `brand.json` points at
-  it (`logo.file: "/brand/logo.svg"`).
-- Voice: `brand/voice.md`, through the `writing` skill.
+Two layers, two owners (`BRAND.md` is the contract):
 
-If this project has a Company Brain and the owner mirrored its `brand`
-folder here (a folder with a `_mirror.md` inside), derive the brand from
-it and never edit the mirror; changes go to the brain.
+- **`brand/`** is the brand: `brand.json` (name, tagline, contact, social,
+  logo, `colors`, `fonts`), `voice.md` (through the `writing` skill),
+  `logo/` (files; `brand.json` points at one, served at `/brand/logo/…`).
+  Brand colours are named for what they are (`primary`, `dark`, `light`,
+  `neutral`, and any extras). `npm run check` validates the file.
+- **`styles/theme.css`** is the website's design system: the role tokens
+  (`--color-accent: var(--brand-primary)`, the grounds, inks, type scale,
+  edges, rhythm). Change a role, a size, a radius, or the rhythm there, then
+  the matching row in `DESIGN.md`. Self-hosted fonts go in `public/fonts/`
+  with `@font-face` in `styles/input.css`.
+
+The dev service regenerates `styles/brand.css` from `brand.json` and
+rebuilds the CSS on every change; on a one-off run `npm run css`.
+
+**When the project has a Company Brain**, the brain owns the brand: tell the
+owner to mirror the brain's `brain/brand` folder onto this app's `brand`
+folder (Settings → Mirrored folders, target path exactly `brand`; the
+`project_apps` bridge call lists the siblings). The mirror replaces the
+starter folder and refreshes whenever the brain changes; `brand/_mirror.md`
+then marks it read-only here. From then on, a change to a brand fact is a
+request to the owner for the brain; the theme, the pages, and `DESIGN.md`
+stay yours to edit. Until the mirror exists, fill `brand/` yourself from
+the owner or a captured site.
 
 ## Images and media
 

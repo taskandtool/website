@@ -10,7 +10,6 @@ const page: Page = {
   path: "/",
   title: "Home",
   description: site.brand.description,
-  nav: true,
 };
 
 const inside = [
@@ -22,7 +21,7 @@ const inside = [
   {
     n: "02",
     title: "Brand",
-    text: "brand/ holds the name, contact details, fonts, palette, and voice. Change a token there and every page follows.",
+    text: "brand/ holds the name, contact details, fonts, colours, and voice. Change it there, or let a Company Brain own it, and every page follows.",
   },
   {
     n: "03",
@@ -133,7 +132,7 @@ function Body() {
         <ul class="mt-block grid gap-4 md:grid-cols-3">
           {asks.map((ask) => (
             <li class="rounded-card border border-line-on-night p-6">
-              <p class="font-display text-xl leading-snug">“{ask}”</p>
+              <p class="font-display text-xl">“{ask}”</p>
             </li>
           ))}
         </ul>
@@ -142,8 +141,8 @@ function Body() {
       <Section id="brand" ground="panel" labelledBy="brand-title">
         <h2 id="brand-title" class="max-w-[12ch] text-section">The brand, as it stands.</h2>
         <p class="mt-8 max-w-xl text-lede text-ink-2">
-          These are the live tokens from <code class="text-base">brand/tokens.css</code>. Change one there
-          and this section changes with it.
+          The brand's colours come from <code class="text-base">brand/brand.json</code>; what each is
+          for is set in the theme. Change either and this section changes with it.
         </p>
         <ul class="mt-block grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {swatches.map((s) => (

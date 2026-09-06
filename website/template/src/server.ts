@@ -1,6 +1,6 @@
-// The machine entry: serves public/ as static files, then the app.
-// `npm run dev` runs this under a watcher beside the Tailwind watcher, so an
-// edit is live on the next refresh. This is the only file that may use Node.
+// The machine entry: serves public/ and brand/logo/ as static files, then the
+// app. `npm run dev` runs this under a watcher beside the Tailwind watcher, so
+// an edit is live on the next refresh. This is the only file that may use Node.
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
@@ -10,6 +10,7 @@ const port = Number(process.env.PORT ?? 3000);
 
 const server = new Hono();
 // Static files win over routes, exactly as they do at the edge.
+server.use("/brand/logo/*", serveStatic({ root: "./brand/logo", rewriteRequestPath: (p) => p.replace(/^\/brand\/logo/, "") }));
 server.use("/*", serveStatic({ root: "./public" }));
 server.route("/", app);
 

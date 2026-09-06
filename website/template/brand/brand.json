@@ -1,4 +1,5 @@
 {
+  "schema": "taskandtool/brand/1",
   "name": "Your business",
   "tagline": "A website that is about to become yours.",
   "description": "The working copy of a new website. Tell the AI about the business and this page becomes its front door.",
@@ -14,6 +15,12 @@
   "logo": {
     "file": "",
     "alt": ""
+  },
+  "colors": {
+    "primary": "#2f5bea",
+    "dark": "#14110d",
+    "light": "#f6f3ec",
+    "neutral": "#57514a"
   },
   "fonts": {
     "display": "Bricolage Grotesque",

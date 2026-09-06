@@ -2,7 +2,7 @@
 // <main> content. Fonts, name, and contact details come from brand/brand.json.
 import { html, raw } from "hono/html";
 import type { Child } from "hono/jsx";
-import { site, pageTitle, type Page } from "./site";
+import { site, pageTitle, logoUrl, type Page } from "./site";
 
 const { brand } = site;
 
@@ -70,10 +70,11 @@ function Header({ current }: { current: string }) {
 }
 
 export function Wordmark() {
-  if (brand.logo?.file) {
-    return <img src={brand.logo.file} alt={brand.logo.alt || site.name} class="h-8 w-auto" />;
+  const logo = logoUrl();
+  if (logo) {
+    return <img src={logo} alt={brand.logo.alt || site.name} class="h-8 w-auto" />;
   }
-  return <span class="font-display text-xl font-semibold tracking-tight">{site.name}</span>;
+  return <span class="font-display text-xl font-semibold">{site.name}</span>;
 }
 
 function Footer() {

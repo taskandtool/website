@@ -1,6 +1,7 @@
 /* The site's stylesheet source. `npm run css` builds public/site.css from it. */
 @import "tailwindcss" source(none);
-@import "../brand/tokens.css";
+@import "./brand.css";   /* generated from brand/brand.json by scripts/brand.mjs; not committed */
+@import "./theme.css";   /* the role tokens: what each brand colour is for */
 
 /* Only the site's own source is scanned for class names. */
 @source "../src";

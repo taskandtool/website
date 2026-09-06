@@ -8,10 +8,14 @@ skills that know how to work on it are in `.claude/skills/`: `website`
 
 ## Where things are
 
-- `brand/` is the brand: `brand.json` (facts, fonts, logo), `tokens.css`
-  (colours, type scale, edges, rhythm), `voice.md` (the voice card).
-- `DESIGN.md` is the design system: the role of every token, how sections
-  are composed, what to refuse. Read it before designing.
+- `brand/` is the brand as a portable folder (`BRAND.md` is the contract):
+  `brand.json` (facts, colours, fonts, logo), `voice.md`, `logo/`. When
+  `brand/_mirror.md` exists the folder is a read-only mirror from the
+  project's Company Brain: change brand facts there, never here.
+- `styles/theme.css` is the website's design system as tokens: roles mapped
+  onto the brand colours, the type scale, edges, rhythm. `DESIGN.md`
+  explains every token, the composition rules, the refuse list, and holds
+  the site's Identity block. Read it before designing.
 - `src/pages/*.tsx` are the pages; `src/pages/index.ts` lists them.
   `src/layout.tsx` is the document (head, header, footer).
   `src/components/index.tsx` holds the shared pieces. `src/app.tsx` is the
@@ -36,9 +40,9 @@ skills that know how to work on it are in `.claude/skills/`: `website`
 - Edge-safe code only in `src/` (no Node built-ins, no filesystem, no
   per-request state); `src/server.ts` is the single exception. Files and
   heavy work happen at build time, on this machine.
-- The brand is the source of truth. A colour or font goes in
-  `brand/tokens.css` and gets a row in `DESIGN.md`; markup never carries a
-  hex value.
+- Colours and fonts come from `brand/brand.json`; what they are for is
+  `styles/theme.css` with a row in `DESIGN.md`. Markup never carries a hex
+  value or a Tailwind default colour; `npm run check` refuses both.
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.
 - Publishing to the web is the owner's action in the Task & Tool

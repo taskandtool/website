@@ -1,0 +1,95 @@
+/* The website's design system: role tokens, mapped onto the brand.
+   Brand colours and fonts come from brand/brand.json through the generated
+   styles/brand.css (--brand-*). This file decides what each one is FOR:
+   which is the ground, which is the ink, which is the one action colour, and
+   sets the type scale, edges, and rhythm. DESIGN.md explains every token;
+   keep the two in step.
+
+   Tailwind v4 reads this block: every --color-* becomes bg-/text-/border-
+   classes, every --font-* a font- class, every --text-* a size, and so on.
+   The default Tailwind palette, shadows, radii, blurs, and animations are
+   switched off below, so only these tokens exist as classes. */
+
+@theme {
+  /* Only the site's own tokens: no gray-500, no shadow-xl, no blur, no bounce. */
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --radius-*: initial;
+  --blur-*: initial;
+  --animate-*: initial;
+
+  /* Grounds */
+  --color-canvas: #f6f3ec;                    /* the page */
+  --color-surface: #fffdf8;                   /* a raised card or framed visual on the canvas */
+  --color-panel: #ebe5d8;                     /* a tinted band, one step down */
+  --color-night: var(--brand-dark);           /* the dark ground: footer, one statement band */
+
+  /* Text */
+  --color-ink: #191612;                       /* headings and body on light grounds (16:1 on canvas) */
+  --color-ink-2: var(--brand-neutral);        /* secondary text on light grounds (7.1:1 on canvas, 6.2:1 on panel) */
+  --color-ink-3: #6b5f54;                     /* captions and metadata on light (5.6:1 on canvas, 4.9:1 on panel) */
+  --color-night-ink: var(--brand-light);      /* text on night */
+  --color-night-ink-2: #bfb6aa;               /* secondary text on night (9.4:1) */
+
+  /* The one action colour */
+  --color-accent: var(--brand-primary);       /* buttons, links, the focus ring (5.0:1 on canvas) */
+  --color-accent-ink: #ffffff;                /* text on the accent (5.5:1) */
+  --color-accent-hover: color-mix(in oklab, var(--brand-primary) 85%, black);
+
+  /* Lines */
+  --color-line: rgb(25 22 18 / 0.14);         /* every hairline on light */
+  --color-line-strong: rgb(25 22 18 / 0.32);  /* input edges, table frames */
+  --color-line-on-night: rgb(246 243 236 / 0.16);
+
+  /* Type */
+  --font-display: var(--brand-font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--brand-font-body), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(3rem, 8vw, 6rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 700;
+
+  --text-section: clamp(2.25rem, 5vw, 3.75rem);
+  --text-section--line-height: 1;
+  --text-section--letter-spacing: -0.025em;
+  --text-section--font-weight: 600;
+
+  --text-title: clamp(1.5rem, 2.4vw, 2rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.015em;
+  --text-title--font-weight: 600;
+
+  --text-lede: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-lede--line-height: 1.5;
+
+  --text-copy: 1.125rem;
+  --text-copy--line-height: 1.6;
+
+  --text-specimen: clamp(6rem, 18vw, 11rem);   /* one giant glyph or word inside a visual */
+  --text-specimen--line-height: 1;
+  --text-specimen--letter-spacing: -0.03em;
+  --text-specimen--font-weight: 600;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.04em;
+  --text-label--font-weight: 600;
+
+  /* Edges and depth */
+  --radius-control: 0.5rem;   /* buttons, inputs */
+  --radius-card: 1rem;        /* cards, images, panels */
+  --radius-frame: 1.5rem;     /* a large framed visual */
+  --shadow-lift: 0 1px 2px rgb(25 22 18 / 0.06), 0 12px 32px -12px rgb(25 22 18 / 0.18);
+
+  /* Rhythm */
+  --spacing-section: clamp(5rem, 10vw, 8.5rem);   /* vertical padding of a section */
+  --spacing-block: clamp(2.5rem, 4vw, 3.5rem);    /* heading group to what it introduces */
+  --container-content: 72rem;                     /* the reading container */
+  --container-wide: 80rem;                        /* the hero and a wide visual */
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.2, 0, 0, 1);
+}

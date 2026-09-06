@@ -41,14 +41,27 @@ starter-app.json the manifest Task & Tool reads: name, blurb, install directive,
 The template:
 
 ```
-brand/           brand.json (facts, fonts, logo) · tokens.css (the design tokens) · voice.md
-DESIGN.md        the design system: the role of every token, composition, components, do and don't
+brand/           the portable brand folder: brand.json (facts, colours, fonts, logo) · voice.md · logo/
+BRAND.md         the brand contract: the fields, who owns the folder, how a Company Brain takes it over
+styles/theme.css the website's design tokens: roles mapped onto the brand colours, type scale, edges, rhythm
+DESIGN.md        the design system: an identity block, the role of every token, composition, do and don't
 src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · db.ts · server.ts · worker.ts
-styles/          input.css → public/site.css (Tailwind v4)
+styles/          input.css → public/site.css (Tailwind v4; brand.css is generated from brand.json)
 public/          static files, served as-is
-scripts/         dev.mjs (the machine loop) · build.ts (pre-render + bundle) · check.mjs · deploy.py
+scripts/         dev.mjs (the machine loop) · brand.mjs · build.ts (pre-render + bundle) · check.mjs · deploy.py
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 ```
+
+**Brand and theme are two layers.** `brand/` says what the brand *is* and
+follows a small contract (`BRAND.md`) any app in the project can write:
+with a Company Brain in the project, the owner mirrors the brain's
+`brain/brand` folder onto this app's `brand` folder and the brain owns it
+from then on; the site regenerates its CSS variables from `brand.json` and
+rebuilds. `styles/theme.css` says what each colour is *for* and stays the
+website's. The Tailwind default palette, shadows, radii, blurs, and
+animations are switched off, and `npm run check` refuses hex values,
+default colours, gradients, blur, and tracking or leading overrides in
+markup, so `DESIGN.md` is enforced rather than advisory.
 
 ## How it serves
 

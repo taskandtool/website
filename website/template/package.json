@@ -6,9 +6,9 @@
   "description": "A business website on Hono: served from its own machine while it is built, pre-rendered and shipped to the edge when it is published.",
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "serve": "tsx src/server.ts",
     "start": "npm run css && tsx src/server.ts",
-    "css": "tailwindcss -i styles/input.css -o public/site.css --minify",
+    "brand": "node scripts/brand.mjs",
+    "css": "node scripts/brand.mjs && tailwindcss -i styles/input.css -o public/site.css --minify",
     "css:watch": "tailwindcss -i styles/input.css -o public/site.css --watch=always",
     "build": "tsx scripts/build.ts",
     "check": "node scripts/check.mjs",
