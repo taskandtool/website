@@ -9,7 +9,7 @@
 #   1. seeds the app from the template (only into an empty app directory)
 #   2. initialises git and makes the first commit when there is no history
 #   3. installs the npm dependencies and builds the CSS once
-#   4. installs the Obscura headless browser (the clone-site skill's capture)
+#   4. installs tt-crawl (the site reader) and the Obscura headless browser
 #   5. registers the `web` service (`npm run dev`) so the site is live on the
 #      machine's URL, or restarts it after a replacement
 set -euo pipefail
@@ -70,8 +70,23 @@ if [ -f package.json ]; then
   fi
 fi
 
-# 4. Obscura: the headless browser the clone-site skill captures with. Same
-# binary and version stamp as the Company Brain, so the two share one install.
+# 4. tt-crawl (github.com/taskandtool/crawler): the site reader the migrate-site
+# skill captures with, and the same Obscura browser the Company Brain installs
+# (same binary and version stamp, so the two share one install).
+CRAWLER_REF="${CRAWLER_REF:-v0.1.0}"
+echo "== tt-crawl $CRAWLER_REF"
+python3 -m pip install --quiet --upgrade "git+https://github.com/taskandtool/crawler@$CRAWLER_REF" 2>&1 | tail -2 || true
+python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is unavailable until it does"
+
+# `tt-crawl` on the PATH, whatever pip did with its console script (a user
+# install lands in ~/.local/bin, which a service shell may not have).
+if ! command -v tt-crawl >/dev/null 2>&1; then
+  for d in /usr/local/bin "$HOME/.local/bin"; do
+    if [ -w "$d" ] || mkdir -p "$d" 2>/dev/null && [ -w "$d" ]; then
+      printf '#!/bin/sh\nexec python3 -m ttcrawl "$@"\n' > "$d/tt-crawl" && chmod +x "$d/tt-crawl" && echo "tt-crawl launcher -> $d/tt-crawl" && break
+    fi
+  done
+fi
 OBSCURA_VERSION="${OBSCURA_VERSION:-v0.2.1}"
 OBSCURA_REPO="https://github.com/h4ckf0r0day/obscura"
 if [ -w /usr/local/bin ]; then

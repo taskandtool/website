@@ -92,7 +92,7 @@ Rules:
 Two families: a display face for headings and a text face for reading,
 named in `styles/theme.css` (`--font-display`, `--font-body`) from
 `brand/visual-identity.md`, and loaded by the URL in `src/site.ts`
-(`fonts.googleFontsUrl`) or self-hosted in `public/fonts/`.
+(`fonts.googleFontsUrl`) or self-hosted in `static/fonts/`.
 
 | Class | Size | Line height | Tracking | Weight | Use |
 |---|---|---|---|---|---|

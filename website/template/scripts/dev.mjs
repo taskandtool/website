@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-// The development loop in one process: Tailwind rebuilding public/site.css on
-// every change and the server restarting when src/ changes. This is what the
+// The development loop in one process: the content regenerated when a note,
+// post, or legal page changes, Tailwind rebuilding static/site.css on every
+// change, and the server restarting when src/ changes (the generated content
+// is imported, so a regenerated file restarts it too). This is what the
 // `web` service runs on a Task & Tool machine, so an edit is live on refresh.
-import { spawn } from "node:child_process";
-import { existsSync } from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+import { existsSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 
 for (const b of ["node_modules/.bin/tailwindcss", "node_modules/.bin/tsx"]) {
   if (!existsSync(b)) {
@@ -11,6 +14,31 @@ for (const b of ["node_modules/.bin/tailwindcss", "node_modules/.bin/tsx"]) {
     process.exit(1);
   }
 }
+
+const content = () => spawnSync("node", ["scripts/content.mjs"], { stdio: "inherit" });
+content();
+// A cheap poll over the note folders (a mirror refresh swaps whole folders,
+// which kills directory watchers).
+const stamp = () => {
+  let latest = 0;
+  for (const dir of ["public", "posts", "legal"]) {
+    if (!existsSync(dir)) continue;
+    for (const f of readdirSync(dir)) {
+      try {
+        latest = Math.max(latest, statSync(join(dir, f)).mtimeMs);
+      } catch {}
+    }
+  }
+  return latest;
+};
+let last = stamp();
+setInterval(() => {
+  const now = stamp();
+  if (now !== last) {
+    last = now;
+    content();
+  }
+}, 2000).unref();
 
 const children = [
   // `--watch=always` (through the css:watch script): keep watching when stdin

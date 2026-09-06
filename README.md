@@ -28,12 +28,13 @@ Add / remove — install seeds the app, installs deps, registers the web service
 ## What is in the box
 
 ```
-website/         the skill that builds and runs the site, its setup.sh, forms.md, and
-                 template/ (the Hono app that is copied into the app on install)
+website/         the skill that builds and runs the site, its setup.sh, forms.md, seo.md, posts.md,
+                 and template/ (the Hono app that is copied into the app on install)
 design/          creative direction: the brief, three directions, the design contract, the review gate
 writing/         voice as behaviour, the copy inventory, the editing passes, slop to refuse
-clone-site/      capture a site (rendered pages, screenshots, fonts, colours, logo) and rebuild it
-                 (site_capture.py, through the Obscura browser)
+migrate-site/    take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
+site-facts/      the fact notes from a crawled site, when the project has no Company Brain
+launch-check/    the old URLs against the new site, before publishing and after the cutover
 ship/            publish to the edge and keep the published copy current
 starter-app.json the manifest Task & Tool reads: name, blurb, install directive, chat suggestions
 ```
@@ -42,14 +43,16 @@ The template:
 
 ```
 brand/           the brand as markdown notes: positioning · voice · audience · visual-identity · do-and-dont · logo/
+public/          the fact notes with typed frontmatter (FACTS.md); posts/ and legal/ are the collections
+site-map.md      the page plan and migration ledger; src/redirects.ts the 301 table it implies
 BRAND.md         what the notes hold, who owns the folder, and how the site is set from them
 styles/theme.css the design tokens: the brand's colours and fonts, their roles, type scale, edges, rhythm
 DESIGN.md        the design system: an identity block, the role of every token, composition, do and don't,
                  and the procedure for updating it from the brand
-src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts (the site's facts) · db.ts · server.ts · worker.ts
-styles/          input.css → public/site.css (Tailwind v4)
-public/          static files, served as-is
-scripts/         dev.mjs (the machine loop) · build.ts (pre-render + bundle) · check.mjs · deploy.py
+src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · content.ts (JSON-LD) · redirects.ts · db.ts · server.ts · worker.ts
+styles/          input.css → static/site.css (Tailwind v4)
+static/          static files, served as-is
+scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · check.mjs · deploy.py
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 ```
 
@@ -70,12 +73,13 @@ contrast on the brand pairs, so `DESIGN.md` is enforced rather than advisory.
 - **On the machine:** `npm run dev`, registered as the `web` service by
   setup. Tailwind rebuilds and the server restarts on every change; an
   edit is live on refresh.
-- **At the edge:** `npm run build` pre-renders every listed page to
-  `dist/*.html` beside the static files and bundles the app to
-  `build/worker.mjs`. `npm run deploy` hands both to the platform
-  (`deploy_site` in the bridge). Static paths are served as assets, free
-  and always on; paths that match no file (a form post, a dynamic route,
-  the 404) reach the Worker. Only `src/server.ts` may touch Node; the
+- **At the edge:** `npm run build` pre-renders every route (pages, posts,
+  legal) to `dist/*.html` beside the static files, generates
+  `sitemap.xml` and `robots.txt`, validates the redirect table, and
+  bundles the app to `build/worker.mjs`. `npm run deploy` hands both to
+  the platform (`deploy_site` in the bridge). Static paths are served as
+  assets, free and always on; paths that match no file (a redirect, a
+  form post, a dynamic route, the 404) reach the Worker. Only `src/server.ts` may touch Node; the
   rest of `src/` is edge-safe by rule, and `npm run check` enforces it.
 - **Whether the site is on the web** is the owner's publish setting in
   the dashboard, separate from where it serves.
@@ -104,8 +108,23 @@ Off the platform, `npm run deploy` falls back to `npx wrangler deploy` with
 `wrangler.jsonc` and your own Cloudflare account: no Task & Tool
 dependency, which is the point.
 
+## Taking over an existing site
+
+`migrate-site` is the sequence: two questions (keep the URLs? faithful or
+redesign?), one crawl with the shared crawler
+(<https://github.com/taskandtool/crawler>: pages, an inventory per URL,
+the header and footer as structure, media, styles, screenshots, linked
+documents, the site's own structured data), the facts and brand as notes
+(the Company Brain's job when the project has one; `site-facts` here
+otherwise), a page map against the old URLs in `site-map.md`, pages one
+per turn, generated redirects and structured data, and `launch-check`
+before publishing and after the domain cutover. The chat suggests the
+next step from the folder state (`starter-app.json`'s `when` conditions).
+
 ## Third-party tools it installs
 
+- The shared crawler, `tt-crawl`, installed by `setup.sh` with pip from
+  its public repo at a pinned tag.
 - [Obscura](https://github.com/h4ckf0r0day/obscura), Apache-2.0, a Rust
   headless browser in one static binary (Linux builds). `site_capture.py`
   renders pages and takes screenshots through it. Shared with the Company
@@ -117,7 +136,7 @@ dependency, which is the point.
 
 - **Tests:** `python3 clone-site/test_site_capture.py`. In the template:
   `npm install && npm run check && npm run typecheck && npm run build`
-  (then remove `node_modules/`, `dist/`, `build/`, and `public/site.css`
+  (then remove `node_modules/`, `dist/`, `build/`, and `static/site.css`
   before an install through the platform's development path; the repo
   ignores them).
 - **Try the skills:** install into a scratch folder as above and drive

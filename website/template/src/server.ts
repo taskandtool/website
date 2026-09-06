@@ -11,7 +11,7 @@ const port = Number(process.env.PORT ?? 3000);
 const server = new Hono();
 // Static files win over routes, exactly as they do at the edge.
 server.use("/brand/logo/*", serveStatic({ root: "./brand/logo", rewriteRequestPath: (p) => p.replace(/^\/brand\/logo/, "") }));
-server.use("/*", serveStatic({ root: "./public" }));
+server.use("/*", serveStatic({ root: "./static" }));
 server.route("/", app);
 
 serve({ fetch: server.fetch, port, hostname: "0.0.0.0" }, (info) => {

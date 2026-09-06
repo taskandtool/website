@@ -18,14 +18,22 @@ skills that know how to work on it are in `.claude/skills/`: `website`
   colours and fonts, the roles they play, the type scale, edges, rhythm.
   `DESIGN.md` explains every token, the composition rules, the refuse list,
   and holds the site's Identity block. Read it before designing.
-- `src/site.ts` is the site's facts: name, tagline, contact, social, logo,
-  fonts to load, nav.
+- `public/` is the facts as notes with typed frontmatter (`FACTS.md`);
+  `posts/` and `legal/` are the collections. `npm run content` turns them
+  into `src/generated/content.json`, which the pages import; the build
+  generates the JSON-LD, sitemap, robots, canonical tags, and validates
+  `src/redirects.ts` from them. A fact lives in a note, once.
+- `src/site.ts` is the site's identity: name, tagline, fonts to load,
+  logo, nav, the real domain (`url`), tracking IDs; contact details come
+  from the business note.
+- `site-map.md` is the page plan and, for a migration, the ledger
+  (`migrate-site` skill). `raw/` is a crawled site when there is one.
 - `src/pages/*.tsx` are the pages; `src/pages/index.ts` lists them.
   `src/layout.tsx` is the document (head, header, footer).
   `src/components/index.tsx` holds the shared pieces. `src/app.tsx` is the
   Hono app; `src/db.ts` is the database client (only when the app has one).
-- `public/` is served as static files; `styles/input.css` is the stylesheet
-  source, built to `public/site.css`.
+- `static/` is served as static files; `styles/input.css` is the stylesheet
+  source, built to `static/site.css`.
 - `scripts/` holds the build, the dev loop, the checks, and the deploy hook.
 
 ## The loop

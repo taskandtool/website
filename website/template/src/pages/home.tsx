@@ -4,12 +4,19 @@
 // front door once the brief, voice, and content are settled (see the design
 // and writing skills); until then it is the working copy visitors never see.
 import { Button, Eyebrow, Section } from "../components";
+import { content, faqJsonLd, localBusinessJsonLd } from "../content";
 import { site, type Page } from "../site";
 
 const page: Page = {
   path: "/",
   title: "Home",
   description: site.description,
+  // The structured data the home page carries, from the notes (FACTS.md):
+  // nothing renders until the business note has a name.
+  jsonLd: [
+    ...(content.facts.business ? [localBusinessJsonLd(content.facts.business, site.url)] : []),
+    ...(content.facts.faq.length ? [faqJsonLd(content.facts.faq)!] : []),
+  ],
 };
 
 const inside = [

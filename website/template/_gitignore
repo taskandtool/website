@@ -1,7 +1,8 @@
 # Build output: dist/ is what ships to the edge, build/ holds the Worker bundle.
 dist/
 build/
-public/site.css
+static/site.css
+src/generated/
 node_modules/
 .site-capture/
 

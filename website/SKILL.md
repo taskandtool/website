@@ -20,7 +20,7 @@ comes first. This skill is the mechanics.
 ## The loop on this machine
 
 `npm run dev` is what the `web` service runs: Tailwind rebuilds
-`public/site.css` and the server restarts on every change, so an edit shows
+`static/site.css` and the server restarts on every change, so an edit shows
 on the next refresh of the machine's URL. Check it is running before
 starting work:
 
@@ -46,7 +46,8 @@ bash ~/app/.claude/skills/website/setup.sh
 ```
 
 Before showing work: `npm run check` (the brand notes present, DESIGN.md and
-the theme in step, contrast of the brand pairs, page paths, the edge rule, and the refuse list: no hex or
+the theme in step, contrast of the brand pairs, site-map.md against the
+pages and redirects, page paths, the edge rule, and the refuse list: no hex or
 default Tailwind colours, gradients, blur, tracking or leading overrides,
 weights above 700, `animate-*`) and `npm run typecheck`. Then read the
 page yourself at 390px and 1280px (the `design` skill's review gate).
@@ -55,6 +56,10 @@ page yourself at 390px and 1280px (the `design` skill's review gate).
 
 ```
 brand/            the brand as markdown notes (BRAND.md): positioning · voice · audience · visual-identity · do-and-dont · logo/
+public/           the fact notes with typed frontmatter (FACTS.md): business · services · faq · team · policies · proof
+posts/ legal/     the blog collection (posts.md) and the verbatim legal pages; npm run content turns all three into src/generated/content.json
+site-map.md       the page plan and the migration ledger (migrate-site skill); src/redirects.ts is its 301 table
+raw/              a crawled site (tt-crawl, migrate-site skill): raw/web with the inventory, raw/docs, raw/structured
 styles/theme.css  the design tokens: the brand's colours and fonts, their roles, type scale, edges, rhythm
 DESIGN.md         the identity block, the rules the tokens serve, and "Updating from the brand"; read before designing
 src/site.ts       the site's facts (name, tagline, contact, social, logo, fonts URL), the nav, the Page type
@@ -62,13 +67,32 @@ src/layout.tsx    the document: head (title, description, fonts), header, footer
 src/components/   Section, Eyebrow, Button; add shared pieces here
 src/pages/*.tsx   one module per page: `page` (path, title, description) + `Body`
 src/pages/index.ts  the list of pages, in nav order — a page exists once it is listed here
-src/app.tsx       the Hono app: a GET per listed page, dynamic routes, the 404
+src/app.tsx       the Hono app: the redirect table, a GET per route (pages, posts, legal), dynamic routes, the 404
+src/content.ts    the generated content and the JSON-LD builders (LocalBusiness, FAQPage, Service, BlogPosting)
 src/db.ts         sql(env) on DATABASE_URL (Neon HTTP driver), only when the app has a database
 src/server.ts     the machine entry (Node); src/worker.ts the edge entry
-styles/input.css  the stylesheet source → public/site.css
-public/           static files, served as-is: images, favicon, robots.txt
+styles/input.css  the stylesheet source → static/site.css
+static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)
 scripts/          dev.mjs · build.ts · check.mjs · deploy.py
 ```
+
+## The facts, the collections, and what the build generates
+
+The notes in `public/` carry typed frontmatter (`FACTS.md`); `npm run
+content` (run by every build, and by the dev loop when a note changes)
+turns them, `posts/`, and `legal/` into `src/generated/content.json`. From
+that and the route list the build generates the footer's contact details
+(`src/site.ts` reads the business note), the JSON-LD on the home page and
+per post, `sitemap.xml`, `robots.txt`, the canonical tags (set `site.url`
+to the real domain), and validates `src/redirects.ts`. `seo.md` beside
+this file is the per-page ruleset; `posts.md` the collection; `forms.md`
+the contact form. A fact lives in a note, once; a page that shows it is
+listed in `site-map.md`'s notes column so a change points at the pages.
+
+Sections that render from the notes are ready in `src/components/facts.tsx`:
+`ServicesSection`, `FaqSection`, `ContactSection`, `ProofSection`. Each
+renders nothing while its note is empty, so a page can include them before
+the facts exist. Compose around them; do not retype a fact into markup.
 
 ## Adding a page
 
@@ -76,7 +100,8 @@ scripts/          dev.mjs · build.ts · check.mjs · deploy.py
    `{ page, Body }`, where `page.path` starts with `/` and `page.description`
    is a real sentence about the page.
 2. List it in `src/pages/index.ts`. That makes it a route here and a
-   pre-rendered `dist/<name>.html` at publish, served at `/<name>`.
+   pre-rendered `dist/<name>.html` at publish, served at `/<name>`. Add
+   its row to `site-map.md`.
 3. Put it in the header nav through `site.nav` in `src/site.ts` when it
    belongs there (at most four links; more go in a menu).
 4. Build the page from `Section`, the type classes, and the tokens. The
@@ -109,26 +134,26 @@ starter notes yourself and keep them current.
 
 Theme values that are not brand (the type scale, radii, rhythm, the
 grounds) are yours: change them in `styles/theme.css` with the matching
-row in `DESIGN.md`. Self-hosted fonts go in `public/fonts/` with
+row in `DESIGN.md`. Self-hosted fonts go in `static/fonts/` with
 `@font-face` in `styles/input.css`. The dev service rebuilds the CSS on
 every change; on a one-off run `npm run css`.
 
 ## Images and media
 
-- Put images in `public/images/`, sized for the web (a hero image under
+- Put images in `static/images/`, sized for the web (a hero image under
   300 KB; resize and convert with ffmpeg or Python's Pillow, whichever the
   machine has). Real `alt` text always.
 - Video: a few MB, muted h264 mp4 plus webm, compressed here with ffmpeg;
   long-form video embeds from the owner's platform. Keep files over 100 MB
   out of git (`.gitignore`).
-- Pre-rendered pages and everything in `public/` are served from the edge
+- Pre-rendered pages and everything in `static/` are served from the edge
   as static files after publishing; nothing is served live off this machine
   then.
 
 ## Interactivity, forms, and data
 
 - Small client-side state (a menu, a tab, a toggle): a few lines of plain
-  JavaScript in `public/js/`, or Alpine.js from a CDN `<script>` in the
+  JavaScript in `static/js/`, or Alpine.js from a CDN `<script>` in the
   layout. Server round-trips (a filter, a search) can use htmx the same way.
   No client framework unless a view genuinely needs one.
 - A form that stores submissions needs the project's database:
@@ -149,7 +174,7 @@ every change; on a one-off run `npm run css`.
 ## Git
 
 The app is the owner's repository. Commit at milestones with plain
-messages; never commit `dist/`, `build/`, `node_modules/`, `public/site.css`,
+messages; never commit `dist/`, `build/`, `node_modules/`, `static/site.css`,
 or any credential. Pushing to GitHub is the owner's call (CLAUDE.md: Git
 etiquette).
 

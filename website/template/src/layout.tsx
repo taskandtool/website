@@ -2,7 +2,7 @@
 // <main> content. Name, fonts, logo, and contact details come from src/site.ts.
 import { html, raw } from "hono/html";
 import type { Child } from "hono/jsx";
-import { site, pageTitle, logoUrl, type Page } from "./site";
+import { site, pageTitle, logoUrl, canonicalUrl, formatHours, type Page } from "./site";
 
 export function Layout({ page, children }: { page: Page; children?: Child }) {
   return (
@@ -24,6 +24,11 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         ) : null}
         <link rel="stylesheet" href="/site.css" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        {canonicalUrl(page.path) ? <link rel="canonical" href={canonicalUrl(page.path)!} /> : null}
+        {(page.jsonLd ?? []).map((obj) => (
+          <script type="application/ld+json">{raw(JSON.stringify(obj))}</script>
+        ))}
+        <Tracking />
       </head>
       <body class="min-h-screen bg-canvas text-ink font-body">
         <a
@@ -37,6 +42,27 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         <Footer />
       </body>
     </html>
+  );
+}
+
+// Analytics and verification carried over from the old site (src/site.ts,
+// `tracking`). Nothing renders when the IDs are empty.
+function Tracking() {
+  const t = site.tracking;
+  const id = (v: string) => /^[A-Za-z0-9_-]+$/.test(v) ? v : "";
+  return (
+    <>
+      {id(t.searchConsole) ? <meta name="google-site-verification" content={id(t.searchConsole)} /> : null}
+      {id(t.ga4) ? (
+        <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${id(t.ga4)}`}></script>
+          <script>{raw(`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${id(t.ga4)}');`)}</script>
+        </>
+      ) : null}
+      {id(t.metaPixel) ? (
+        <script>{raw(`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${id(t.metaPixel)}');fbq('track','PageView');`)}</script>
+      ) : null}
+    </>
   );
 }
 
@@ -90,7 +116,7 @@ function Footer() {
             {contact.phone ? <p><a href={`tel:${contact.phone}`} class="no-underline hover:text-night-ink">{contact.phone}</a></p> : null}
             {contact.email ? <p><a href={`mailto:${contact.email}`} class="no-underline hover:text-night-ink">{contact.email}</a></p> : null}
             {contact.address ? <p>{contact.address}</p> : null}
-            {contact.hours ? <p>{contact.hours}</p> : null}
+            {contact.hours ? <p>{formatHours(contact.hours)}</p> : null}
           </address>
         ) : null}
       </div>

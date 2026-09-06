@@ -37,7 +37,7 @@ Three files, in this order, whenever the brand changes:
    `npm run check` measures the pairs.
 2. **`src/site.ts`**: the name, tagline, description, locale, contact
    details, social links, logo file, and the fonts' Google Fonts URL (or
-   self-hosted fonts in `public/fonts/` with `@font-face` in
+   self-hosted fonts in `static/fonts/` with `@font-face` in
    `styles/input.css`), from `positioning.md` and `visual-identity.md`.
 3. **`DESIGN.md`**: the palette table's values, the type families, the
    Identity block, and any rule the brand's do-and-don't adds or removes.
