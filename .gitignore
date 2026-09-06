@@ -1,0 +1,24 @@
+# Never commit credentials or local state. Task & Tool delivers env to a
+# machine at install time; nothing in this repo should ever hold a key.
+.env
+.env.*
+!.env.template
+!.env.example
+.envrc
+*.pem
+*.key
+
+# Tool noise
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+
+# The template is installed with npm on the machine, never here
+node_modules/
+website/template/dist/
+website/template/build/
+website/template/public/site.css
+
+# A captured site is working material on the owner's machine
+.site-capture/

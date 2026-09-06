@@ -1,0 +1,33 @@
+{
+  "name": "Website",
+  "blurb": "The business's public website, ready on its own machine: a Hono site with a brand folder, a design system file, and one command that publishes it to the edge. Build it from the brand, or from a site the owner points at.",
+  "order": 0,
+  "version": "0.1.0",
+  "directive": "The Website Starter App is installed. The app in ~/app is now a Hono website: brand/ (brand.json, tokens.css, voice.md), DESIGN.md (the design rules), src/pages (the pages), and it is serving from this machine as the `web` service (npm run dev on port 3000; check with `sprite-env services get web`). Its skills are in ~/app/.claude/skills: website (build and run the site: pages, brand, images, forms), design and writing (the brief, three directions, the voice card, the copy bar), clone-site (capture a site the owner points at and rebuild it), ship (publish to the edge with `npm run deploy`). Start by reading .claude/skills/website/SKILL.md and ~/app/DESIGN.md, confirm the site answers on the machine, then ask the owner what the site is for: the business, who it is for, what a visitor should do, and whether they have an existing site, brand material, or a site they like. If this project has a Company Brain (tools.taskandtool.project_apps), suggest mirroring its brand and public folders into this app from Settings before designing. Do not invent facts, customers, or prices; reserve honest slots for what does not exist yet. Publishing to the web is the owner's dashboard action.",
+  "suggestions": [
+    {
+      "label": "Build my website",
+      "prompt": "Build my website. First ask me what you need to know about the business, who the site is for, and what a visitor should do; then fill in brand/brand.json and brand/voice.md, propose three design directions per the design skill, and build the home page from real content. Show me the working copy when it is ready. Here is what we do: "
+    },
+    {
+      "label": "Start from my current site",
+      "prompt": "Start from my current website. Capture it with the clone-site skill (pages, copy, fonts, colours, logo), rebuild it cleanly on this app's Hono setup with the same content and a tidier design, and tell me what you kept, what you changed, and what you could not find. My site is "
+    },
+    {
+      "label": "Rebuild a site I like, for my business",
+      "prompt": "I like the design of this site. Capture it with the clone-site skill, then rebuild its structure and feel for my business with our own name, words, and material (never their content or logo). Tell me what you borrowed and what you changed. The site is "
+    },
+    {
+      "label": "Add a page",
+      "prompt": "Add a page to the site. Follow the website skill: a new module in src/pages, listed in src/pages/index.ts, in the nav if it belongs there, built from the design system and real copy. The page is "
+    },
+    {
+      "label": "Change the look",
+      "prompt": "Change the look of the site. Work through brand/tokens.css and DESIGN.md rather than one-off styles: propose the change, apply it, keep the contrast rules, and show me before and after at phone and desktop widths. What I want changed: "
+    },
+    {
+      "label": "Publish to the edge",
+      "prompt": "Publish the site with the ship skill: run the checks, build, deploy to the edge with npm run deploy, verify the public URL, and remind me where the on-the-web setting lives. Tell me if edge serving is not enabled for this app yet."
+    }
+  ]
+}

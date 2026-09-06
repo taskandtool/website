@@ -1,0 +1,4 @@
+# Off-platform only. On Task & Tool every value below arrives through the
+# platform (Settings -> Connections / Secrets) and this file is not used.
+PORT=3000
+# DATABASE_URL=postgres://...   # the project's Neon database, if a route needs it

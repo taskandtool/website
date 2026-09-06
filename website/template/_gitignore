@@ -1,0 +1,14 @@
+# Build output: dist/ is what ships to the edge, build/ holds the Worker bundle.
+dist/
+build/
+public/site.css
+node_modules/
+.site-capture/
+
+# Never commit credentials. Task & Tool delivers env to the machine; on your
+# own computer use .env (kept out of git here).
+.env
+.env.*
+!.env.example
+.wrangler/
+.DS_Store
