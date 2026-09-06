@@ -1,13 +1,14 @@
 # DESIGN.md
 
 The design system of this website: what each token is for, how pages are
-composed, and what to refuse. The values live in `styles/theme.css` (roles)
-and `brand/brand.json` (the brand's own colours and fonts, see `BRAND.md`);
-this file explains them. Change a value there, then update its row here.
-The AI reads this file before it designs or changes a page, and
-`npm run check` enforces the parts that can be checked. Sections follow the
-common DESIGN.md order so any tool that reads the format finds what it
-expects.
+composed, and what to refuse. The values live in `styles/theme.css` (the
+brand's colours and fonts, the roles they play, the scale, edges, rhythm);
+this file explains them and is updated from the brand notes in `brand/`
+(`BRAND.md`, and "Updating from the brand" at the end of this file). Change
+a value there, then update its row here. The AI reads this file before it
+designs or changes a page, and `npm run check` enforces the parts that can
+be checked. Sections follow the common DESIGN.md order so any tool that
+reads the format finds what it expects.
 
 ## Identity
 
@@ -44,26 +45,26 @@ few headings, different shapes per section, honest content.
 
 ## Color Palette & Roles
 
-Two layers. **Brand colours** are what the business owns and come from
-`brand/brand.json` (`colors`): `primary`, `dark`, `light`, `neutral`, plus
-any named extras. **Role tokens** in `styles/theme.css` say what each is
-*for*, and are the only colours markup may use (as `bg-*`, `text-*`,
-`border-*`, `divide-*`). The Tailwind default palette is switched off, so
-`bg-blue-500` does not exist here; add a brand colour and give it a role
-instead. Contrast is measured against the ground named.
+Two layers in `styles/theme.css`. **Brand colours** (`--brand-primary`,
+`--brand-dark`, `--brand-light`, `--brand-neutral`, plus any named extras)
+are what the business owns, copied from `brand/visual-identity.md`. **Role
+tokens** say what each is *for*, and are the only colours markup may use
+(as `bg-*`, `text-*`, `border-*`, `divide-*`). The Tailwind default palette
+is switched off, so `bg-blue-500` does not exist here; add a brand colour
+and give it a role instead. Contrast is measured against the ground named.
 
 | Token | Value | Role |
 |---|---|---|
 | `--color-canvas` | #f6f3ec | The page ground. Most sections sit on it. |
 | `--color-surface` | #fffdf8 | A raised card, panel, or framed visual on the canvas. |
 | `--color-panel` | #ebe5d8 | One step down: a tinted band. At most two per page, never adjacent. |
-| `--color-night` | brand `dark` | The dark ground: the footer, and at most one statement band. Never a card. |
+| `--color-night` | brand dark, #14110d | The dark ground: the footer, and at most one statement band. Never a card. |
 | `--color-ink` | #191612 | Headings and body on light grounds (16:1 on canvas). |
-| `--color-ink-2` | brand `neutral` | Secondary text on light grounds; must reach 4.5:1 on canvas and panel (the starter's does 7.1:1 and 6.2:1). |
+| `--color-ink-2` | brand neutral, #57514a | Secondary text on light grounds; must reach 4.5:1 on canvas and panel (7.1:1 and 6.2:1). |
 | `--color-ink-3` | #6b5f54 | Captions, labels, metadata on light grounds (5.6:1 on canvas, 4.9:1 on panel). Never a border. |
-| `--color-night-ink` | brand `light` | Text on night; must reach 4.5:1 on `dark`. |
+| `--color-night-ink` | brand light, #f6f3ec | Text on night; must reach 4.5:1 on night (17:1). |
 | `--color-night-ink-2` | #bfb6aa | Secondary text on night (9.4:1). |
-| `--color-accent` | brand `primary` | The one action colour: primary buttons, links in body copy, the focus ring. Must reach 4.5:1 on canvas as link text and 4.5:1 under `accent-ink` as a button (the starter's does 5.0:1 and 5.5:1). |
+| `--color-accent` | brand primary, #2f5bea | The one action colour: primary buttons, links in body copy, the focus ring. Must reach 4.5:1 on canvas as link text and 4.5:1 under `accent-ink` as a button (5.0:1 and 5.5:1). |
 | `--color-accent-ink` | #ffffff | Text on the accent. |
 | `--color-accent-hover` | accent mixed 15% toward black | The accent's hover and active state. |
 | `--color-line` | ink at 14% | Every hairline on light grounds: rules, card edges, dividers. |
@@ -79,8 +80,8 @@ Rules:
   accent-ink on accent, ink-2 on canvas and panel, night-ink on night) and
   fails when one is short. A brand's primary that fails as text on the
   canvas becomes a ground with its own ink token instead; a brand's
-  neutral that is too light gets a darker role token. Remap in
-  `styles/theme.css`; never edit a mirrored `brand/`.
+  neutral that is too light gets a darker role value. The brand's colours
+  stay what they are; the roles bend.
 - Photographs, product shots, and the brand's own artwork carry colour. The
   interface around them stays in the palette above.
 - A new colour needs a brand entry, a role token, and a row here. No hex
@@ -88,10 +89,10 @@ Rules:
 
 ## Typography Rules
 
-Two families: a display face for headings and a text face for reading.
-Both are named in `brand/brand.json` (`fonts`) and load from the Google
-Fonts URL there, with system fallbacks in `styles/theme.css`. Change the
-family in `brand.json`; the theme follows.
+Two families: a display face for headings and a text face for reading,
+named in `styles/theme.css` (`--font-display`, `--font-body`) from
+`brand/visual-identity.md`, and loaded by the URL in `src/site.ts`
+(`fonts.googleFontsUrl`) or self-hosted in `public/fonts/`.
 
 | Class | Size | Line height | Tracking | Weight | Use |
 |---|---|---|---|---|---|
@@ -250,6 +251,26 @@ Before a new page or a redesign: read `.claude/skills/design/SKILL.md` and
 block above, then build. After: `npm run check`, render at 390px and
 1280px, and run the review gate in the design skill.
 
-Brand facts (name, colours, fonts, contact, voice) live in `brand/` and
-follow `BRAND.md`; when `brand/_mirror.md` exists they belong to the
-Company Brain and are changed there, not here.
+## Updating from the brand
+
+`brand/` holds the brand as markdown notes (`BRAND.md`): the starter set,
+or a Company Brain's cited notes mirrored in. When those notes change, or
+on the first real build, set the site from them in this order and say what
+changed:
+
+1. Read `brand/visual-identity.md`, `positioning.md`, `voice.md`,
+   `audience.md`, `do-and-dont.md`, and anything else in the folder.
+2. `styles/theme.css`: copy the colours into the brand block as hex, name
+   the two font families, then assign roles (`--color-accent`, `--color-night`,
+   `--color-ink-2`, `--color-night-ink`, and the grounds if the brand has a
+   light of its own). Run `npm run check`; a pair under 4.5:1 means the
+   role gets a different value, not a squint.
+3. `src/site.ts`: name, tagline, description, locale, contact, social, the
+   logo file in `brand/logo/`, the fonts' Google Fonts URL.
+4. This file: the palette table values, the type families, the Identity
+   block from the brief, and any rule the do-and-don't adds or removes.
+5. The pages, through the `design` and `writing` skills, with `voice.md`
+   as the voice card. Render at 390px and 1280px.
+
+When `brand/_mirror.md` exists the notes belong to the Company Brain: a
+brand fact is changed there, then re-applied here with the same steps.

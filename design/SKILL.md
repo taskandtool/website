@@ -5,12 +5,14 @@ description: "Direct the visual system for a web page: research, concept directi
 # Design
 
 In this app the design system is a contract in files: `DESIGN.md` at the
-app root says what every token is for, how sections are composed, and what
-to refuse; `brand/tokens.css` holds the values; `brand/voice.md` is the
-voice card. Read `DESIGN.md` before choosing anything below, build with its
-classes, and when a direction changes a token, change it there and update
-the matching row. The method in this file is how a direction is found; the
-contract is where it is recorded.
+app root says what every token is for, how sections are composed, what to
+refuse, and holds the Identity block this skill fills; `styles/theme.css`
+holds the values; the brand itself is the notes in `brand/` (`BRAND.md`),
+with `brand/voice.md` as the voice card. Read `DESIGN.md` and the brand
+notes before choosing anything below, build with the theme's classes, and
+when a direction changes a token, change it there and update the matching
+row. The method in this file is how a direction is found; the contract is
+where it is recorded.
 
 Make the page unmistakably about this subject, for this audience, doing this
 job. A new palette applied to a familiar landing-page template is not a design

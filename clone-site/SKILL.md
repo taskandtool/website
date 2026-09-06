@@ -45,12 +45,16 @@ the two or three pages that matter in `pages/*.md` and `pages/*.html`.
 1. **Inventory** what the capture holds: pages and nav, the copy per page,
    headings, images and the logo, fonts, the palette by role (body ground,
    text, headings, the action colour), buttons.
-2. **Brand first.** Put the fonts and colours into `brand/tokens.css` and
-   `brand/brand.json` (Google Fonts URL for the families it uses, or the
-   nearest open family when the original is a paid one; say so), the name
-   and contact details into `brand.json`, and update `DESIGN.md`'s palette
-   and type tables to match. Check every text and ground pair for
-   contrast; a captured site is allowed to fail that, the rebuild is not.
+2. **Brand first.** Write what the capture shows into the notes in
+   `brand/` (`visual-identity.md`: colours as hex with where each is used,
+   the font families, the logo files copied into `brand/logo/`;
+   `positioning.md`: name, tagline, contact details), unless `brand/` is a
+   mirror from a Company Brain, in which case the brain gets the findings.
+   Then set the site from the notes as `DESIGN.md`'s "Updating from the
+   brand" says: `styles/theme.css` (the nearest open family when the
+   original font is a paid one; say so), `src/site.ts`, `DESIGN.md`.
+   `npm run check` measures contrast; a captured site is allowed to fail
+   that, the rebuild is not.
 3. **Pages.** One module per page in `src/pages/`, listed in
    `src/pages/index.ts`, the nav in `src/site.ts`. Build from the
    `website` skill's components and the type classes; do not paste captured

@@ -1,14 +1,11 @@
-/* The website's design system: role tokens, mapped onto the brand.
-   Brand colours and fonts come from brand/brand.json through the generated
-   styles/brand.css (--brand-*). This file decides what each one is FOR:
-   which is the ground, which is the ink, which is the one action colour, and
-   sets the type scale, edges, and rhythm. DESIGN.md explains every token;
-   keep the two in step.
-
-   Tailwind v4 reads this block: every --color-* becomes bg-/text-/border-
-   classes, every --font-* a font- class, every --text-* a size, and so on.
-   The default Tailwind palette, shadows, radii, blurs, and animations are
-   switched off below, so only these tokens exist as classes. */
+/* The website's design system as Tailwind v4 tokens: the brand's colours and
+   fonts (set from the notes in brand/ — BRAND.md says how), the roles each
+   colour plays, the type scale, edges, and rhythm. DESIGN.md explains every
+   token; keep the two in step. Tailwind reads this block: every --color-*
+   becomes bg-/text-/border- classes, every --font-* a font- class, every
+   --text-* a size, and so on. The default Tailwind palette, shadows, radii,
+   blurs, and animations are switched off below, so only these tokens exist
+   as classes. */
 
 @theme {
   /* Only the site's own tokens: no gray-500, no shadow-xl, no blur, no bounce. */
@@ -19,6 +16,13 @@
   --radius-*: initial;
   --blur-*: initial;
   --animate-*: initial;
+
+  /* The brand's own colours, as stated in brand/visual-identity.md. Roles
+     below map onto them; markup never uses these directly. */
+  --brand-primary: #2f5bea;
+  --brand-dark: #14110d;
+  --brand-light: #f6f3ec;
+  --brand-neutral: #57514a;
 
   /* Grounds */
   --color-canvas: #f6f3ec;                    /* the page */
@@ -43,9 +47,10 @@
   --color-line-strong: rgb(25 22 18 / 0.32);  /* input edges, table frames */
   --color-line-on-night: rgb(246 243 236 / 0.16);
 
-  /* Type */
-  --font-display: var(--brand-font-display), "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--brand-font-body), ui-sans-serif, system-ui, sans-serif;
+  /* Type: the families named in brand/visual-identity.md, loaded by the
+     URL in src/site.ts (fonts.googleFontsUrl) or self-hosted in public/fonts */
+  --font-display: "Bricolage Grotesque", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --text-display: clamp(3rem, 8vw, 6rem);
   --text-display--line-height: 0.95;

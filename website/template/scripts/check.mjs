@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // The site's own checks, run with `npm run check`. They make DESIGN.md and
 // BRAND.md enforceable rather than advisory:
-//   - brand/brand.json follows the brand contract (BRAND.md)
-//   - every colour DESIGN.md's palette table lists exists in the theme or the brand
+//   - the brand notes the site is set from exist (BRAND.md)
+//   - every colour DESIGN.md's palette table lists exists in the theme, and
+//     the brand-dependent pairs (accent on canvas, ink-2 on canvas…) meet 4.5:1
 //   - page paths are unique and start with "/"
 //   - nothing under src/ except server.ts imports a Node built-in (the edge rule)
 //   - no markup uses what DESIGN.md refuses: hex values, arbitrary values other
@@ -15,36 +16,26 @@ import { join } from "node:path";
 const findings = [];
 const hex = /^#[0-9a-fA-F]{6}$/;
 
-// brand.json against the contract
-const brand = JSON.parse(readFileSync("brand/brand.json", "utf8"));
-if (brand.schema !== "taskandtool/brand/1") findings.push(`brand/brand.json: schema must be "taskandtool/brand/1"`);
-if (!brand.name || typeof brand.name !== "string") findings.push("brand/brand.json: name is missing");
-if (!brand.colors || !hex.test(brand.colors.primary ?? "")) findings.push("brand/brand.json: colors.primary must be a 6-digit hex colour");
-for (const [k, v] of Object.entries(brand.colors ?? {})) {
-  if (!hex.test(String(v))) findings.push(`brand/brand.json: colors.${k} is not a 6-digit hex colour`);
+// the brand notes (BRAND.md): the files the theme and the pages are set from
+for (const f of ["positioning.md", "voice.md", "visual-identity.md"]) {
+  if (!existsSync(join("brand", f))) findings.push(`brand/${f} is missing (BRAND.md lists the notes the site is set from)`);
 }
-for (const k of ["display", "body", "googleFontsUrl"]) {
-  if (brand.fonts && brand.fonts[k] !== undefined && typeof brand.fonts[k] !== "string") findings.push(`brand/brand.json: fonts.${k} must be a string`);
-}
-if (brand.logo?.file && !existsSync(join("brand", brand.logo.file.replace(/^\/?(brand\/)?/, "")))) {
-  findings.push(`brand/brand.json: logo.file ${brand.logo.file} is not in brand/`);
-}
-if (existsSync("brand/_mirror.md")) console.log("note: brand/ is a mirror from another app; edit brand facts at the source");
-
-// DESIGN.md palette vs the theme and the brand
-const theme = readFileSync("styles/theme.css", "utf8");
+if (existsSync("brand/_mirror.md")) console.log("note: brand/ is a mirror from the Company Brain; change brand facts there, then re-apply them here");
 const design = readFileSync("DESIGN.md", "utf8");
+const identity = design.split("## Identity")[1]?.split("\n## ")[0] ?? "";
+const unfilled = (identity.match(/to fill/g) ?? []).length;
+if (unfilled) console.log(`note: DESIGN.md's Identity block has ${unfilled} line(s) still to fill; the site is a template until the design skill's brief fills them`);
+
+// DESIGN.md palette vs the theme
+const theme = readFileSync("styles/theme.css", "utf8");
 const palette = design.split("## Color")[1]?.split("\n## ")[0] ?? "";
-const known = new Set([...(theme.match(/#[0-9a-fA-F]{6}\b/g) ?? []), ...Object.values(brand.colors ?? {})].map((h) => h.toLowerCase()));
+const known = new Set((theme.match(/#[0-9a-fA-F]{6}\b/g) ?? []).map((h) => h.toLowerCase()));
 for (const h of new Set(palette.match(/#[0-9a-fA-F]{6}\b/g) ?? [])) {
-  if (!known.has(h.toLowerCase())) findings.push(`DESIGN.md lists ${h} but neither styles/theme.css nor brand.json defines it`);
+  if (!known.has(h.toLowerCase())) findings.push(`DESIGN.md lists ${h} but styles/theme.css does not define it`);
 }
 for (const token of new Set(palette.match(/`(--color-[a-z0-9-]+)`/g) ?? [])) {
   const name = token.replace(/`/g, "");
   if (!theme.includes(`${name}:`)) findings.push(`DESIGN.md names ${name} but styles/theme.css does not define it`);
-}
-for (const m of palette.matchAll(/brand `([a-z0-9-]+)`/g)) {
-  if (!brand.colors?.[m[1]]) findings.push(`DESIGN.md maps a role onto brand \`${m[1]}\` but brand.json has no colors.${m[1]}`);
 }
 
 // contrast of the brand-dependent pairs (WCAG 2.x)
@@ -56,18 +47,22 @@ const ratio = (a, b) => {
   const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
   return (x + 0.05) / (y + 0.05);
 };
-const themeHex = (name) => theme.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
-const resolved = {
-  canvas: themeHex("canvas"), panel: themeHex("panel"), "accent-ink": themeHex("accent-ink"),
-  accent: brand.colors?.primary, "ink-2": brand.colors?.neutral ?? themeHex("ink-2"),
-  night: brand.colors?.dark ?? themeHex("night"), "night-ink": brand.colors?.light ?? themeHex("night-ink"),
+// a token's hex, following one level of var(--brand-*) into the brand block
+const varHex = (name) => theme.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
+const themeHex = (name) => {
+  const raw = theme.match(new RegExp(`--color-${name}:\\s*([^;]+);`))?.[1]?.trim();
+  if (!raw) return undefined;
+  if (hex.test(raw)) return raw;
+  const ref = raw.match(/^var\(--([a-z0-9-]+)\)$/)?.[1];
+  return ref ? varHex(ref) : undefined;
 };
+const resolved = Object.fromEntries(["canvas", "panel", "accent", "accent-ink", "ink-2", "night", "night-ink"].map((n) => [n, themeHex(n)]));
 const pairs = [["accent", "canvas"], ["accent-ink", "accent"], ["ink-2", "canvas"], ["ink-2", "panel"], ["night-ink", "night"]];
 for (const [fg, bg] of pairs) {
   const [a, b] = [resolved[fg], resolved[bg]];
   if (!a || !b || !hex.test(a) || !hex.test(b)) continue;
   const r = ratio(a, b);
-  if (r < 4.5) findings.push(`contrast: ${fg} (${a}) on ${bg} (${b}) is ${r.toFixed(1)}:1, under 4.5:1. Remap the role in styles/theme.css (DESIGN.md: Color rules)`);
+  if (r < 4.5) findings.push(`contrast: ${fg} (${a}) on ${bg} (${b}) is ${r.toFixed(1)}:1, under 4.5:1. Give the role a different value in styles/theme.css (DESIGN.md: Color rules)`);
 }
 
 // pages

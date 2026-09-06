@@ -2,7 +2,6 @@
 dist/
 build/
 public/site.css
-styles/brand.css
 node_modules/
 .site-capture/
 

@@ -1,14 +1,12 @@
 // The document around every page: head, header, footer. Pages supply the
-// <main> content. Fonts, name, and contact details come from brand/brand.json.
+// <main> content. Name, fonts, logo, and contact details come from src/site.ts.
 import { html, raw } from "hono/html";
 import type { Child } from "hono/jsx";
 import { site, pageTitle, logoUrl, type Page } from "./site";
 
-const { brand } = site;
-
 export function Layout({ page, children }: { page: Page; children?: Child }) {
   return (
-    <html lang={brand.locale || "en"}>
+    <html lang={site.locale || "en"}>
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,11 +15,11 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         <meta property="og:title" content={pageTitle(page)} />
         <meta property="og:description" content={page.description} />
         <meta property="og:type" content="website" />
-        {brand.fonts.googleFontsUrl ? (
+        {site.fonts.googleFontsUrl ? (
           <>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-            <link rel="stylesheet" href={brand.fonts.googleFontsUrl} />
+            <link rel="stylesheet" href={site.fonts.googleFontsUrl} />
           </>
         ) : null}
         <link rel="stylesheet" href="/site.css" />
@@ -72,20 +70,20 @@ function Header({ current }: { current: string }) {
 export function Wordmark() {
   const logo = logoUrl();
   if (logo) {
-    return <img src={logo} alt={brand.logo.alt || site.name} class="h-8 w-auto" />;
+    return <img src={logo} alt={site.logo.alt || site.name} class="h-8 w-auto" />;
   }
   return <span class="font-display text-xl font-semibold">{site.name}</span>;
 }
 
 function Footer() {
-  const { contact } = brand;
+  const { contact } = site;
   const hasContact = contact.phone || contact.email || contact.address || contact.hours;
   return (
     <footer class="bg-night text-night-ink">
       <div class="mx-auto grid max-w-wide gap-10 px-5 py-16 sm:px-8 md:grid-cols-[1fr_auto]">
         <div>
           <p class="font-display text-title">{site.name}</p>
-          {brand.tagline ? <p class="mt-2 max-w-md text-night-ink-2">{brand.tagline}</p> : null}
+          {site.tagline ? <p class="mt-2 max-w-md text-night-ink-2">{site.tagline}</p> : null}
         </div>
         {hasContact ? (
           <address class="not-italic text-night-ink-2">

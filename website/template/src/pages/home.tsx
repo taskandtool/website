@@ -9,7 +9,7 @@ import { site, type Page } from "../site";
 const page: Page = {
   path: "/",
   title: "Home",
-  description: site.brand.description,
+  description: site.description,
 };
 
 const inside = [
@@ -21,7 +21,7 @@ const inside = [
   {
     n: "02",
     title: "Brand",
-    text: "brand/ holds the name, contact details, fonts, colours, and voice. Change it there, or let a Company Brain own it, and every page follows.",
+    text: "brand/ holds the notes: positioning, voice, audience, visual identity, do and don't. A Company Brain can own that folder; the theme and the pages are set from it.",
   },
   {
     n: "03",
@@ -51,7 +51,6 @@ const swatches = [
 ];
 
 function Body() {
-  const { brand } = site;
   return (
     <>
       <section aria-labelledby="hero-title" class="bg-canvas">
@@ -87,7 +86,7 @@ function Body() {
               Aa
             </p>
             <p class="mt-2 text-ink-2">
-              {brand.fonts.display} for headings, {brand.fonts.body} for reading.
+              {site.fonts.display} for headings, {site.fonts.body} for reading.
             </p>
             <ul class="mt-8 grid grid-cols-6 gap-2" aria-label="Palette">
               {swatches.map((s) => (
@@ -141,8 +140,8 @@ function Body() {
       <Section id="brand" ground="panel" labelledBy="brand-title">
         <h2 id="brand-title" class="max-w-[12ch] text-section">The brand, as it stands.</h2>
         <p class="mt-8 max-w-xl text-lede text-ink-2">
-          The brand's colours come from <code class="text-base">brand/brand.json</code>; what each is
-          for is set in the theme. Change either and this section changes with it.
+          The theme in <code class="text-base">styles/theme.css</code> is set from the notes in{" "}
+          <code class="text-base">brand/</code>. Change it and this section changes with it.
         </p>
         <ul class="mt-block grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {swatches.map((s) => (

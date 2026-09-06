@@ -1,9 +1,10 @@
 # Voice
 
 The voice card for everything written on this site. The `writing` skill uses
-it before drafting a page; fill it in from the owner's own words, the brain's
-`brand/` notes when there is a Company Brain in this project, or a captured
-site. Lines marked *to fill* are placeholders, not decisions.
+it before drafting a page; fill it in from the owner's own words or a
+captured site. A Company Brain in this project replaces this whole folder
+with its own cited notes. Lines marked *to fill* are placeholders, not
+decisions.
 
 ```text
 VOICE CARD
@@ -27,9 +28,3 @@ filled, and show them to the owner: "Does this sound like you?"
 1. to fill
 2. to fill
 3. to fill
-
-## Words we use / words we never use
-
-| Use | Never |
-|---|---|
-| to fill | leverage, elevate, seamless, journey, unlock, world-class |

@@ -1,68 +1,62 @@
 # BRAND.md
 
-What `brand/` holds, who owns it, and how it reaches the site. `brand/` is
-a **portable brand folder**: a small contract that any app in the project
-can write and any app can read. The website ships a starter version; a
-Company Brain in the same project can take it over.
+What `brand/` holds, who owns it, and how it becomes the site. `brand/` is
+**notes in markdown**, nothing else: the same shape a Company Brain writes
+into its own `brain/brand` folder. The website ships a starter set with
+lines still "to fill"; a brain in the project can replace the whole folder
+with cited notes. The AI then reads the notes and sets the site from them.
 
 ## The folder
 
 ```
 brand/
-  brand.json     the facts: name, tagline, description, contact, social, logo, colours, fonts
-  voice.md       the voice card and three example sentences
-  logo/          logo files (svg preferred), referenced from brand.json
-  notes/         optional: longer notes in markdown (positioning, audience, do and don't)
-  _mirror.md     present only when the folder is a mirror from another app (read-only here)
+  positioning.md       what the business does, for whom, what makes it different;
+                       the name as it should appear, the tagline, a description;
+                       contact details and social links
+  voice.md             the voice card and three example sentences
+  audience.md          the actual people who arrive and what convinces them
+  visual-identity.md   colours as 6-digit hex with their roles, the display and
+                       body fonts, the logo files, the photography style
+  do-and-dont.md       observable rules; words used and never used
+  logo/                the logo files (svg preferred), served at /brand/logo/<file>
+  <anything>.md        further notes are welcome and read as context
+  _mirror.md           present only when the folder is a mirror (read-only here)
 ```
 
-### brand.json (`"schema": "taskandtool/brand/1"`)
+The site never reads these files at runtime. They are the AI's input.
 
-| Field | Type | Meaning |
-|---|---|---|
-| `name` | string, required | The business name as it should appear |
-| `tagline`, `description` | string | One line, and one or two sentences, in the brand's own words |
-| `locale`, `url` | string | Language tag (`en`, `en-GB`); the canonical site URL once it has one |
-| `contact.phone/email/address/hours` | string | Shown in the footer and on contact pages when set |
-| `social` | object of name → URL | `{"instagram": "https://..."}` |
-| `logo.file`, `logo.alt` | string | A file under `brand/logo/`, e.g. `logo/wordmark.svg`; the site serves it at `/brand/logo/wordmark.svg`. Empty: the name is set as text |
-| `colors.primary` | hex, required | The one action colour of the brand |
-| `colors.dark`, `colors.light` | hex | The brand's darkest and lightest grounds |
-| `colors.neutral` | hex | A mid tone for secondary text |
-| `colors.<anything>` | hex | Further named brand colours (`"sun"`, `"forest"`) the design may map to a role |
-| `fonts.display`, `fonts.body` | string | Family names |
-| `fonts.googleFontsUrl` | string | The Google Fonts stylesheet URL loading them, or empty for self-hosted or system fonts |
+## What the AI sets from them
 
-Every field but `name` and `colors.primary` may be missing or empty; the
-site falls back to its starter values for what is absent
-(`src/brand-defaults.ts`). Extra fields are allowed and ignored.
+Three files, in this order, whenever the brand changes:
 
-## How the site uses it
+1. **`styles/theme.css`**: the brand block (`--brand-primary`, `--brand-dark`,
+   `--brand-light`, `--brand-neutral`, and any extras) from
+   `visual-identity.md`, the two font families, and then the *roles*: which
+   brand colour is the accent, the night ground, the secondary ink. A brand
+   colour that fails 4.5:1 as text gets a different role, never a squint.
+   `npm run check` measures the pairs.
+2. **`src/site.ts`**: the name, tagline, description, locale, contact
+   details, social links, logo file, and the fonts' Google Fonts URL (or
+   self-hosted fonts in `public/fonts/` with `@font-face` in
+   `styles/input.css`), from `positioning.md` and `visual-identity.md`.
+3. **`DESIGN.md`**: the palette table's values, the type families, the
+   Identity block, and any rule the brand's do-and-don't adds or removes.
 
-- `scripts/brand.mjs` turns `brand.json` into `styles/brand.css`: one CSS
-  variable per colour (`--brand-primary`) and per font (`--brand-font-display`).
-  It runs before every CSS build and whenever `brand.json` changes under
-  `npm run dev`. The generated file is not committed.
-- `styles/theme.css` is the **website's** design system: the role tokens
-  (`--color-accent`, `--color-canvas`, the type scale, edges, rhythm)
-  mapped onto the brand variables (`--color-accent: var(--brand-primary)`).
-  `DESIGN.md` explains those roles. Brand says what the colours *are*;
-  theme says what they are *for*.
-- `src/site.ts` reads the facts for the head, header, and footer;
-  `voice.md` and `notes/` are read by the AI, not by the site.
+Then the pages, through the `design` and `writing` skills, with
+`voice.md` as the voice card. The suggested first prompt is in the chat
+("Apply my brand"); it names these steps.
 
-## Who owns it
+## Who owns the folder
 
-- **No Company Brain in the project:** the website owns `brand/`. The AI
-  fills it from the owner, or from a captured site (`clone-site`), and edits
-  it directly.
-- **A Company Brain in the project:** the brain is the source of truth.
-  The owner mirrors the brain's `brain/brand` folder onto this app's
-  `brand` folder (Settings → Mirrored folders, target path exactly
-  `brand`). The mirror **replaces** the starter folder and keeps it
-  current; `brand/_mirror.md` marks it read-only here. From then on the
-  AI changes brand facts by asking the owner to change them in the brain,
-  never by editing `brand/` in this app. The theme, the pages, and
-  `DESIGN.md` stay the website's to edit.
+- **No Company Brain in the project:** the website owns `brand/`. Fill it
+  from the owner or from a captured site (`clone-site`), then set the site
+  from it.
+- **A Company Brain in the project:** the brain is the source of truth. The
+  owner mirrors the brain's `brain/brand` folder onto this app's `brand`
+  folder (Settings → Mirrored folders, target path exactly `brand`). The
+  mirror **replaces** the starter notes and refreshes whenever the brain's
+  notes change; `brand/_mirror.md` marks it read-only here. Brand facts are
+  then changed in the brain, and re-applied here with the same prompt. The
+  theme, the pages, and `DESIGN.md` stay the website's.
 
 Nothing in `brand/` is secret. Credentials never belong here.

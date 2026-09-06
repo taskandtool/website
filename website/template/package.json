@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "start": "npm run css && tsx src/server.ts",
-    "brand": "node scripts/brand.mjs",
-    "css": "node scripts/brand.mjs && tailwindcss -i styles/input.css -o public/site.css --minify",
+    "css": "tailwindcss -i styles/input.css -o public/site.css --minify",
     "css:watch": "tailwindcss -i styles/input.css -o public/site.css --watch=always",
     "build": "tsx scripts/build.ts",
     "check": "node scripts/check.mjs",

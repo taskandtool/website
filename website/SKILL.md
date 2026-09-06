@@ -45,8 +45,8 @@ missing (a fresh clone, a replaced machine), re-run it; it is idempotent:
 bash ~/app/.claude/skills/website/setup.sh
 ```
 
-Before showing work: `npm run check` (the brand contract, DESIGN.md and the
-theme in step, page paths, the edge rule, and the refuse list: no hex or
+Before showing work: `npm run check` (the brand notes present, DESIGN.md and
+the theme in step, contrast of the brand pairs, page paths, the edge rule, and the refuse list: no hex or
 default Tailwind colours, gradients, blur, tracking or leading overrides,
 weights above 700, `animate-*`) and `npm run typecheck`. Then read the
 page yourself at 390px and 1280px (the `design` skill's review gate).
@@ -54,10 +54,10 @@ page yourself at 390px and 1280px (the `design` skill's review gate).
 ## The shape
 
 ```
-brand/            the portable brand folder (BRAND.md): brand.json · voice.md · logo/
-styles/theme.css  the website's design tokens: roles onto the brand colours, type scale, edges, rhythm
-DESIGN.md         the identity block and the rules the tokens serve; read before designing
-src/site.ts       the site object: brand (brand.json over src/brand-defaults.ts), nav, the Page type
+brand/            the brand as markdown notes (BRAND.md): positioning · voice · audience · visual-identity · do-and-dont · logo/
+styles/theme.css  the design tokens: the brand's colours and fonts, their roles, type scale, edges, rhythm
+DESIGN.md         the identity block, the rules the tokens serve, and "Updating from the brand"; read before designing
+src/site.ts       the site's facts (name, tagline, contact, social, logo, fonts URL), the nav, the Page type
 src/layout.tsx    the document: head (title, description, fonts), header, footer, render()
 src/components/   Section, Eyebrow, Button; add shared pieces here
 src/pages/*.tsx   one module per page: `page` (path, title, description) + `Body`
@@ -65,9 +65,9 @@ src/pages/index.ts  the list of pages, in nav order — a page exists once it is
 src/app.tsx       the Hono app: a GET per listed page, dynamic routes, the 404
 src/db.ts         sql(env) on DATABASE_URL (Neon HTTP driver), only when the app has a database
 src/server.ts     the machine entry (Node); src/worker.ts the edge entry
-styles/input.css  the stylesheet source → public/site.css (brand.css is generated, theme.css is yours)
+styles/input.css  the stylesheet source → public/site.css
 public/           static files, served as-is: images, favicon, robots.txt
-scripts/          dev.mjs · brand.mjs · build.ts · check.mjs · deploy.py
+scripts/          dev.mjs · build.ts · check.mjs · deploy.py
 ```
 
 ## Adding a page
@@ -87,33 +87,31 @@ scripts/          dev.mjs · brand.mjs · build.ts · check.mjs · deploy.py
 Nested paths work the same way: `/services/roofing` becomes
 `dist/services/roofing.html`.
 
-## Changing the brand and the theme
+## The brand, the theme, and the site's facts
 
-Two layers, two owners (`BRAND.md` is the contract):
+`brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
+audience, visual identity, do and don't, and `logo/`. The site never reads
+them; you do. Setting the site from them is a fixed procedure, "Updating
+from the brand" in `DESIGN.md`: colours and fonts into the brand block of
+`styles/theme.css` and roles assigned (accent, night, inks; `npm run check`
+measures contrast and fails a bad pair), the facts into `src/site.ts`
+(name, tagline, contact, social, logo, fonts URL), then `DESIGN.md`'s
+palette, type, and Identity block, then the pages. Do it on the first
+real build and whenever the notes change, and say what changed.
 
-- **`brand/`** is the brand: `brand.json` (name, tagline, contact, social,
-  logo, `colors`, `fonts`), `voice.md` (through the `writing` skill),
-  `logo/` (files; `brand.json` points at one, served at `/brand/logo/…`).
-  Brand colours are named for what they are (`primary`, `dark`, `light`,
-  `neutral`, and any extras). `npm run check` validates the file.
-- **`styles/theme.css`** is the website's design system: the role tokens
-  (`--color-accent: var(--brand-primary)`, the grounds, inks, type scale,
-  edges, rhythm). Change a role, a size, a radius, or the rhythm there, then
-  the matching row in `DESIGN.md`. Self-hosted fonts go in `public/fonts/`
-  with `@font-face` in `styles/input.css`.
+Where the notes come from, in order of trust: the owner in chat; a Company
+Brain in this project, whose `brain/brand` folder the owner mirrors onto
+this app's `brand` folder (Settings → Mirrored folders, target path exactly
+`brand`; `project_apps` in the bridge lists the siblings) so the brain owns
+the notes and `brand/_mirror.md` marks them read-only here; a captured site
+(`clone-site`) for a business that has one. Without a brain, fill the
+starter notes yourself and keep them current.
 
-The dev service regenerates `styles/brand.css` from `brand.json` and
-rebuilds the CSS on every change; on a one-off run `npm run css`.
-
-**When the project has a Company Brain**, the brain owns the brand: tell the
-owner to mirror the brain's `brain/brand` folder onto this app's `brand`
-folder (Settings → Mirrored folders, target path exactly `brand`; the
-`project_apps` bridge call lists the siblings). The mirror replaces the
-starter folder and refreshes whenever the brain changes; `brand/_mirror.md`
-then marks it read-only here. From then on, a change to a brand fact is a
-request to the owner for the brain; the theme, the pages, and `DESIGN.md`
-stay yours to edit. Until the mirror exists, fill `brand/` yourself from
-the owner or a captured site.
+Theme values that are not brand (the type scale, radii, rhythm, the
+grounds) are yours: change them in `styles/theme.css` with the matching
+row in `DESIGN.md`. Self-hosted fonts go in `public/fonts/` with
+`@font-face` in `styles/input.css`. The dev service rebuilds the CSS on
+every change; on a one-off run `npm run css`.
 
 ## Images and media
 
