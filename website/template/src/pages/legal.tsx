@@ -3,10 +3,14 @@
 import { raw } from "hono/html";
 import { Section } from "../components";
 import type { content } from "../content";
-import type { Page } from "../site";
+import { site, type Page } from "../site";
 
 export function legalPage(doc: (typeof content.legal)[number]): { page: Page; Body: () => any } {
-  const page: Page = { path: doc.path, title: doc.title, description: `${doc.title}.` };
+  const page: Page = {
+    path: doc.path,
+    title: doc.title,
+    description: `${doc.title} for ${site.name}: the full text as it applies to this website and its services.`,
+  };
   const Body = () => (
     <Section labelledBy="legal-title">
       <h1 id="legal-title" class="max-w-[16ch] text-section">{doc.title}</h1>

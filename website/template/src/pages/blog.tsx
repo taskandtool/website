@@ -8,7 +8,7 @@ import { site, type Page } from "../site";
 const index: Page = {
   path: "/blog",
   title: "Blog",
-  description: `Notes and news from ${site.name}.`,
+  description: `Notes and news from ${site.name}: what we are working on, what we have learned, and what changed.`,
 };
 
 function Index() {
