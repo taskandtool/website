@@ -1,11 +1,15 @@
 ---
-description: "Set voice and edit prose for pages, products, email, UI text, documentation, and other human-facing writing. Use with the design skill before laying out a page."
+description: "Set the voice and write or edit the words for this site: the voice card from the owner's own sentences, the copy inventory, headlines and calls to action, and the editing passes that remove the patterns generated text falls into. Use with the design skill before laying out a page, and whenever the owner says write the copy, rewrite this, it sounds like AI, or make it sound like us."
 ---
 
 # Writing
 
-In this app the voice card lives in `brand/voice.md`; fill it there, with
-the three example sentences, and keep it current. The facts a page may
+In this app the voice lives in `brand/voice.md`: the card, the three
+example sentences, and the fingerprint beneath them (signatures with quoted
+evidence, the never-list, rewrite pairs, the lexicon, how the sentences
+run, tone by surface). Fill it there from the owner's own words and keep it
+current; every line quotes its sample, and a line with no sample stays
+"to fill" rather than guessed. The facts a page may
 state come from the owner, from a Company Brain mirrored into this app (a
 folder holding a `_mirror.md`), or from a captured site that is the
 owner's own; nothing else is a source.
@@ -69,6 +73,27 @@ Examples of behavioral traits:
 
 Match the owner where their language is clear: vocabulary, cadence, humor, and
 favorite distinctions. Clean up confusion without sanding away their character.
+
+A filled card, for the specimen business the design catalogue uses:
+
+```text
+VOICE CARD
+reader:        a Bristol homeowner planning a kitchen, comparing makers, wary of showrooms
+speaker:       the two people who make and fit the kitchens
+relationship:  operator
+register:      plain
+cadence:       short sentences; one thought each; a longer one when the detail needs it
+vocabulary:    fit, build, workshop, drawing, oak, ash, ply, worktop; never "bespoke", "solutions"
+proof style:   process and named materials; three finished kitchens, by area
+humor:         none
+taboos:        invented reviews or counts; "passionate"; "we pride ourselves"; a price without a drawing
+primary action: book a workshop visit
+```
+
+Three sentences in that voice: "We measure the room and talk through how
+you cook." "A drawing you can read, with the price on it." "The people who
+built it install it, usually in three days." The test is whether the owner
+says "that sounds like us"; if they change a word, the card changes with it.
 
 ## 3. Create the Copy Inventory
 
@@ -134,10 +159,57 @@ decision demands. Give each section one job and remove repeated claims.
 
 ## Slop Patterns to Refuse
 
-Delete or rewrite:
+Most of these are structural, not lexical. Word lists rot (the vocabulary
+of generated text moved from "delve" to "showcasing" in two model
+generations); the sentence shapes stay. Mark the strongest tells first and
+rewrite the whole passage, never patch one phrase at a time. Flag only clear
+matches, and before cutting ask whether the cut would flatten a sentence the
+owner actually wrote: real voice is not sanded off. Never add a fact to fill
+the gap a cut leaves.
 
-- openers such as “In today's fast-paced world,” “Are you looking for,” and
-  “Welcome to”;
+The strongest tells, in order:
+
+- the negation pivot: "It's not X. It's Y.", "not just X, but Y", "X rather
+  than Y", especially stacked in threes;
+- the staccato tricolon: "No fluff. No filler. No stress.", "Fast. Simple.
+  Effective.";
+- significance inflation: "stands as a testament", "pivotal", "crucial role",
+  "underscores", "evolving landscape", "setting the stage";
+- promotional adjectives with nothing behind them: "boasts", "vibrant",
+  "nestled", "in the heart of", "renowned", "groundbreaking", "diverse
+  array";
+- "-ing" riders that restate the sentence: "highlighting", "ensuring",
+  "fostering", "enhancing", "showcasing";
+- "serves as", "features", "offers" where "is" and "has" would do;
+- vague attribution: "experts agree", "industry reports";
+- em dashes (write a comma, a colon, or a new sentence), bold list stems,
+  title-case headings, emoji as bullets or headers, summarising closers
+  ("In summary", "Remember,"), a heading every eighty words;
+- uniform sentence length. Generated text puts most sentences at fifteen to
+  twenty-eight words; people write four-word sentences and fifty-word ones.
+
+Three checks a word list cannot do (do them on every page):
+
+1. In any ten sentences, the longest minus the shortest is more than fifteen
+   words. If not, cut one sentence to a fragment's length and let one run.
+2. Every section carries at least one particular from the owner's material:
+   a proper noun, a number, a place, a date, a product name. A section with
+   none is generic by construction.
+3. At most one triad on the page.
+
+`npm run check` refuses the phrases below in pages and posts (legal pages
+are verbatim and exempt). Delete or rewrite:
+
+- openers such as “In today's fast-paced world,” “In a world where,” “Imagine
+  a world,” “Are you looking for,” “Hi there,” and “Welcome to”;
+- fake-casual pivots: “Here's the thing,” “And honestly?”, “You know what's
+  wild?”, “That changes everything”;
+- audience sweeps: “Whether you're X or Y,” “Look no further”;
+- ad clichés: “Say goodbye to,” “Ready to take X to the next level?”, “Don't
+  just X, Y,” “game-changer,” “all-in-one”;
+- small-business site clichés: “We're passionate about,” “We pride
+  ourselves,” “We do things differently,” “Making X simple,” “I love what I
+  do,” “solutions” as a noun for what the business sells;
 - empty transitions such as “Let's dive in,” “Without further ado,” and “So,
   let's get started”;
 - hedge filler such as “It's important to note that” and “It goes without

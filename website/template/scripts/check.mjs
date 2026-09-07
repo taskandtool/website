@@ -10,7 +10,10 @@
 //   - nothing under src/ except server.ts imports a Node built-in (the edge rule)
 //   - no markup uses what DESIGN.md refuses: hex values, arbitrary values other
 //     than a measure, tracking/leading overrides, weights above 700, gradients,
-//     blur, glass, animations
+//     gradient text, blur, glass, animations
+//   - the copy gate: pages and posts carry none of the phrases the writing
+//     skill refuses (the openers, the pivots, the ad clichés) and no em dashes;
+//     legal pages are verbatim and exempt
 // Exit 1 with the findings when something is off.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -58,8 +61,13 @@ const themeHex = (name) => {
   const ref = raw.match(/^var\(--([a-z0-9-]+)\)$/)?.[1];
   return ref ? varHex(ref) : undefined;
 };
-const resolved = Object.fromEntries(["canvas", "panel", "accent", "accent-ink", "ink-2", "night", "night-ink"].map((n) => [n, themeHex(n)]));
-const pairs = [["accent", "canvas"], ["accent-ink", "accent"], ["ink-2", "canvas"], ["ink-2", "panel"], ["night-ink", "night"]];
+const resolved = Object.fromEntries(["canvas", "panel", "surface", "accent", "accent-ink", "ink", "ink-2", "ink-3", "night", "night-ink", "night-ink-2"].map((n) => [n, themeHex(n)]));
+const pairs = [
+  ["ink", "canvas"], ["ink", "surface"], ["ink", "panel"],
+  ["ink-2", "canvas"], ["ink-2", "panel"], ["ink-3", "canvas"], ["ink-3", "panel"],
+  ["accent", "canvas"], ["accent-ink", "accent"],
+  ["night-ink", "night"], ["night-ink-2", "night"],
+];
 for (const [fg, bg] of pairs) {
   const [a, b] = [resolved[fg], resolved[bg]];
   if (!a || !b || !hex.test(a) || !hex.test(b)) continue;
@@ -132,6 +140,7 @@ const refuse = [
   [/\b(bg|text|border|ring|outline)-(gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)\b/, "a Tailwind default colour: the palette is the theme's tokens only"],
   [/\b(bg-gradient-|bg-linear-|bg-radial-|bg-conic-)/, "a gradient (DESIGN.md: no gradients on interface elements)"],
   [/\b(backdrop-blur|blur-|drop-shadow-)/, "blur or glass (DESIGN.md refuses them)"],
+  [/\b(bg-clip-text|text-transparent)\b/, "gradient text (DESIGN.md refuses it)"],
   [/\banimate-/, "an animation utility (one thing moves per page, and only with a reason; write it in CSS with a reduced-motion state)"],
   [/\b(tracking|leading)-/, "a tracking/leading override: the size token carries both"],
   [/\bfont-(bold|extrabold|black)\b/, "a weight above the heading weight: use the size tokens' weights or font-semibold"],
@@ -149,6 +158,35 @@ for (const file of walk("src")) {
       if (m) findings.push(`${file}: "${m[0]}" is ${why}`);
     }
   }
+}
+
+// the copy gate: the writing skill's refused phrases and em dashes, in the
+// pages' strings and in posts (legal/ is verbatim and exempt). A phrase the
+// owner insists on can be kept with `copy-gate: allow` on the same line.
+const copyTells = [
+  /\bin today'?s (fast-paced|digital|competitive|ever-changing) world\b/i,
+  /\bin a world where\b/i, /\bimagine a world\b/i, /\bwelcome to (our|my|the) (website|site|home)/i,
+  /\bhere'?s the thing\b/i, /\band honestly\?/i, /\byou know what'?s wild\b/i, /\bthat changes everything\b/i,
+  /\bwhether you'?re\b/i, /\blook no further\b/i, /\blet'?s dive in\b/i,
+  /\bsay goodbye to\b/i, /\bto the next level\b/i, /\bdon'?t just \w+, \w+/i,
+  /\bgame-?changer\b/i, /\ball-in-one\b/i, /\bseamless(ly)?\b/i, /\bcutting-edge\b/i,
+  /\b(unlock|unleash|elevate|revolutioni[sz]e|supercharge) your\b/i, /\bleverage\b/i,
+  /\bwe'?re passionate about\b/i, /\bwe pride ourselves\b/i, /\bwe do things differently\b/i,
+  /\bstands? as a testament\b/i, /\bevolving landscape\b/i, /\bnestled in\b/i, /\bin the heart of\b/i,
+  /\bit'?s not (just )?(about )?\w+[,.;] it'?s\b/i, /\bnot just \w+(?: \w+)?, but\b/i,
+];
+const copyFiles = [...walk("src/pages").filter((f) => f.endsWith(".tsx")), ...(existsSync("posts") ? walk("posts").filter((f) => f.endsWith(".md")) : [])];
+for (const file of copyFiles) {
+  const lines = readFileSync(file, "utf8").split("\n");
+  lines.forEach((line, i) => {
+    if (line.includes("copy-gate: allow")) return;
+    // in a page, only string literals and JSX text carry copy; imports and class lists never match these phrases, so the whole line is scanned
+    if (line.includes("\u2014")) findings.push(`${file}:${i + 1}: an em dash; write a comma, a colon, or a new sentence (writing skill)`);
+    for (const rx of copyTells) {
+      const m = line.match(rx);
+      if (m) { findings.push(`${file}:${i + 1}: "${m[0]}" is a phrase the writing skill refuses; say the specific thing instead`); break; }
+    }
+  });
 }
 
 if (findings.length) {

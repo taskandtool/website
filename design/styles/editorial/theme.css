@@ -1,0 +1,111 @@
+/* The website's design system as Tailwind v4 tokens: the brand's colours and
+   fonts (set from the notes in brand/ — BRAND.md says how), the roles each
+   colour plays, the type scale, edges, and rhythm. DESIGN.md explains every
+   token; keep the two in step. Tailwind reads this block: every --color-*
+   becomes bg-/text-/border- classes, every --font-* a font- class, every
+   --text-* a size, and so on. The default Tailwind palette, shadows, radii,
+   blurs, and animations are switched off below, so only these tokens exist
+   as classes.
+
+   Style: editorial. A magazine front page: a serif with real italics, a
+   strict column grid, hairline rules that carry structure, numbered
+   sections, one oxblood accent. */
+
+@theme {
+  /* Only the site's own tokens: no gray-500, no shadow-xl, no blur, no bounce. */
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --radius-*: initial;
+  --blur-*: initial;
+  --animate-*: initial;
+
+  /* The brand's own colours, as stated in brand/visual-identity.md. Roles
+     below map onto them; markup never uses these directly. */
+  --brand-primary: #8a1c2b;                   /* oxblood: the one action colour */
+  --brand-dark: #141414;                      /* ink black, no brown in it */
+  --brand-light: #f5f4f0;                     /* cool paper */
+  --brand-neutral: #4a4a46;                   /* the secondary text grey */
+
+  /* Grounds */
+  --color-canvas: var(--brand-light);         /* the page: cool paper, not cream */
+  --color-surface: #fbfaf8;                   /* a framed slot or a whiter column on the canvas */
+  --color-panel: #eae8e2;                     /* one step down: a grey-paper band */
+  --color-night: var(--brand-dark);           /* the dark ground: footer, one statement band */
+
+  /* Text */
+  --color-ink: #141414;                       /* headings and body on light grounds (16.7:1 on canvas) */
+  --color-ink-2: var(--brand-neutral);        /* secondary text on light grounds (8.1:1 on canvas, 7.3:1 on panel) */
+  --color-ink-3: #63625c;                     /* captions, folios, metadata on light (5.6:1 on canvas, 5.0:1 on panel) */
+  --color-night-ink: var(--brand-light);      /* text on night (16.7:1) */
+  --color-night-ink-2: #b5b3ad;               /* secondary text on night (8.8:1) */
+
+  /* The one action colour */
+  --color-accent: var(--brand-primary);       /* buttons, links, the focus ring (8.4:1 on canvas) */
+  --color-accent-ink: #ffffff;                /* text on the accent (9.2:1) */
+  --color-accent-hover: color-mix(in oklab, var(--brand-primary) 85%, black);
+
+  /* Lines: the rules carry the structure, so they are a touch darker than usual */
+  --color-line: rgb(20 20 20 / 0.18);         /* every hairline on light: column rules, row rules, frame edges */
+  --color-line-strong: rgb(20 20 20 / 0.4);   /* input edges, a secondary button's edge, the masthead's second rule */
+  --color-line-on-night: rgb(245 244 240 / 0.2);
+
+  /* Type: the families named in brand/visual-identity.md, loaded by the
+     URL in src/site.ts (fonts.googleFontsUrl) or self-hosted in public/fonts.
+     Newsreader carries an optical-size axis and a true italic; the browser
+     picks the optical size from the font size (font-optical-sizing: auto). */
+  --font-display: "Newsreader", "Iowan Old Style", "Times New Roman", Georgia, serif;
+  --font-body: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --text-display: clamp(3.25rem, 8.5vw, 6.75rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 500;
+
+  --text-section: clamp(2.25rem, 4.5vw, 3.5rem);
+  --text-section--line-height: 1.05;
+  --text-section--letter-spacing: -0.015em;
+  --text-section--font-weight: 500;
+
+  --text-title: clamp(1.5rem, 2.2vw, 1.875rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 500;
+
+  --text-lede: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-lede--line-height: 1.5;
+
+  --text-copy: 1.125rem;
+  --text-copy--line-height: 1.6;
+
+  --text-numeral: clamp(3rem, 5.5vw, 4.5rem);   /* the big serif numeral in a numbered list */
+  --text-numeral--line-height: 1;
+  --text-numeral--letter-spacing: -0.02em;
+  --text-numeral--font-weight: 500;
+
+  --text-specimen: clamp(6rem, 18vw, 12rem);   /* one giant glyph or word inside a visual */
+  --text-specimen--line-height: 1;
+  --text-specimen--letter-spacing: -0.02em;
+  --text-specimen--font-weight: 500;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 600;
+
+  /* Edges and depth: frames are square; controls have the smallest bevel */
+  --radius-control: 2px;      /* buttons, inputs */
+  --radius-card: 0;           /* cards, images, panels: none */
+  --radius-frame: 0;          /* a large framed visual: none */
+  --shadow-lift: 0 1px 2px rgb(20 20 20 / 0.08), 0 16px 40px -16px rgb(20 20 20 / 0.28);   /* the overlay level only (a menu, a dialog); nothing on the page casts a shadow */
+
+  /* Rhythm */
+  --spacing-section: clamp(4rem, 8vw, 7rem);      /* vertical padding of a section */
+  --spacing-block: clamp(2rem, 3.5vw, 3rem);      /* heading group to what it introduces */
+  --container-content: 72rem;                     /* the reading container */
+  --container-wide: 80rem;                        /* the front page and a wide visual */
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.2, 0, 0, 1);
+}

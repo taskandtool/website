@@ -1,0 +1,107 @@
+/* The website's design system as Tailwind v4 tokens: the brand's colours and
+   fonts (set from the notes in brand/ — BRAND.md says how), the roles each
+   colour plays, the type scale, edges, and rhythm. DESIGN.md explains every
+   token; keep the two in step. Tailwind reads this block: every --color-*
+   becomes bg-/text-/border- classes, every --font-* a font- class, every
+   --text-* a size, and so on. The default Tailwind palette, shadows, radii,
+   blurs, and animations are switched off below, so only these tokens exist
+   as classes.
+
+   Style preset: luxury. Ivory ground, a Didone display at large sizes, wide
+   tracked labels, hairline rules, long silences, one deep green for the few
+   actions, and a single gilt hairline per page. Radius 0 everywhere. */
+
+@theme {
+  /* Only the site's own tokens: no gray-500, no shadow-xl, no blur, no bounce. */
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --radius-*: initial;
+  --blur-*: initial;
+  --animate-*: initial;
+
+  /* The brand's own colours, as stated in brand/visual-identity.md. Roles
+     below map onto them; markup never uses these directly. */
+  --brand-primary: #1b4332;
+  --brand-dark: #1a1a1a;
+  --brand-light: #f9f7f2;
+  --brand-neutral: #4d4a44;
+
+  /* Grounds */
+  --color-canvas: #f9f7f2;                    /* the page: ivory, never pure white */
+  --color-surface: #fffefb;                   /* a framed visual or photo slot on the canvas */
+  --color-panel: #efeae0;                     /* a tinted band, one step down; at most two per page */
+  --color-night: var(--brand-dark);           /* the dark ground: footer, one statement band */
+
+  /* Text */
+  --color-ink: #1a1a1a;                       /* headings and body on light grounds (16.3:1 on canvas) */
+  --color-ink-2: var(--brand-neutral);        /* secondary text on light grounds (8.3:1 on canvas, 7.4:1 on panel) */
+  --color-ink-3: #66625a;                     /* captions, tracked labels, metadata on light (5.7:1 on canvas, 5.1:1 on panel) */
+  --color-night-ink: var(--brand-light);      /* text on night (16.3:1) */
+  --color-night-ink-2: #b5afa4;               /* secondary text on night (8.0:1) */
+
+  /* The one action colour */
+  --color-accent: var(--brand-primary);       /* deep green: buttons, text-link actions, the focus ring (10.4:1 on canvas) */
+  --color-accent-ink: #f9f7f2;                /* ivory text on the accent (10.4:1) */
+  --color-accent-hover: #245640;              /* the accent a touch lighter for hover and active (7.9:1 under accent-ink) */
+
+  /* Ornament: a hairline and a small mark only, never text, never an action */
+  --color-gilt: #b08d57;                      /* one gilt hairline or one small mark per page; 2.9:1 on canvas, so never text */
+
+  /* Lines */
+  --color-line: rgb(26 26 26 / 0.14);         /* every hairline on light: rules, frames, the h1 baseline */
+  --color-line-strong: rgb(26 26 26 / 0.34);  /* input edges, table frames, the secondary button's edge */
+  --color-line-on-night: rgb(249 247 242 / 0.18);
+
+  /* Type: the families named in brand/visual-identity.md, loaded by the
+     URL in src/site.ts (fonts.googleFontsUrl) or self-hosted in public/fonts */
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", "Times New Roman", serif;
+  --font-body: "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(3.5rem, 9vw, 7.5rem);   /* the h1; the first word set in italic */
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.01em;
+  --text-display--font-weight: 400;
+
+  --text-section: clamp(2.5rem, 5vw, 4rem);     /* every h2, and the band's sentence in italic */
+  --text-section--line-height: 1.05;
+  --text-section--letter-spacing: -0.005em;
+  --text-section--font-weight: 400;
+
+  --text-title: clamp(1.5rem, 2.4vw, 2rem);     /* an h3, a roman numeral, the footer name */
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: 0;
+  --text-title--font-weight: 400;
+
+  --text-lede: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-lede--line-height: 1.6;
+
+  --text-copy: 1.125rem;
+  --text-copy--line-height: 1.7;
+
+  --text-specimen: clamp(6rem, 18vw, 12rem);    /* one giant glyph or word inside a visual */
+  --text-specimen--line-height: 1;
+  --text-specimen--letter-spacing: -0.01em;
+  --text-specimen--font-weight: 400;
+
+  --text-label: 0.8125rem;                      /* the wide-tracked small label, upper-case */
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.18em;
+  --text-label--font-weight: 500;
+
+  /* Edges and depth: no corners, no shadow below the overlay level */
+  --radius-control: 0;        /* buttons, inputs */
+  --radius-card: 0;           /* frames, photo slots, panels */
+  --radius-frame: 0;          /* a large framed visual */
+  --shadow-lift: 0 1px 0 rgb(26 26 26 / 0.12);   /* a rule-like shadow: a menu or dialog only */
+
+  /* Rhythm: longer silences than the default template */
+  --spacing-section: clamp(6rem, 12vw, 12rem);    /* vertical padding of a section */
+  --spacing-block: clamp(3rem, 5vw, 4.5rem);      /* heading group to what it introduces */
+  --container-content: 72rem;                     /* the reading container */
+  --container-wide: 80rem;                        /* the hero and a wide visual */
+
+  /* Motion: hover and focus only */
+  --ease-soft: cubic-bezier(0.2, 0, 0, 1);
+}

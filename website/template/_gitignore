@@ -13,3 +13,5 @@ node_modules/
 !.env.example
 .wrangler/
 .DS_Store
+# files sent in chat and screenshots the AI shows you (attach_files); never part of the site
+uploads/

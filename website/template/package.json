@@ -12,6 +12,7 @@
     "css:watch": "tailwindcss -i styles/input.css -o static/site.css --watch=always",
     "build": "tsx scripts/build.ts",
     "check": "node scripts/check.mjs",
+    "style": "node scripts/style.mjs",
     "typecheck": "tsc --noEmit -p .",
     "audit": "tt-crawl audit http://localhost:3000 --out raw/web/_audit.md --no-external",
     "deploy": "python3 scripts/deploy.py"

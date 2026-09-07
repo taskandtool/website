@@ -1,5 +1,5 @@
 ---
-description: "Direct the visual system for a web page: research, concept directions, typography, layout, imagery, motion, responsive behavior, accessibility, and the relationship between design and voice. Read before creating or substantially redesigning HTML pages."
+description: "Direct the visual system of this website: the brief, the style catalogue (six presets with previews the owner picks from), three directions, the design contract, typography, layout, imagery, motion, accessibility, and the rendered review with screenshots. Use before building or redesigning any page, and when the owner says pick a style, change the look, make it feel like, redesign, or it looks generic."
 ---
 
 # Design
@@ -105,6 +105,42 @@ single clearest message.
 
 For a new page or a major redesign, develop three directions in one pass before
 building. Small changes should continue the selected system instead.
+
+**Start from the style catalogue.** `styles/` beside this file
+(`${CLAUDE_SKILL_DIR}/styles`) holds six presets, each a complete design
+system with a preview: `editorial`, `brutalist`, `whimsical`, `cinematic`,
+`luxury`, `swiss` (`styles/README.md` lists them with a thesis, what each
+suits, and what it does not). `npm run style` prints the same list. Before
+inventing directions, put the previews in front of the owner and ask which
+is closest. Attach them to your reply so they appear in the chat as
+thumbnails the owner can click to enlarge and step through:
+
+```python
+from tools.taskandtool import attach_files
+attach_files([f".claude/skills/design/styles/{s}/preview.png"
+              for s in ["editorial", "brutalist", "whimsical", "cinematic", "luxury", "swiss"]],
+             "Six starting points, in this order: editorial, brutalist, whimsical, cinematic, luxury, swiss")
+```
+
+Then name each in one line (its thesis and what it suits) and ask one
+question: which is closest, or what blend. Off the platform (no bridge) the
+previews are in the Files tab, or apply one with `npm run style -- <name>
+--specimen` and send the owner to `/specimen` on the working copy. Then:
+
+- If one fits, apply it (`npm run style -- <name>`), run "Updating from the
+  brand" in `DESIGN.md` so the brand's colours and fonts replace the preset's
+  defaults, and make the three directions variations *within* that style
+  (composition, signature, imagery), not three styles.
+- If the owner wants a blend ("brutalist with our green", "editorial but
+  warmer"), apply the closer preset and change the tokens and rules it names,
+  with a row in `DESIGN.md` for each change. Keep the preset's refuse list.
+- If none fits, write the three directions from scratch as below and record
+  the winner in `DESIGN.md` the same way a preset would.
+
+A preset is a starting point, never a finished design: the Identity block is
+still to fill, the copy is still the owner's, and the review gate still runs.
+`npm run style -- --remove-specimen` takes the specimen page out before
+anything is published.
 
 The directions must differ in structure, hierarchy, typography, imagery, and
 behavior—not merely in color. Derive them from the subject's real materials,
@@ -321,8 +357,22 @@ At minimum:
 
 ## Review Gate
 
-Review rendered screenshots at mobile and desktop widths. Interact with the real
-page, then ask:
+Render the page and look at it; never judge from the code. On this machine
+the working copy serves at `localhost:3000` and the Obscura browser takes
+the screenshot (`--allow-private-network` lets it reach localhost):
+
+```bash
+mkdir -p uploads
+obscura fetch http://localhost:3000/ --allow-private-network --screenshot uploads/home-1280.png
+```
+
+Read the PNG. For the phone width, render the page inside a 390px frame
+(`uploads/_phone.html`: an `<iframe src="http://localhost:3000/" width="390"
+height="2400">` on an otherwise empty page, screenshotted the same way), or
+use Obscura's CDP server with a viewport of 390 wide. Then attach what you
+looked at to your reply (`attach_files(["uploads/home-1280.png",
+"uploads/home-390.png"], "The home page at desktop and phone width")`) so
+the owner sees the same thing you did, and ask:
 
 1. Can someone identify the subject, offer, and next action quickly?
 2. Does the composition come from this project, or merely from a design trend?
@@ -333,4 +383,28 @@ page, then ask:
 7. Which element is present only to make the page look busier?
 
 Remove the ornamental answer to question seven. Fix the largest generic or
-unclear choice, render again, and only then call the design finished.
+unclear choice, render again, and only then call the design finished. Two
+passes is the norm: the first render always shows something the code did
+not.
+
+## A worked example
+
+The brief, filled, for the specimen business the catalogue uses (a
+cabinetry workshop), after the owner picked the brutalist preset:
+
+```text
+Subject:            Fitted kitchens and wardrobes, made and installed by Harlow Joinery
+Audience:           Homeowners in Bristol renovating a kitchen, comparing three or four makers
+One job:            Get a workshop visit booked
+Direction:          Poster on a wall: the work said plainly, in heavy type, with black edges
+Source:             The workshop's own job sheets and the hand-lettered boards outside it
+Signature:          The hero block on a hard shadow with the giant word MADE in its foot
+Rejection:          The kitchen-showroom site: soft photos, a centred slogan, three cards of services
+Photography:        Three finished kitchens from this year; until the photos arrive, captioned slots
+```
+
+Everything on the page follows from those eight lines: the h1 is the
+owner's claim in their words, the process is four rows because there are
+four steps, the accent is the brand's blue because it clears 4.5:1 on the
+off-white, and the one motion is the button press. A brief with "premium"
+or "modern" in it has not been written yet.

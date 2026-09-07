@@ -3,7 +3,7 @@
   "blurb": "The business's public website, ready on its own machine: a Hono site with a brand folder, a design system file, and one command that publishes it to the edge. Build it from the brand, or from a site the owner points at.",
   "order": 0,
   "version": "0.1.0",
-  "directive": "The Website Starter App is installed. The app in ~/app is now a Hono website: brand/ (the brand as markdown notes; BRAND.md), public/ (the fact notes with typed frontmatter; FACTS.md), posts/ and legal/ (collections), site-map.md (the page plan and migration ledger), styles/theme.css (the design tokens), src/site.ts (the site's facts), DESIGN.md (the identity block, the design rules, and the procedure for updating from the brand), src/pages (the pages), and it is serving from this machine as the `web` service (npm run dev on port 3000; check with `sprite-env services get web`). Its skills are in ~/app/.claude/skills: website (build and run the site: pages, brand, images, forms, seo.md, posts.md), design and writing (the brief, three directions, the voice card, the copy bar), migrate-site (take over an existing site: inventory, facts, brand, page map, pages, redirects, launch), site-facts (the fact notes when there is no Company Brain), launch-check (the old URLs against the new site), ship (publish to the edge with `npm run deploy`). Start by reading .claude/skills/website/SKILL.md and ~/app/DESIGN.md, confirm the site answers on the machine, then ask the owner two things: does the business have a current website (if so, the migrate-site skill leads and its two questions come first: keep the URLs, faithful or redesign), and is there a Company Brain in this project (tools.taskandtool.project_apps; if so, the brain reads the site and writes the notes, and the owner mirrors brain/brand onto brand, brain/public onto public, and brain/raw/web onto raw/web from this app's Settings before you design). Do not invent facts, customers, or prices; reserve honest slots for what does not exist yet. Publishing to the web is the owner's dashboard action.",
+  "directive": "The Website Starter App is installed. The app in ~/app is now a Hono website: brand/ (the brand as markdown notes; BRAND.md), public/ (the fact notes with typed frontmatter; FACTS.md), posts/ and legal/ (collections), site-map.md (the page plan and migration ledger), styles/theme.css (the design tokens), src/site.ts (the site's facts), DESIGN.md (the identity block, the design rules, and the procedure for updating from the brand), src/pages (the pages), and it is serving from this machine as the `web` service (npm run dev on port 3000; check with `sprite-env services get web`). Its skills are in ~/app/.claude/skills: website (build and run the site: pages, brand, images, forms, seo.md, posts.md), design and writing (the brief, the style catalogue in .claude/skills/design/styles with a preview per style and `npm run style -- <name>` to apply one, three directions, the voice card, the copy bar, the copy gate in npm run check), migrate-site (take over an existing site: inventory, facts, brand, page map, pages, redirects, launch), site-facts (the fact notes when there is no Company Brain), launch-check (the old URLs against the new site), ship (publish to the edge with `npm run deploy`). Start by reading .claude/skills/website/SKILL.md and ~/app/DESIGN.md, confirm the site answers on the machine, then ask the owner two things: does the business have a current website (if so, the migrate-site skill leads and its two questions come first: keep the URLs, faithful or redesign), and is there a Company Brain in this project (tools.taskandtool.project_apps; if so, the brain reads the site and writes the notes, and the owner mirrors brain/brand onto brand, brain/public onto public, and brain/raw/web onto raw/web from this app's Settings before you design). Do not invent facts, customers, or prices; reserve honest slots for what does not exist yet. Publishing to the web is the owner's dashboard action.",
   "suggestions": [
     {
       "label": "Build my website",
@@ -16,6 +16,16 @@
         {
           "sibling": "brain",
           "is": "missing"
+        }
+      ]
+    },
+    {
+      "label": "Pick a style for my site",
+      "prompt": "Help me pick a style for the site from the design skill's catalogue (.claude/skills/design/styles). Attach the six preview.png files to your reply with attach_files from tools/taskandtool.py so I can click through them, name each preset in one line (its thesis and what it suits), and ask me which is closest or what blend I want. Then apply it with npm run style, run 'Updating from the brand' in DESIGN.md with my brand notes, screenshot the home page at 1280 and 390 wide, attach the screenshots, and ask me what to change. The kind of business and feel I want: ",
+      "when": [
+        {
+          "path": "DESIGN.md",
+          "is": "unfilled"
         }
       ]
     },

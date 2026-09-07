@@ -30,7 +30,9 @@ Add / remove — install seeds the app, installs deps, registers the web service
 ```
 website/         the skill that builds and runs the site, its setup.sh, forms.md, seo.md, posts.md,
                  and template/ (the Hono app that is copied into the app on install)
-design/          creative direction: the brief, three directions, the design contract, the review gate
+design/          creative direction: the brief, three directions, the design contract, the review gate;
+                 styles/ holds six style presets (DESIGN.md + theme.css + fonts + specimen + previews),
+                 applied with `npm run style -- <name>`
 writing/         voice as behaviour, the copy inventory, the editing passes, slop to refuse
 migrate-site/    take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
 site-facts/      the fact notes from a crawled site, when the project has no Company Brain
@@ -66,7 +68,9 @@ notes and sets `styles/theme.css` (colours, fonts, roles), `src/site.ts`
 The Tailwind default palette, shadows, radii, blurs, and animations are
 switched off, and `npm run check` refuses hex values, default colours,
 gradients, blur, and tracking or leading overrides in markup and measures
-contrast on the brand pairs, so `DESIGN.md` is enforced rather than advisory.
+contrast on every text and ground pair and runs the copy gate (the writing
+skill's refused phrases and em dashes in pages and posts), so `DESIGN.md` and the
+writing skill are enforced rather than advisory.
 
 ## How it serves
 

@@ -1,0 +1,109 @@
+/* The website's design system as Tailwind v4 tokens: the brand's colours and
+   fonts (set from the notes in brand/ — BRAND.md says how), the roles each
+   colour plays, the type scale, edges, and rhythm. DESIGN.md explains every
+   token; keep the two in step. Tailwind reads this block: every --color-*
+   becomes bg-/text-/border- classes, every --font-* a font- class, every
+   --text-* a size, and so on. The default Tailwind palette, shadows, radii,
+   blurs, and animations are switched off below, so only these tokens exist
+   as classes. */
+
+@theme {
+  /* Only the site's own tokens: no gray-500, no shadow-xl, no blur, no bounce. */
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --radius-*: initial;
+  --blur-*: initial;
+  --animate-*: initial;
+
+  /* The brand's own colours, as stated in brand/visual-identity.md. Roles
+     below map onto them; markup never uses these directly. The brutalist
+     preset ships with black, an off-white, and one loud blue. */
+  --brand-primary: #0033ff;
+  --brand-dark: #0a0a0a;
+  --brand-light: #fafaf7;
+  --brand-neutral: #3d3d3a;
+
+  /* Grounds */
+  --color-canvas: var(--brand-light);         /* the page: off-white, never pure white */
+  --color-surface: #ffffff;                   /* a bordered block on the canvas: the hero, a ticket, a strip */
+  --color-panel: #f0efe9;                     /* one step down: a grey-cream band, or a cell inside a block */
+  --color-night: var(--brand-dark);           /* the dark ground: footer, one statement band; the same black as the ink */
+
+  /* Text */
+  --color-ink: #0a0a0a;                       /* headings and body on light grounds (18.9:1 on canvas) */
+  --color-ink-2: var(--brand-neutral);        /* secondary text on light grounds (10.4:1 on canvas, 9.5:1 on panel) */
+  --color-ink-3: #57574f;                     /* captions and mono labels on light (7.0:1 on canvas, 6.3:1 on panel) */
+  --color-night-ink: var(--brand-light);      /* text on night (18.9:1) */
+  --color-night-ink-2: #b5b5ad;               /* secondary text on night (9.6:1) */
+
+  /* The one action colour */
+  --color-accent: var(--brand-primary);       /* buttons, links, the focus ring, the bar in the night band (6.9:1 on canvas) */
+  --color-accent-ink: #ffffff;                /* text on the accent (7.2:1) */
+  --color-accent-hover: #0026c2;              /* the accent's hover and active state (10.2:1 under accent-ink) */
+
+  /* Lines: always solid black on light, always solid off-white on night.
+     There are no hairlines in this style; every edge is border-2. */
+  --color-line: #0a0a0a;                      /* every edge on light grounds, 2px */
+  --color-line-strong: #0a0a0a;               /* the same black: input edges, table frames, the secondary button */
+  --color-line-on-night: #fafaf7;             /* edges inside a night surface, 2px */
+
+  /* Type: the families named in brand/visual-identity.md, loaded by the
+     URL in src/site.ts (fonts.googleFontsUrl) or self-hosted in public/fonts.
+     Archivo carries a width axis: headings and the specimen word set it wide
+     with font-stretch-expanded. The mono face is for labels and numerals. */
+  --font-display: "Archivo", "Archivo Black", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --text-display: clamp(3rem, 9vw, 7.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 900;
+
+  --text-section: clamp(2.25rem, 5.5vw, 4.25rem);
+  --text-section--line-height: 0.95;
+  --text-section--letter-spacing: -0.02em;
+  --text-section--font-weight: 900;
+
+  --text-title: clamp(1.5rem, 2.4vw, 2rem);
+  --text-title--line-height: 1.05;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 700;
+
+  --text-lede: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-lede--line-height: 1.45;
+
+  --text-copy: 1.125rem;
+  --text-copy--line-height: 1.55;
+
+  --text-specimen: clamp(4.5rem, 18vw, 12rem);   /* one giant word inside a frame, wide, weight 900 */
+  --text-specimen--line-height: 0.85;
+  --text-specimen--letter-spacing: -0.02em;
+  --text-specimen--font-weight: 900;
+
+  --text-label: 0.8125rem;                     /* always set in font-mono, upper-case */
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.06em;
+  --text-label--font-weight: 500;
+
+  /* Edges and depth: zero radius everywhere; shadows are hard offsets with
+     no blur, the same black as the border. */
+  --radius-control: 0;        /* buttons, inputs */
+  --radius-card: 0;           /* blocks, images, panels */
+  --radius-frame: 0;          /* a large framed visual */
+  --shadow-lift: 4px 4px 0 #0a0a0a;            /* the small hard offset: a card, a framed image */
+  --shadow-hard: 6px 6px 0 #0a0a0a;            /* the big hard offset: the hero block, a ticket, every button at rest */
+  --shadow-hard-sm: 4px 4px 0 #0a0a0a;         /* a button on hover, after it moves 2px */
+  --shadow-hard-on-night: 6px 6px 0 #fafaf7;   /* the hard offset for a button on the night ground */
+
+  /* Rhythm */
+  --spacing-section: clamp(4rem, 8vw, 7rem);      /* vertical padding of a section */
+  --spacing-block: clamp(2.5rem, 4vw, 3.5rem);    /* heading group to what it introduces */
+  --container-content: 72rem;                     /* the reading container */
+  --container-wide: 80rem;                        /* the hero and a wide visual */
+
+  /* Motion: only the button press uses it */
+  --ease-soft: cubic-bezier(0.2, 0, 0, 1);
+}

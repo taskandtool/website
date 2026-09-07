@@ -18,7 +18,10 @@ it audited), `ship` (publish to the edge).
 - `styles/theme.css` is the website's design system as tokens: the brand's
   colours and fonts, the roles they play, the type scale, edges, rhythm.
   `DESIGN.md` explains every token, the composition rules, the refuse list,
-  and holds the site's Identity block. Read it before designing.
+  and holds the site's Identity block. Read it before designing. Six style
+  presets ship with the design skill (`npm run style` lists them with a
+  preview each; `npm run style -- <name>` applies one); the theme in the
+  box is the neutral starting point, not a style.
 - `public/` is the facts as notes with typed frontmatter (`FACTS.md`);
   `posts/` and `legal/` are the collections. `npm run content` turns them
   into `src/generated/content.json`, which the pages import; the build

@@ -42,7 +42,7 @@ Setup left the dependencies installed and the CSS built. If either is
 missing (a fresh clone, a replaced machine), re-run it; it is idempotent:
 
 ```bash
-bash ~/app/.claude/skills/website/setup.sh
+bash ${CLAUDE_SKILL_DIR}/setup.sh     # ~/app/.claude/skills/website/setup.sh on the platform
 ```
 
 Before showing work: `npm run check` (the brand notes present, DESIGN.md and
@@ -52,8 +52,11 @@ default Tailwind colours, gradients, blur, tracking or leading overrides,
 weights above 700, `animate-*`), `npm run typecheck`, and, once the pages
 exist, `npm run audit` (the crawler against the working copy: broken links,
 heading order, alt text, form labels, link text, title and description
-lengths, page weight, the sitemap). Then read the
-page yourself at 390px and 1280px (the `design` skill's review gate).
+lengths, page weight, the sitemap). Then look at the page yourself at
+1280px and 390px (the `design` skill's review gate says how: Obscura
+screenshots into `uploads/`) and attach the screenshots to your reply with
+`attach_files` from `tools/taskandtool.py`, so the owner sees the page in
+the chat and can click to enlarge, rather than a description of it.
 
 ## The shape
 
@@ -137,7 +140,12 @@ starter notes yourself and keep them current.
 
 Theme values that are not brand (the type scale, radii, rhythm, the
 grounds) are yours: change them in `styles/theme.css` with the matching
-row in `DESIGN.md`. Self-hosted fonts go in `static/fonts/` with
+row in `DESIGN.md`. The quickest way to a whole system is a preset from
+the design skill's catalogue: `npm run style` lists six (editorial,
+brutalist, whimsical, cinematic, luxury, swiss) with a preview each,
+`npm run style -- <name>` replaces `DESIGN.md`, `styles/theme.css`, and the
+fonts in `src/site.ts`, and `--specimen` adds a `/specimen` page to see it
+live (`--remove-specimen` before publishing). Then apply the brand on top. Self-hosted fonts go in `static/fonts/` with
 `@font-face` in `styles/input.css`. The dev service rebuilds the CSS on
 every change; on a one-off run `npm run css`.
 

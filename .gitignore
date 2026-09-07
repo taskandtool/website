@@ -18,7 +18,7 @@ __pycache__/
 node_modules/
 website/template/dist/
 website/template/build/
-website/template/public/site.css
+website/template/static/site.css
 
 # A captured site is working material on the owner's machine
 .site-capture/

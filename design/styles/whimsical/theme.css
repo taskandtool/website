@@ -1,0 +1,109 @@
+/* The website's design system as Tailwind v4 tokens: the brand's colours and
+   fonts (set from the notes in brand/ — BRAND.md says how), the roles each
+   colour plays, the type scale, edges, and rhythm. DESIGN.md explains every
+   token; keep the two in step. Tailwind reads this block: every --color-*
+   becomes bg-/text-/border- classes, every --font-* a font- class, every
+   --text-* a size, and so on. The default Tailwind palette, shadows, radii,
+   blurs, and animations are switched off below, so only these tokens exist
+   as classes. */
+
+@theme {
+  /* Only the site's own tokens: no gray-500, no shadow-xl, no blur, no bounce. */
+  --color-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --radius-*: initial;
+  --blur-*: initial;
+  --animate-*: initial;
+
+  /* The brand's own colours, as stated in brand/visual-identity.md. Roles
+     below map onto them; markup never uses these directly. The whimsical
+     preset starts from a deep teal, a dark cocoa, a warm milk and a mid
+     cocoa; the brand's own values replace them. */
+  --brand-primary: #0f766e;
+  --brand-dark: #2a1f1a;
+  --brand-light: #fff8ee;
+  --brand-neutral: #5b4a42;
+
+  /* Grounds */
+  --color-canvas: var(--brand-light);          /* the page: warm milk */
+  --color-surface: #ffffff;                    /* a raised card, a caption pill, a framed visual */
+  --color-panel: #ffeedd;                      /* a tinted band, one step down: pale apricot */
+  --color-night: var(--brand-dark);            /* the dark ground: footer, one statement band (dark cocoa) */
+
+  /* Text */
+  --color-ink: #2a1f1a;                        /* headings and body on light grounds (15.2:1 on canvas) */
+  --color-ink-2: var(--brand-neutral);         /* secondary text on light grounds (8.0:1 on canvas, 7.4:1 on panel) */
+  --color-ink-3: #6d5c54;                      /* captions and metadata on light (6.0:1 on canvas, 5.6:1 on panel) */
+  --color-night-ink: var(--brand-light);       /* text on night (15.2:1) */
+  --color-night-ink-2: #d9c9bf;                /* secondary text on night (10.0:1) */
+
+  /* The one action colour */
+  --color-accent: var(--brand-primary);        /* buttons, links, the focus ring (5.2:1 on canvas) */
+  --color-accent-ink: #ffffff;                 /* text on the accent (5.5:1) */
+  --color-accent-hover: color-mix(in oklab, var(--brand-primary) 85%, black);
+
+  /* Content tints: shapes, stickers, frames and chips only. Never text,
+     never an action, never a section ground. Text on them is text-ink. */
+  --color-pop-sun: #ffd166;                    /* sun yellow (ink on it 11.1:1) */
+  --color-pop-sky: #8ecae6;                    /* sky blue (ink on it 9.0:1) */
+  --color-pop-mint: #b7e4c7;                   /* mint green (ink on it 11.4:1) */
+  --color-pop-rose: #ffb4a2;                   /* rose pink (ink on it 9.4:1) */
+
+  /* Lines */
+  --color-line: rgb(42 31 26 / 0.14);          /* every hairline on light */
+  --color-line-strong: rgb(42 31 26 / 0.32);   /* input edges, a secondary button's edge */
+  --color-line-on-night: rgb(255 248 238 / 0.16);
+
+  /* Type: the families named in brand/visual-identity.md, loaded by the
+     URL in src/site.ts (fonts.googleFontsUrl) or self-hosted in public/fonts */
+  --font-display: "Fredoka", "Nunito Sans", ui-rounded, ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(2.75rem, 7vw, 5.5rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.01em;
+  --text-display--font-weight: 600;
+
+  --text-section: clamp(2rem, 4.5vw, 3.25rem);
+  --text-section--line-height: 1.05;
+  --text-section--letter-spacing: -0.01em;
+  --text-section--font-weight: 600;
+
+  --text-title: clamp(1.375rem, 2vw, 1.75rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: 0;
+  --text-title--font-weight: 500;
+
+  --text-lede: clamp(1.125rem, 1.4vw, 1.375rem);
+  --text-lede--line-height: 1.55;
+
+  --text-copy: 1.125rem;
+  --text-copy--line-height: 1.65;
+
+  --text-specimen: clamp(6rem, 18vw, 11rem);   /* one giant glyph or word inside a frame */
+  --text-specimen--line-height: 1;
+  --text-specimen--letter-spacing: -0.02em;
+  --text-specimen--font-weight: 600;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.06em;
+  --text-label--font-weight: 600;
+
+  /* Edges and depth: pills, big rounded frames, one soft warm shadow */
+  --radius-control: 9999px;   /* buttons, inputs, chips, caption pills */
+  --radius-card: 1.5rem;      /* cards, images, the contact panel */
+  --radius-frame: 2rem;       /* a large framed visual */
+  --shadow-lift: 0 2px 0 rgb(42 31 26 / 0.06), 0 16px 32px -14px rgb(120 70 40 / 0.28);
+
+  /* Rhythm: generous air */
+  --spacing-section: clamp(5.5rem, 11vw, 9rem);   /* vertical padding of a section */
+  --spacing-block: clamp(3rem, 4.5vw, 4rem);      /* heading group to what it introduces */
+  --container-content: 72rem;                     /* the reading container */
+  --container-wide: 80rem;                        /* the hero and a wide visual */
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.2, 0, 0, 1);
+}

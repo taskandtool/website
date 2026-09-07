@@ -13,7 +13,9 @@ brand/
   positioning.md       what the business does, for whom, what makes it different;
                        the name as it should appear, the tagline, a description;
                        contact details and social links
-  voice.md             the voice card and three example sentences
+  voice.md             the voice card, three example sentences, and the fingerprint: signatures
+                       with quoted evidence, the never-list, rewrite pairs, the lexicon, how the
+                       sentences run, tone by surface (website, ad, post, email), sources
   audience.md          the actual people who arrive and what convinces them
   visual-identity.md   colours as 6-digit hex with their roles, the display and
                        body fonts, the logo files, the photography style
