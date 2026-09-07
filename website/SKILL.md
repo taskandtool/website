@@ -49,7 +49,10 @@ Before showing work: `npm run check` (the brand notes present, DESIGN.md and
 the theme in step, contrast of the brand pairs, site-map.md against the
 pages and redirects, page paths, the edge rule, and the refuse list: no hex or
 default Tailwind colours, gradients, blur, tracking or leading overrides,
-weights above 700, `animate-*`) and `npm run typecheck`. Then read the
+weights above 700, `animate-*`), `npm run typecheck`, and, once the pages
+exist, `npm run audit` (the crawler against the working copy: broken links,
+heading order, alt text, form labels, link text, title and description
+lengths, page weight, the sitemap). Then read the
 page yourself at 390px and 1280px (the `design` skill's review gate).
 
 ## The shape

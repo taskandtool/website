@@ -43,8 +43,10 @@ it audited), `ship` (publish to the edge).
   and the server restarts on every change, so an edit is live on refresh.
   If the service is not running, the `website` skill says how to register
   it (`/serving` has the mechanics).
-- `npm run check` before showing work. `npm run build` to produce `dist/`
-  and `build/worker.mjs`. `npm run deploy` publishes (the `ship` skill).
+- `npm run check` before showing work; `npm run audit` before publishing
+  (the crawler's health check against the working copy). `npm run build`
+  to produce `dist/` and `build/worker.mjs`. `npm run deploy` publishes
+  (the `ship` skill).
 - Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
   any credential.
 

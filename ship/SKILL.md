@@ -35,10 +35,13 @@ see until the site is deployed again. Say so, then deploy.
 
 ## Publishing
 
-1. Finish the work: `npm run check`, `npm run typecheck`, and a look at
-   the pages in the browser. Set `site.url` in `src/site.ts` to the real
-   domain: the canonical tags and the sitemap depend on it. For a
-   migrated site, the `launch-check` skill first.
+1. Finish the work: `npm run check`, `npm run typecheck`, `npm run audit`
+   (the crawler's audit against the working copy on this machine: broken
+   links, headings, alt text, labels, link text, title and description
+   lengths, page weight, sitemap), and a look at the pages in the browser.
+   Fix what the audit lists before going on. Set `site.url` in
+   `src/site.ts` to the real domain: the canonical tags and the sitemap
+   depend on it. For a migrated site, the `launch-check` skill first.
 2. Edge serving must be enabled for this app (`edge_enabled: true`). If
    not, ask the owner to enable it in the app's Settings, or send them the
    link: `request_capability("edge", "publish the website to the edge")`.
