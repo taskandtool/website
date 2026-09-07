@@ -14,8 +14,8 @@ say how it should look and sound.
 Before a substantial new page or a redesign, work through the `design` and
 `writing` skills first: the brief, the voice card (`brand/voice.md`), three
 directions, the content inventory. Build from real words and real material.
-When the owner wants a copy of a site they point at, the `clone-site` skill
-comes first. This skill is the mechanics.
+When the owner has a current site, or points at one they admire, the
+`migrate-site` skill comes first. This skill is the mechanics.
 
 ## The loop on this machine
 
@@ -129,7 +129,7 @@ Brain in this project, whose `brain/brand` folder the owner mirrors onto
 this app's `brand` folder (Settings → Mirrored folders, target path exactly
 `brand`; `project_apps` in the bridge lists the siblings) so the brain owns
 the notes and `brand/_mirror.md` marks them read-only here; a captured site
-(`clone-site`) for a business that has one. Without a brain, fill the
+(`migrate-site`) for a business that has one. Without a brain, fill the
 starter notes yourself and keep them current.
 
 Theme values that are not brand (the type scale, radii, rhythm, the

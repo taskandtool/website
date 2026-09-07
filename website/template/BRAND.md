@@ -49,7 +49,7 @@ Then the pages, through the `design` and `writing` skills, with
 ## Who owns the folder
 
 - **No Company Brain in the project:** the website owns `brand/`. Fill it
-  from the owner or from a captured site (`clone-site`), then set the site
+  from the owner or from a crawled site (`migrate-site`), then set the site
   from it.
 - **A Company Brain in the project:** the brain is the source of truth. The
   owner mirrors the brain's `brain/brand` folder onto this app's `brand`

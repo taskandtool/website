@@ -18,7 +18,7 @@ Auth         — none (the platform's edge gate when the owner keeps the site pr
 Needs        — nothing. Managed Postgres once a form stores submissions.
 Libraries    — Hono, Tailwind v4, the Neon HTTP driver; Alpine/htmx by CDN when a page needs them
 Build        — thin: the site is AI-built on the skeleton; the skeleton is the committed code
-Skills       — website (build and run), design, writing, clone-site, ship
+Skills       — website (build and run), design, writing, migrate-site, site-facts, launch-check, ship
 Depends on   — nothing; reads brain/brand and brain/public when a Company Brain mirrors them in
 Serving      — the machine while building; promote to the edge at launch (npm run deploy)
 Shaping      — brand facts, tokens, voice, pages; from the owner, the brain, or a captured site
@@ -99,7 +99,7 @@ again and nothing else: the files are the owner's from the moment they land.
 ```
 git clone https://github.com/taskandtool/website /tmp/website
 mkdir -p .claude/skills
-cp -R /tmp/website/website /tmp/website/design /tmp/website/writing /tmp/website/clone-site /tmp/website/ship .claude/skills/
+cp -R /tmp/website/website /tmp/website/design /tmp/website/writing /tmp/website/migrate-site /tmp/website/site-facts /tmp/website/launch-check /tmp/website/ship .claude/skills/
 bash .claude/skills/website/setup.sh      # seeds the app, installs deps, builds the CSS
 npm run dev                               # http://localhost:3000
 ```
@@ -128,15 +128,15 @@ state (`starter-app.json`'s `when` conditions).
 - The shared crawler, `tt-crawl`, installed by `setup.sh` with pip from
   its public repo at a pinned tag.
 - [Obscura](https://github.com/h4ckf0r0day/obscura), Apache-2.0, a Rust
-  headless browser in one static binary (Linux builds). `site_capture.py`
-  renders pages and takes screenshots through it. Shared with the Company
+  headless browser in one static binary (Linux builds). `tt-crawl` renders
+  pages and takes screenshots through it. Shared with the Company
   Brain's install: same binary, same version stamp.
 - npm packages, MIT: `hono`, `@hono/node-server`, `@neondatabase/serverless`,
   `tailwindcss` + `@tailwindcss/cli`, `esbuild`, `tsx`, `typescript`.
 
 ## Developing this Starter App
 
-- **Tests:** `python3 clone-site/test_site_capture.py`. In the template:
+- **Tests:** the crawler's live in its own repo. In the template:
   `npm install && npm run check && npm run typecheck && npm run build`
   (then remove `node_modules/`, `dist/`, `build/`, and `static/site.css`
   before an install through the platform's development path; the repo

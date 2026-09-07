@@ -109,6 +109,13 @@ if (existsSync("site-map.md")) {
   }
 }
 
+// public/ is the facts folder, not the web root: an image or a stylesheet
+// there is a misplaced asset (they belong in static/)
+if (existsSync("public")) {
+  const stray = readdirSync("public").filter((f) => !f.endsWith(".md") && !f.startsWith(".") && !statSync(join("public", f)).isDirectory());
+  for (const f of stray) findings.push(`public/${f}: public/ holds the fact notes (markdown); served files go in static/`);
+}
+
 // the notes parse and posts have what the collection needs
 try {
   const gen = JSON.parse(readFileSync("src/generated/content.json", "utf8"));

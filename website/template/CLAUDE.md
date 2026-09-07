@@ -3,8 +3,9 @@
 A business website that serves from this machine while it is being built
 and, when published, is pre-rendered to HTML and shipped to the edge. The
 skills that know how to work on it are in `.claude/skills/`: `website`
-(build and run), `design` and `writing` (the taste bar), `clone-site`
-(capture a site to rebuild it), `ship` (publish to the edge).
+(build and run), `design` and `writing` (the taste bar), `migrate-site`,
+`site-facts`, and `launch-check` (taking over an existing site and keeping
+it audited), `ship` (publish to the edge).
 
 ## Where things are
 
