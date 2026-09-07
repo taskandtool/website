@@ -20,6 +20,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 
 DIST = "dist"
 WORKER = os.path.join("build", "worker.mjs")
@@ -73,6 +74,14 @@ def deploy_platform(dry_run):
         print("dry run: nothing sent")
         return
     result = tt.deploy_site(DIST, worker_js=WORKER)
+    # A 5xx from the platform is almost always the edge in front of it
+    # hiccuping, not the deploy: wait what it asks and try once more (the
+    # assets are already uploaded; only changed ones go again).
+    if isinstance(result, dict) and int(result.get("http_status") or 0) >= 500:
+        wait = min(int(str(result.get("retry_after") or 30) or 30), 90)
+        print(f"platform answered {result.get('http_status')}; retrying once in {wait}s")
+        time.sleep(wait)
+        result = tt.deploy_site(DIST, worker_js=WORKER)
     if isinstance(result, str):
         print(f"live at {result}")
         print(
