@@ -149,6 +149,17 @@
       ]
     },
     {
+      "label": "Fix the site audit findings",
+      "prompt": "The weekly site audit found issues. Read raw/web/_audit.md, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then rebuild, deploy with the ship skill, and re-run tt-crawl audit to confirm.",
+      "when": [
+        {
+          "path": "raw/web/_audit.md",
+          "is": "contains",
+          "text": "## Issues"
+        }
+      ]
+    },
+    {
       "label": "Add a page",
       "prompt": "Add a page to the site. Follow the website skill: a new module in src/pages, listed in src/pages/index.ts, a row in site-map.md, in the nav if it belongs there, built from the design system and real copy. The page is "
     },

@@ -118,8 +118,10 @@ documents, the site's own structured data), the facts and brand as notes
 (the Company Brain's job when the project has one; `site-facts` here
 otherwise), a page map against the old URLs in `site-map.md`, pages one
 per turn, generated redirects and structured data, and `launch-check`
-before publishing and after the domain cutover. The chat suggests the
-next step from the folder state (`starter-app.json`'s `when` conditions).
+before publishing and after the domain cutover, then `tt-crawl audit` as a
+weekly scheduled job that alerts the owner when the live site has broken
+links or SEO problems. The chat suggests the next step from the folder
+state (`starter-app.json`'s `when` conditions).
 
 ## Third-party tools it installs
 

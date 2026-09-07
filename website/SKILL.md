@@ -171,6 +171,15 @@ every change; on a one-off run `npm run css`.
   database is enough, and a scheduled job (`/schedule-job`) or the CRM
   picks it up. Say which the site does.
 
+## After launch
+
+A site nobody checks rots quietly. Once the site is on its real domain,
+the `launch-check` skill schedules `tt-crawl audit` as a weekly job
+(broken links and images, missing titles or descriptions, h1 problems,
+redirect chains, sitemap drift); a failing run alerts the owner and the
+chat offers "Fix the site audit findings". `tt-crawl audit URL` runs it by
+hand any time.
+
 ## Git
 
 The app is the owner's repository. Commit at milestones with plain

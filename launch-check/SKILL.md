@@ -1,5 +1,5 @@
 ---
-description: "Check a rebuilt site against the old one before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the JSON-LD parses, and the cutover keeps email working. Use before publishing a migrated site, after the domain cutover, and on the monthly reminder."
+description: "Check a rebuilt site against the old one before and after launch (every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the JSON-LD parses, the cutover keeps email working), and keep the live site audited weekly with a scheduled job (broken links, SEO basics). Use before publishing a migrated site, after the domain cutover, when the weekly audit alerts the owner, and when the owner asks for a site check."
 ---
 
 # Launch check
@@ -41,16 +41,35 @@ owner the report as a table.
 tt-crawl check https://theirdomain.com --inventory raw/web/_inventory.json --out raw/web/_launch-check.md
 ```
 
-5. Schedule the follow-ups with `schedule_reminder` from
-   `tools/taskandtool.py`: one in two weeks ("re-run the launch check
-   and report; read the Search Console coverage report if that
-   connection exists") and one monthly ("run tt-crawl check against the
-   live site; report broken links and any fact on a page that differs
-   from public/"). If the owner never publishes, the reminder says so
-   once and asks whether to keep it.
+5. Schedule the weekly audit as a **scheduled job** (`schedule_job` from
+   `tools/taskandtool.py`; it shows in the owner's Jobs tab, where they
+   can pause it). The command runs on this machine from the app root every
+   Monday morning and exits non-zero when it finds anything, which is what
+   alerts the owner; the report lands in `raw/web/_audit.md` and the chat
+   then offers "Fix the site audit findings":
+
+   ```python
+   from tools.taskandtool import schedule_job
+   schedule_job("weekly-site-audit",
+                "tt-crawl audit https://theirdomain.com --out raw/web/_audit.md",
+                "0 7 * * 1")
+   ```
+
+   `tt-crawl audit` crawls the live site and reports broken internal links
+   and images, broken external links, redirect chains, pages missing a
+   title, description, or single h1, duplicate titles, images without alt
+   text, canonical tags pointing elsewhere, noindex pages, sitemap drift,
+   JSON-LD that does not parse, and oversized pages. Run it by hand any
+   time (`tt-crawl audit URL`); for the two weeks after launch run it
+   with `--inventory raw/web/_inventory.json` too, which adds the old
+   URLs the way `check` does.
 
 ## What the report means
 
 Tell the owner in plain words: how many old addresses still work, how
 many redirect, anything missing and what you did about it, and that
 rankings usually settle within two to four weeks after a clean migration.
+When the weekly audit alerts them, read `raw/web/_audit.md`, fix what is
+in the site's control (a broken internal link, a missing description, a
+page that lost its h1), tell the owner about what is not (a partner's
+site that went away), rebuild, and deploy.

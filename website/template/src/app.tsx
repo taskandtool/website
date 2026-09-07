@@ -10,7 +10,7 @@ import { legalPage } from "./pages/legal";
 import { content } from "./content";
 import { redirectFor } from "./redirects";
 import { render } from "./layout";
-import type { Page } from "./site";
+import { site, type Page } from "./site";
 
 type Bindings = { DATABASE_URL?: string };
 
@@ -42,6 +42,24 @@ app.use("*", async (c, next) => {
 for (const route of routes) {
   app.get(route.path, (c) => c.html(render(route, <route.Body />)));
 }
+
+// sitemap.xml and robots.txt from the route list, on the machine and, after
+// the build pre-renders them, as static files at the edge. site.url is the
+// origin; until it is set the locations are relative.
+const origin = () => (site.url ? site.url.replace(/\/$/, "") : "");
+app.get("/sitemap.xml", (c) => {
+  const urls = routes
+    .map((r) => r.path)
+    .sort()
+    .map((p) => `  <url><loc>${origin()}${p === "/" ? "/" : p}</loc></url>`)
+    .join("\n");
+  return c.body(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, 200, {
+    "Content-Type": "application/xml; charset=utf-8",
+  });
+});
+app.get("/robots.txt", (c) =>
+  c.text(`User-agent: *\nAllow: /\n${origin() ? `Sitemap: ${origin()}/sitemap.xml\n` : ""}`),
+);
 
 // Dynamic routes (form posts, anything computed per request) go below. They
 // run on the machine and, after publishing, in the edge Worker. See the

@@ -59,6 +59,9 @@ see until the site is deployed again. Say so, then deploy.
    the pages once more. Then tell the owner what is live and remind them
    that whether the site is on the web is their dashboard setting.
 5. Commit. The deploy is not a commit; the repo is the record.
+6. Once the site is on its real domain, make sure the weekly audit job
+   exists (`launch-check` skill: `tt-crawl audit` on a schedule); a site
+   nobody checks rots quietly.
 
 After every later change: `npm run deploy` again. Only changed assets are
 uploaded; the Worker is replaced whole.

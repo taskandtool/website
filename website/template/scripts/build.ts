@@ -109,18 +109,11 @@ writeFileSync(join(dist, "404.html"), await nf.text());
 console.log(`   404 -> ${join(dist, "404.html")}`);
 
 step("sitemap and robots");
-const origin = site.url ? site.url.replace(/\/$/, "") : "";
-const urls = routes
-  .map((r) => r.path)
-  .sort()
-  .map((p) => `  <url><loc>${origin}${p === "/" ? "/" : p}</loc></url>`)
-  .join("\n");
-writeFileSync(
-  join(dist, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
-);
-writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\n${origin ? `Sitemap: ${origin}/sitemap.xml\n` : ""}`);
-if (!origin) console.log("   site.url is empty: sitemap locations are relative; set the real domain in src/site.ts before launch");
+for (const [path, file] of [["/sitemap.xml", "sitemap.xml"], ["/robots.txt", "robots.txt"]] as const) {
+  const res = await app.request(path);
+  writeFileSync(join(dist, file), await res.text());
+}
+if (!site.url) console.log("   site.url is empty: sitemap locations are relative; set the real domain in src/site.ts before launch");
 
 step("worker");
 mkdirSync(out, { recursive: true });
