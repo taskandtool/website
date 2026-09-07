@@ -44,6 +44,7 @@ files alone). Without a brain:
 tt-crawl site https://theirsite.com --out raw/web --styles --screenshots
 tt-crawl docs --from raw/web --out raw/docs        # the PDFs and documents the site links to
 tt-crawl wp https://theirsite.com --out raw/structured/wp   # when it is WordPress; harmless otherwise
+tt-crawl places "Business, City" --out raw/places          # the public Google listing: phone, hours, reviews (needs a Places key)
 ```
 
 Read `_inventory.md` and the screenshots; report pages found, the limit

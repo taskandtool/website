@@ -163,6 +163,20 @@
     {
       "label": "Publish to the edge",
       "prompt": "Publish the site with the ship skill: run the checks, build, deploy to the edge with npm run deploy, verify the public URL, and remind me where the on-the-web setting lives. Tell me if edge serving is not enabled for this app yet."
+    },
+    {
+      "label": "Add my Google listing",
+      "prompt": "Add my public Google listing: run tt-crawl places for my business (ask me for a Google Places connection with request_connection if this app has no GOOGLE_PLACES_API_KEY), then fold the phone, address, hours, and the public reviews into public/business.md and public/proof.md with raw/places as the source, run npm run content, and show me the contact section and the proof strip on the working copy.",
+      "when": [
+        {
+          "path": "raw/places",
+          "is": "missing"
+        },
+        {
+          "sibling": "brain",
+          "is": "missing"
+        }
+      ]
     }
   ]
 }
