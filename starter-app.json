@@ -11,6 +11,9 @@
       }
     ]
   },
+  "ready": {
+    "service": "web"
+  },
   "suggestions": [
     {
       "id": "build-my-website",
