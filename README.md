@@ -6,71 +6,49 @@ one command that publishes it to the edge. The AI builds it from the brand,
 from the owner's current site, or from a site they like, and ships it when
 the owner says so.
 
-Built for Claude Code. Installed with one click on Task & Tool, or dropped
-into any project by hand (below). MIT licensed.
+The repository *is* the app: what you clone is what runs. Installed with one
+click on Task & Tool, or cloned into a project of your own (below). MIT
+licensed.
 
-```
-Purpose      — the business's public website: the wedge, and usually the first thing built
-Shape        — server (Hono JSX, pre-rendered to static HTML at publish; a Worker for dynamic routes)
-Audience     — public
-Data         — owns: its content (files) · writes: leads (a contact form, when it has one) · feed: reads a brain mirror
-Auth         — none (the platform's edge gate when the owner keeps the site private)
-Needs        — nothing. Managed Postgres once a form stores submissions.
-Libraries    — Hono, Tailwind v4, the Neon HTTP driver; Alpine/htmx by CDN when a page needs them
-Build        — thin: the site is AI-built on the skeleton; the skeleton is the committed code
-Skills       — website (build and run), design, writing, migrate-site, site-facts, launch-check, ship
-Depends on   — nothing; reads brain/brand and brain/public when a Company Brain mirrors them in
-Serving      — the machine while building; promote to the edge at launch (npm run deploy)
-Shaping      — brand facts, tokens, voice, pages; from the owner, the brain, or a captured site
-Add / remove — install seeds the app, installs deps, registers the web service; removal leaves the site
-```
+It serves from the machine while it is being built and pre-renders to the
+edge when the owner publishes. It needs nothing to start; managed Postgres
+once a form stores submissions. It reads a Company Brain's mirrored brand and
+facts when the project has one, and depends on nothing else.
 
 ## What is in the box
 
 ```
-website/         the skill that builds and runs the site, its setup.sh, forms.md, seo.md, posts.md,
-                 and template/ (the Hono app that is copied into the app on install)
-design/          creative direction: the brief, three directions, the design contract, the review gate;
-                 styles/ holds six style presets (DESIGN.md + theme.css + fonts + specimen + previews),
-                 applied with `npm run style -- <name>`
-writing/         voice as behaviour, the copy inventory, the editing passes, slop to refuse
-migrate-site/    take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
-site-facts/      the fact notes from a crawled site, when the project has no Company Brain
-launch-check/    the old URLs against the new site, before publishing and after the cutover
-ship/            publish to the edge and keep the published copy current
-starter-app.json the manifest Task & Tool reads: name, blurb, install directive, chat suggestions
-```
-
-The template:
-
-```
+src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · content.ts (JSON-LD) · redirects.ts · db.ts · server.ts · worker.ts
 brand/           the brand as markdown notes: positioning · voice · audience · visual-identity · do-and-dont · logo/
 public/          the fact notes with typed frontmatter (FACTS.md); posts/ and legal/ are the collections
 site-map.md      the page plan and migration ledger; src/redirects.ts the 301 table it implies
 BRAND.md         what the notes hold, who owns the folder, and how the site is set from them
-styles/theme.css the design tokens: the brand's colours and fonts, their roles, type scale, edges, rhythm
+styles/          theme.css (the design tokens) and input.css → static/site.css (Tailwind v4)
 DESIGN.md        the design system: an identity block, the role of every token, composition, do and don't,
                  and the procedure for updating it from the brand
-src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · content.ts (JSON-LD) · redirects.ts · db.ts · server.ts · worker.ts
-styles/          input.css → static/site.css (Tailwind v4)
 static/          static files, served as-is
 scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · check.mjs · deploy.py
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
+AGENTS.md        what the AI reads first; CLAUDE.md imports it
 ```
 
-**The brand is notes; the theme is generated from them by the AI.** `brand/`
-holds markdown in the same shape a Company Brain writes into its own
-`brain/brand` folder. With a brain in the project, the owner mirrors that
-folder onto this app's `brand` folder and the brain's cited notes replace
-the starter ones. Either way the AI, prompted ("Apply my brand"), reads the
-notes and sets `styles/theme.css` (colours, fonts, roles), `src/site.ts`
-(name, contact, logo), and `DESIGN.md` from them, then builds the pages.
-The Tailwind default palette, shadows, radii, blurs, and animations are
-switched off, and `npm run check` refuses hex values, default colours,
-gradients, blur, and tracking or leading overrides in markup and measures
-contrast on every text and ground pair and runs the copy gate (the writing
-skill's refused phrases and em dashes in pages and posts), so `DESIGN.md` and the
-writing skill are enforced rather than advisory.
+Beside the site, the two conventions Task & Tool reads:
+
+```
+.claude/skills/
+  website/       building and running the site, plus forms.md, seo.md, posts.md
+  design/        creative direction: the brief, three directions, the design contract, the review gate;
+                 styles/ holds six style presets (DESIGN.md + theme.css + fonts + specimen + previews),
+                 applied with `npm run style -- <name>`
+  writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse
+  migrate-site/  take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
+  site-facts/    the fact notes from a crawled site, when the project has no Company Brain
+  launch-check/  the old URLs against the new site, before publishing and after the cutover
+  ship/          publish to the edge and keep the published copy current
+.taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
+starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an
+                       empty chat offers
+```
 
 ## How it serves
 
@@ -90,21 +68,19 @@ writing skill are enforced rather than advisory.
 
 ## Install
 
-**On Task & Tool.** Pick Website from the Starter Apps: as the first app of
-a new project, as a new app in a project, or into an existing blank app
-from its Settings. The platform copies the skill folders into the app, runs
-`setup.sh` (seeds the template into an empty app, `git init` and a first
-commit, `npm install`, the CSS, the Obscura browser, the `web` service),
-and tells the AI what arrived. On machine replacement it runs `setup.sh`
-again and nothing else: the files are the owner's from the moment they land.
+**On Task & Tool.** Pick Website when you create an app. The machine clones
+this repository into the app, pinned to a reviewed commit, and runs
+`.taskandtool/setup.sh` (`npm install`, the CSS, the Obscura browser, the
+`web` service). Nothing is sent into your chat: the manifest's suggestions are
+what an empty chat offers. On machine replacement the clone and the setup
+happen again, and your own work comes back from your repository or a backup.
 
-**Anywhere else.** In any empty folder where Claude Code runs:
+**Anywhere else.** Clone it and start working in it:
 
 ```
-git clone https://github.com/taskandtool/website /tmp/website
-mkdir -p .claude/skills
-cp -R /tmp/website/website /tmp/website/design /tmp/website/writing /tmp/website/migrate-site /tmp/website/site-facts /tmp/website/launch-check /tmp/website/ship .claude/skills/
-bash .claude/skills/website/setup.sh      # seeds the app, installs deps, builds the CSS
+git clone https://github.com/taskandtool/website my-site
+cd my-site
+bash .taskandtool/setup.sh
 npm run dev                               # http://localhost:3000
 ```
 
@@ -129,8 +105,8 @@ state (`starter-app.json`'s `when` conditions).
 
 ## Third-party tools it installs
 
-- The shared crawler, `tt-crawl`, installed by `setup.sh` with pip from
-  its public repo at a pinned tag.
+- The shared crawler, `tt-crawl`, installed by `.taskandtool/setup.sh` with
+  pip from its public repo at a pinned tag.
 - [Obscura](https://github.com/h4ckf0r0day/obscura), Apache-2.0, a Rust
   headless browser in one static binary (Linux builds). `tt-crawl` renders
   pages and takes screenshots through it. Shared with the Company
@@ -140,16 +116,14 @@ state (`starter-app.json`'s `when` conditions).
 
 ## Developing this Starter App
 
-- **Tests:** the crawler's live in its own repo. In the template:
-  `npm install && npm run check && npm run typecheck && npm run build`
-  (then remove `node_modules/`, `dist/`, `build/`, and `static/site.css`
-  before an install through the platform's development path; the repo
-  ignores them).
-- **Try the skills:** install into a scratch folder as above and drive
-  Claude Code there.
-- **On the platform:** Task & Tool's own repo clones this one into its
-  packs folder and runs it through the real install path locally and on a
-  real machine (`dev/live_website.exs`) before a release is pinned.
+- **Tests:** the crawler's live in its own repo. Here:
+  `npm install && npm run check && npm run typecheck && npm run build`.
+  `node_modules/`, `dist/`, `build/` and `static/site.css` are ignored and
+  never committed.
+- **Try the skills:** clone it as above and drive Claude Code in the clone.
+- **On the platform:** Task & Tool's own repo keeps a working clone under
+  `starter_apps/` and runs it through the real install path, locally and on a
+  real machine (`dev/live_website.exs`), before a release is pinned.
   Contributions welcome as pull requests.
 
 A pre-push secret scan guards this repository. It holds no credentials by

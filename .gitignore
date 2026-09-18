@@ -2,23 +2,26 @@
 # machine at install time; nothing in this repo should ever hold a key.
 .env
 .env.*
-!.env.template
 !.env.example
 .envrc
+.wrangler/
 *.pem
 *.key
+
+# Build output: dist/ is what ships to the edge, build/ holds the Worker bundle.
+dist/
+build/
+static/site.css
+src/generated/
+node_modules/
+
+# Working material made on the owner's machine, never part of the repository
+.site-capture/
+raw/
+uploads/
 
 # Tool noise
 __pycache__/
 *.pyc
 .pytest_cache/
 .DS_Store
-
-# The template is installed with npm on the machine, never here
-node_modules/
-website/template/dist/
-website/template/build/
-website/template/static/site.css
-
-# A captured site is working material on the owner's machine
-.site-capture/

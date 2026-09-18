@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# Website Starter App setup. Task & Tool runs this in ~/app when the Starter
-# App is installed, and again whenever the machine is replaced. Safe to re-run
-# any time:
+# Website Starter App setup. Task & Tool runs this in ~/app after the
+# repository is cloned onto the machine, and again whenever the machine is
+# replaced. Safe to re-run any time:
 #
-#     bash ~/app/.claude/skills/website/setup.sh
+#     bash ~/app/.taskandtool/setup.sh
 #
 # What it does, each step skipped when already done:
-#   1. seeds the app from the template (only into an empty app directory)
-#   2. initialises git and makes the first commit when there is no history
-#   3. installs the npm dependencies and builds the CSS once
-#   4. installs tt-crawl (the site reader) and the Obscura headless browser
-#   5. registers the `web` service (`npm run dev`) so the site is live on the
+#   1. makes sure the working copy is a git repo with a commit in it
+#   2. installs the npm dependencies and builds the CSS once
+#   3. installs tt-crawl (the site reader) and the Obscura headless browser
+#   4. registers the `web` service (`npm run dev`) so the site is live on the
 #      machine's URL, or restarts it after a replacement
+#
+# The app's own files are not this script's business: they arrive with the
+# clone.
 set -euo pipefail
 
-SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE="$SKILL_DIR/template"
 APP="$(pwd)"
 
 echo "== website starter app: setup in $APP"
@@ -30,22 +30,8 @@ if [ "$node_major" -lt 20 ]; then
   exit 1
 fi
 
-# 1. Seed. Only an app with no project in it gets the template; an app that
-# already holds code (a cloned repo, a site built earlier, a restored backup)
-# is left exactly as it is.
-if [ ! -f package.json ] && [ ! -d src ] && [ ! -f index.html ]; then
-  echo "== seeding the app from the template"
-  (cd "$TEMPLATE" && tar --exclude=node_modules --exclude=dist --exclude=build \
-      --exclude=public/site.css -cf - .) | tar -xf - -C "$APP"
-  # Dotfiles do not travel through the skill install, so the template
-  # carries them under plain names and they are renamed here.
-  [ -f _gitignore ] && mv -f _gitignore .gitignore
-  [ -f _env.example ] && mv -f _env.example .env.example
-else
-  echo "== app already holds a project; not seeding (template: $TEMPLATE)"
-fi
-
-# 2. Git: the site is the owner's repo from the first minute.
+# 1. Git: the site is the owner's repo from the first minute. A clone already
+# is one; a working copy written in some other way is made one here.
 if [ ! -d .git ]; then
   git init -q
 fi
@@ -56,7 +42,7 @@ if ! git rev-parse --verify HEAD >/dev/null 2>&1 && [ -f package.json ]; then
       commit -q -m "Website Starter App" && echo "== first commit made"
 fi
 
-# 3. Dependencies and the first CSS build.
+# 2. Dependencies and the first CSS build.
 if [ -f package.json ]; then
   echo "== npm install"
   if [ -f package-lock.json ]; then
@@ -70,7 +56,7 @@ if [ -f package.json ]; then
   fi
 fi
 
-# 4. tt-crawl (github.com/taskandtool/crawler): the site reader the migrate-site
+# 3. tt-crawl (github.com/taskandtool/crawler): the site reader the migrate-site
 # skill captures with, and the same Obscura browser the Company Brain installs
 # (same binary and version stamp, so the two share one install).
 CRAWLER_REF="${CRAWLER_REF:-v0.1.3}"
@@ -130,8 +116,11 @@ else
   fi
 fi
 
-# 5. The web service: the site is live on this machine's URL from now on.
+# 4. The web service: the site is live on this machine's URL from now on.
 # `npm run dev` rebuilds the CSS and restarts the server on every change.
+# This is what the manifest's `ready` check looks for, so a failure here is a
+# failure of the setup: an app that reports installed and serves nothing is
+# the one outcome worth exiting non-zero for.
 if command -v sprite-env >/dev/null 2>&1 && [ -f package.json ]; then
   if sprite-env services get web >/dev/null 2>&1; then
     echo "== restarting the web service"
@@ -140,9 +129,8 @@ if command -v sprite-env >/dev/null 2>&1 && [ -f package.json ]; then
     echo "== registering the web service (npm run dev on port 3000)"
     sprite-env services create web \
       --cmd bash --args "-c,set -a; . /home/sprite/.env; set +a; exec npm run dev" \
-      --dir "$APP" --env "PORT=3000" --http-port 3000 >/dev/null 2>&1 \
-      && echo "web service registered" \
-      || echo "could not register the web service; see the website skill for the command"
+      --dir "$APP" --env "PORT=3000" --http-port 3000
+    echo "web service registered"
   fi
 fi
 

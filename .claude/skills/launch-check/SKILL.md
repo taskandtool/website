@@ -41,11 +41,12 @@ owner the report as a table.
 tt-crawl check https://theirdomain.com --inventory raw/web/_inventory.json --out raw/web/_launch-check.md
 ```
 
-5. Propose the weekly audit as a **scheduled job** (`schedule_job` from
-   `tools/taskandtool.py`). It arrives disabled in the owner's Jobs tab and
-   runs nothing until they approve it, so tell them what it checks, that it is
-   weekly, and where to say yes. Once approved the command runs on this
-   machine from the app root every
+5. Set the weekly audit up as a **scheduled job** (`schedule_job` from
+   `tools/taskandtool.py`). Asked for in the owner's own chat it starts
+   running; called with nobody there it arrives paused, and the reply's `note`
+   says which happened — read it and say the right thing. Either way tell them
+   what it checks, that it is weekly, and that the Jobs tab is where they
+   pause or remove it. The command runs on this machine from the app root every
    Monday morning and exits non-zero when it finds anything, which is what
    alerts the owner; the report lands in `raw/web/_audit.md` and the chat
    then offers "Fix the site audit findings":

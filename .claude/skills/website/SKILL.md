@@ -42,7 +42,7 @@ Setup left the dependencies installed and the CSS built. If either is
 missing (a fresh clone, a replaced machine), re-run it; it is idempotent:
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/setup.sh     # ~/app/.claude/skills/website/setup.sh on the platform
+bash ~/app/.taskandtool/setup.sh
 ```
 
 Before showing work: `npm run check` (the brand notes present, DESIGN.md and

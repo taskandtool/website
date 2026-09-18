@@ -1,11 +1,16 @@
 # This app: a website on Hono
 
 A business website that serves from this machine while it is being built
-and, when published, is pre-rendered to HTML and shipped to the edge. The
-skills that know how to work on it are in `.claude/skills/`: `website`
-(build and run), `design` and `writing` (the taste bar), `migrate-site`,
-`site-facts`, and `launch-check` (taking over an existing site and keeping
-it audited), `ship` (publish to the edge).
+and, when published, is pre-rendered to HTML and shipped to the edge. This
+repository *is* the app: the site at the root, the skills that know how to
+work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
+machine needs (dependencies, the site reader, the `web` service). All of it
+is the owner's to change.
+
+The skills: `website` (build and run), `design` and `writing` (the taste
+bar), `migrate-site`, `site-facts`, and `launch-check` (taking over an
+existing site and keeping it audited), `ship` (publish to the edge). Read
+the one that fits the ask rather than working from memory.
 
 ## Where things are
 
@@ -44,8 +49,8 @@ it audited), `ship` (publish to the edge).
 
 - `npm run dev` is what the `web` service runs: Tailwind rebuilds the CSS
   and the server restarts on every change, so an edit is live on refresh.
-  If the service is not running, the `website` skill says how to register
-  it (`/serving` has the mechanics).
+  If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
+  (idempotent) or register it by hand as the `website` skill says.
 - `npm run check` before showing work; `npm run audit` before publishing
   (the crawler's health check against the working copy). `npm run build`
   to produce `dist/` and `build/worker.mjs`. `npm run deploy` publishes
