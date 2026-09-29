@@ -5,14 +5,14 @@ description: "Check a rebuilt site against the old one before and after launch (
 # Launch check
 
 Deterministic first, judgment second. The old site's inventory
-(`raw/web/_inventory.json`, from the crawl) is the ledger; the check
+(`raw/site/<host>/_index/inventory.json`, from the crawl) is the ledger; the check
 crawls the new site against it.
 
 ## Before publishing (on the working copy)
 
 ```bash
 npm run check && npm run build
-tt-crawl check http://localhost:3000 --inventory raw/web/_inventory.json --out raw/web/_launch-check.md
+tt-crawl check http://localhost:3000    # the inventory is the one raw/site/<host>; the report goes to raw/audit/<host>/launch-<date>.md
 ```
 
 Every old URL must answer 200, or 301 to a page that answers 200, on the
@@ -38,7 +38,7 @@ owner the report as a table.
 4. After the cutover: run the check against the real domain.
 
 ```bash
-tt-crawl check https://theirdomain.com --inventory raw/web/_inventory.json --out raw/web/_launch-check.md
+tt-crawl check https://theirdomain.com
 ```
 
 5. Set the weekly audit up as a **scheduled job** (`schedule_job` from
@@ -48,13 +48,13 @@ tt-crawl check https://theirdomain.com --inventory raw/web/_inventory.json --out
    what it checks, that it is weekly, and that the Jobs tab is where they
    pause or remove it. The command runs on this machine from the app root every
    Monday morning and exits non-zero when it finds anything, which is what
-   alerts the owner; the report lands in `raw/web/_audit.md` and the chat
-   then offers "Fix the site audit findings":
+   alerts the owner; the report lands in `raw/audit/<host>/<date>.md`,
+   `raw/audit/_latest.json` points at it, and the chat then offers "Fix the site audit findings":
 
    ```python
    from tools.taskandtool import schedule_job
    schedule_job("weekly-site-audit",
-                "tt-crawl audit https://theirdomain.com --out raw/web/_audit.md",
+                "tt-crawl audit https://theirdomain.com",
                 "0 7 * * 1")
    ```
 
@@ -63,16 +63,17 @@ tt-crawl check https://theirdomain.com --inventory raw/web/_inventory.json --out
    title, description, or single h1, duplicate titles, images without alt
    text, canonical tags pointing elsewhere, noindex pages, sitemap drift,
    JSON-LD that does not parse, and oversized pages. Run it by hand any
-   time (`tt-crawl audit URL`); for the two weeks after launch run it
-   with `--inventory raw/web/_inventory.json` too, which adds the old
-   URLs the way `check` does.
+   time (`tt-crawl audit URL`, with `--no-register` for a local run so it
+   does not become the site's latest); for the two weeks after launch run
+   it with `--inventory raw/site/<host>/_index/inventory.json` too, which
+   adds the old URLs the way `check` does.
 
 ## What the report means
 
 Tell the owner in plain words: how many old addresses still work, how
 many redirect, anything missing and what you did about it, and that
 rankings usually settle within two to four weeks after a clean migration.
-When the weekly audit alerts them, read `raw/web/_audit.md`, fix what is
+When the weekly audit alerts them, read the report `raw/audit/_latest.json` names, fix what is
 in the site's control (a broken internal link, a missing description, a
 page that lost its h1), tell the owner about what is not (a partner's
 site that went away), rebuild, and deploy.

@@ -59,7 +59,7 @@ fi
 # 3. tt-crawl (github.com/taskandtool/crawler): the site reader the migrate-site
 # skill captures with, and the same Obscura browser the Company Brain installs
 # (same binary and version stamp, so the two share one install).
-CRAWLER_REF="${CRAWLER_REF:-v0.1.4}"
+CRAWLER_REF="${CRAWLER_REF:-v0.2.0}"
 echo "== tt-crawl $CRAWLER_REF"
 python3 -m pip install --quiet --upgrade "git+https://github.com/taskandtool/crawler@$CRAWLER_REF" 2>&1 | tail -2 || true
 python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is unavailable until it does"
@@ -73,7 +73,7 @@ if ! command -v tt-crawl >/dev/null 2>&1; then
     fi
   done
 fi
-OBSCURA_VERSION="${OBSCURA_VERSION:-v0.2.1}"
+OBSCURA_VERSION="${OBSCURA_VERSION:-v0.2.2}"
 OBSCURA_REPO="https://github.com/h4ckf0r0day/obscura"
 if [ -w /usr/local/bin ]; then
   BIN=/usr/local/bin

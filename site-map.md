@@ -14,7 +14,7 @@ redirect table to it.
 ## Architecture
 
 The header nav, in order (at most four; more go in a menu), and the
-footer groups, mapped from the old site's `_furniture.json` when there
+footer groups, mapped from the old site's `_index/furniture.json` when there
 was one.
 
 - Nav: to fill
@@ -22,7 +22,7 @@ was one.
 
 ## Pages
 
-One row per old URL (from `raw/web/_inventory.json`) and per new page.
+One row per old URL (from `raw/site/<host>/_index/inventory.json`) and per new page.
 `action` is keep | merge | drop | new; `target` is the new path (for merge
 and drop, the page a redirect sends to, or `-` to answer 404); `notes` are
 the notes in `public/` and `brand/` the page draws on; `status` is

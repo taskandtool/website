@@ -65,7 +65,7 @@ brand/            the brand as markdown notes (BRAND.md): positioning · voice �
 public/           the fact notes with typed frontmatter (FACTS.md): business · services · faq · team · policies · proof
 posts/ legal/     the blog collection (posts.md) and the verbatim legal pages; npm run content turns all three into src/generated/content.json
 site-map.md       the page plan and the migration ledger (migrate-site skill); src/redirects.ts is its 301 table
-raw/              a crawled site (tt-crawl, migrate-site skill): raw/web with the inventory, raw/docs, raw/structured
+raw/              a crawled site (tt-crawl, migrate-site skill): raw/site/<host> with pages, images, docs, structured, the _index inventory; raw/audit the audits
 styles/theme.css  the design tokens: the brand's colours and fonts, their roles, type scale, edges, rhythm
 DESIGN.md         the identity block, the rules the tokens serve, and "Updating from the brand"; read before designing
 src/site.ts       the site's facts (name, tagline, contact, social, logo, fonts URL), the nav, the Page type

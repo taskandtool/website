@@ -21,7 +21,7 @@
       "prompt": "Build my website. First ask me what you need to know about the business, who the site is for, and what a visitor should do; then write what you learn into the notes in brand/ (positioning, voice, visual identity) and public/business.md, set styles/theme.css, src/site.ts, and DESIGN.md from them, propose three design directions per the design skill, and build the home page from real content. Show me the working copy when it is ready. Here is what we do: ",
       "when": [
         {
-          "path": "raw/web/_inventory.json",
+          "path": "raw/site/_sites.json",
           "is": "missing"
         },
         {
@@ -44,14 +44,10 @@
     {
       "id": "read-my-current-website",
       "label": "Read my current website",
-      "prompt": "Read my current website with the migrate-site skill: ask me the two questions first (keep the URLs? faithful rebuild or redesign?), then crawl it with tt-crawl into raw/web with styles and screenshots, fetch the documents it links to, detect WordPress, and report what you found: pages, forms, embeds, tracking IDs, and whether you hit the page limit. My site is ",
+      "prompt": "Read my current website with the migrate-site skill: ask me the two questions first (keep the URLs? faithful rebuild or redesign?), then crawl it with tt-crawl into raw/site with styles and screenshots, fetch the documents it links to, detect WordPress, and report what you found: pages, forms, embeds, tracking IDs, and whether you hit the page limit. My site is ",
       "when": [
         {
-          "path": "raw/web/_inventory.json",
-          "is": "missing"
-        },
-        {
-          "sibling": "brain",
+          "path": "raw/site/_sites.json",
           "is": "missing"
         }
       ]
@@ -59,7 +55,7 @@
     {
       "id": "mirror-my-brain-s-notes",
       "label": "Mirror my brain's notes here",
-      "prompt": "This project has a Company Brain. Check with project_apps that it is there, then walk me through mirroring, from this app's Settings, its brain/brand folder onto brand, brain/public onto public, and brain/raw/web onto raw/web (read-only copies). Once they have synced, tell me what the notes hold and what they still lack that only I can supply.",
+      "prompt": "This project has a Company Brain. Check with project_apps that it is there, then walk me through mirroring, from this app's Settings, its brain/brand folder onto brand and brain/public onto public (read-only copies). Once they have synced, tell me what the notes hold and what they still lack that only I can supply.",
       "when": [
         {
           "sibling": "brain",
@@ -78,10 +74,10 @@
     {
       "id": "extract-the-facts-from-my",
       "label": "Extract the facts from my site",
-      "prompt": "Extract the facts from my crawled site with the site-facts skill: seed public/business.md from raw/structured, fill services, faq, team, policies, and proof from the pages and linked documents, copy legal text verbatim into legal/, then run npm run content and npm run check. Tell me every fact you could not find and every conflict you saw.",
+      "prompt": "Extract the facts from my crawled site with the site-facts skill: seed public/business.md from raw/site/<host>/structured and _index/facts.json, fill services, faq, team, policies, and proof from the pages and linked documents, copy legal text verbatim into legal/, then run npm run content and npm run check. Tell me every fact you could not find and every conflict you saw.",
       "when": [
         {
-          "path": "raw/web/_inventory.json",
+          "path": "raw/site/_sites.json",
           "is": "present"
         },
         {
@@ -97,11 +93,12 @@
     {
       "id": "apply-my-brand-from-my",
       "label": "Apply my brand from my site",
-      "prompt": "Apply the brand to this site from my crawled site: first write brand/visual-identity.md (colours as hex, fonts, the logo files copied into brand/logo/) and positioning.md from raw/web/_styles.json, _media.json, and the pages, then. Follow DESIGN.md's 'Updating from the brand': colours and fonts into styles/theme.css with roles assigned and contrast checked, the facts into src/site.ts, then DESIGN.md's palette, type, and Identity block. Show me the result on the working copy and list what the notes did not say that only I can supply.",
+      "prompt": "Apply the brand to this site from my crawled site: first write brand/visual-identity.md (colours as hex, fonts, the logo files copied into brand/logo/) and positioning.md from raw/site/<host>/_index/styles.json, _index/media.json, and the pages. Follow DESIGN.md's 'Updating from the brand': colours and fonts into styles/theme.css with roles assigned and contrast checked, the facts into src/site.ts, then DESIGN.md's palette, type, and Identity block. Show me the result on the working copy and list what the notes did not say that only I can supply.",
       "when": [
         {
-          "path": "raw/web/_styles.json",
-          "is": "present"
+          "path": "raw/site/_sites.json",
+          "is": "contains",
+          "text": "\"styles\": true"
         },
         {
           "path": "brand/visual-identity.md",
@@ -123,10 +120,10 @@
     {
       "id": "plan-the-new-site",
       "label": "Plan the new site",
-      "prompt": "Plan the new site in site-map.md from raw/web/_inventory.json and _furniture.json: one row per old URL (keep, merge, drop) and per new page, the redirect targets, the notes each page draws on, the nav and footer architecture, and anything out of scope. Apply the migrate-site rules (existing redirects kept, noindex never kept, posts as a collection, every form reproduced or dropped on purpose). Propose it all in one message and wait for my decisions.",
+      "prompt": "Plan the new site in site-map.md from raw/site/<host>/_index/inventory.json and _index/furniture.json: one row per old URL (keep, merge, drop) and per new page, the redirect targets, the notes each page draws on, the nav and footer architecture, and anything out of scope. Apply the migrate-site rules (existing redirects kept, noindex never kept, posts as a collection, every form reproduced or dropped on purpose). Propose it all in one message and wait for my decisions.",
       "when": [
         {
-          "path": "raw/web/_inventory.json",
+          "path": "raw/site/_sites.json",
           "is": "present"
         },
         {
@@ -166,10 +163,10 @@
     {
       "id": "check-the-launch",
       "label": "Check the launch",
-      "prompt": "Run the launch-check skill against the working copy: npm run check, npm run build, then tt-crawl check against localhost:3000 with raw/web/_inventory.json. Fix what it finds, re-run until clean, and show me the report as a table with what changed.",
+      "prompt": "Run the launch-check skill against the working copy: npm run check, npm run build, then tt-crawl check against localhost:3000 with raw/site/<host>/_index/inventory.json. Fix what it finds, re-run until clean, and show me the report as a table with what changed.",
       "when": [
         {
-          "path": "raw/web/_inventory.json",
+          "path": "raw/site/_sites.json",
           "is": "present"
         },
         {
@@ -182,12 +179,12 @@
     {
       "id": "fix-the-site-audit-findings",
       "label": "Fix the site audit findings",
-      "prompt": "The weekly site audit found issues. Read raw/web/_audit.md, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then rebuild, deploy with the ship skill, and re-run tt-crawl audit to confirm.",
+      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then rebuild, deploy with the ship skill, and re-run tt-crawl audit to confirm.",
       "when": [
         {
-          "path": "raw/web/_audit.md",
+          "path": "raw/audit/_latest.json",
           "is": "contains",
-          "text": "## Issues"
+          "text": "\"ok\": false"
         }
       ]
     },

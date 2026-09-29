@@ -12,14 +12,17 @@ exists (`project_apps`), stop and point the owner at it instead.
 
 ## Sources, in order of trust
 
-1. `raw/structured/business.json` and `raw/structured/<page>.json`: the
+1. `raw/site/<host>/structured/business.json` and `<page>.json`: the
    site's own JSON-LD, Open Graph, and microdata. Exact; seed
    `business.md`'s frontmatter from here first (name, phone, address,
    hours, geo, social profiles from `sameAs`).
-2. `raw/web/_common.md` and `_furniture.json`: the footer and header
-   facts (phone, address, hours, social links, legal links).
-3. `raw/web/*.md`: the pages, for services, prices, team, FAQs, policies,
-   proof. `raw/docs/`: price lists and brochures the site linked to.
+2. `raw/site/<host>/_index/facts.json` (each phone, email, address, hours,
+   social and action link with where it was found), `common.md` and
+   `furniture.json` there: the footer and header facts (phone, address,
+   hours, social links, legal links). `_index/reviews.md` has the site's
+   reviews verbatim with name, date, and platform.
+3. `raw/site/<host>/pages/*.md`: the pages, for services, prices, team,
+   FAQs, policies, proof. `raw/site/<host>/docs/`: price lists and brochures the site linked to.
 4. The business's public Google listing: `tt-crawl places "Business,
    City" --out raw/places` (it needs `GOOGLE_PLACES_API_KEY`; on Task &
    Tool that is a Google Places connection exposed to this app, asked for
