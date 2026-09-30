@@ -8,9 +8,9 @@
 On a Task & Tool machine this calls deploy_site from the platform bridge
 (tools/taskandtool.py): the machine uploads the built assets and the Worker
 bundle; the platform deploys them to the edge on this app's behalf. No
-Cloudflare credential ever exists here. Edge serving must be enabled for the
-app first (the owner's Settings page; the AI can ask with
-request_capability("edge", why)).
+Cloudflare credential ever exists here. Any app may deploy; an unpublished
+site is published to its team (public is the owner's switch on the
+dashboard).
 
 Anywhere else (your own computer, your own Cloudflare account) the same
 script falls back to `npx wrangler deploy` with wrangler.jsonc.
@@ -63,11 +63,7 @@ def deploy_platform(dry_run):
         fail("could not reach Task & Tool from this machine; try again in a moment")
     if not status.get("edge_enabled"):
         print(json.dumps(status, indent=2))
-        fail(
-            "edge serving is not enabled for this app. Ask the owner to enable it in the app's "
-            "Settings, or call request_capability(\"edge\", why) from tools/taskandtool.py.",
-            2,
-        )
+        fail("this platform has no edge set up; the site serves from this machine", 2)
     files = sum(len(fs) for _, _, fs in os.walk(DIST))
     print(f"== deploy: {files} asset(s) from {DIST}/ + Worker {WORKER}")
     if dry_run:

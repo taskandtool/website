@@ -1,13 +1,14 @@
 ---
-description: "Publish this website to Task & Tool's edge and keep the published copy current: build, deploy, verify, redeploy after changes, and what 'on the web' and a custom domain mean. Use when the owner says publish, go live, deploy, put it on the edge, push the changes, or asks why visitors see an old version."
+description: "Deploy this website to Task & Tool's edge and keep the deployed copy current: build, deploy, verify, redeploy after changes, and what 'on the web' and a custom domain mean. Use when the owner says deploy, publish, go live, put it on the edge or on Cloudflare, push the changes, or asks why visitors see an old version."
 ---
 
 # Ship
 
 The site is built here and served from the edge: every page pre-rendered to
 HTML plus a small Worker for dynamic routes, always on, nothing to keep
-awake. This machine never holds a Cloudflare credential; the platform
-deploys on the app's behalf (`deploy_site` in `tools/taskandtool.py`, which
+awake. The edge is Task & Tool's, on Cloudflare: "publish to Cloudflare"
+means this skill, not wrangler. This machine never holds a Cloudflare
+credential and never asks for one; the platform deploys on the app's behalf (`deploy_site` in `tools/taskandtool.py`, which
 `scripts/deploy.py` wraps). The generic `static-hosting` skill, when it is
 present, describes the same mechanism for any app; this is the recipe for
 this one.
@@ -16,11 +17,15 @@ this one.
 
 1. **Where the app serves from**: this machine (`runtime_target: sprite`)
    or the edge copy (`worker`). This skill flips it, by deploying.
-2. **Whether it is on the web at all**: `none`, `org` (workspace members
-   only), or `public`. That is the owner's publish setting in the Task &
-   Tool dashboard, never something done from here. Deploying to the edge
-   does not make a private site public, and the org gate keeps working in
-   front of the edge copy.
+2. **Who can see it**: `none`, `org` (the team, signed in, clients placed
+   on the app included), or `public`. A deploy publishes an unpublished
+   site to the team; public is only ever the owner's switch on the
+   dashboard. The dashboard's **Publish changes** button is the owner
+   asking you to deploy again.
+
+**Development** always reaches this machine: the working copy, edits
+included, before they are deployed. Visitors at the Live (published)
+address see the last deploy.
 
 Always check before touching a served site:
 
@@ -42,10 +47,7 @@ see until the site is deployed again. Say so, then deploy.
    Fix what the audit lists before going on. Set `site.url` in
    `src/site.ts` to the real domain: the canonical tags and the sitemap
    depend on it. For a migrated site, the `launch-check` skill first.
-2. Edge serving must be enabled for this app (`edge_enabled: true`). If
-   not, ask the owner to enable it in the app's Settings, or send them the
-   link: `request_capability("edge", "publish the website to the edge")`.
-3. Deploy. It builds first (`dist/` with every page as HTML and every
+2. Deploy. It builds first (`dist/` with every page as HTML and every
    static file; `build/worker.mjs` for dynamic routes), then uploads only
    what changed:
 
@@ -54,25 +56,25 @@ see until the site is deployed again. Say so, then deploy.
    ```
 
    The script prints the public URL. A refusal names the reason
-   (`static_hosting_unavailable`: edge serving is not enabled;
+   (`static_hosting_unavailable`: the platform has no edge set up;
    `unsupported_compatibility_flag`: the bundle needs a runtime flag the
    platform does not allow, which means a Node dependency slipped into a
    request path).
-4. Verify: fetch the URL (and a dynamic path, if there is one) and look at
+3. Verify: fetch the URL (and a dynamic path, if there is one) and look at
    the pages once more. Then tell the owner what is live and remind them
    that whether the site is on the web is their dashboard setting.
-5. Commit. The deploy is not a commit; the repo is the record.
-6. Once the site is on its real domain, make sure the weekly audit job
+4. Commit. The deploy is not a commit; the repo is the record.
+5. Once the site is on its real domain, make sure the weekly audit job
    exists (`launch-check` skill: `tt-crawl audit` on a schedule); a site
    nobody checks rots quietly.
 
-After every later change: `npm run deploy` again. Only changed assets are
+After later changes: `npm run deploy` again. Only changed assets are
 uploaded; the Worker is replaced whole.
 
 ## Custom domain, caching, and access
 
-- A custom domain is the owner's action in the project's settings (Domains
-  add-on: a CNAME and an automatic certificate). Once set,
+- A custom domain is the owner's action in the app's Settings (Publishing:
+  a CNAME and an automatic certificate). Once active,
   `serving_status()['public_url']` is that domain. Nothing changes in the
   site.
 - The edge serves the pre-rendered pages and static files itself; no
