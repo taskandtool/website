@@ -106,11 +106,11 @@ state (`starter-app.json`'s `when` conditions).
 ## Third-party tools it installs
 
 - The shared crawler, `tt-crawl`, installed by `.taskandtool/setup.sh` with
-  pip from its public repo at a pinned tag.
-- [Obscura](https://github.com/h4ckf0r0day/obscura), Apache-2.0, a Rust
-  headless browser in one static binary (Linux builds). `tt-crawl` renders
-  pages and takes screenshots through it. Shared with the Company
-  Brain's install: same binary, same version stamp.
+  pip from its public repo's main branch, and the two browsers it drives:
+  Chrome (chrome-headless-shell from Google's Chrome for Testing, the
+  default for reading pages and screenshots) and
+  [Obscura](https://github.com/h4ckf0r0day/obscura) (Apache-2.0, a small
+  Rust headless browser, the fallback).
 - npm packages, MIT: `hono`, `@hono/node-server`, `@neondatabase/serverless`,
   `tailwindcss` + `@tailwindcss/cli`, `esbuild`, `tsx`, `typescript`.
 

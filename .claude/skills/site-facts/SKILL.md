@@ -1,5 +1,5 @@
 ---
-description: "Turn a crawled site into the fact notes in public/ (business, services, faq, team, policies, proof, legal) when this project has no Company Brain. Use after tt-crawl has filled raw/web, when the owner says extract the facts, get my details off my site, or when public/ is still the starter set."
+description: "Turn a crawled site into the fact notes in public/ (business, services, faq, team, policies, proof, legal) when this project has no Company Brain. Use after tt-crawl has filled raw/site/<host>, when the owner says extract the facts, get my details off my site, or when public/ is still the starter set."
 ---
 
 # Site facts (no brain)

@@ -40,25 +40,19 @@ in this app's Settings: `brain/brand` onto `brand` and `brain/public` onto
 `public`. The ledger is not mirrored: crawl the site here too for the plan
 and the launch check. Without a brain, or for the ledger:
 
+The crawler carries the recipes; print the one you need rather than
+guessing flags:
+
 ```bash
-tt-crawl site https://theirsite.com --styles --screenshots    # into raw/site/<host>/
-tt-crawl docs                                                  # the PDFs and documents the site links to
-tt-crawl wp https://theirsite.com --out raw/site/<host>/wp     # when it is WordPress; harmless otherwise
-tt-crawl places "Business, City" --out raw/places             # the public Google listing: phone, hours, reviews (needs a Places key)
+tt-crawl playbook rebuild     # the whole site for a rebuild: every page and picture
+tt-crawl playbook survey      # a big site first: every URL by template, two read of each
+tt-crawl playbook import      # WordPress, RSS or Shopify collections, with dates, authors and prices
+tt-crawl playbook launch      # the launch check
 ```
 
-For a big site, `tt-crawl survey https://theirsite.com` first (every URL
-listed by template in `_index/templates.md`, two read per template, no
-pictures), then `tt-crawl pages https://theirsite.com --max-pages N` for
-the whole thing (every page and every picture in the content), N from the
-survey's counts. A collection comes across best through the platform's own
-feed: `tt-crawl import --out raw/site/<host> --template post` (WordPress,
-RSS or Shopify first, which keep dates, authors and prices; HTML otherwise).
-`tt-crawl playbook rebuild` prints the whole sequence for the crawler that is
-installed; `tt-crawl playbook launch` the launch check. `tt-crawl add URL
---out raw/site/<host>` adds a single page; `--resume` continues an
-interrupted crawl. An app with an old `raw/web/` folder moves it with
-`tt-crawl relayout raw/web --rewrite public brand`.
+Then `tt-crawl docs` for the documents the pages link to, and `tt-crawl
+places "Business, City" --out raw/places` for the public Google listing
+(needs a Places key).
 
 Read `_index/inventory.md` and the screenshots; report pages found, the
 limit if it was hit, forms and embeds seen, and the tracking IDs.

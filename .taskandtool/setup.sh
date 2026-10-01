@@ -8,7 +8,7 @@
 # What it does, each step skipped when already done:
 #   1. makes sure the working copy is a git repo with a commit in it
 #   2. installs the npm dependencies and builds the CSS once
-#   3. installs tt-crawl (the site reader) and the Obscura headless browser
+#   3. installs tt-crawl (the site reader) and its browsers
 #   4. registers the `web` service (`npm run dev`) so the site is live on the
 #      machine's URL, or restarts it after a replacement
 #
@@ -56,12 +56,15 @@ if [ -f package.json ]; then
   fi
 fi
 
-# 3. tt-crawl (github.com/taskandtool/crawler): the site reader the migrate-site
-# skill captures with, and the same Obscura browser the Company Brain installs
-# (same binary and version stamp, so the two share one install).
-CRAWLER_REF="${CRAWLER_REF:-v0.2.0}"
+# 3. tt-crawl (github.com/taskandtool/crawler), the site reader the migrate-site
+# skill captures with, and the browsers it drives.
+CRAWLER_REF="${CRAWLER_REF:-main}"
+CRAWLER="git+https://github.com/taskandtool/crawler@$CRAWLER_REF"
 echo "== tt-crawl $CRAWLER_REF"
-python3 -m pip install --quiet --upgrade "git+https://github.com/taskandtool/crawler@$CRAWLER_REF" 2>&1 | tail -2 || true
+# The crawler's main, every run: the first install brings its dependencies;
+# the second replaces its own code even when its version number did not move.
+python3 -m pip install --quiet --upgrade "ttcrawl @ $CRAWLER" 2>&1 | tail -2 || true
+python3 -m pip install --quiet --force-reinstall --no-deps "ttcrawl @ $CRAWLER" 2>&1 | tail -2 || true
 python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is unavailable until it does"
 
 # `tt-crawl` on the PATH, whatever pip did with its console script (a user
@@ -73,48 +76,11 @@ if ! command -v tt-crawl >/dev/null 2>&1; then
     fi
   done
 fi
-OBSCURA_VERSION="${OBSCURA_VERSION:-v0.2.2}"
-OBSCURA_REPO="https://github.com/h4ckf0r0day/obscura"
-if [ -w /usr/local/bin ]; then
-  BIN=/usr/local/bin
-elif command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
-  BIN=/usr/local/bin
-  SUDO="sudo -n"
-else
-  BIN="$HOME/.local/bin"
-fi
-SUDO="${SUDO:-}"
-$SUDO mkdir -p "$BIN"
-case "$(uname -s)-$(uname -m)" in
-  Linux-x86_64|Linux-amd64) asset="obscura-x86_64-linux.tar.gz" ;;
-  Linux-aarch64|Linux-arm64) asset="obscura-aarch64-linux.tar.gz" ;;
-  *) asset="" ;;
-esac
-stamp="$BIN/.obscura-version"
-if [ -z "$asset" ]; then
-  echo "== obscura: no build for $(uname -s)/$(uname -m); site capture falls back to plain fetching"
-elif [ -x "$BIN/obscura" ] && [ "$(cat "$stamp" 2>/dev/null || true)" = "$OBSCURA_VERSION" ]; then
-  echo "== obscura $OBSCURA_VERSION already installed"
-else
-  echo "== obscura $OBSCURA_VERSION -> $BIN"
-  tmp="$(mktemp -d)"
-  trap 'rm -rf "$tmp"' EXIT
-  if curl -fsSL --retry 3 "$OBSCURA_REPO/releases/download/$OBSCURA_VERSION/$asset" -o "$tmp/obscura.tgz"; then
-    tar xzf "$tmp/obscura.tgz" -C "$tmp"
-    main_bin="$(find "$tmp" -type f -name obscura | head -1)"
-    worker_bin="$(find "$tmp" -type f -name obscura-worker | head -1)"
-    if [ -n "$main_bin" ]; then
-      $SUDO install -m 755 "$main_bin" "$BIN/obscura"
-      [ -n "$worker_bin" ] && $SUDO install -m 755 "$worker_bin" "$BIN/obscura-worker"
-      echo "$OBSCURA_VERSION" | $SUDO tee "$stamp" >/dev/null
-      echo "installed obscura $OBSCURA_VERSION"
-    else
-      echo "obscura binary not found in $asset; site capture falls back to plain fetching"
-    fi
-  else
-    echo "could not download obscura; site capture falls back to plain fetching"
-  fi
-fi
+# The browsers the crawler drives: Chrome reads pages and takes screenshots
+# by default, Obscura is the small fallback. Installing them here keeps a
+# first crawl from downloading a browser mid-conversation.
+python3 -m ttcrawl install-browser chrome || echo "chrome did not install; tt-crawl falls back to obscura"
+python3 -m ttcrawl install-browser obscura || echo "obscura did not install"
 
 # 4. The web service: the site is live on this machine's URL from now on.
 # `npm run dev` rebuilds the CSS and restarts the server on every change.
