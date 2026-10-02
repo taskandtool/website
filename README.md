@@ -22,12 +22,12 @@ brand/           the brand as markdown notes: positioning · voice · audience �
 public/          the fact notes with typed frontmatter (FACTS.md); posts/ and legal/ are the collections
 site-map.md      the page plan and migration ledger; src/redirects.ts the 301 table it implies
 BRAND.md         what the notes hold, who owns the folder, and how the site is set from them
-design/          system.yaml, the design system as one record; the brief, directions and homepage variants
+design/          system.yaml, the design system as one record; the page briefs
 styles/          theme.css (the tokens, compiled from the record) and input.css → static/site.css (Tailwind v4)
 DESIGN.md        the design system to read, compiled from the record: identity, the role of every token,
                  composition, do and don't
 static/          static files, served as-is
-scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · system.mjs (the record → theme.css + DESIGN.md) · check.mjs · lint.mjs · variant.mjs
+scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · system.mjs (the record → theme.css + DESIGN.md) · check.mjs · lint.mjs
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 AGENTS.md        what the AI reads first; CLAUDE.md imports it
 ```
@@ -36,14 +36,14 @@ Beside the site, the two conventions Task & Tool reads:
 
 ```
 .claude/skills/
-  new-site/      the agency flow: intake, competitors, three homepages, the system, the pages
+  new-site/      the agency flow: a striking homepage first, then the system, the pages, the launch
   pages/         the page plan, a brief per page, the 18 page-type guides, search fields
   website/       building and running the site, plus seo.md and posts.md
   forms/ admin/ booking/ reports/ shared-data/
                  shared skills from github.com/taskandtool/skills: forms, the private
                  /admin, a booking page, reports, and the database handle they share
-  design/        creative direction: references (the design library's 14 systems), the brief, three
-                 homepages built with `npm run variant`, the system record, the review gate
+  design/        creative direction: references (the design library's 14 systems), the brief,
+                 the first screen, the homepage built for real, the system record, the review gate
   writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse
   migrate-site/  take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill

@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Direct the visual system of this website: references, three real homepages the owner picks from, the system record, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
+description: "Direct the look of this website: references, the first screen, the homepage built for real and shown, the design system record as the site grows, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning a page, and when the owner says change the look or it looks generic."
 ---
 
 # Design

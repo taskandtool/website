@@ -1,5 +1,5 @@
 ---
-description: "Direct the visual system of this website: references, three real homepages the owner picks from, the system record, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
+description: "Direct the look of this website: references, the first screen, the homepage built for real and shown, the design system record as the site grows, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning a page, and when the owner says change the look or it looks generic."
 ---
 
 # Design
@@ -101,121 +101,100 @@ Decorative labels, repeated subtitles, status microcopy, and multiple competing
 visualizations all spend the same attention budget. Use that budget on the
 single clearest message.
 
-## 3. Three Homepages, Not Three Moodboards
+## 3. The Homepage First
 
-For a new site or a redesign, show the owner three wildly different
-homepages, built for real from the same words, and let them pick. Small
-changes continue the chosen system instead.
+Prefer one homepage, built for real and shown, over planning the whole
+site. Most owners judge a design by looking at it; show them one worth
+looking at, then follow what they say.
 
-**References first.** Gather what already exists before inventing anything:
+**Look before choosing.** Their current site (`raw/site/`, its screenshot
+in `shots/`), anything they linked or said they like (`tt-crawl reference
+<url>` captures a site's look into `raw/external/<host>/`), and the design
+library (`references/library.md`: fourteen systems, a preview each). Open
+the previews and find the one or two closest to what this business needs;
+take what works from them. The site's system is always its own, never a
+library system restyled.
 
-- sites the owner admires: `tt-crawl reference <url>` captures a few pages'
-  look and structure, screenshots included, into `raw/external/<host>/`;
-- the homepages of the business's main competitors, the same way (the
-  `new-site` skill finds them);
-- the design library (`references/library.md` beside this file): fourteen
-  systems with a preview each. Pick the three to five that fit the business
-  and show them as one group, one line each, as that file says.
+**Make it theirs.** Write the homepage's brief, `design/briefs/home.md` (the
+`pages` skill's format, kept short for a first page). Then the look, in
+`design/system.yaml`: overwrite the starter's tokens with this business's
+colours by role, its fonts, sizes and radii, and run `npm run system`. The
+tokens are all a first page needs; the rest of the record waits for step 4.
 
-Ask one question: what do they like in each. Their answer leads the
-directions; the library's systems are worked examples to learn from, never
-templates to copy.
+**Build the real page.** `src/pages/home.tsx` (the website skill's "How a
+page is written"), its facts read from `public/`. Then `npm run build &&
+npm run lint`: fix what is a mistake. When the owner asked for something
+the lint flags, put `data-lint-allow="<rule>"` on that element and say so
+in one line; the owner's ask wins.
 
-**One brief, three directions.** Write the homepage's brief once,
-`design/briefs/home.md` (the `pages` skill's format and the homepage guide),
-so all three variants say the same words and differ only in how. Then a card
-per direction in `design/directions/<n>.md`:
+**Look, fix, commit, show.** The review gate below: screenshot, look, fix
+what the screenshots show. Then commit (one plain line), so any version the
+owner has seen can come back with one `git checkout`; the screenshots in
+the chat show which is which. Show the page at desktop and phone width.
 
-- **Name and thesis:** one memorable name and one sentence.
-- **Lead reference:** the admired site, competitor gap or library system it
-  starts from, and what it takes from it.
-- **Source:** the subject-specific artifact, behaviour or world it borrows
-  from (a logistics page from shipping labels and manifests).
-- **Look:** composition and hero, type roles, a small named palette with
-  exact values, material.
-- **Signature:** the single moment people remember.
-- **Rejection:** the familiar pattern it deliberately avoids.
+**Then follow the owner.** A small change ("bigger photo", "add a section")
+is an edit to the same page. When they want options, or a change big enough
+that they should compare (a different direction, not a tweak), build each
+option as the real page in turn, commit each, show them side by side, and
+keep the one they pick.
 
-The three must differ in structure, hierarchy, typography and imagery, not
-merely in colour. Spend boldness in one place in each.
+## 4. When the Site Grows
 
-**Build each as a real page.** `design/variants/<n>/theme.css` starts as a
-copy of `styles/theme.css` with the direction's values; `page.html` is the
-whole homepage document using the theme's classes, with real photographs
-(the business's own, or hotlinked stock) and the brief's words. Then:
+When the owner wants more than the homepage, the record has to carry the
+look to every page:
 
-```bash
-npm run variant -- design/variants/1        # one standalone index.html, CSS inlined
-npm run lint -- design/variants/1/index.html --theme design/variants/1/theme.css
-```
-
-Fix every lint error and read every hint as a question about the design.
-Screenshot each at desktop and phone width (the review gate below, with
-`file://$PWD/design/variants/1/index.html` as the address), look at the
-screenshots, and fix what they show before the owner sees anything.
-
-**Show them together.** One group: each variant's `index.html` (it opens and
-scrolls in the chat), titled with its direction's name and thesis:
-
-```python
-from tools.taskandtool import create_deliverables
-create_deliverables(
-    [{"path": "design/variants/1/index.html", "title": "Ledger: the job sheet as the page"},
-     {"path": "design/variants/2/index.html", "title": "Yard: the work at full width"},
-     {"path": "design/variants/3/index.html", "title": "Counter: the phone call, first"}],
-    "Three homepages from the same words: pick one, or tell me what to change")
-```
-
-Recommend one, with a sentence tied to the brief. **Iterate on the pick**:
-change the same folder, run `variant` and `lint` again, and show the revised
-page as a new group. When the owner is happy with the look, ask whether they
-are ready for the design system and the rest of the pages; that is step 4.
-
-## 4. Harden the Pick Into the Site's System
-
-When the owner says yes to "ready for the design system and the rest of the
-pages?", the picked homepage becomes the site:
-
-1. **Write the record.** Rewrite `design/system.yaml` from the picked
-   variant's `theme.css` and `page.html`, the brief and its direction card,
-   by `references/authoring.md`: the site's colour roles, the type, the
-   rules with their reasons, the imagery, the motion, and `x_layout` for
-   every shape of content, not only the ones the homepage shows. Fill
-   `identity` from the brief. `references/records/` holds two proven library
-   records as worked examples. Then `npm run system`.
+1. **Fill the rest of the record.** `design/system.yaml` already holds the
+   tokens; add the rules with their reasons, the imagery, the motion, and
+   `x_layout` for every shape of content, not only what the homepage shows,
+   by `references/authoring.md`. Fill `identity` from the brief.
+   `references/records/` holds two proven library records as worked
+   examples. Then `npm run system`.
 2. **Rebuild it blind.** Start a sub-agent with a fresh context and give it
    only `design/briefs/home.md`, `public/`, `brand/` and `design/system.yaml`:
-   build the homepage the brief describes as `design/rebuild/page.html`,
-   in this record's classes. Copy `styles/theme.css` to
-   `design/rebuild/theme.css`, run `npm run variant -- design/rebuild`, and
-   screenshot it and the pick at desktop and phone width. Where they differ
-   in a way the owner would notice (the head, the grounds, the type, how a
-   band is arranged), the record left it out: add it to the record and
-   rebuild once more. Two rounds at most; say what still differs. Without
-   a way to start a sub-agent, skip this and say so.
-3. **Make it the site.** The pick's `page.html` (not the rebuild) becomes
-   `src/pages/home.tsx` by the website skill's "From an HTML page to a page
-   here", every fact moved into `public/` and read back through `content`.
-4. **Check it.** `npm run css`, `npm run check`, `npm run build && npm run
-   lint`, and the review gate on the real page.
+   it builds the homepage in a scratch module, `src/pages/rebuild.tsx` at
+   `/rebuild`. Screenshot it and the homepage at desktop and phone width.
+   Where they differ in a way the owner would notice (the head, the grounds,
+   the type, how a band is arranged), the record left it out: add it to the
+   record and rebuild once more. Two rounds at most; say what still
+   differs. Then delete the scratch page. Without a way to start a
+   sub-agent, skip this and say so.
+3. **Check it.** `npm run check`, `npm run build && npm run lint`.
 
-The other pages follow the record (the `pages` skill). The
-variants and the rebuild stay in `design/` as the record of what the owner
-chose between. A later change to the look is a change to the record, then
-`npm run system`.
+The other pages then follow the record (the `pages` skill). A later change
+to the look is a change to the record, then `npm run system`.
 
 ## 5. Compose From Content
 
-### Hero
+### The first screen
 
-The hero is the page's thesis, not a decorated introduction. It should establish
-the subject, the primary value, and the next action without needing the rest of
-the page to explain it.
+The owner judges the whole site by the first screen, so it is where the
+work goes. It states the subject, the offer and the next action in a short
+headline at scale (the h1 says what the business does; a hero with no
+headline fails), and it should make the owner proud to send the link.
 
-A centered headline over an abstract glow is one option, not the default.
-Consider split editorial compositions, product-led demonstrations, dense
-utility surfaces, controlled asymmetry, or subject-specific artifacts when they
-serve the brief.
+- **Lead with an image when there is a good one.** The business's own best
+  photograph of the work, the place or the product, crisp and large. A
+  photograph runs full-bleed only when it is at least 2000px wide; never
+  enlarge one past its own width. A phone snapshot that would blur is set
+  at its own size, framed, or left out, and the head becomes type-led.
+- **No good photograph of theirs:** a striking stock photograph of the same
+  subject, hotlinked from Pexels at full width
+  (`https://images.pexels.com/photos/<id>/pexels-photo-<id>.jpeg?auto=compress&cs=tinysrgb&w=2400`),
+  as atmosphere, never as proof of their work. Say in one line that their
+  own photographs would be better.
+- **Words over a photograph stay readable:** a fade, a scrim, a band, or
+  placement beside the subject, and contrast checked over the image itself.
+- **Commit to a colour world:** a saturated field, black, or the
+  photograph. A warm off-white ground is a choice, not a default.
+- **One signature move** that belongs to this business: an oversized word,
+  a numeral crossing a photograph's edge, the product lit on black, a
+  live detail (today's hours, the next opening). One, not five.
+- **Refuse the named defaults** unless the brief gives a reason: a centred
+  headline over a glow, a split hero with a form, a small tracked-caps label
+  above the headline, cream with a soft serif, Inter with Playfair.
+- **The form is not the hero.** The first screen is the promise and one
+  action; a form sits beside it only when booking on the first screen is
+  the page's whole job.
 
 ### Page structure
 
@@ -368,7 +347,12 @@ owner sees the same thing you did, and ask:
 6. Do keyboard, touch, reduced motion, and no-JavaScript states still work?
 7. Which element is present only to make the page look busier?
 
-Remove the ornamental answer to question seven. Fix the largest generic or
+8. Put the first screen beside their current homepage's (`raw/site/<host>/shots/`):
+   is it clearly better, and would the owner be impressed enough to send it
+   to someone?
+
+Remove the ornamental answer to question seven, and if the answer to
+question eight is no, the first screen is not done. Fix the largest generic or
 unclear choice, render again, and only then call the design finished. Two
 passes is the norm: the first render always shows something the code did
 not.

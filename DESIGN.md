@@ -125,4 +125,4 @@ Nothing declared.
 
 Edit `design/system.yaml` and run `npm run system`; then `npm run check`, `npm run build && npm run lint`.
 A new brand colour or font goes into the record's tokens by role, never into markup. How a record is
-written, and how a new one is made from the homepage the owner picked, is the `design` skill.
+written, and how it grows from the first homepage, is the `design` skill.

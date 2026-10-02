@@ -14,7 +14,7 @@ CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
 A site still on its welcome page starts with the `new-site` skill: intake,
-competitors, three homepages, then the system and the pages. What pages a
+a striking homepage first, then the system and the pages. What pages a
 site needs and what each says is the `pages` skill. Before a
 substantial new page or a redesign, work through the `design` and `writing`
 skills first: the brief, the voice card (`brand/voice.md`), the content
@@ -147,8 +147,8 @@ next turn can change safely.
 
 ### From an HTML page to a page here
 
-A page designed as plain HTML (a homepage variant the owner picked, a page
-from the design library) becomes a page here in five mechanical steps:
+A page designed as plain HTML (one the owner hands over, a page from the
+design library) becomes a page here in five mechanical steps:
 
 1. Keep only what sits inside `<main>`; the layout already has the head,
    header and footer. Move anything the page adds to the head into

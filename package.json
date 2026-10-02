@@ -14,7 +14,6 @@
     "check": "node scripts/check.mjs",
     "system": "node scripts/system.mjs",
     "lint": "node scripts/lint.mjs",
-    "variant": "node scripts/variant.mjs",
     "typecheck": "tsc --noEmit -p .",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
     "deploy": "npm run build && python3 ~/tools/taskandtool.py deploy dist --worker build/worker.mjs"

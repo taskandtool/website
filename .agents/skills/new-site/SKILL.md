@@ -1,6 +1,6 @@
 ---
 name: new-site
-description: "Take a business from no website, or an old one, to a launched site the way a good agency would: gather its facts and look, study its competitors and sites the owner admires, show three homepages, then build the design system and the pages. Use when the owner says build my site, make my website or redo my site. Not for changing one page (website)."
+description: "Take a business from no website, or an old one, to a launched site like a good agency: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch when they want the whole site. Use when the owner says build my site, make me a homepage or redo my site. Not for one page's edits (website)."
 ---
 
 # New site

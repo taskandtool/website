@@ -13,7 +13,7 @@ rebuilt from the record alone.
 ```
 id, title, summary          the system's name and one sentence of what it is
 identity                    subject, audience, one_job, direction, source, signature,
-                            rejection, photography: from the brief and the pick
+                            rejection, photography: from the brief and the homepage
 tokens                      colors, typography, rounded, shadows, spacing, containers, easing
 sections                    overview, colors, typography, components, layout,
                             elevation_and_depth, motion, responsive_behavior,
@@ -59,9 +59,9 @@ because the footer and the shared components use it.
 
 ## The bar
 
-1. **Every value comes from the picked homepage.** Read its `theme.css` and
-   `page.html`: the colours, sizes, radii and spacings it actually uses are
-   the tokens; a value it never uses is not.
+1. **Every value comes from the homepage the owner liked.** Read
+   `src/pages/home.tsx` and the record's tokens: the colours, sizes, radii
+   and spacings the page actually uses stay; a token it never uses goes.
 2. **Every rule carries its reason.** At least four dos and four don'ts, one
    rule per reason. "Don't use shadows" is a preference; "Don't use shadows:
    depth here is the two paper tones, and a shadow reads as a third surface
@@ -118,6 +118,6 @@ example.
 ## When the record is done
 
 A fresh builder, given only `design/briefs/home.md`, the facts and this record,
-should produce the picked homepage again: the blind rebuild in the design
+should produce the homepage again: the blind rebuild in the design
 skill's step 4. Where the rebuild differs, the record left something out;
 add it to the record, not to the page.

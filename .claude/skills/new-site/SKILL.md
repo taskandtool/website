@@ -1,90 +1,78 @@
 ---
 name: new-site
-description: "Take a business from no website, or an old one, to a launched site the way a good agency would: gather its facts and look, study its competitors and sites the owner admires, show three homepages, then build the design system and the pages. Use when the owner says build my site, make my website or redo my site. Not for changing one page (website)."
+description: "Take a business from no website, or an old one, to a launched site like a good agency: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch when they want the whole site. Use when the owner says build my site, make me a homepage or redo my site. Not for one page's edits (website)."
 ---
 
 # New site
 
 Work like a good agency: few questions, real material, and something the
-owner can see at the end of every step. Never a questionnaire; never a page
+owner can look at as soon as possible. Never a questionnaire; never a page
 built on facts nobody gave you.
+
+Prefer the homepage first. Build one, show it, and let the owner react; the
+rest of the site follows when they want it, not before.
 
 ## Where things stand
 
-Read the folders and start at the first step that is not done. Say in one
-line where things stand and what you will do next.
+Read the folders and carry on from where they are. Say in one line where
+things stand and what you will do next.
 
-| Step | Done when |
+| | Done when |
 |---|---|
-| 1. Intake | `brand/positioning.md` and `public/business.md` hold real facts, not "to fill" |
-| 2. The market | `design/competitors.md` exists, with screenshots under `raw/external/` |
-| 3. Three homepages | `design/variants/*/index.html` exist and the owner has picked one |
-| 4. The system | `DESIGN.md`'s Identity is filled and `src/pages/home.tsx` is the picked homepage |
-| 5. The pages | every planned row in `site-map.md` is built |
-| 6. Launch | the `launch-check` skill passes and the site is published |
+| The homepage | `src/pages/home.tsx` is this business's page, in its own tokens in `design/system.yaml`, and the owner has seen it |
+| The whole site | the record is filled (`DESIGN.md`'s Identity is not "to fill"), every planned row in `site-map.md` is built |
+| Launch | the `launch-check` skill passes and the site is deployed |
 
-An owner with a site to replace starts at 1 too; the old URLs go into
-`site-map.md` (the `migrate-site` skill) so none is lost.
+## The homepage
 
-## 1. Intake
+Owners say little. "Build me a homepage" or "make this look more modern"
+with one link is a normal brief, and it is enough.
 
-Owners say little. "Build my site" or "make this look more modern" with one
-link is a normal brief, and it is enough: work from what they gave and what
-you can find, show a homepage, and let them react to that.
+1. **Find the business.** A link: crawl its homepage only, `tt-crawl brand
+   <url> --max-pages 1` (seconds: the logo, colours and fonts, a
+   screenshot, the contact details, the homepage's text and photographs). A
+   name with no link: find their website or Google profile with a search
+   connection when the app has one, otherwise your own web search, and say
+   in one line who you found ("Smith Plumbing in Tulsa, smithplumbing.com");
+   they will say if it is wrong.
+2. **Write what a homepage needs**, by the `brand` skill's rules (cite every
+   fact, invent nothing): `public/business.md` (name, what they do, where,
+   how to reach them), `public/services.md` as the homepage lists them, and
+   `brand/visual-identity.md` (logo, colours, fonts, the best photographs).
+   Their own words from the chat go to `raw/transcripts/` first. The rest of
+   the brand record waits for the whole site.
+3. **Design and build it**: the `design` skill's step 3, and its first
+   screen above all. The owner is deciding whether to trust you with the
+   rest of the site.
+4. **Show it,** with the one or two things that would make it better (their
+   own sharp photographs, a fact the site does not state).
 
-1. **File what they gave** by the `brand` skill's Sources table: their words
-   to `raw/transcripts/` as they wrote them, their website crawled
-   (`tt-crawl playbook brand`, then what it prints), a Google profile to
-   `raw/places/`, photos, a logo or a brochure where the table says.
-   Competitors and liked sites wait for step 2.
-2. **Find them on the web** when they gave a name but no link, or a link
-   but nothing else: their website, their Google profile, their social
-   profiles. A search or places connection, when the app has one, brings
-   its own instructions; otherwise use your own web search. When you found
-   them by searching, say in one line who you found ("Smith Plumbing in
-   Tulsa, smithplumbing.com") and carry on; they will say if it is wrong.
-3. **Read what is already here.** `brand/` and `public/` may hold notes from
-   an earlier chat or crawl. Run the `brand` skill on everything new so it
-   lands in those notes.
-4. **Ask only when you cannot start:** you cannot tell which business this
-   is, or what it does. Then ask once, briefly, for a link or a name and
-   town. Anything else missing is not a question yet: build without it, and
-   after the homepages are shown, list the few things that would make the
-   site better (a phone number, real photos, what sets them apart).
+Ask only when you cannot start: you cannot tell which business this is, or
+what it does. Then ask once, briefly, for a link or a name and town.
 
 Never fill a gap with an invented fact: no made-up phone number, price,
 review, award or years in business. A missing fact is left out, not guessed.
 
-## 2. The market
+## The whole site
 
-- **Competitors:** the ones the owner named, or find three by searching for
-  their main service in their area.
-- Capture each homepage with `tt-crawl reference <url>`, and any site the
-  owner admires the same way.
-- Write `design/competitors.md`: per competitor, what they do well, the
-  claims they make, how they look; then the claims everyone makes (saying
-  them louder will not stand out) and the gap nobody fills.
-- Show the screenshots as one group, one line each, and ask what they like
-  and what they would never want.
+When the owner wants the rest ("build out the site", "add the other
+pages"), or brings a whole site to replace:
 
-## 3. Three homepages
+1. **Read the rest of their site.** `tt-crawl brand <url> --resume` carries
+   on from the homepage crawl and reads only the pages not yet read. A site
+   to replace page for page is the `migrate-site` skill, so no old URL is
+   lost.
+2. **Fill the brand record** with the `brand` skill: the voice card, the
+   audience, the FAQ, the team, the reviews.
+3. **Competitors, when they help:** the owner named some, or the business
+   competes on a crowded local search. Capture each homepage with `tt-crawl
+   reference <url>`; note what they claim, what everyone claims, and the
+   gap nobody fills, in `design/competitors.md`.
+4. **The system:** the `design` skill's step 4 fills the record so every
+   page keeps the homepage's look.
+5. **The pages:** the `pages` skill.
 
-The `design` skill's step 3: references, one brief, three directions, three
-real homepages built and linted, shown together, the pick iterated on.
+## Launch
 
-## 4. The system
-
-When the owner likes the look, ask: "Ready for us to build the design system
-and your other pages?" On a yes, the `design` skill's step 4 turns the picked
-homepage into the site.
-
-## 5. The pages
-
-The `pages` skill: the pages the business needs (checked against what
-competitors and the old site have), a brief per page with its words, then
-each page built in the record, linted and shown.
-
-## 6. Launch
-
-The `launch-check` skill, then `npm run deploy` (the `website` skill). Production opens to the
-team first; the owner decides when it goes public.
+The `launch-check` skill, then `npm run deploy` (the `website` skill).
+Production opens to the team first; the owner decides when it goes public.
