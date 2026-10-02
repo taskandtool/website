@@ -36,14 +36,15 @@ every text and ground pair. A preset is a starting point; the Identity
 block is still to fill, the words are still the owner's, and the design
 skill's review gate still runs.
 
-To show the styles to the owner, attach the previews to your reply so
-they appear in the chat as thumbnails the owner clicks through:
+To show the styles to the owner, show the previews as one group they click
+through and approve the closest from:
 
 ```python
-from tools.taskandtool import attach_files
-attach_files([f".claude/skills/design/styles/{s}/preview.png"
-              for s in ["editorial", "brutalist", "whimsical", "cinematic", "luxury", "swiss"]],
-             "Six starting points: editorial, brutalist, whimsical, cinematic, luxury, swiss")
+from tools.taskandtool import create_deliverables
+create_deliverables(
+    [{"path": f".claude/skills/design/styles/{s}/preview.png", "title": s.capitalize()}
+     for s in ["editorial", "brutalist", "whimsical", "cinematic", "luxury", "swiss"]],
+    "Six starting points: approve the closest, or say what blend you want")
 ```
 
 Off the platform the previews are in this folder, or apply the preset with

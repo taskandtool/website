@@ -2,15 +2,6 @@
   "schema_version": 1,
   "slug": "website",
   "version": "0.1.0",
-  "needs": {
-    "connections": [
-      {
-        "provider": "google",
-        "strength": "suggested",
-        "why": "Add your Google Business listing to the site"
-      }
-    ]
-  },
   "ready": {
     "service": "web"
   },
@@ -29,7 +20,7 @@
     {
       "id": "pick-a-style-for-my",
       "label": "Pick a style for my site",
-      "prompt": "Help me pick a style for the site from the design skill's catalogue (.claude/skills/design/styles). Attach the six preview.png files to your reply with attach_files from tools/taskandtool.py so I can click through them, name each preset in one line (its thesis and what it suits), and ask me which is closest or what blend I want. Then apply it with npm run style, run 'Updating from the brand' in DESIGN.md with my brand notes, screenshot the home page at 1280 and 390 wide, attach the screenshots, and ask me what to change. The kind of business and feel I want: ",
+      "prompt": "Help me pick a style for the site from the design skill's catalogue (.claude/skills/design/styles). Show me the six preview.png files with create_deliverables from tools/taskandtool.py so I can click through them, name each preset in one line (its thesis and what it suits), and ask me which is closest or what blend I want. Then apply it with npm run style, run 'Updating from the brand' in DESIGN.md with my brand notes, screenshot the home page at 1280 and 390 wide, show the screenshots (status info), and ask me what to change. The kind of business and feel I want: ",
       "when": [
         {
           "path": "DESIGN.md",
@@ -168,18 +159,7 @@
     {
       "id": "publish-to-the-edge",
       "label": "Publish to the edge",
-      "prompt": "Publish the site with the ship skill: run the checks, build, deploy to the edge with npm run deploy, verify the public URL, and remind me where the on-the-web setting lives. Tell me if edge serving is not enabled for this app yet."
-    },
-    {
-      "id": "add-my-google-listing",
-      "label": "Add my Google listing",
-      "prompt": "Add my public Google listing: run tt-crawl places for my business (ask me for a Google Places connection with request_connection if this app has no GOOGLE_PLACES_API_KEY), then fold the phone, address, hours, and the public reviews into public/business.md and public/proof.md with the brand skill, citing raw/places, run npm run content, and show me the contact section and the proof strip on the working copy.",
-      "when": [
-        {
-          "path": "raw/places",
-          "is": "missing"
-        }
-      ]
+      "prompt": "Publish the site with the ship skill: run the checks, build, deploy to the edge with npm run deploy, verify the public URL, and remind me where the on-the-web setting lives. Tell me if this platform has no edge to deploy to."
     }
   ]
 }

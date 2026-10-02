@@ -5,7 +5,9 @@
 {
   "name": "website",
   "main": "build/worker.mjs",
-  "compatibility_date": "2026-09-01",
+  // The date Task & Tool pins for every user Worker it deploys, so the site
+  // behaves the same on your account as on the platform.
+  "compatibility_date": "2026-08-01",
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",

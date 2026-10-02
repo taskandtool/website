@@ -45,6 +45,7 @@ Beside the site, the two conventions Task & Tool reads:
                  in every Starter App that carries it
   launch-check/  the old URLs against the new site, before publishing and after the cutover
   ship/          publish to the edge and keep the published copy current
+.agents/skills/  thin Codex adapters: the same descriptions, pointing at the bodies above
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
 starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an
                        empty chat offers

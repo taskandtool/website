@@ -1,5 +1,5 @@
 ---
-description: "Check a rebuilt site against the old one before and after launch (every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the JSON-LD parses, the cutover keeps email working), and keep the live site audited weekly with a scheduled job (broken links, SEO basics). Use before publishing a migrated site, after the domain cutover, when the weekly audit alerts the owner, and when the owner asks for a site check."
+description: "Check a rebuilt site against the old one, before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the cutover keeps email working — then keep the live site audited weekly. Use before publishing a migrated site, after the cutover, and on an audit alert."
 ---
 
 # Launch check
@@ -28,10 +28,10 @@ owner the report as a table.
 1. `site.url` in `src/site.ts` is the real domain (canonical tags and the
    sitemap depend on it). Tracking IDs are in `src/site.ts`.
 2. The `ship` skill publishes to the edge. The site is now live on the
-   platform URL; whether it is on the web at all is the owner's dashboard
-   setting.
-3. The owner points the domain at the platform (the Domains add-on: a
-   CNAME with an automatic certificate). Say plainly: this changes where
+   platform URL; whether it is on the web at all is the owner's Publish on
+   the app's dashboard.
+3. The owner points the domain at the platform (a custom domain in the
+   app's Settings: a CNAME with an automatic certificate). Say plainly: this changes where
    the website is served from and nothing else; mail records (MX) are
    untouched and email keeps working. Ask them to keep the old site up
    until the check below passes.
@@ -53,9 +53,8 @@ tt-crawl check https://theirdomain.com
 
    ```python
    from tools.taskandtool import schedule_job
-   schedule_job("weekly-site-audit",
-                "tt-crawl audit https://theirdomain.com",
-                "0 7 * * 1")
+   schedule_job("weekly-site-audit", "0 7 * * 1",
+                command="tt-crawl audit https://theirdomain.com")
    ```
 
    `tt-crawl audit` crawls the live site and reports broken internal links

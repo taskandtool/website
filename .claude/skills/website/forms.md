@@ -86,10 +86,11 @@ server side. Errors are a diagnosis plus a recovery, next to the form.
 
 ## 4. Telling the owner
 
-On the machine, a scheduled job can email new leads to the owner
-(`/schedule-job` with `send_email` from `tools/taskandtool.py`). At the
-edge the route only writes the row; the job, or a CRM in the project that
-reads `leads`, does the rest. Say plainly which of these is in place.
+Task & Tool sends no email for the site. With a sender the owner has
+connected (Resend or Postmark, through `/connections`), the route or a
+scheduled job emails new leads to the owner; without one, a scheduled job
+posts activity (the `work` skill), or a CRM in the project that reads
+`leads` shows them. Say plainly which of these is in place.
 
 ## 5. At the edge
 

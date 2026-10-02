@@ -1,5 +1,5 @@
 ---
-description: "Direct the visual system of this website: the brief, the style catalogue (six presets with previews the owner picks from), three directions, the design contract, typography, layout, imagery, motion, accessibility, and the rendered review with screenshots. Use before building or redesigning any page, and when the owner says pick a style, change the look, make it feel like, redesign, or it looks generic."
+description: "Direct the visual system of this website: the brief, the style catalogue the owner picks from, three directions, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
 ---
 
 # Design
@@ -112,14 +112,15 @@ system with a preview: `editorial`, `brutalist`, `whimsical`, `cinematic`,
 `luxury`, `swiss` (`styles/README.md` lists them with a thesis, what each
 suits, and what it does not). `npm run style` prints the same list. Before
 inventing directions, put the previews in front of the owner and ask which
-is closest. Attach them to your reply so they appear in the chat as
-thumbnails the owner can click to enlarge and step through:
+is closest. Show them in your reply as one group the owner can click
+through and approve the one they want:
 
 ```python
-from tools.taskandtool import attach_files
-attach_files([f".claude/skills/design/styles/{s}/preview.png"
-              for s in ["editorial", "brutalist", "whimsical", "cinematic", "luxury", "swiss"]],
-             "Six starting points, in this order: editorial, brutalist, whimsical, cinematic, luxury, swiss")
+from tools.taskandtool import create_deliverables
+create_deliverables(
+    [{"path": f".claude/skills/design/styles/{s}/preview.png", "title": s.capitalize()}
+     for s in ["editorial", "brutalist", "whimsical", "cinematic", "luxury", "swiss"]],
+    "Six starting points: approve the closest, or say what blend you want")
 ```
 
 Then name each in one line (its thesis and what it suits) and ask one
@@ -369,10 +370,11 @@ obscura fetch http://localhost:3000/ --allow-private-network --screenshot upload
 Read the PNG. For the phone width, render the page inside a 390px frame
 (`uploads/_phone.html`: an `<iframe src="http://localhost:3000/" width="390"
 height="2400">` on an otherwise empty page, screenshotted the same way), or
-use Obscura's CDP server with a viewport of 390 wide. Then attach what you
-looked at to your reply (`attach_files(["uploads/home-1280.png",
-"uploads/home-390.png"], "The home page at desktop and phone width")`) so
-the owner sees the same thing you did, and ask:
+use Obscura's CDP server with a viewport of 390 wide. Then show what you
+looked at in your reply (`create_deliverables([{"path":
+"uploads/home-1280.png", "status": "info"}, {"path": "uploads/home-390.png",
+"status": "info"}], "The home page at desktop and phone width")`) so the
+owner sees the same thing you did, and ask:
 
 1. Can someone identify the subject, offer, and next action quickly?
 2. Does the composition come from this project, or merely from a design trend?

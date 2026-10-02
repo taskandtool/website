@@ -5,9 +5,10 @@ description: "Build and run this business website: the Hono app in this repo, it
 # Website
 
 This app is a website on Hono: server-rendered JSX, Tailwind v4, no client
-framework. It serves from this machine while it is being built and, when
-published (the `ship` skill), every page is pre-rendered to HTML and shipped
-to the edge with a small Worker behind it for anything dynamic. The owner's
+framework. This machine always serves it at the team's Development
+address; when deployed (the `ship` skill), every page is pre-rendered to
+HTML and the Live address serves it from the edge, with a small Worker
+behind it for anything dynamic. The owner's
 CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
@@ -54,9 +55,10 @@ exist, `npm run audit` (the crawler against the working copy: broken links,
 heading order, alt text, form labels, link text, title and description
 lengths, page weight, the sitemap). Then look at the page yourself at
 1280px and 390px (the `design` skill's review gate says how: Obscura
-screenshots into `uploads/`) and attach the screenshots to your reply with
-`attach_files` from `tools/taskandtool.py`, so the owner sees the page in
-the chat and can click to enlarge, rather than a description of it.
+screenshots into `uploads/`) and show the screenshots in your reply with
+`create_deliverables` from `tools/taskandtool.py`, each as `"status":
+"info"` (something to look at, nothing to decide), so the owner sees the
+page in the chat and can click to enlarge, rather than a description of it.
 
 ## The shape
 
@@ -153,9 +155,9 @@ every change; on a one-off run `npm run css`.
 - Video: a few MB, muted h264 mp4 plus webm, compressed here with ffmpeg;
   long-form video embeds from the owner's platform. Keep files over 100 MB
   out of git (`.gitignore`).
-- Pre-rendered pages and everything in `static/` are served from the edge
-  as static files after publishing; nothing is served live off this machine
-  then.
+- Once deployed, Live serves the pre-rendered pages and everything in
+  `static/` from the edge as static files; Development still shows this
+  machine's working copy.
 
 ## Interactivity, forms, and data
 
@@ -173,10 +175,11 @@ every change; on a one-off run `npm run css`.
   edge-safe: web-standard `Request`/`Response`, `fetch`, Web Crypto, the
   Neon HTTP driver. No Node built-ins, no filesystem, no SQLite, nothing
   kept between requests. `npm run check` flags Node imports.
-- Sending email from a form: on this machine, `send_email` from
-  `tools/taskandtool.py`; at the edge, a route that writes the lead to the
-  database is enough, and a scheduled job (`/schedule-job`) or the CRM
-  picks it up. Say which the site does.
+- Sending email from a form needs a sender the owner connects (Resend or
+  Postmark, through `/connections`); Task & Tool sends none. Without one,
+  the route writes the lead to the database and a scheduled job
+  (`/schedule-job`) posts activity, or the CRM picks it up. Say which the
+  site does.
 
 ## After launch
 
@@ -192,12 +195,19 @@ hand any time.
 The app is the owner's repository. Commit at milestones with plain
 messages; never commit `dist/`, `build/`, `node_modules/`, `static/site.css`,
 or any credential. Pushing to GitHub is the owner's call (CLAUDE.md: Git
-etiquette).
+and GitHub).
 
 ## Off the platform
 
-This site runs anywhere with Node 20: `npm install`, `npm run dev`. The
-same repo deploys to the owner's own Cloudflare account with plain
-`npx wrangler deploy` after `npm run build` (`wrangler.jsonc`). Nothing in
-it depends on Task & Tool except `scripts/deploy.py`, which falls back to
-wrangler off the platform.
+This site runs anywhere with Node 20: `npm install`, `npm run dev`. Nothing
+in it depends on Task & Tool except `scripts/deploy.py`, which falls back to
+`npx wrangler deploy` (`wrangler.jsonc`) only when it is run off the
+platform: on the owner's own computer, against their own Cloudflare account.
+
+On this machine that is not a path to take. Task & Tool's edge **is**
+Cloudflare, so "publish to Cloudflare", "put it on the edge" and "go live"
+all mean `npm run deploy` (the `ship` skill); the platform holds the
+credential. Never run `wrangler login`, and never ask the owner for a
+Cloudflare token. Only if they explicitly want their *own* Cloudflare account
+instead, and a Cloudflare connection is granted to this app, is wrangler
+right (the `static-hosting` skill: "A customer's own Cloudflare").
