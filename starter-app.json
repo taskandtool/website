@@ -18,17 +18,6 @@
       ]
     },
     {
-      "id": "pick-a-style-for-my",
-      "label": "Pick a style for my site",
-      "prompt": "Help me pick a style for the site from the design skill's catalogue (.claude/skills/design/styles). Show me the six preview.png files with create_deliverables from tools/taskandtool.py so I can click through them, name each preset in one line (its thesis and what it suits), and ask me which is closest or what blend I want. Then apply it with npm run style, run 'Updating from the brand' in DESIGN.md with my brand notes, screenshot the home page at 1280 and 390 wide, show the screenshots (status info), and ask me what to change. The kind of business and feel I want: ",
-      "when": [
-        {
-          "path": "DESIGN.md",
-          "is": "unfilled"
-        }
-      ]
-    },
-    {
       "id": "read-my-current-website",
       "label": "Read my current website",
       "prompt": "Read my current website with the migrate-site skill: ask me the two questions first (keep the URLs? faithful rebuild or redesign?), then crawl it with tt-crawl into raw/site with styles and screenshots, fetch the documents it links to, detect WordPress, and report what you found: pages, forms, embeds, tracking IDs, and whether you hit the page limit. My site is ",
