@@ -27,7 +27,7 @@ styles/          theme.css (the tokens, compiled from the record) and input.css 
 DESIGN.md        the design system to read, compiled from the record: identity, the role of every token,
                  composition, do and don't
 static/          static files, served as-is
-scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · system.mjs (the record → theme.css + DESIGN.md) · check.mjs · lint.mjs · variant.mjs · deploy.py
+scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · system.mjs (the record → theme.css + DESIGN.md) · check.mjs · lint.mjs · variant.mjs
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 AGENTS.md        what the AI reads first; CLAUDE.md imports it
 ```
@@ -60,8 +60,8 @@ starter-app.json       the manifest: what the app needs, what "ready" means, and
 - **Production, on Cloudflare:** `npm run build` pre-renders every route (pages, posts,
   legal) to `dist/*.html` beside the static files, generates
   `sitemap.xml` and `robots.txt`, validates the redirect table, and
-  bundles the app to `build/worker.mjs`. `npm run deploy` hands both to
-  the platform (`deploy_site` in the bridge). Static paths are served as
+  bundles the app to `build/worker.mjs`. `npm run deploy` builds and hands
+  both to the platform. Static paths are served as
   assets, free and always on; paths that match no file (a redirect, a
   form post, a dynamic route, the 404) reach the Worker. Only `src/server.ts` may touch Node; the
   rest of `src/` must run on Cloudflare, and `npm run check` enforces it.
@@ -87,8 +87,8 @@ bash .taskandtool/setup.sh
 npm run dev                               # http://localhost:3000
 ```
 
-Off the platform, `npm run deploy` falls back to `npx wrangler deploy` with
-`wrangler.jsonc` and your own Cloudflare account: no Task & Tool
+Off the platform, `npm run build` then `npx wrangler deploy` with
+`wrangler.jsonc` deploys to your own Cloudflare account: no Task & Tool
 dependency, which is the point.
 
 ## Taking over an existing site

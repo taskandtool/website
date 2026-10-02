@@ -5,7 +5,7 @@
 //   build/worker.mjs the app bundled as one ES module for the edge, reached
 //                    only for paths that are not a file in dist/ (redirects,
 //                    form posts, dynamic routes, the 404 page)
-// Run with `npm run build`. The deploy hook (scripts/deploy.py) runs it too.
+// Run with `npm run build`; `npm run deploy` runs it too.
 import { spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";

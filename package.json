@@ -17,7 +17,7 @@
     "variant": "node scripts/variant.mjs",
     "typecheck": "tsc --noEmit -p .",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
-    "deploy": "python3 scripts/deploy.py"
+    "deploy": "npm run build && python3 ~/tools/taskandtool.py deploy dist --worker build/worker.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -87,7 +87,7 @@ src/db.ts         sql(env) on DATABASE_URL (Neon HTTP driver), only when the app
 src/server.ts     the machine entry (Node); src/worker.ts the production (Cloudflare) entry
 styles/input.css  the stylesheet source → static/site.css
 static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)
-scripts/          dev.mjs · build.ts · check.mjs · deploy.py
+scripts/          dev.mjs · build.ts · check.mjs
 ```
 
 ## The facts, the collections, and what the build generates
@@ -219,30 +219,30 @@ every change; on a one-off run `npm run css`.
   (`/schedule-job`) posts activity, or the CRM picks it up. Say which the
   site does.
 
-## Publishing to production
+## Before each deploy
 
-Deploy when the owner asks, not on your own after an edit. The platform's
-`deploy` skill says what production is and who can see it; this is what
-this site does before and during a deploy:
+Deploy when the owner asks. The platform's `deploy` skill says what
+production is and how it runs; this is the site's part, every time:
 
-1. Finish the work: `npm run check`, `npm run typecheck`, `npm run build
-   && npm run lint`, `npm run audit` (the crawler against dev: broken
-   links, headings, alt text, labels, link text, title and description
-   lengths, page weight, sitemap), and a look at the pages in the browser.
-   Fix what they list. Set `site.url` in `src/site.ts` to the real domain:
-   the canonical tags and the sitemap depend on it. A migrated site runs
-   the `launch-check` skill first.
-2. `npm run deploy`. It pre-renders every page to `dist/`, bundles
-   `build/worker.mjs` for dynamic routes, and hands both to `deploy_site`;
-   only changed files upload. It prints production's address: open it,
-   and a dynamic path if there is one, then tell the owner what changed.
-3. Commit. The deploy is not a commit; the repo is the record. To roll
-   back, check out the last good commit and deploy it.
+1. **The checks pass.** `npm run check`, `npm run typecheck`, `npm run
+   build && npm run lint`, and `npm run audit` (broken links, headings, alt
+   text, labels, link text, titles and descriptions, page weight, the
+   sitemap). Fix what they list.
+2. **The brand holds.** Every fact on a changed page comes from `public/`:
+   no customer, number, price, award or quote that is not in the notes. The
+   copy reads in `brand/voice.md`'s voice (the `writing` skill's pass).
+   Colours, type and spacing come from the design system, never one-off
+   values (`npm run lint` flags them).
+3. **You looked at it.** The changed pages in dev, at desktop and phone
+   width.
+4. **Before the first deploy to a real domain:** `site.url` in
+   `src/site.ts` is that domain (the canonical tags and the sitemap use
+   it), and a migrated site has passed the `launch-check` skill.
 
-After an edit to a site already in production, say it is in dev only
-until the next `npm run deploy`. A route that needs the filesystem, a
-long-lived process or a Node built-in cannot run in production: keep that
-work at build time, or say plainly that production cannot have it.
+Then `npm run deploy`: it builds the site (every page pre-rendered, a small
+Worker for dynamic routes) and deploys it. A route that needs the
+filesystem, a long-lived process or a Node built-in cannot run in
+production: keep that work at build time.
 
 ## After launch
 
@@ -262,10 +262,10 @@ and GitHub).
 
 ## Off the platform
 
-This site runs anywhere with Node 20: `npm install`, `npm run dev`. Nothing
-in it depends on Task & Tool except `scripts/deploy.py`, which falls back to
-`npx wrangler deploy` (`wrangler.jsonc`) only when it is run off the
-platform: on the owner's own computer, against their own Cloudflare account.
+This site runs anywhere with Node 20: `npm install`, `npm run dev`. Only
+`npm run deploy` depends on Task & Tool. Off the platform, on the owner's
+own computer and Cloudflare account, `npm run build` then `npx wrangler
+deploy` (`wrangler.jsonc`) does the same job.
 
 On this machine that is not a path to take. Production **is** Cloudflare,
 Task & Tool's, so "publish", "go live" and "put it on Cloudflare" all mean
