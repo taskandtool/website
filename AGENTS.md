@@ -55,7 +55,8 @@ rather than working from memory.
 - `static/` is served as static files; `styles/input.css` is the stylesheet
   source, built to `static/site.css`.
 - `scripts/` holds the dev loop, the build, the design system compiler,
-  the checks, the lint and the screenshots.
+  the checks, the lint, the screenshots, and `from-site` (a first
+  homepage's starting point from the business's current site).
 
 ## The loop
 

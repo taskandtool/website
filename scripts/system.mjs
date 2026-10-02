@@ -53,11 +53,12 @@ export function problems(rec) {
 const cssValue = (v) => String(v).replace(REF, (_, g, n) => `var(--${PREFIX[g]}-${n})`);
 const stack = (family) => (family.includes(",") ? family : `"${family.replace(/"/g, "")}", ui-sans-serif, system-ui, sans-serif`);
 
-/** The families by the font-* name each is used as: display, body, then any other by its first style. */
+/** The families by the font-* name each is used as: display and body (the same family may be both), then any other by its first style. */
 function families(typography) {
-  const named = new Map([[typography.display.fontFamily, "display"], [typography.copy.fontFamily, "body"]]);
-  for (const [style, v] of Object.entries(typography)) if (v.fontFamily && !named.has(v.fontFamily)) named.set(v.fontFamily, style);
-  return [...named].map(([family, name]) => [name, family]);
+  const out = [["display", typography.display.fontFamily], ["body", typography.copy.fontFamily]];
+  const seen = new Set(out.map(([, f]) => f));
+  for (const [style, v] of Object.entries(typography)) if (v.fontFamily && !seen.has(v.fontFamily)) seen.add(v.fontFamily), out.push([style, v.fontFamily]);
+  return out;
 }
 
 export function themeCss(rec) {

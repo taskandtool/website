@@ -33,9 +33,10 @@ Most owners judge a design by looking at it.
 2. **Write the brief,** `design/briefs/home.md` in the `pages` skill's
    format (`references/brief.md` there); for a first homepage, the
    frontmatter and the hero's lines are enough.
-3. **Set the look** in `design/system.yaml`: overwrite the starter's tokens
-   with this business's colours by role, its fonts, sizes and radii, then
-   `npm run system`. The tokens are all a first page needs.
+3. **Set the look** in `design/system.yaml`: `npm run from-site` seeded the
+   tokens from their current site; change what this design needs (colours
+   by role, fonts, sizes, radii), then `npm run system`. The tokens are all
+   a first page needs.
 4. **Build the page** in `src/pages/home.tsx` (the `website` skill's "How a
    page is written"), then `npm run build && npm run lint` and fix what is a
    mistake. When the owner asked for something the lint flags, put

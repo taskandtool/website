@@ -15,6 +15,7 @@
     "system": "node scripts/system.mjs",
     "lint": "node scripts/lint.mjs",
     "shots": "node scripts/shots.mjs",
+    "from-site": "node scripts/from-site.mjs",
     "typecheck": "tsc --noEmit -p .",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
     "deploy": "npm run build && python3 ~/tools/taskandtool.py deploy dist --worker build/worker.mjs"

@@ -24,15 +24,15 @@ Read the folders and carry on from where they are:
 
 ## The homepage
 
-1. **Find the business.** A link: crawl its homepage only, `tt-crawl brand
-   <url> --max-pages 1` (seconds: the logo, colours, fonts, a screenshot,
-   the contact details, the homepage's text and photographs). A name with
-   no link: find their website or Google profile (a search connection when
-   the app has one, otherwise your own web search) and say in one line who
-   you found.
-2. **Write what a homepage needs** with the `brand` skill:
-   `public/business.md`, `public/services.md` and
-   `brand/visual-identity.md`.
+1. **Start from their site:** `npm run from-site -- <url>`. In seconds it
+   crawls the homepage and does the mechanical part: the business note,
+   the logo, the sharp photographs at web size, the fonts, and design
+   tokens seeded from their colours. Read what it prints. With a name and
+   no link, find their website first (a search connection when the app
+   has one, otherwise your own web search) and say in one line who you
+   found.
+2. **Write `public/services.md`** from the homepage's words, with the
+   `brand` skill's rules.
 3. **Design and build it:** the `design` skill's "The homepage first", and
    its first screen above all. The owner is deciding whether to trust you
    with the rest of the site.

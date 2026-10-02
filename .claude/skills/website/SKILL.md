@@ -81,7 +81,7 @@ src/data/         the database handle and settings, copied from the data skill w
 src/server.ts     the machine entry (Node); src/worker.ts the production (Cloudflare) entry
 styles/input.css  the stylesheet source → static/site.css
 static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)
-scripts/          dev.mjs · content.mjs · build.ts · system.mjs · check.mjs · lint.mjs · shots.mjs
+scripts/          dev.mjs · content.mjs · build.ts · system.mjs · check.mjs · lint.mjs · shots.mjs · from-site.mjs
 ```
 
 ## The facts, the collections, and what the build generates
