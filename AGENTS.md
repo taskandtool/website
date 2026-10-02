@@ -9,9 +9,10 @@ machine needs (dependencies, the site reader, the `web` service). All of it
 is the owner's to change.
 
 The skills: `new-site` (from nothing to a launched site), `website` (build,
-run and publish to production), `design` and `writing` (the taste bar),
-`brand` (the brand and fact notes), `migrate-site` and `launch-check`
-(taking over an existing site and keeping it audited). The platform's
+run and publish to production), `pages` (the page plan and a brief per
+page), `design` and `writing` (the taste bar), `brand` (the brand and fact
+notes), `migrate-site` and `launch-check` (taking over an existing site and
+keeping it audited). The platform's
 `deploy` skill says what production is. Read the one that fits the ask
 rather than working from memory.
 

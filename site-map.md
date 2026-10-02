@@ -11,6 +11,17 @@ redirect table to it.
 - **Keep the URLs:** to fill (yes by default; no, because …)
 - **Faithful rebuild or redesign:** to fill (faithful, or redesign because …)
 
+## The reader
+
+The five questions every page answers to (the `pages` skill, from its
+`industries.md`):
+
+- **The visitor's doubt:** to fill
+- **What is bought:** to fill
+- **The decision cost:** to fill
+- **Retrieval or persuasion:** to fill
+- **What the law requires:** to fill
+
 ## Architecture
 
 The header nav, in order (at most four; more go in a menu), and the

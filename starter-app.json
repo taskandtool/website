@@ -77,7 +77,7 @@
     {
       "id": "build-the-next-page",
       "label": "Build the next page",
-      "prompt": "Build the next planned page in site-map.md from the notes in public/ and brand/, in the site's design, with the old page's raw markdown open for what it said and which links it carried (keep the words in a faithful rebuild). Follow seo.md, mark the row built, show me the working copy, and stop for my review.",
+      "prompt": "Build the next planned page in site-map.md with the pages skill: its brief in design/briefs/ from the notes in public/ and brand/ (with the old page's raw markdown open for what it said and which links it carried, keeping the words in a faithful rebuild), then the page in the site's design system. Follow seo.md, mark the row built, show me the working copy, and stop for my review.",
       "when": [
         {
           "path": "site-map.md",

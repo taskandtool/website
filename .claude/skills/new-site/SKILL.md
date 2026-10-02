@@ -80,12 +80,9 @@ homepage into the site.
 
 ## 5. The pages
 
-Plan the pages in `site-map.md`: what the business sells and what people
-look for (services, about, contact, the questions customers ask), checked
-against what competitors and the old site have. Build each with the
-`website` skill ("Adding a page"), its words from the `writing` skill and its
-facts from `public/`, then `npm run build && npm run lint`. Show each page as
-it is built.
+The `pages` skill: the pages the business needs (checked against what
+competitors and the old site have), a brief per page with its words, then
+each page built in the record, linted and shown.
 
 ## 6. Launch
 

@@ -121,9 +121,9 @@ Ask one question: what do they like in each. Their answer leads the
 directions; the library's systems are worked examples to learn from, never
 templates to copy.
 
-**One brief, three directions.** Write `design/brief.md` once: the homepage's
-bands and their words, from `public/` and `brand/` (the `writing` skill), so
-all three variants say the same thing and differ only in how. Then a card
+**One brief, three directions.** Write the homepage's brief once,
+`design/briefs/home.md` (the `pages` skill's format and the homepage guide),
+so all three variants say the same words and differ only in how. Then a card
 per direction in `design/directions/<n>.md`:
 
 - **Name and thesis:** one memorable name and one sentence.
@@ -184,7 +184,7 @@ pages?", the picked homepage becomes the site:
    `identity` from the brief. `references/records/` holds two proven library
    records as worked examples. Then `npm run system`.
 2. **Rebuild it blind.** Start a sub-agent with a fresh context and give it
-   only `design/brief.md`, `public/`, `brand/` and `design/system.yaml`:
+   only `design/briefs/home.md`, `public/`, `brand/` and `design/system.yaml`:
    build the homepage the brief describes as `design/rebuild/page.html`,
    in this record's classes. Copy `styles/theme.css` to
    `design/rebuild/theme.css`, run `npm run variant -- design/rebuild`, and
@@ -199,7 +199,7 @@ pages?", the picked homepage becomes the site:
 4. **Check it.** `npm run css`, `npm run check`, `npm run build && npm run
    lint`, and the review gate on the real page.
 
-The other pages follow the record (the `new-site` skill, step 5). The
+The other pages follow the record (the `pages` skill). The
 variants and the rebuild stay in `design/` as the record of what the owner
 chose between. A later change to the look is a change to the record, then
 `npm run system`.

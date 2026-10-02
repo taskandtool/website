@@ -117,7 +117,7 @@ example.
 
 ## When the record is done
 
-A fresh builder, given only `design/brief.md`, the facts and this record,
+A fresh builder, given only `design/briefs/home.md`, the facts and this record,
 should produce the picked homepage again: the blind rebuild in the design
 skill's step 4. Where the rebuild differs, the record left something out;
 add it to the record, not to the page.
