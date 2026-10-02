@@ -72,18 +72,28 @@ const photos = media
   .sort((a, b) => (b.width || 0) - (a.width || 0))
   .slice(0, 8);
 mkdirSync("static/images", { recursive: true });
-const webSize = (src, dest) => {
-  try {
-    execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", src, "-vf", "scale='min(2400,iw)':-2", "-q:v", "7", dest]);
-  } catch {
-    copyFileSync(src, dest);
+// At most 2400px wide for the web: ffmpeg, else Pillow; a photograph neither
+// can shrink is left out rather than shipped at its full size.
+const webSize = (src, dest, width) => {
+  const tries = [
+    ["ffmpeg", ["-y", "-loglevel", "error", "-i", src, "-vf", "scale='min(2400,iw)':-2", "-q:v", "7", dest]],
+    ["python3", ["-c", "import sys; from PIL import Image; i = Image.open(sys.argv[1]).convert('RGB'); i.thumbnail((2400, 2400 * i.height // i.width)); i.save(sys.argv[2], quality=80)", src, dest]],
+  ];
+  for (const [cmd, args] of tries) {
+    try {
+      execFileSync(cmd, args, { stdio: "ignore" });
+      return true;
+    } catch {}
   }
+  if (width > 2400) return false;
+  copyFileSync(src, dest);
+  return true;
 };
-const shown = photos.map((it) => {
+const shown = photos.flatMap((it) => {
   const name = it.file.replace(/\.(png|jpe?g|webp)$/i, ".jpg");
-  if (!existsSync(join("static/images", name))) webSize(fileOf(it), join("static/images", name));
+  if (!existsSync(join("static/images", name)) && !webSize(fileOf(it), join("static/images", name), it.width)) return [];
   const where = it.pages?.[0]?.heading ? ` beside "${it.pages[0].heading}"` : "";
-  return `/images/${name}  ${it.width}x${it.height}${where}${it.alts?.[0] ? ` alt "${it.alts[0]}"` : ""}`;
+  return [`/images/${name}  ${it.width}x${it.height}${where}${it.alts?.[0] ? ` alt "${it.alts[0]}"` : ""}`];
 });
 if (shown.length) done.push(`static/images/: ${shown.length} photographs at most 2400px wide`);
 
@@ -137,8 +147,8 @@ if (starter && palette.length) {
   done.push(`design/system.yaml: colours from the site (accent ${colours.accent}, ink ${ink} on ${canvas}), ${[...new Set([headFont, bodyFont])].join(" and ")}; npm run system`);
 }
 
-// ── src/site.ts: fonts and logo ───────────────────────────────────────────
-if (headFont && bodyFont) {
+// ── src/site.ts: fonts and logo, while it still has the starter's ─────────
+if (headFont && bodyFont && readFileSync("src/site.ts", "utf8").includes('display: "Bricolage Grotesque"')) {
   const family = (f) => `family=${f.replace(/ /g, "+")}:wght@400;600;700`;
   const fontsUrl = `https://fonts.googleapis.com/css2?${[...new Set([headFont, bodyFont])].map(family).join("&")}&display=swap`;
   let siteTs = readFileSync("src/site.ts", "utf8");

@@ -22,6 +22,26 @@ other apps read too). The platform's
 `deploy` skill says what production is. Read the one that fits the ask
 rather than working from memory.
 
+## Commands
+
+The work is in these scripts; use them rather than doing the same by hand.
+
+```bash
+npm run from-site -- <url>   # a first homepage's start: crawl their homepage, write the business note,
+                             # copy the logo and sharp photos, seed design tokens from their colours and fonts
+npm run system               # design/system.yaml -> styles/theme.css + DESIGN.md (after any design change)
+npm run check                # the project: the record, contrast, page paths, site map, the Cloudflare rule
+npm run build                # pre-render every page to dist/ and bundle the Worker
+npm run lint                 # the built pages: errors to fix, hints to read as questions
+npm run shots [-- /path]     # screenshots at 1280 and 390 wide into uploads/, for you and create_deliverables
+npm run typecheck            # after a change to src/
+npm run audit                # the crawler against dev: links, headings, alt text, titles
+npm run deploy               # production, only when the owner asks (the website skill's checklist first)
+```
+
+Before showing work: `npm run check`, `npm run build && npm run lint`, then
+`npm run shots`, look at the screenshots, and show them.
+
 ## Where things are
 
 - `brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
@@ -54,9 +74,6 @@ rather than working from memory.
   `data` skill's handle, copied into `src/data/`.
 - `static/` is served as static files; `styles/input.css` is the stylesheet
   source, built to `static/site.css`.
-- `scripts/` holds the dev loop, the build, the design system compiler,
-  the checks, the lint, the screenshots, and `from-site` (a first
-  homepage's starting point from the business's current site).
 
 ## The loop
 
@@ -64,10 +81,6 @@ rather than working from memory.
   and the server restarts on every change, so an edit is in dev on refresh.
   If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
   (idempotent) or register it by hand as the `website` skill says.
-- Before showing work: `npm run check`, `npm run build && npm run lint`,
-  `npm run shots` (the page at desktop and phone width). `npm run deploy`
-  deploys to production, when the owner asks (the `website` skill's
-  checklist first).
 - Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
   any credential.
 
