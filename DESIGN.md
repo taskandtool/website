@@ -13,8 +13,8 @@ reads the format finds what it expects.
 ## Identity
 
 The part that makes this site *this* site. It is empty on day one and is
-filled once, from the `design` skill's brief and its three directions,
-before the first real page is built. A site whose identity is still "to
+filled once, from the `design` skill's brief and the homepage the owner
+picked of three, before the first real page is built. A site whose identity is still "to
 fill" is a template, not a design.
 
 ```text
@@ -255,10 +255,10 @@ Quick reference for the AI changing this site:
 
 Before a new page or a redesign: read `.claude/skills/design/SKILL.md` and
 `.claude/skills/writing/SKILL.md`, write the brief and the voice card
-(`brand/voice.md`), explore three directions, pick one, fill the Identity
-block above, then build. After: `npm run check`, `npm run build && npm run
-lint`, render at 390px and
-1280px, and run the review gate in the design skill.
+(`brand/voice.md`), build three homepages, let the owner pick one, fill the
+Identity block above, then build. After: `npm run check`, `npm run build &&
+npm run lint`, render at 390px and 1280px, and run the review gate in the
+design skill.
 
 ## Updating from the brand
 

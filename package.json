@@ -13,6 +13,7 @@
     "build": "tsx scripts/build.ts",
     "check": "node scripts/check.mjs",
     "lint": "node scripts/lint.mjs",
+    "variant": "node scripts/variant.mjs",
     "typecheck": "tsc --noEmit -p .",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
     "deploy": "python3 scripts/deploy.py"

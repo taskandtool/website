@@ -7,13 +7,13 @@
   },
   "suggestions": [
     {
-      "id": "build-my-website",
-      "label": "Build my website",
-      "prompt": "Build my website. First ask me what you need to know about the business, who the site is for, and what a visitor should do; then write what you learn into brand/ and public/ with the brand skill, set styles/theme.css, src/site.ts, and DESIGN.md from them, propose three design directions per the design skill, and build the home page from real content. Show me the working copy when it is ready. Here is what we do: ",
+      "id": "get-my-site-started",
+      "label": "Get my site started",
+      "prompt": "Build my site. Here is what I have to get you started (links to us on the web, competitor sites, design inspiration, what I want from this site and what I don't, our goals): ",
       "when": [
         {
-          "path": "raw/site/_sites.json",
-          "is": "missing"
+          "path": "DESIGN.md",
+          "is": "unfilled"
         }
       ]
     },

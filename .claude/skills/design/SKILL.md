@@ -1,5 +1,5 @@
 ---
-description: "Direct the visual system of this website: the brief, references the owner picks from, three directions, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
+description: "Direct the visual system of this website: references, three real homepages the owner picks from, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
 ---
 
 # Design
@@ -101,56 +101,90 @@ Decorative labels, repeated subtitles, status microcopy, and multiple competing
 visualizations all spend the same attention budget. Use that budget on the
 single clearest message.
 
-## 3. Explore Three Real Directions
+## 3. Three Homepages, Not Three Moodboards
 
-For a new page or a major redesign, develop three directions in one pass before
-building. Small changes should continue the selected system instead.
+For a new site or a redesign, show the owner three wildly different
+homepages, built for real from the same words, and let them pick. Small
+changes continue the chosen system instead.
 
-**Start from references, not from nothing.** Before inventing directions,
-gather what the owner and the market already show: sites the owner admires,
-the homepages of the business's main competitors, and the brand notes in
-`brand/`. Screenshot each reference at desktop and phone width and show them
-as one group the owner can click through, with one line each on what it does
-well:
+**References first.** Gather what already exists before inventing anything:
+
+- sites the owner admires: `tt-crawl reference <url>` captures a few pages'
+  look and structure, screenshots included, into `raw/external/<host>/`;
+- the homepages of the business's main competitors, the same way (the
+  `new-site` skill finds them);
+- the design library (`references/library.md` beside this file): fourteen
+  systems with a preview each. Pick the three to five that fit the business
+  and show them as one group, one line each, as that file says.
+
+Ask one question: what do they like in each. Their answer leads the
+directions; the library's systems are worked examples to learn from, never
+templates to copy.
+
+**One brief, three directions.** Write `design/brief.md` once: the homepage's
+bands and their words, from `public/` and `brand/` (the `writing` skill), so
+all three variants say the same thing and differ only in how. Then a card
+per direction in `design/directions/<n>.md`:
+
+- **Name and thesis:** one memorable name and one sentence.
+- **Lead reference:** the admired site, competitor gap or library system it
+  starts from, and what it takes from it.
+- **Source:** the subject-specific artifact, behaviour or world it borrows
+  from (a logistics page from shipping labels and manifests).
+- **Look:** composition and hero, type roles, a small named palette with
+  exact values, material.
+- **Signature:** the single moment people remember.
+- **Rejection:** the familiar pattern it deliberately avoids.
+
+The three must differ in structure, hierarchy, typography and imagery, not
+merely in colour. Spend boldness in one place in each.
+
+**Build each as a real page.** `design/variants/<n>/theme.css` starts as a
+copy of `styles/theme.css` with the direction's values; `page.html` is the
+whole homepage document using the theme's classes, with real photographs
+(the business's own, or hotlinked stock) and the brief's words. Then:
+
+```bash
+npm run variant -- design/variants/1        # one standalone index.html, CSS inlined
+npm run lint -- design/variants/1/index.html --theme design/variants/1/theme.css
+```
+
+Fix every lint error and read every hint as a question about the design.
+Screenshot each at desktop and phone width (the review gate below, with
+`file://$PWD/design/variants/1/index.html` as the address), look at the
+screenshots, and fix what they show before the owner sees anything.
+
+**Show them together.** One group: each variant's `index.html` (it opens and
+scrolls in the chat), titled with its direction's name and thesis:
 
 ```python
 from tools.taskandtool import create_deliverables
 create_deliverables(
-    [{"path": "uploads/ref-1.png", "title": "…", "status": "info"}, ...],
-    "What I looked at: tell me what you like in each")
+    [{"path": "design/variants/1/index.html", "title": "Ledger: the job sheet as the page"},
+     {"path": "design/variants/2/index.html", "title": "Yard: the work at full width"},
+     {"path": "design/variants/3/index.html", "title": "Counter: the phone call, first"}],
+    "Three homepages from the same words: pick one, or tell me what to change")
 ```
 
-Then ask one question: which is closest, or what blend. Record the winner in
-`DESIGN.md` when it is chosen.
-
-The directions must differ in structure, hierarchy, typography, imagery, and
-behavior—not merely in color. Derive them from the subject's real materials,
-tools, environment, history, language, or customer behavior. A logistics page
-might borrow from shipping labels, route maps, and manifests; a music page
-might borrow from sleeves, set lists, and venue ephemera.
-
-Describe each direction with:
-
-- **Name and thesis:** One memorable name and one sentence explaining the idea.
-- **Source:** The subject-specific artifact, behavior, or world it comes from.
-- **Composition:** Hero model, grid, rhythm, and the way the page unfolds.
-- **Type:** Display, body, and utility roles, with a reason for each.
-- **Color and material:** A small named palette with exact values and jobs.
-- **Signature:** The single moment people should remember.
-- **Motion:** What moves, why it moves, and what remains still.
-- **Voice consequence:** How this direction changes cadence, headline length,
-  labels, and calls to action.
-- **Rejection:** The familiar pattern this direction deliberately avoids.
-
-Spend boldness in one place. A page with an animated hero, novelty cursor,
-scroll hijacking, loud type, decorative cards, and multiple competing effects
-has no focal point.
-
-Select one direction and give a short rationale tied to the brief. If the user
-asked to choose, recommend one. Do not make them interpret three unlabeled
-moodboards.
+Recommend one, with a sentence tied to the brief. **Iterate on the pick**:
+change the same folder, run `variant` and `lint` again, and show the revised
+page as a new group. When the owner is happy with the look, ask whether they
+are ready for the design system and the rest of the pages; that is step 4.
 
 ## 4. Turn the Direction Into a Buildable Contract
+
+When the owner says yes, the picked homepage becomes the site:
+
+1. Its `theme.css` becomes `styles/theme.css`; DESIGN.md's palette, type and
+   Identity rows are filled from it and from the contract below.
+2. Its `page.html` becomes `src/pages/home.tsx` by the website skill's "From
+   an HTML page to a page here", with every fact moved into `public/` and
+   read back through `content`.
+3. `npm run css`, `npm run check`, `npm run build && npm run lint`, and the
+   review gate on the real page.
+
+Then the other pages follow the same contract. The variants stay in
+`design/variants/` as the record of what the owner chose between.
 
 Before implementation, reduce the chosen direction to a compact contract.
 Specificity makes the result reproducible; adjective piles do not.

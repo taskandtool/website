@@ -35,9 +35,10 @@ Beside the site, the two conventions Task & Tool reads:
 
 ```
 .claude/skills/
+  new-site/      the agency flow: intake, competitors, three homepages, the system, the pages
   website/       building and running the site, plus forms.md, seo.md, posts.md
-  design/        creative direction: the brief, references, three directions, the design contract,
-                 the review gate
+  design/        creative direction: references (the design library's 14 systems), the brief, three
+                 homepages built with `npm run variant`, the design contract, the review gate
   writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse
   migrate-site/  take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill

@@ -12,11 +12,13 @@ with a small Worker behind it for anything dynamic. The owner's
 CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
-Before a substantial new page or a redesign, work through the `design` and
-`writing` skills first: the brief, the voice card (`brand/voice.md`), three
-directions, the content inventory. Build from real words and real material.
-When the owner has a current site, or points at one they admire, the
-`migrate-site` skill comes first. This skill is the mechanics.
+A site still on its welcome page starts with the `new-site` skill: intake,
+competitors, three homepages, then the system and the pages. Before a
+substantial new page or a redesign, work through the `design` and `writing`
+skills first: the brief, the voice card (`brand/voice.md`), the content
+inventory. Build from real words and real material. When the owner has a
+current site to replace, the `migrate-site` skill comes first. This skill is
+the mechanics.
 
 ## The loop on this machine
 

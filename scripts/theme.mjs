@@ -1,27 +1,27 @@
-// The theme's colours as values: every --color-* token in styles/theme.css
-// resolved to its hex (following one var() into the brand block), and the
-// WCAG arithmetic over them. Shared by check.mjs (the theme's own pairs) and
-// lint.mjs (the pairs a rendered page actually uses).
+// A theme's colours as values: every --color-* token in a theme file resolved
+// to its hex (following one var() into the brand block), and the WCAG
+// arithmetic over them. Shared by check.mjs (the site's own pairs), lint.mjs
+// (the pairs a rendered page actually uses) and variant.mjs.
 import { readFileSync } from "node:fs";
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
-export const theme = readFileSync("styles/theme.css", "utf8");
 
-const varHex = (name) => theme.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
-
-/** The hex a colour token resolves to, or undefined (a gradient, a keyword, a missing token). */
-export function colour(name) {
-  const raw = theme.match(new RegExp(`--color-${name}:\\s*([^;]+);`))?.[1]?.trim();
-  if (!raw) return undefined;
-  if (HEX.test(raw)) return raw;
-  const ref = raw.match(/^var\(--([a-z0-9-]+)\)$/)?.[1];
-  return ref ? varHex(ref) : undefined;
+/** A theme file read once: its source, a resolver for one token, and every colour token it defines. */
+export function readTheme(file = "styles/theme.css") {
+  const source = readFileSync(file, "utf8");
+  const varHex = (name) => source.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1];
+  const colour = (name) => {
+    const raw = source.match(new RegExp(`--color-${name}:\\s*([^;]+);`))?.[1]?.trim();
+    if (!raw) return undefined;
+    if (HEX.test(raw)) return raw;
+    const ref = raw.match(/^var\(--([a-z0-9-]+)\)$/)?.[1];
+    return ref ? varHex(ref) : undefined;
+  };
+  const colours = Object.fromEntries(
+    [...source.matchAll(/--color-([a-z0-9-]+):/g)].map((m) => [m[1], colour(m[1])]).filter(([, v]) => v),
+  );
+  return { source, colour, colours };
 }
-
-/** Every colour token the theme defines, by name, resolved where it can be. */
-export const colours = Object.fromEntries(
-  [...theme.matchAll(/--color-([a-z0-9-]+):/g)].map((m) => [m[1], colour(m[1])]).filter(([, v]) => v),
-);
 
 const channels = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
 

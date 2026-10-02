@@ -8,10 +8,10 @@ work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
 machine needs (dependencies, the site reader, the `web` service). All of it
 is the owner's to change.
 
-The skills: `website` (build and run), `design` and `writing` (the taste
-bar), `brand` (the brand and fact notes), `migrate-site` and
-`launch-check` (taking over an existing site and keeping it audited),
-`ship` (publish to production). Read the one that fits the ask rather than
+The skills: `new-site` (from nothing to a launched site), `website` (build
+and run), `design` and `writing` (the taste bar), `brand` (the brand and
+fact notes), `migrate-site` and `launch-check` (taking over an existing site
+and keeping it audited), `ship` (publish to production). Read the one that fits the ask rather than
 working from memory.
 
 ## Where things are

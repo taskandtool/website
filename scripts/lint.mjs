@@ -2,6 +2,8 @@
 // The rendered pages, linted: `npm run build && npm run lint`. It reads what a
 // visitor gets (dist/**/*.html and the compiled static/site.css), so the
 // layout, the components and the facts are checked along with each page.
+// `npm run lint -- <file.html> … --theme <theme.css>` lints standalone pages
+// instead (a homepage variant, with its CSS inlined and its own theme).
 //
 // Errors fail (exit 1): what breaks the theme, the reader or the copy rules.
 // Hints never fail: a pattern that reads as generated when it is a habit
@@ -16,12 +18,17 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "node-html-parser";
-import { chromaHue, colours, luminance, ratio } from "./theme.mjs";
+import { chromaHue, luminance, ratio, readTheme } from "./theme.mjs";
 
-if (!existsSync("dist/index.html")) {
+const args = process.argv.slice(2);
+const themeAt = args.indexOf("--theme");
+const themeFile = themeAt >= 0 ? args[themeAt + 1] : "styles/theme.css";
+const files = args.filter((a, i) => a !== "--theme" && i !== themeAt + 1);
+if (!files.length && !existsSync("dist/index.html")) {
   console.error("lint: no dist/ yet; run npm run build first");
   process.exit(1);
 }
+const { colours } = readTheme(themeFile);
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((e) => {
@@ -34,8 +41,9 @@ const design = readFileSync("DESIGN.md", "utf8");
 const declaredBlock = design.split("## Declared")[1]?.split("\n## ")[0] ?? "";
 const declared = new Map([...declaredBlock.matchAll(/^-\s*`?([a-z0-9-]+)`?:\s*(.+)$/gm)].map((m) => [m[1], m[2]]));
 
-const css = readFileSync("static/site.css", "utf8");
-const defined = new Set([...css.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)].map((m) => m[1].replace(/\\(.)/g, "$1")));
+// The classes a stylesheet defines, unescaped (md\:grid-cols-2 → md:grid-cols-2).
+const classesIn = (css) => new Set([...css.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)].map((m) => m[1].replace(/\\(.)/g, "$1")));
+const siteCss = existsSync("static/site.css") ? classesIn(readFileSync("static/site.css", "utf8")) : new Set();
 
 let legalPaths = new Set();
 try {
@@ -98,10 +106,13 @@ const copyTells = [
 const variantless = (c) => c.slice(c.lastIndexOf(":") + 1);
 
 // ── each page ────────────────────────────────────────────────────────────
-const pages = walk("dist").filter((f) => f.endsWith(".html"));
+const pages = files.length ? files : walk("dist").filter((f) => f.endsWith(".html"));
 for (const file of pages) {
-  const page = "/" + file.slice("dist/".length).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "");
+  const page = files.length ? file : "/" + file.slice("dist/".length).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "");
   const root = parse(readFileSync(file, "utf8"), { comment: false });
+  // A standalone page carries its CSS inline; the site's pages link site.css.
+  const inline = root.querySelectorAll("head style").map((s) => s.text).join("\n");
+  const defined = inline ? classesIn(inline) : siteCss;
   const main = root.querySelector("main") || root.querySelector("body") || root;
   const all = root.querySelectorAll("*");
 
@@ -129,7 +140,7 @@ for (const file of pages) {
     if (tag === "img") {
       if (!el.hasAttribute("alt")) report("img-alt", page, el, 'an image with no alt; describe it, or alt="" when it is decoration');
       const src = el.getAttribute("src") || "";
-      if (src && !/^(https?:|data:|\/\/)/.test(src) && !existsSync(join("dist", src.split(/[?#]/)[0]))) report("img-src", page, el, `${src} is not in dist/; put the file in static/ or fix the path`);
+      if (src && !files.length && !/^(https?:|data:|\/\/)/.test(src) && !existsSync(join("dist", src.split(/[?#]/)[0]))) report("img-src", page, el, `${src} is not in dist/; put the file in static/ or fix the path`);
     }
     if (["input", "select", "textarea"].includes(tag) && !["hidden", "submit", "button"].includes(el.getAttribute("type"))) {
       const id = el.getAttribute("id");

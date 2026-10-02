@@ -14,9 +14,10 @@
 // Exit 1 with the findings when something is off.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { colour, isHex, ratio, theme } from "./theme.mjs";
+import { isHex, ratio, readTheme } from "./theme.mjs";
 
 const findings = [];
+const { source: theme, colour } = readTheme();
 
 // the brand notes (BRAND.md): the files the theme and the pages are set from
 for (const f of ["positioning.md", "voice.md", "visual-identity.md"]) {
