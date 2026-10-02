@@ -143,7 +143,7 @@
     {
       "id": "add-a-contact-form",
       "label": "Add a contact form",
-      "prompt": "Add a contact form following the website skill's forms.md: a leads table on the project's database (ask me to enable Postgres with request_capability if this app has none), the POST route with a honeypot and a redirect to a thank-you page, and the form on the contact page. Tell me how I will be notified of a submission."
+      "prompt": "Add a contact form with the forms skill: the form as a row in shared.forms, submissions into shared.submissions (ask me to enable Postgres with request_capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
     },
     {
       "id": "publish-to-production",

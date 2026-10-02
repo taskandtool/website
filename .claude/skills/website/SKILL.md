@@ -99,8 +99,8 @@ that and the route list the build generates the footer's contact details
 (`src/site.ts` reads the business note), the JSON-LD on the home page and
 per post, `sitemap.xml`, `robots.txt`, the canonical tags (set `site.url`
 to the real domain), and validates `src/redirects.ts`. `seo.md` beside
-this file is the per-page ruleset; `posts.md` the collection; `forms.md`
-the contact form. A fact lives in a note, once; a page that shows it is
+this file is the per-page ruleset; `posts.md` the collection; the `forms`
+skill the forms. A fact lives in a note, once; a page that shows it is
 listed in `site-map.md`'s notes column so a change points at the pages.
 
 Sections that render from the notes are ready in `src/components/facts.tsx`:
@@ -203,26 +203,30 @@ every change; on a one-off run `npm run css`.
   JavaScript in `static/js/`, or Alpine.js from a CDN `<script>` in the
   layout. Server round-trips (a filter, a search) can use htmx the same way.
   No client framework unless a view genuinely needs one.
-- A form that stores submissions needs the project's database:
-  `src/db.ts` gives `sql(c.env)` on `DATABASE_URL`. `forms.md` beside this
-  file is the contact-form recipe (a `leads` table, a POST route, a
-  honeypot, the thank-you page). If the app has no database, the owner
-  adds managed Postgres in the app's Settings; `request_capability(
+- Forms, the private side and data the project's other apps share come
+  from the shared skills beside this one: `forms` (any form a visitor
+  sends, stored in `shared.submissions`, where a CRM finds them), `admin`
+  (the private `/admin` with its lists and exports), `booking` (a booking
+  page and the hours behind it), `reports` (charts and report pages), all
+  on `shared-data` (the database handle, settings, email, spam checks).
+  Copy a skill's code into `src/<skill>/` as its skill says; here the
+  handle is `fromNeon(envVar(c, "DATABASE_URL"))`, since production runs
+  on the Neon HTTP driver. A private view on a public site is kept for the
+  team with `add_private_path("/admin")`. If the app has no database, the
+  owner adds managed Postgres in the app's Settings; `request_capability(
   "postgres", why)` from `tools/taskandtool.py` asks them.
-- Dynamic routes go in `src/app.tsx` below the page loop. They must run on
-  Cloudflare: web-standard `Request`/`Response`, `fetch`, Web Crypto, the
-  Neon HTTP driver. No Node built-ins, no filesystem, no SQLite, nothing
-  kept between requests. `npm run check` flags Node imports.
-- Sending email from a form needs a sender the owner connects (Resend or
-  Postmark, through `/connections`); Task & Tool sends none. Without one,
-  the route writes the lead to the database and a scheduled job
-  (`/schedule-job`) posts activity, or the CRM picks it up. Say which the
-  site does.
+- Dynamic routes go in `src/app.tsx` below the page loop, under the same
+  rule as all of `src/` (AGENTS.md: Rules); `npm run check` flags a Node
+  import.
+- Sending email needs a sender the owner connects (Resend or Postmark,
+  through `/connections`); Task & Tool sends none. `shared-data`'s
+  `send.ts` uses it. Without one, the submission is stored and the owner
+  sees it in `/admin` or the CRM. Say which the site does.
 
 ## Before each deploy
 
-Deploy when the owner asks. The platform's `deploy` skill says what
-production is and how it runs; this is the site's part, every time:
+The platform's `deploy` skill says what production is and when to deploy;
+this is the site's part, every time:
 
 1. **The checks pass.** `npm run check`, `npm run typecheck`, `npm run
    build && npm run lint`, and `npm run audit` (broken links, headings, alt
@@ -240,9 +244,7 @@ production is and how it runs; this is the site's part, every time:
    it), and a migrated site has passed the `launch-check` skill.
 
 Then `npm run deploy`: it builds the site (every page pre-rendered, a small
-Worker for dynamic routes) and deploys it. A route that needs the
-filesystem, a long-lived process or a Node built-in cannot run in
-production: keep that work at build time.
+Worker for dynamic routes) and deploys it.
 
 ## After launch
 
@@ -267,9 +269,6 @@ This site runs anywhere with Node 20: `npm install`, `npm run dev`. Only
 own computer and Cloudflare account, `npm run build` then `npx wrangler
 deploy` (`wrangler.jsonc`) does the same job.
 
-On this machine that is not a path to take. Production **is** Cloudflare,
-Task & Tool's, so "publish", "go live" and "put it on Cloudflare" all mean
-`npm run deploy` (above); the platform holds the credential. Never run `wrangler login`, and never ask the owner for a
-Cloudflare token. Only if they explicitly want their *own* Cloudflare account
-instead, and a Cloudflare connection is granted to this app, is wrangler
-right (the `deploy` skill: "A customer's own Cloudflare").
+On this machine, `npm run deploy` is the only way to production, and
+`wrangler.jsonc` is for the owner's own computer, not for here; the `deploy`
+skill has the rules, the owner's own Cloudflare account included.

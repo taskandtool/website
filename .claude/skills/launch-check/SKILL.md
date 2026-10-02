@@ -27,9 +27,8 @@ owner the report as a table.
 
 1. `site.url` in `src/site.ts` is the real domain (canonical tags and the
    sitemap depend on it). Tracking IDs are in `src/site.ts`.
-2. `npm run deploy` publishes to production (the `website` skill). The site is now at its
-   production address, open to the team; making it public is the owner's
-   switch on the app's dashboard.
+2. `npm run deploy` (the `website` skill). Ask the owner to make production
+   public when they are ready for visitors.
 3. The owner points the domain at the platform (a custom domain in the
    app's Settings: a CNAME with an automatic certificate). Say plainly: this changes where
    the website is served from and nothing else; mail records (MX) are

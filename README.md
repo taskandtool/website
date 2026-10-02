@@ -38,7 +38,10 @@ Beside the site, the two conventions Task & Tool reads:
 .claude/skills/
   new-site/      the agency flow: intake, competitors, three homepages, the system, the pages
   pages/         the page plan, a brief per page, the 18 page-type guides, search fields
-  website/       building and running the site, plus forms.md, seo.md, posts.md
+  website/       building and running the site, plus seo.md and posts.md
+  forms/ admin/ booking/ reports/ shared-data/
+                 shared skills from github.com/taskandtool/skills: forms, the private
+                 /admin, a booking page, reports, and the database handle they share
   design/        creative direction: references (the design library's 14 systems), the brief, three
                  homepages built with `npm run variant`, the system record, the review gate
   writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse

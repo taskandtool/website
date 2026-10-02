@@ -12,7 +12,10 @@ The skills: `new-site` (from nothing to a launched site), `website` (build,
 run and publish to production), `pages` (the page plan and a brief per
 page), `design` and `writing` (the taste bar), `brand` (the brand and fact
 notes), `migrate-site` and `launch-check` (taking over an existing site and
-keeping it audited). The platform's
+keeping it audited), and the shared skills `forms`, `admin`, `booking` and
+`reports` on `shared-data` (forms, the private `/admin`, a booking page,
+reports; what they store lives in the project's `shared` schema, where the
+project's other apps read it). The platform's
 `deploy` skill says what production is. Read the one that fits the ask
 rather than working from memory.
 
@@ -72,5 +75,3 @@ rather than working from memory.
   default colour; `npm run lint` refuses both.
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.
-- The first deploy opens production to the team; making it public is the
-  owner's switch in the Task & Tool dashboard, never yours.
