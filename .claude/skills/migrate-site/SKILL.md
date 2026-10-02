@@ -1,5 +1,5 @@
 ---
-description: "Take over an existing website: read it into an inventory and raw pages, get the facts and brand into notes (the Company Brain's job when there is one), plan the new site as a page map against the old URLs, build pages one at a time, generate redirects and structured data, and check the launch. Use when the owner has a current site, says migrate, rebuild, redesign, or clone, or points at a URL that is theirs. For a site they merely admire, the reference mode at the end."
+description: "Take over an existing website: read it into an inventory and raw pages, get the facts and brand into notes, plan the new site as a page map against the old URLs, build the pages, generate redirects, and check the launch. Use when the owner has a current site and says migrate, rebuild, redesign or clone."
 ---
 
 # Migrate a site
@@ -7,12 +7,7 @@ description: "Take over an existing website: read it into an inventory and raw p
 The rule: **facts first, pages second, URLs preserved.** Never convert
 the old pages one by one and re-render them; that carries over dead
 sections, duplicated facts, and the old design. Seven steps, in order.
-Steps 1 to 3 belong to the Company Brain when this project has one
-(`project_apps` in `tools/taskandtool.py` lists the siblings): the brain
-crawls, writes the notes, and the owner mirrors `brain/brand` onto this
-app's `brand` folder and `brain/public` onto `public/`. Without a brain,
-this app does steps 1 to 3 itself with the `site-facts` skill, into the
-same folders, so a brain added later replaces them by mirror.
+Steps 2 and 3 are the `brand` skill's work, into `public/` and `brand/`.
 
 ## 0. Two questions, first
 
@@ -21,7 +16,7 @@ keeping them removes the largest migration risk) and **faithful rebuild
 or redesign?** (faithful keeps the words and the page set; redesign
 re-plans both). Write both answers at the top of `site-map.md`.
 
-## 1. Inventory (the brain, or you)
+## 1. Inventory
 
 One crawl reads the site into `raw/site/<host>/`: `pages/` as markdown,
 `images/`, `shots/`, and in `_index/` `common.md`, `manifest.json`, and
@@ -33,12 +28,7 @@ social and legal links), `media.json` (every picture, its real size and
 kind, which pages use it with the heading above and the words beside it),
 `facts.json` (phones, emails, addresses, hours, social, action links,
 each with where it was found), and `structured/` (JSON-LD, Open Graph,
-microdata per page). `raw/site/_sites.json` lists the sites crawled. With
-a brain: the owner runs "Read my website into the brain" there; the brain
-keeps its raw crawl, and its notes arrive by two mirrors the owner sets up
-in this app's Settings: `brain/brand` onto `brand` and `brain/public` onto
-`public`. The ledger is not mirrored: crawl the site here too for the plan
-and the launch check. Without a brain, or for the ledger:
+microdata per page). `raw/site/_sites.json` lists the sites crawled.
 
 The crawler carries the recipes; print the one you need rather than
 guessing flags:
@@ -57,15 +47,15 @@ places "Business, City" --out raw/places` for the public Google listing
 Read `_index/inventory.md` and the screenshots; report pages found, the
 limit if it was hit, forms and embeds seen, and the tracking IDs.
 
-## 2. Facts (the brain, or the `site-facts` skill)
+## 2. Facts (the `brand` skill)
 
-The notes in `public/` (`FACTS.md`): `business.md` with the typed
+The notes in `public/` (`FACTS.md`), written with the `brand` skill from
+the crawl: `business.md` with the typed
 frontmatter (name, phone, email, address, hours, social), `services.md`
 or one note per offering, `faq.md`, `team.md`, `policies.md`, `proof.md`.
-Legal text goes verbatim into `legal/` with `path` and `title`. With a
-brain: "Prepare my brain for the website" there, then the mirror.
+Legal text goes verbatim into `legal/` with `path` and `title`.
 
-## 3. Brand (the brain, or you, from the same crawl)
+## 3. Brand (the `brand` skill, from the same crawl)
 
 The notes in `brand/` from `_index/styles.json`, the logo candidates in
 `_index/media.json`, and the copy: `visual-identity.md` with colours as hex,

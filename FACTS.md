@@ -1,11 +1,9 @@
 # FACTS.md
 
 What the site reads from the notes, and how. The notes in `public/` are
-markdown with typed frontmatter: the shape a Company Brain writes into its
-own `brain/public` folder (its `SCHEMA.md` owns the full schema). The
-website ships a starter set with lines still "to fill"; a brain in the
-project replaces the whole folder by mirror, path for path. Either way the
-build reads only the fields below.
+markdown with typed frontmatter, written with the `brand` skill (its
+`references/notes.md` owns the full shape). The website ships a starter set
+with lines still "to fill"; the build reads only the fields below.
 
 `npm run content` (also run by every build and at the start of the dev
 loop) turns `public/`, `posts/`, and `legal/` into

@@ -28,7 +28,7 @@ const inside = [
   {
     n: "02",
     title: "Brand",
-    text: "brand/ holds the notes: positioning, voice, audience, visual identity, do and don't. A Company Brain can own that folder; the theme and the pages are set from it.",
+    text: "brand/ holds the notes: positioning, voice, audience, visual identity, do and don't. The brand skill fills them; the theme and the pages are set from them.",
   },
   {
     n: "03",

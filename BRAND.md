@@ -1,10 +1,9 @@
 # BRAND.md
 
-What `brand/` holds, who owns it, and how it becomes the site. `brand/` is
-**notes in markdown**, nothing else: the same shape a Company Brain writes
-into its own `brain/brand` folder. The website ships a starter set with
-lines still "to fill"; a brain in the project can replace the whole folder
-with cited notes. The AI then reads the notes and sets the site from them.
+What `brand/` holds and how it becomes the site. `brand/` is **notes in
+markdown**, nothing else, in the shape the `brand` skill writes. The
+website ships a starter set with lines still "to fill"; the AI fills them
+with the `brand` skill, then reads the notes and sets the site from them.
 
 ## The folder
 
@@ -21,8 +20,8 @@ brand/
                        body fonts, the logo files, the photography style
   do-and-dont.md       observable rules; words used and never used
   logo/                the logo files (svg preferred), served at /brand/logo/<file>
+  images/  images.md   the business's best real photos, each described, with permission for ads
   <anything>.md        further notes are welcome and read as context
-  _mirror.md           present only when the folder is a mirror (read-only here)
 ```
 
 The site never reads these files at runtime. They are the AI's input.
@@ -48,17 +47,10 @@ Then the pages, through the `design` and `writing` skills, with
 `voice.md` as the voice card. The suggested first prompt is in the chat
 ("Apply my brand"); it names these steps.
 
-## Who owns the folder
+## Filling the folder
 
-- **No Company Brain in the project:** the website owns `brand/`. Fill it
-  from the owner or from a crawled site (`migrate-site`), then set the site
-  from it.
-- **A Company Brain in the project:** the brain is the source of truth. The
-  owner mirrors the brain's `brain/brand` folder onto this app's `brand`
-  folder (Settings → Mirrored folders, target path exactly `brand`). The
-  mirror **replaces** the starter notes and refreshes whenever the brain's
-  notes change; `brand/_mirror.md` marks it read-only here. Brand facts are
-  then changed in the brain, and re-applied here with the same prompt. The
-  theme, the pages, and `DESIGN.md` stay the website's.
+The `brand` skill fills `brand/` from whatever the owner gives you (a
+crawl of their site with `migrate-site`, a chat, a document, a social
+profile), citing each line. Then set the site from it as above.
 
 Nothing in `brand/` is secret. Credentials never belong here.

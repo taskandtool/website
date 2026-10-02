@@ -8,9 +8,10 @@ machine needs (dependencies, the site reader, the `web` service). All of it
 is the owner's to change.
 
 The skills: `website` (build and run), `design` and `writing` (the taste
-bar), `migrate-site`, `site-facts`, and `launch-check` (taking over an
-existing site and keeping it audited), `ship` (publish to the edge). Read
-the one that fits the ask rather than working from memory.
+bar), `brand` (the brand and fact notes), `migrate-site` and
+`launch-check` (taking over an existing site and keeping it audited),
+`ship` (publish to the edge). Read the one that fits the ask rather than
+working from memory.
 
 ## Where things are
 
@@ -18,8 +19,8 @@ the one that fits the ask rather than working from memory.
   audience, visual identity, do and don't, and `logo/`. The site never
   reads them at runtime; you do, to set `styles/theme.css`, `src/site.ts`,
   and `DESIGN.md` from them ("Updating from the brand" in `DESIGN.md`).
-  When `brand/_mirror.md` exists the folder is a read-only mirror from the
-  project's Company Brain: brand facts change there, then get re-applied.
+  The `brand` skill writes them, and the facts in `public/`, from whatever
+  the owner gives you: a crawl, a chat, a document, a social profile.
 - `styles/theme.css` is the website's design system as tokens: the brand's
   colours and fonts, the roles they play, the type scale, edges, rhythm.
   `DESIGN.md` explains every token, the composition rules, the refuse list,

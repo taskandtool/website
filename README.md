@@ -12,8 +12,7 @@ licensed.
 
 It serves from the machine while it is being built and pre-renders to the
 edge when the owner publishes. It needs nothing to start; managed Postgres
-once a form stores submissions. It reads a Company Brain's mirrored brand and
-facts when the project has one, and depends on nothing else.
+once a form stores submissions, and depends on nothing else.
 
 ## What is in the box
 
@@ -42,7 +41,8 @@ Beside the site, the two conventions Task & Tool reads:
                  applied with `npm run style -- <name>`
   writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse
   migrate-site/  take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
-  site-facts/    the fact notes from a crawled site, when the project has no Company Brain
+  brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
+                 in every Starter App that carries it
   launch-check/  the old URLs against the new site, before publishing and after the cutover
   ship/          publish to the edge and keep the published copy current
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
@@ -95,8 +95,7 @@ redesign?), one crawl with the shared crawler
 (<https://github.com/taskandtool/crawler>: pages, an inventory per URL,
 the header and footer as structure, media, styles, screenshots, linked
 documents, the site's own structured data), the facts and brand as notes
-(the Company Brain's job when the project has one; `site-facts` here
-otherwise), a page map against the old URLs in `site-map.md`, pages one
+(the `brand` skill), a page map against the old URLs in `site-map.md`, pages one
 per turn, generated redirects and structured data, and `launch-check`
 before publishing and after the domain cutover, then `tt-crawl audit` as a
 weekly scheduled job that alerts the owner when the live site has broken

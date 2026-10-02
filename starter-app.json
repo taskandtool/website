@@ -18,14 +18,10 @@
     {
       "id": "build-my-website",
       "label": "Build my website",
-      "prompt": "Build my website. First ask me what you need to know about the business, who the site is for, and what a visitor should do; then write what you learn into the notes in brand/ (positioning, voice, visual identity) and public/business.md, set styles/theme.css, src/site.ts, and DESIGN.md from them, propose three design directions per the design skill, and build the home page from real content. Show me the working copy when it is ready. Here is what we do: ",
+      "prompt": "Build my website. First ask me what you need to know about the business, who the site is for, and what a visitor should do; then write what you learn into brand/ and public/ with the brand skill, set styles/theme.css, src/site.ts, and DESIGN.md from them, propose three design directions per the design skill, and build the home page from real content. Show me the working copy when it is ready. Here is what we do: ",
       "when": [
         {
           "path": "raw/site/_sites.json",
-          "is": "missing"
-        },
-        {
-          "sibling": "brain",
           "is": "missing"
         }
       ]
@@ -53,28 +49,9 @@
       ]
     },
     {
-      "id": "mirror-my-brain-s-notes",
-      "label": "Mirror my brain's notes here",
-      "prompt": "This project has a Company Brain. Check with project_apps that it is there, then walk me through mirroring, from this app's Settings, its brain/brand folder onto brand and brain/public onto public (read-only copies). Once they have synced, tell me what the notes hold and what they still lack that only I can supply.",
-      "when": [
-        {
-          "sibling": "brain",
-          "is": "present"
-        },
-        {
-          "path": "brand",
-          "is": "present"
-        },
-        {
-          "path": "brand/_mirror.md",
-          "is": "missing"
-        }
-      ]
-    },
-    {
       "id": "extract-the-facts-from-my",
       "label": "Extract the facts from my site",
-      "prompt": "Extract the facts from my crawled site with the site-facts skill: seed public/business.md from raw/site/<host>/structured and _index/facts.json, fill services, faq, team, policies, and proof from the pages and linked documents, copy legal text verbatim into legal/, then run npm run content and npm run check. Tell me every fact you could not find and every conflict you saw.",
+      "prompt": "Extract the facts from my crawled site into public/ with the brand skill: seed public/business.md from raw/site/<host>/structured and _index/facts.json, fill services, faq, team, policies, and proof from the pages and linked documents, copy legal text verbatim into legal/, then run npm run content and npm run check. Tell me every fact you could not find and every conflict you saw.",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -83,17 +60,13 @@
         {
           "path": "public/business.md",
           "is": "unfilled"
-        },
-        {
-          "sibling": "brain",
-          "is": "missing"
         }
       ]
     },
     {
       "id": "apply-my-brand-from-my",
       "label": "Apply my brand from my site",
-      "prompt": "Apply the brand to this site from my crawled site: first write brand/visual-identity.md (colours as hex, fonts, the logo files copied into brand/logo/) and positioning.md from raw/site/<host>/_index/styles.json, _index/media.json, and the pages. Follow DESIGN.md's 'Updating from the brand': colours and fonts into styles/theme.css with roles assigned and contrast checked, the facts into src/site.ts, then DESIGN.md's palette, type, and Identity block. Show me the result on the working copy and list what the notes did not say that only I can supply.",
+      "prompt": "Apply the brand to this site from my crawled site: first write brand/ from it with the brand skill (visual identity, positioning, voice, the logo files, the best photos). Follow DESIGN.md's 'Updating from the brand': colours and fonts into styles/theme.css with roles assigned and contrast checked, the facts into src/site.ts, then DESIGN.md's palette, type, and Identity block. Show me the result on the working copy and list what the notes did not say that only I can supply.",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -103,17 +76,6 @@
         {
           "path": "brand/visual-identity.md",
           "is": "unfilled"
-        }
-      ]
-    },
-    {
-      "id": "apply-my-brand-from-the",
-      "label": "Apply my brand from the brain",
-      "prompt": "Apply the brand to this site from the Company Brain's notes mirrored into brand/. Follow DESIGN.md's 'Updating from the brand': colours and fonts into styles/theme.css with roles assigned and contrast checked, the facts into src/site.ts, then DESIGN.md's palette, type, and Identity block. Show me the result on the working copy and list what the notes did not say that only I can supply.",
-      "when": [
-        {
-          "path": "brand/_mirror.md",
-          "is": "present"
         }
       ]
     },
@@ -211,14 +173,10 @@
     {
       "id": "add-my-google-listing",
       "label": "Add my Google listing",
-      "prompt": "Add my public Google listing: run tt-crawl places for my business (ask me for a Google Places connection with request_connection if this app has no GOOGLE_PLACES_API_KEY), then fold the phone, address, hours, and the public reviews into public/business.md and public/proof.md with raw/places as the source, run npm run content, and show me the contact section and the proof strip on the working copy.",
+      "prompt": "Add my public Google listing: run tt-crawl places for my business (ask me for a Google Places connection with request_connection if this app has no GOOGLE_PLACES_API_KEY), then fold the phone, address, hours, and the public reviews into public/business.md and public/proof.md with the brand skill, citing raw/places, run npm run content, and show me the contact section and the proof strip on the working copy.",
       "when": [
         {
           "path": "raw/places",
-          "is": "missing"
-        },
-        {
-          "sibling": "brain",
           "is": "missing"
         }
       ]

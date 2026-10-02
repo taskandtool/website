@@ -130,13 +130,9 @@ measures contrast and fails a bad pair), the facts into `src/site.ts`
 palette, type, and Identity block, then the pages. Do it on the first
 real build and whenever the notes change, and say what changed.
 
-Where the notes come from, in order of trust: the owner in chat; a Company
-Brain in this project, whose `brain/brand` folder the owner mirrors onto
-this app's `brand` folder (Settings → Mirrored folders, target path exactly
-`brand`; `project_apps` in the bridge lists the siblings) so the brain owns
-the notes and `brand/_mirror.md` marks them read-only here; a captured site
-(`migrate-site`) for a business that has one. Without a brain, fill the
-starter notes yourself and keep them current.
+The `brand` skill writes the notes, from whatever the owner gives you: the
+owner in chat first, then a crawl of their site (`migrate-site`), a
+document, a social profile. Keep them current.
 
 Theme values that are not brand (the type scale, radii, rhythm, the
 grounds) are yours: change them in `styles/theme.css` with the matching

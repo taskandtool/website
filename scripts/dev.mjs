@@ -17,8 +17,8 @@ for (const b of ["node_modules/.bin/tailwindcss", "node_modules/.bin/tsx"]) {
 
 const content = () => spawnSync("node", ["scripts/content.mjs"], { stdio: "inherit" });
 content();
-// A cheap poll over the note folders (a mirror refresh swaps whole folders,
-// which kills directory watchers).
+// A cheap poll over the note folders (a folder replaced whole, as a copy
+// from elsewhere does, kills directory watchers).
 const stamp = () => {
   let latest = 0;
   for (const dir of ["public", "posts", "legal"]) {

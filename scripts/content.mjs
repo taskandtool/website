@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Notes → data the site can render. Reads the frontmatter of public/*.md
-// (the facts the brain or the site-facts skill wrote; FACTS.md says which
+// (the facts the brand skill wrote; FACTS.md says which
 // fields the build uses), posts/*.md (the blog collection), and legal/*.md
 // (verbatim legal pages), and writes src/generated/content.json. The pages
 // and the layout import that file, so the site stays edge-safe (no

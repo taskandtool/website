@@ -25,7 +25,6 @@ const hex = /^#[0-9a-fA-F]{6}$/;
 for (const f of ["positioning.md", "voice.md", "visual-identity.md"]) {
   if (!existsSync(join("brand", f))) findings.push(`brand/${f} is missing (BRAND.md lists the notes the site is set from)`);
 }
-if (existsSync("brand/_mirror.md")) console.log("note: brand/ is a mirror from the Company Brain; change brand facts there, then re-apply them here");
 const design = readFileSync("DESIGN.md", "utf8");
 const identity = design.split("## Identity")[1]?.split("\n## ")[0] ?? "";
 const unfilled = (identity.match(/to fill/g) ?? []).length;

@@ -375,8 +375,8 @@ block above, then build. After: `npm run check`, render at 390px and
 
 ## Updating from the brand
 
-`brand/` holds the brand as markdown notes (`BRAND.md`): the starter set,
-or a Company Brain's cited notes mirrored in. When those notes change, or
+`brand/` holds the brand as markdown notes (`BRAND.md`), written with the
+`brand` skill. When those notes change, or
 on the first real build, set the site from them in this order and say what
 changed:
 
@@ -404,6 +404,3 @@ changed:
    block from the brief, and any rule the do-and-don't adds or removes.
 5. The pages, through the `design` and `writing` skills, with `voice.md`
    as the voice card. Render at 390px and 1280px.
-
-When `brand/_mirror.md` exists the notes belong to the Company Brain: a
-brand fact is changed there, then re-applied here with the same steps.

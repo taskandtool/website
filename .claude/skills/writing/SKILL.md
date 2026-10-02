@@ -10,9 +10,8 @@ evidence, the never-list, rewrite pairs, the lexicon, how the sentences
 run, tone by surface). Fill it there from the owner's own words and keep it
 current; every line quotes its sample, and a line with no sample stays
 "to fill" rather than guessed. The facts a page may
-state come from the owner, from a Company Brain mirrored into this app (a
-folder holding a `_mirror.md`), or from a captured site that is the
-owner's own; nothing else is a source.
+state come from the notes in `public/` and `brand/`, each cited to the
+owner or their own material; nothing else is a source.
 
 Write as a specific person or company speaking to a specific reader for a
 specific reason. If the words could appear on a competitor's site unchanged,
