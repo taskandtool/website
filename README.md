@@ -17,7 +17,7 @@ once a form stores submissions, and depends on nothing else.
 ## What is in the box
 
 ```
-src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · content.ts (JSON-LD) · redirects.ts · db.ts · server.ts · worker.ts
+src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · content.ts (JSON-LD) · redirects.ts · server.ts · worker.ts
 brand/           the brand as markdown notes: positioning · voice · audience · visual-identity · do-and-dont · logo/
 public/          the fact notes with typed frontmatter (FACTS.md); posts/ and legal/ are the collections
 site-map.md      the page plan and migration ledger; src/redirects.ts the 301 table it implies

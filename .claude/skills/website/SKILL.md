@@ -83,7 +83,7 @@ src/pages/*.tsx   one module per page: `page` (path, title, description) + `Body
 src/pages/index.ts  the list of pages, in nav order — a page exists once it is listed here
 src/app.tsx       the Hono app: the redirect table, a GET per route (pages, posts, legal), dynamic routes, the 404
 src/content.ts    the generated content and the JSON-LD builders (LocalBusiness, FAQPage, Service, BlogPosting)
-src/db.ts         sql(env) on DATABASE_URL (Neon HTTP driver), only when the app has a database
+src/shared-data/  the database handle and settings, copied from the shared-data skill when the app first needs a database
 src/server.ts     the machine entry (Node); src/worker.ts the production (Cloudflare) entry
 styles/input.css  the stylesheet source → static/site.css
 static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)

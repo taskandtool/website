@@ -47,7 +47,8 @@ rather than working from memory.
 - `src/pages/*.tsx` are the pages; `src/pages/index.ts` lists them.
   `src/layout.tsx` is the document (head, header, footer).
   `src/components/index.tsx` holds the shared pieces. `src/app.tsx` is the
-  Hono app; `src/db.ts` is the database client (only when the app has one).
+  Hono app. The database, when the app has one, is reached through the
+  `shared-data` skill's handle, copied into `src/shared-data/`.
 - `static/` is served as static files; `styles/input.css` is the stylesheet
   source, built to `static/site.css`.
 - `scripts/` holds the build, the dev loop, the checks, and the deploy hook.
