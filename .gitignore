@@ -8,7 +8,7 @@
 *.pem
 *.key
 
-# Build output: dist/ is what ships to the edge, build/ holds the Worker bundle.
+# Build output: dist/ is what ships to production, build/ holds the Worker bundle.
 dist/
 build/
 static/site.css

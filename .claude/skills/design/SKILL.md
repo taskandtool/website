@@ -1,5 +1,5 @@
 ---
-description: "Direct the visual system of this website: the brief, the style catalogue the owner picks from, three directions, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
+description: "Direct the visual system of this website: the brief, references the owner picks from, three directions, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
 ---
 
 # Design
@@ -106,42 +106,22 @@ single clearest message.
 For a new page or a major redesign, develop three directions in one pass before
 building. Small changes should continue the selected system instead.
 
-**Start from the style catalogue.** `styles/` beside this file
-(`${CLAUDE_SKILL_DIR}/styles`) holds six presets, each a complete design
-system with a preview: `editorial`, `brutalist`, `whimsical`, `cinematic`,
-`luxury`, `swiss` (`styles/README.md` lists them with a thesis, what each
-suits, and what it does not). `npm run style` prints the same list. Before
-inventing directions, put the previews in front of the owner and ask which
-is closest. Show them in your reply as one group the owner can click
-through and approve the one they want:
+**Start from references, not from nothing.** Before inventing directions,
+gather what the owner and the market already show: sites the owner admires,
+the homepages of the business's main competitors, and the brand notes in
+`brand/`. Screenshot each reference at desktop and phone width and show them
+as one group the owner can click through, with one line each on what it does
+well:
 
 ```python
 from tools.taskandtool import create_deliverables
 create_deliverables(
-    [{"path": f".claude/skills/design/styles/{s}/preview.png", "title": s.capitalize()}
-     for s in ["editorial", "brutalist", "whimsical", "cinematic", "luxury", "swiss"]],
-    "Six starting points: approve the closest, or say what blend you want")
+    [{"path": "uploads/ref-1.png", "title": "…", "status": "info"}, ...],
+    "What I looked at: tell me what you like in each")
 ```
 
-Then name each in one line (its thesis and what it suits) and ask one
-question: which is closest, or what blend. Off the platform (no bridge) the
-previews are in the Files tab, or apply one with `npm run style -- <name>
---specimen` and send the owner to `/specimen` on the working copy. Then:
-
-- If one fits, apply it (`npm run style -- <name>`), run "Updating from the
-  brand" in `DESIGN.md` so the brand's colours and fonts replace the preset's
-  defaults, and make the three directions variations *within* that style
-  (composition, signature, imagery), not three styles.
-- If the owner wants a blend ("brutalist with our green", "editorial but
-  warmer"), apply the closer preset and change the tokens and rules it names,
-  with a row in `DESIGN.md` for each change. Keep the preset's refuse list.
-- If none fits, write the three directions from scratch as below and record
-  the winner in `DESIGN.md` the same way a preset would.
-
-A preset is a starting point, never a finished design: the Identity block is
-still to fill, the copy is still the owner's, and the review gate still runs.
-`npm run style -- --remove-specimen` takes the specimen page out before
-anything is published.
+Then ask one question: which is closest, or what blend. Record the winner in
+`DESIGN.md` when it is chosen.
 
 The directions must differ in structure, hierarchy, typography, imagery, and
 behavior—not merely in color. Derive them from the subject's real materials,
@@ -391,8 +371,8 @@ not.
 
 ## A worked example
 
-The brief, filled, for the specimen business the catalogue uses (a
-cabinetry workshop), after the owner picked the brutalist preset:
+The brief, filled, for a made-up business (a cabinetry workshop), after the
+owner picked a poster-like direction:
 
 ```text
 Subject:            Fitted kitchens and wardrobes, made and installed by Harlow Joinery

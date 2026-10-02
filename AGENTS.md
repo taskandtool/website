@@ -1,7 +1,8 @@
 # This app: a website on Hono
 
-A business website that serves from this machine while it is being built
-and, when published, is pre-rendered to HTML and shipped to the edge. This
+A business website. It runs in **dev** on this machine while it is being
+built, and in **production** on Cloudflare once deployed: pre-rendered to
+HTML plus a small Worker. This
 repository *is* the app: the site at the root, the skills that know how to
 work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
 machine needs (dependencies, the site reader, the `web` service). All of it
@@ -10,7 +11,7 @@ is the owner's to change.
 The skills: `website` (build and run), `design` and `writing` (the taste
 bar), `brand` (the brand and fact notes), `migrate-site` and
 `launch-check` (taking over an existing site and keeping it audited),
-`ship` (publish to the edge). Read the one that fits the ask rather than
+`ship` (publish to production). Read the one that fits the ask rather than
 working from memory.
 
 ## Where things are
@@ -24,10 +25,8 @@ working from memory.
 - `styles/theme.css` is the website's design system as tokens: the brand's
   colours and fonts, the roles they play, the type scale, edges, rhythm.
   `DESIGN.md` explains every token, the composition rules, the refuse list,
-  and holds the site's Identity block. Read it before designing. Six style
-  presets ship with the design skill (`npm run style` lists them with a
-  preview each; `npm run style -- <name>` applies one); the theme in the
-  box is the neutral starting point, not a style.
+  and holds the site's Identity block. Read it before designing. The theme
+  in the box is a neutral starting point, not a style.
 - `public/` is the facts as notes with typed frontmatter (`FACTS.md`);
   `posts/` and `legal/` are the collections. `npm run content` turns them
   into `src/generated/content.json`, which the pages import; the build
@@ -49,25 +48,25 @@ working from memory.
 ## The loop
 
 - `npm run dev` is what the `web` service runs: Tailwind rebuilds the CSS
-  and the server restarts on every change, so an edit is live on refresh.
+  and the server restarts on every change, so an edit is in dev on refresh.
   If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
   (idempotent) or register it by hand as the `website` skill says.
 - `npm run check` before showing work; `npm run audit` before publishing
   (the crawler's health check against the working copy). `npm run build`
   to produce `dist/` and `build/worker.mjs`. `npm run deploy` publishes
-  (the `ship` skill).
+  to production (the `ship` skill), when the owner asks.
 - Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
   any credential.
 
 ## Rules
 
-- Edge-safe code only in `src/` (no Node built-ins, no filesystem, no
-  per-request state); `src/server.ts` is the single exception. Files and
+- Code in `src/` must run on Cloudflare (no Node built-ins, no filesystem,
+  no per-request state); `src/server.ts` is the single exception. Files and
   heavy work happen at build time, on this machine.
 - Colours and fonts live in `styles/theme.css` with a row in `DESIGN.md`,
   set from the brand notes. Markup never carries a hex value or a Tailwind
   default colour; `npm run check` refuses both.
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.
-- Publishing to the web is the owner's action in the Task & Tool
-  dashboard. Deploying to the edge does not make a private site public.
+- The first deploy opens production to the team; making it public is the
+  owner's switch in the Task & Tool dashboard, never yours.

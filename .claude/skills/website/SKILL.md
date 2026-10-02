@@ -5,10 +5,10 @@ description: "Build and run this business website: the Hono app in this repo, it
 # Website
 
 This app is a website on Hono: server-rendered JSX, Tailwind v4, no client
-framework. This machine always serves it at the team's Development
-address; when deployed (the `ship` skill), every page is pre-rendered to
-HTML and the Live address serves it from the edge, with a small Worker
-behind it for anything dynamic. The owner's
+framework. **Dev** is this machine: the `web` service at the team's
+Development link, every edit there on refresh. **Production** is the site
+deployed to Cloudflare (the `ship` skill): every page pre-rendered to HTML,
+with a small Worker behind it for anything dynamic. The owner's
 CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
@@ -22,7 +22,7 @@ When the owner has a current site, or points at one they admire, the
 
 `npm run dev` is what the `web` service runs: Tailwind rebuilds
 `static/site.css` and the server restarts on every change, so an edit shows
-on the next refresh of the machine's URL. Check it is running before
+on the next refresh of dev. Check it is running before
 starting work:
 
 ```bash
@@ -48,7 +48,7 @@ bash ~/app/.taskandtool/setup.sh
 
 Before showing work: `npm run check` (the brand notes present, DESIGN.md and
 the theme in step, contrast of the brand pairs, site-map.md against the
-pages and redirects, page paths, the edge rule, and the refuse list: no hex or
+pages and redirects, page paths, the Cloudflare rule, and the refuse list: no hex or
 default Tailwind colours, gradients, blur, tracking or leading overrides,
 weights above 700, `animate-*`), `npm run typecheck`, and, once the pages
 exist, `npm run audit` (the crawler against the working copy: broken links,
@@ -78,7 +78,7 @@ src/pages/index.ts  the list of pages, in nav order — a page exists once it is
 src/app.tsx       the Hono app: the redirect table, a GET per route (pages, posts, legal), dynamic routes, the 404
 src/content.ts    the generated content and the JSON-LD builders (LocalBusiness, FAQPage, Service, BlogPosting)
 src/db.ts         sql(env) on DATABASE_URL (Neon HTTP driver), only when the app has a database
-src/server.ts     the machine entry (Node); src/worker.ts the edge entry
+src/server.ts     the machine entry (Node); src/worker.ts the production (Cloudflare) entry
 styles/input.css  the stylesheet source → static/site.css
 static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)
 scripts/          dev.mjs · build.ts · check.mjs · deploy.py
@@ -120,6 +120,43 @@ the facts exist. Compose around them; do not retype a fact into markup.
 Nested paths work the same way: `/services/roofing` becomes
 `dist/services/roofing.html`.
 
+### How a page is written
+
+Pages are Hono JSX: mostly markup, written the way the HTML will read. Keep
+them that way, because a page that reads like its output is the one the
+next turn can change safely.
+
+- `class`, `for` and a plain-string `style` work as in HTML; never
+  `className` or `htmlFor`.
+- The layout (`src/layout.tsx`) owns the head, header and footer. A page
+  returns only what goes inside `<main>`.
+- Facts come from `content` and `site` (the notes, compiled), never typed
+  into a page: the fact sections in `src/components/facts.tsx` render
+  services, FAQ, proof and contact from them.
+- Logic stays small: a `.map()` over a list, a condition around a block.
+  Anything bigger belongs in `src/content.ts`, typed, where `npm run
+  typecheck` checks it.
+- JSX escapes text by default. `raw()` is only for markup the site
+  generates itself (JSON-LD, a post's rendered markdown).
+
+### From an HTML page to a page here
+
+A page designed as plain HTML (a homepage variant the owner picked, a page
+from the design library) becomes a page here in five mechanical steps:
+
+1. Keep only what sits inside `<main>`; the layout already has the head,
+   header and footer. Move anything the page adds to the head into
+   `page.jsonLd` or the layout.
+2. Self-close void tags: `<br />`, `<img … />`, `<input … />`, `<hr />`.
+3. HTML comments become `{/* … */}`; a literal `{` or `}` in text becomes
+   `{"{"}` or `{"}"}`.
+4. Repeated blocks with facts in them (services, reviews, FAQ) become a
+   `.map()` over `content`, or the matching section from
+   `src/components/facts.tsx`, so each fact lives once, in its note.
+5. Classes stay as they are when they use the site's tokens. Run `npm run
+   check` and `npm run typecheck`; a class the theme does not have is the
+   check's finding to fix, not something to add a token for silently.
+
 ## The brand, the theme, and the site's facts
 
 `brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
@@ -138,12 +175,7 @@ document, a social profile. Keep them current.
 
 Theme values that are not brand (the type scale, radii, rhythm, the
 grounds) are yours: change them in `styles/theme.css` with the matching
-row in `DESIGN.md`. The quickest way to a whole system is a preset from
-the design skill's catalogue: `npm run style` lists six (editorial,
-brutalist, whimsical, cinematic, luxury, swiss) with a preview each,
-`npm run style -- <name>` replaces `DESIGN.md`, `styles/theme.css`, and the
-fonts in `src/site.ts`, and `--specimen` adds a `/specimen` page to see it
-live (`--remove-specimen` before publishing). Then apply the brand on top. Self-hosted fonts go in `static/fonts/` with
+row in `DESIGN.md`. Self-hosted fonts go in `static/fonts/` with
 `@font-face` in `styles/input.css`. The dev service rebuilds the CSS on
 every change; on a one-off run `npm run css`.
 
@@ -155,9 +187,9 @@ every change; on a one-off run `npm run css`.
 - Video: a few MB, muted h264 mp4 plus webm, compressed here with ffmpeg;
   long-form video embeds from the owner's platform. Keep files over 100 MB
   out of git (`.gitignore`).
-- Once deployed, Live serves the pre-rendered pages and everything in
-  `static/` from the edge as static files; Development still shows this
-  machine's working copy.
+- In production, Cloudflare serves the pre-rendered pages and everything
+  in `static/` as static files; dev still shows this machine's working
+  copy.
 
 ## Interactivity, forms, and data
 
@@ -171,8 +203,8 @@ every change; on a one-off run `npm run css`.
   honeypot, the thank-you page). If the app has no database, the owner
   adds managed Postgres in the app's Settings; `request_capability(
   "postgres", why)` from `tools/taskandtool.py` asks them.
-- Dynamic routes go in `src/app.tsx` below the page loop. They must stay
-  edge-safe: web-standard `Request`/`Response`, `fetch`, Web Crypto, the
+- Dynamic routes go in `src/app.tsx` below the page loop. They must run on
+  Cloudflare: web-standard `Request`/`Response`, `fetch`, Web Crypto, the
   Neon HTTP driver. No Node built-ins, no filesystem, no SQLite, nothing
   kept between requests. `npm run check` flags Node imports.
 - Sending email from a form needs a sender the owner connects (Resend or
@@ -204,10 +236,9 @@ in it depends on Task & Tool except `scripts/deploy.py`, which falls back to
 `npx wrangler deploy` (`wrangler.jsonc`) only when it is run off the
 platform: on the owner's own computer, against their own Cloudflare account.
 
-On this machine that is not a path to take. Task & Tool's edge **is**
-Cloudflare, so "publish to Cloudflare", "put it on the edge" and "go live"
-all mean `npm run deploy` (the `ship` skill); the platform holds the
-credential. Never run `wrangler login`, and never ask the owner for a
+On this machine that is not a path to take. Production **is** Cloudflare,
+Task & Tool's, so "publish", "go live" and "put it on Cloudflare" all mean
+`npm run deploy` (the `ship` skill); the platform holds the credential. Never run `wrangler login`, and never ask the owner for a
 Cloudflare token. Only if they explicitly want their *own* Cloudflare account
 instead, and a Cloudflare connection is granted to this app, is wrangler
-right (the `static-hosting` skill: "A customer's own Cloudflare").
+right (the `deploy` skill: "A customer's own Cloudflare").

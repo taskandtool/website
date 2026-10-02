@@ -27,9 +27,9 @@ owner the report as a table.
 
 1. `site.url` in `src/site.ts` is the real domain (canonical tags and the
    sitemap depend on it). Tracking IDs are in `src/site.ts`.
-2. The `ship` skill publishes to the edge. The site is now live on the
-   platform URL; whether it is on the web at all is the owner's Publish on
-   the app's dashboard.
+2. The `ship` skill publishes to production. The site is now at its
+   production address, open to the team; making it public is the owner's
+   switch on the app's dashboard.
 3. The owner points the domain at the platform (a custom domain in the
    app's Settings: a CNAME with an automatic certificate). Say plainly: this changes where
    the website is served from and nothing else; mail records (MX) are

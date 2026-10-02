@@ -9,7 +9,7 @@
 #   1. makes sure the working copy is a git repo with a commit in it
 #   2. installs the npm dependencies and builds the CSS once
 #   3. installs tt-crawl (the site reader) and its browsers
-#   4. registers the `web` service (`npm run dev`) so the site is live on the
+#   4. registers the `web` service (`npm run dev`) so the site runs in dev on the
 #      machine's URL, or restarts it after a replacement
 #
 # The app's own files are not this script's business: they arrive with the
@@ -72,7 +72,7 @@ python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is 
 # never downloads a browser mid-conversation.
 python3 -m ttcrawl setup || echo "tt-crawl setup did not finish every step; its JSON line says which"
 
-# 4. The web service: the site is live on this machine's URL from now on.
+# 4. The web service: the site runs in dev on this machine from now on.
 # `npm run dev` rebuilds the CSS and restarts the server on every change.
 # This is what the manifest's `ready` check looks for, so a failure here is a
 # failure of the setup: an app that reports installed and serves nothing is

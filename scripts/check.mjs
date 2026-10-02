@@ -149,7 +149,7 @@ for (const file of walk("src")) {
   const src = readFileSync(file, "utf8");
   if (!file.endsWith("server.ts")) {
     const m = src.match(nodeImport);
-    if (m) findings.push(`${file} imports ${m[1]}: Node built-ins cannot run at the edge (only src/server.ts may)`);
+    if (m) findings.push(`${file} imports ${m[1]}: Node built-ins cannot run in production on Cloudflare (only src/server.ts may)`);
   }
   if (file.endsWith(".tsx")) {
     for (const [rx, why] of refuse) {

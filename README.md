@@ -2,7 +2,7 @@
 
 A Task & Tool **Starter App**: the business's public website, working from
 the first minute. A Hono site with a brand folder, a design system file, and
-one command that publishes it to the edge. The AI builds it from the brand,
+one command that publishes it to production on Cloudflare. The AI builds it from the brand,
 from the owner's current site, or from a site they like, and ships it when
 the owner says so.
 
@@ -36,36 +36,36 @@ Beside the site, the two conventions Task & Tool reads:
 ```
 .claude/skills/
   website/       building and running the site, plus forms.md, seo.md, posts.md
-  design/        creative direction: the brief, three directions, the design contract, the review gate;
-                 styles/ holds six style presets (DESIGN.md + theme.css + fonts + specimen + previews),
-                 applied with `npm run style -- <name>`
+  design/        creative direction: the brief, references, three directions, the design contract,
+                 the review gate
   writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse
   migrate-site/  take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
   launch-check/  the old URLs against the new site, before publishing and after the cutover
-  ship/          publish to the edge and keep the published copy current
+  ship/          publish to production and keep production current
 .agents/skills/  thin Codex adapters: the same descriptions, pointing at the bodies above
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
 starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an
                        empty chat offers
 ```
 
-## How it serves
+## Dev and production
 
-- **On the machine:** `npm run dev`, registered as the `web` service by
-  setup. Tailwind rebuilds and the server restarts on every change; an
-  edit is live on refresh.
-- **At the edge:** `npm run build` pre-renders every route (pages, posts,
+- **Dev, on the machine:** `npm run dev`, registered as the `web` service
+  by setup. Tailwind rebuilds and the server restarts on every change; an
+  edit is there on refresh.
+- **Production, on Cloudflare:** `npm run build` pre-renders every route (pages, posts,
   legal) to `dist/*.html` beside the static files, generates
   `sitemap.xml` and `robots.txt`, validates the redirect table, and
   bundles the app to `build/worker.mjs`. `npm run deploy` hands both to
   the platform (`deploy_site` in the bridge). Static paths are served as
   assets, free and always on; paths that match no file (a redirect, a
   form post, a dynamic route, the 404) reach the Worker. Only `src/server.ts` may touch Node; the
-  rest of `src/` is edge-safe by rule, and `npm run check` enforces it.
-- **Whether the site is on the web** is the owner's publish setting in
-  the dashboard, separate from where it serves.
+  rest of `src/` must run on Cloudflare, and `npm run check` enforces it.
+- **Who can open production** is the owner's setting in the dashboard:
+  the first deploy opens it to the team, and only the owner makes it
+  public.
 
 ## Install
 

@@ -1,6 +1,6 @@
 ---
 name: ship
-description: "Deploy this website to Task & Tool's edge and keep the deployed copy current: build, deploy, verify, redeploy after changes, and what 'on the web' and a custom domain mean. Use when the owner says deploy, publish, go live, put it on the edge or on Cloudflare, push the changes, or asks why visitors see an old version."
+description: "Publish this website to production on Cloudflare and keep production current: checks, build, npm run deploy, verify, redeploy after changes, custom domains. Use when the owner says publish, deploy, ship, go live, put it on Cloudflare, push the changes, or asks why production shows an old version."
 ---
 
 # Ship

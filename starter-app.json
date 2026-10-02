@@ -132,7 +132,7 @@
     {
       "id": "fix-the-site-audit-findings",
       "label": "Fix the site audit findings",
-      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then rebuild, deploy with the ship skill, and re-run tt-crawl audit to confirm.",
+      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then deploy to production with the ship skill, and re-run tt-crawl audit to confirm.",
       "when": [
         {
           "path": "raw/audit/_latest.json",
@@ -157,9 +157,9 @@
       "prompt": "Add a contact form following the website skill's forms.md: a leads table on the project's database (ask me to enable Postgres with request_capability if this app has none), the POST route with a honeypot and a redirect to a thank-you page, and the form on the contact page. Tell me how I will be notified of a submission."
     },
     {
-      "id": "publish-to-the-edge",
-      "label": "Publish to the edge",
-      "prompt": "Publish the site with the ship skill: run the checks, build, deploy to the edge with npm run deploy, verify the public URL, and remind me where the on-the-web setting lives. Tell me if this platform has no edge to deploy to."
+      "id": "publish-to-production",
+      "label": "Publish to production",
+      "prompt": "Publish the site to production with the ship skill: run the checks, deploy with npm run deploy, open the production address to verify, and tell me who can see it and where I make it public."
     }
   ]
 }

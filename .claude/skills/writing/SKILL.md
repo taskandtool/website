@@ -73,7 +73,7 @@ Examples of behavioral traits:
 Match the owner where their language is clear: vocabulary, cadence, humor, and
 favorite distinctions. Clean up confusion without sanding away their character.
 
-A filled card, for the specimen business the design catalogue uses:
+A filled card, for a made-up business (a cabinetry workshop):
 
 ```text
 VOICE CARD

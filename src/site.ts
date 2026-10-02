@@ -27,9 +27,8 @@ const addressLine = [addr.street, addr.locality, addr.region, addr.postal_code].
 export const site = {
   /** The business name as it should appear: header, <title>, footer. */
   name: business.name || "Your business",
-  tagline: "A website that is about to become yours.",
-  description:
-    "The working copy of a new website. Tell the AI about the business and this page becomes its front door.",
+  tagline: "",
+  description: "A new website, being set up now. The full site will be here soon; chat with AI to get it running.",
   locale: "en",
   /** The canonical origin (https://example.com) once the site has one; the
    *  canonical tag points here so the platform copy never competes with it. */
@@ -54,10 +53,7 @@ export const site = {
    *  inventory's `tracking`), rendered by the layout. Empty = nothing rendered. */
   tracking: { ga4: "", metaPixel: "", searchConsole: "" },
   /** Header links, in order (at most four; more belong in a menu). */
-  nav: [
-    { label: "What's inside", href: "#inside" },
-    { label: "Brand", href: "#brand" },
-  ],
+  nav: [] as { label: string; href: string }[],
   year: new Date().getFullYear(),
 };
 

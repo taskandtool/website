@@ -1,7 +1,7 @@
 # A contact form that writes to the project's database
 
 The recipe for the most common dynamic route. It runs the same way on the
-machine and at the edge. It needs `DATABASE_URL`: the project's managed
+machine in dev and on Cloudflare in production. It needs `DATABASE_URL`: the project's managed
 Postgres, granted to this app (the owner's Settings; ask with
 `request_capability("postgres", why)` when it is missing).
 
@@ -92,9 +92,9 @@ scheduled job emails new leads to the owner; without one, a scheduled job
 posts activity (the `work` skill), or a CRM in the project that reads
 `leads` shows them. Say plainly which of these is in place.
 
-## 5. At the edge
+## 5. In production
 
 `DATABASE_URL` reaches the Worker as a binding when the owner granted the
-project's database to this app; `serving_status()` and `list_connections()`
-in `tools/taskandtool.py` show what is granted. Publish with the `ship`
-skill; the form works on the edge copy the same way it did here.
+project's database to this app; `list_connections()` in
+`tools/taskandtool.py` shows what is granted. Publish with the `ship`
+skill; the form works in production the same way it did in dev.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the site and publish it.
+"""Build the site and deploy it to production.
 
     python3 scripts/deploy.py            build, then deploy
     python3 scripts/deploy.py --no-build deploy what is already built
@@ -7,9 +7,9 @@
 
 On a Task & Tool machine this calls deploy_site from the platform bridge
 (tools/taskandtool.py): the machine uploads the built assets and the Worker
-bundle; the platform deploys them to the edge on this app's behalf. No
-Cloudflare credential ever exists here. Any app may deploy; an unpublished
-site is published to its team (public is the owner's switch on the
+bundle; the platform deploys them to Cloudflare on this app's behalf. No
+Cloudflare credential ever exists here. Any app may deploy; the first deploy
+opens production to the team (public is the owner's switch on the
 dashboard).
 
 Anywhere else (your own computer, your own Cloudflare account) the same
@@ -61,16 +61,16 @@ def deploy_platform(dry_run):
     status = tt.serving_status()
     if status is None:
         fail("could not reach Task & Tool from this machine; try again in a moment")
-    if not status.get("edge_enabled"):
+    if not status.get("can_deploy"):
         print(json.dumps(status, indent=2))
-        fail("this platform has no edge set up; the site serves from this machine", 2)
+        fail("this platform cannot deploy to Cloudflare; the site stays in dev", 2)
     files = sum(len(fs) for _, _, fs in os.walk(DIST))
     print(f"== deploy: {files} asset(s) from {DIST}/ + Worker {WORKER}")
     if dry_run:
         print("dry run: nothing sent")
         return
     result = tt.deploy_site(DIST, worker_js=WORKER)
-    # A 5xx from the platform is almost always the edge in front of it
+    # A 5xx from the platform is almost always Cloudflare in front of it
     # hiccuping, not the deploy: wait what it asks and try once more (the
     # assets are already uploaded; only changed ones go again).
     if isinstance(result, dict) and int(result.get("http_status") or 0) >= 500:
@@ -79,11 +79,10 @@ def deploy_platform(dry_run):
         time.sleep(wait)
         result = tt.deploy_site(DIST, worker_js=WORKER)
     if isinstance(result, str):
-        print(f"live at {result}")
+        print(f"production: {result}")
         print(
-            "Visitors are now served from the edge. Edits on this machine reach them only "
-            "after this script runs again. Whether the site is on the web at all is the "
-            "owner's publish setting in the dashboard."
+            "Production now shows this build. Edits in dev reach it only when this script "
+            "runs again. Who can open production is the owner's setting in the dashboard."
         )
         return
     if result is None:

@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Direct the visual system of this website: the brief, the style catalogue the owner picks from, three directions, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
+description: "Direct the visual system of this website: the brief, references the owner picks from, three directions, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
 ---
 
 # Design
