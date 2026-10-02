@@ -1,5 +1,5 @@
 ---
-description: "Build and run this business website: the Hono app in this repo, its pages, brand tokens, components, the dev loop on the machine, checks, and how to add pages, images, and forms. Use for any change to the site and when the owner says 'build my website', 'add a page', 'change the look'."
+description: "Build, run and publish this business website: the Hono app in this repo, its pages, brand tokens, components, the dev loop, checks, adding pages, images and forms, and publishing to production. Use for any change to the site, and for 'build my website', 'add a page', 'change the look', 'publish it'."
 ---
 
 # Website
@@ -7,13 +7,15 @@ description: "Build and run this business website: the Hono app in this repo, it
 This app is a website on Hono: server-rendered JSX, Tailwind v4, no client
 framework. **Dev** is this machine: the `web` service at the team's
 Development link, every edit there on refresh. **Production** is the site
-deployed to Cloudflare (the `ship` skill): every page pre-rendered to HTML,
+deployed to Cloudflare (below, and the platform's `deploy` skill): every
+page pre-rendered to HTML,
 with a small Worker behind it for anything dynamic. The owner's
 CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
 A site still on its welcome page starts with the `new-site` skill: intake,
-competitors, three homepages, then the system and the pages. Before a
+competitors, three homepages, then the system and the pages. What pages a
+site needs and what each says is the `pages` skill. Before a
 substantial new page or a redesign, work through the `design` and `writing`
 skills first: the brief, the voice card (`brand/voice.md`), the content
 inventory. Build from real words and real material. When the owner has a
@@ -217,6 +219,31 @@ every change; on a one-off run `npm run css`.
   (`/schedule-job`) posts activity, or the CRM picks it up. Say which the
   site does.
 
+## Publishing to production
+
+Deploy when the owner asks, not on your own after an edit. The platform's
+`deploy` skill says what production is and who can see it; this is what
+this site does before and during a deploy:
+
+1. Finish the work: `npm run check`, `npm run typecheck`, `npm run build
+   && npm run lint`, `npm run audit` (the crawler against dev: broken
+   links, headings, alt text, labels, link text, title and description
+   lengths, page weight, sitemap), and a look at the pages in the browser.
+   Fix what they list. Set `site.url` in `src/site.ts` to the real domain:
+   the canonical tags and the sitemap depend on it. A migrated site runs
+   the `launch-check` skill first.
+2. `npm run deploy`. It pre-renders every page to `dist/`, bundles
+   `build/worker.mjs` for dynamic routes, and hands both to `deploy_site`;
+   only changed files upload. It prints production's address: open it,
+   and a dynamic path if there is one, then tell the owner what changed.
+3. Commit. The deploy is not a commit; the repo is the record. To roll
+   back, check out the last good commit and deploy it.
+
+After an edit to a site already in production, say it is in dev only
+until the next `npm run deploy`. A route that needs the filesystem, a
+long-lived process or a Node built-in cannot run in production: keep that
+work at build time, or say plainly that production cannot have it.
+
 ## After launch
 
 A site nobody checks rots quietly. Once the site is on its real domain,
@@ -242,7 +269,7 @@ platform: on the owner's own computer, against their own Cloudflare account.
 
 On this machine that is not a path to take. Production **is** Cloudflare,
 Task & Tool's, so "publish", "go live" and "put it on Cloudflare" all mean
-`npm run deploy` (the `ship` skill); the platform holds the credential. Never run `wrangler login`, and never ask the owner for a
+`npm run deploy` (above); the platform holds the credential. Never run `wrangler login`, and never ask the owner for a
 Cloudflare token. Only if they explicitly want their *own* Cloudflare account
 instead, and a Cloudflare connection is granted to this app, is wrangler
 right (the `deploy` skill: "A customer's own Cloudflare").

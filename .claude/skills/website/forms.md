@@ -96,5 +96,5 @@ posts activity (the `work` skill), or a CRM in the project that reads
 
 `DATABASE_URL` reaches the Worker as a binding when the owner granted the
 project's database to this app; `list_connections()` in
-`tools/taskandtool.py` shows what is granted. Publish with the `ship`
-skill; the form works in production the same way it did in dev.
+`tools/taskandtool.py` shows what is granted. Publish with `npm run deploy`;
+the form works in production the same way it did in dev.

@@ -121,7 +121,7 @@
     {
       "id": "fix-the-site-audit-findings",
       "label": "Fix the site audit findings",
-      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then deploy to production with the ship skill, and re-run tt-crawl audit to confirm.",
+      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then deploy to production with npm run deploy, and re-run tt-crawl audit to confirm.",
       "when": [
         {
           "path": "raw/audit/_latest.json",
@@ -148,7 +148,7 @@
     {
       "id": "publish-to-production",
       "label": "Publish to production",
-      "prompt": "Publish the site to production with the ship skill: run the checks, deploy with npm run deploy, open the production address to verify, and tell me who can see it and where I make it public."
+      "prompt": "Publish the site to production as the website skill says: run the checks, deploy with npm run deploy, open the production address to verify, and tell me who can see it and where I make it public."
     }
   ]
 }

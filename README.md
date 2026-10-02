@@ -45,7 +45,6 @@ Beside the site, the two conventions Task & Tool reads:
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
   launch-check/  the old URLs against the new site, before publishing and after the cutover
-  ship/          publish to production and keep production current
 .agents/skills/  thin Codex adapters: the same descriptions, pointing at the bodies above
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
 starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an

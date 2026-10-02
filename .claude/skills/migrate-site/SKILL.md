@@ -83,10 +83,10 @@ check` holds the map and the table to each other.
 
 ## 5. Pages, one per turn
 
-Each page from the notes and the brand, in the new design (`design` and
-`writing` skills; in a faithful rebuild the copy is the owner's and is
-only edited, never re-voiced unless asked), with the old page's raw
-markdown open for what it said and which links it carried. Title and h1
+Each page through the `pages` skill (its brief, then the page, in the
+site's record; in a faithful rebuild the copy is the owner's and is only
+edited, never re-voiced unless asked), with the old page's raw markdown
+open for what it said and which links it carried. Title and h1
 keep their intent (`seo.md`); photographs come from `_index/media.json`'s
 photo entries at full size with their alt text, never stock; internal
 links point at the new map. Posts go through `posts.md`; legal pages
@@ -104,7 +104,7 @@ generated thing is wrong, the note or the map is wrong.
 
 The `launch-check` skill: every old URL answers 200 or 301 to a 200,
 titles and descriptions present, the sitemap matches, the JSON-LD parses;
-then publishing with the `ship` skill; then the owner's domain cutover
+then publishing with `npm run deploy` (the `website` skill); then the owner's domain cutover
 (a CNAME; mail records are untouched, say so) and the weekly audit job.
 
 ## Reference mode: a site the owner admires
