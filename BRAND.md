@@ -28,20 +28,19 @@ The site never reads these files at runtime. They are the AI's input.
 
 ## What the AI sets from them
 
-Three files, in this order, whenever the brand changes:
+Two files, in this order, whenever the brand changes:
 
-1. **`styles/theme.css`**: the brand block (`--brand-primary`, `--brand-dark`,
-   `--brand-light`, `--brand-neutral`, and any extras) from
-   `visual-identity.md`, the two font families, and then the *roles*: which
-   brand colour is the accent, the night ground, the secondary ink. A brand
-   colour that fails 4.5:1 as text gets a different role, never a squint.
-   `npm run check` measures the pairs.
+1. **`design/system.yaml`**: the colours from `visual-identity.md` assigned
+   to *roles* (which brand colour is the accent, the night ground, the
+   secondary ink), the two font families, and any rule the brand's
+   do-and-don't adds or removes; then `npm run system`, which writes
+   `styles/theme.css` and `DESIGN.md`. A brand colour that fails 4.5:1 as
+   text gets a different role, never a squint; `npm run check` measures the
+   pairs.
 2. **`src/site.ts`**: the name, tagline, description, locale, contact
    details, social links, logo file, and the fonts' Google Fonts URL (or
    self-hosted fonts in `static/fonts/` with `@font-face` in
    `styles/input.css`), from `positioning.md` and `visual-identity.md`.
-3. **`DESIGN.md`**: the palette table's values, the type families, the
-   Identity block, and any rule the brand's do-and-don't adds or removes.
 
 Then the pages, through the `design` and `writing` skills, with
 `voice.md` as the voice card. The suggested first prompt is in the chat

@@ -1,18 +1,18 @@
 ---
-description: "Direct the visual system of this website: references, three real homepages the owner picks from, the design contract, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
+description: "Direct the visual system of this website: references, three real homepages the owner picks from, the system record, type, layout, imagery, motion, accessibility, and the rendered review. Use before building or redesigning any page, and when the owner says change the look or it looks generic."
 ---
 
 # Design
 
-In this app the design system is a contract in files: `DESIGN.md` at the
-app root says what every token is for, how sections are composed, what to
-refuse, and holds the Identity block this skill fills; `styles/theme.css`
-holds the values; the brand itself is the notes in `brand/` (`BRAND.md`),
-with `brand/voice.md` as the voice card. Read `DESIGN.md` and the brand
-notes before choosing anything below, build with the theme's classes, and
-when a direction changes a token, change it there and update the matching
-row. The method in this file is how a direction is found; the contract is
-where it is recorded.
+In this app the design system is one record: `design/system.yaml` holds
+every token, the rules with their reasons, and how each kind of content is
+laid out; `npm run system` compiles it into `styles/theme.css` (the classes)
+and `DESIGN.md` (the readable contract, with the Identity block this skill
+fills). Never edit those two by hand. The brand itself is the notes in
+`brand/` (`BRAND.md`), with `brand/voice.md` as the voice card. Read
+`DESIGN.md` and the brand notes before choosing anything below, and build
+with the theme's classes. The method in this file is how a direction is
+found; the record is where it is kept.
 
 Make the page unmistakably about this subject, for this audience, doing this
 job. A new palette applied to a familiar landing-page template is not a design
@@ -171,68 +171,38 @@ change the same folder, run `variant` and `lint` again, and show the revised
 page as a new group. When the owner is happy with the look, ask whether they
 are ready for the design system and the rest of the pages; that is step 4.
 
-## 4. Turn the Direction Into a Buildable Contract
+## 4. Harden the Pick Into the Site's System
 
-When the owner says yes, the picked homepage becomes the site:
+When the owner says yes to "ready for the design system and the rest of the
+pages?", the picked homepage becomes the site:
 
-1. Its `theme.css` becomes `styles/theme.css`; DESIGN.md's palette, type and
-   Identity rows are filled from it and from the contract below.
-2. Its `page.html` becomes `src/pages/home.tsx` by the website skill's "From
-   an HTML page to a page here", with every fact moved into `public/` and
-   read back through `content`.
-3. `npm run css`, `npm run check`, `npm run build && npm run lint`, and the
-   review gate on the real page.
+1. **Write the record.** Rewrite `design/system.yaml` from the picked
+   variant's `theme.css` and `page.html`, the brief and its direction card,
+   by `references/authoring.md`: the site's colour roles, the type, the
+   rules with their reasons, the imagery, the motion, and `x_layout` for
+   every shape of content, not only the ones the homepage shows. Fill
+   `identity` from the brief. `references/records/` holds two proven library
+   records as worked examples. Then `npm run system`.
+2. **Rebuild it blind.** Start a sub-agent with a fresh context and give it
+   only `design/brief.md`, `public/`, `brand/` and `design/system.yaml`:
+   build the homepage the brief describes as `design/rebuild/page.html`,
+   in this record's classes. Copy `styles/theme.css` to
+   `design/rebuild/theme.css`, run `npm run variant -- design/rebuild`, and
+   screenshot it and the pick at desktop and phone width. Where they differ
+   in a way the owner would notice (the head, the grounds, the type, how a
+   band is arranged), the record left it out: add it to the record and
+   rebuild once more. Two rounds at most; say what still differs. Without
+   a way to start a sub-agent, skip this and say so.
+3. **Make it the site.** The pick's `page.html` (not the rebuild) becomes
+   `src/pages/home.tsx` by the website skill's "From an HTML page to a page
+   here", every fact moved into `public/` and read back through `content`.
+4. **Check it.** `npm run css`, `npm run check`, `npm run build && npm run
+   lint`, and the review gate on the real page.
 
-Then the other pages follow the same contract. The variants stay in
-`design/variants/` as the record of what the owner chose between.
-
-Before implementation, reduce the chosen direction to a compact contract.
-Specificity makes the result reproducible; adjective piles do not.
-
-Use this shape:
-
-```text
-DESIGN CONTRACT
-Subject / audience / one job:
-Primary action:
-Available evidence and media:
-
-Direction:
-Visual thesis:
-Voice: [3 traits, each defined as observable writing behavior]
-
-PALETTE
-canvas: [name + value + purpose]
-surface: [name + value + purpose]
-text: [name + value + purpose]
-action: [name + value + purpose]
-accent: [name + value + purpose]
-
-TYPE
-display: [family, weight, scale, line-height, tracking, purpose]
-body: [family, weight, size, line-height, measure]
-utility: [family, weight, case, tracking, purpose]
-
-LAYOUT
-1. [section]: [content job, hierarchy, composition, real source material]
-2. ...
-
-SIGNATURE
-[appearance, states, trigger/progress, input methods, fallback]
-
-MUST
-[the few rules that make the direction recognizable]
-
-DO NOT
-[specific defaults or effects that would weaken it]
-
-RESPONSIVE / ACCESSIBILITY
-[reflow, tap targets, focus, contrast, reduced motion, no-JS behavior]
-```
-
-Avoid loose instructions such as “make it premium,” “use dynamic gradients,” or
-“add modern animations.” Name the visual property, its value, its purpose, and
-where it appears.
+The other pages follow the record (the `new-site` skill, step 5). The
+variants and the rebuild stay in `design/` as the record of what the owner
+chose between. A later change to the look is a change to the record, then
+`npm run system`.
 
 ## 5. Compose From Content
 
@@ -330,8 +300,8 @@ the user's expense.
 - Error, empty, loading, and success states belong to the same voice as the
   marketing page.
 
-The `writing` skill owns the full voice and editing pass. The design contract
-records the parts that affect hierarchy, space, labels, and interaction.
+The `writing` skill owns the full voice and editing pass. The system record
+keeps the parts that affect hierarchy, space, labels, and interaction.
 
 ## Defaults to Refuse
 

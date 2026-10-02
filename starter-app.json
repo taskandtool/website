@@ -46,7 +46,7 @@
     {
       "id": "apply-my-brand-from-my",
       "label": "Apply my brand from my site",
-      "prompt": "Apply the brand to this site from my crawled site: first write brand/ from it with the brand skill (visual identity, positioning, voice, the logo files, the best photos). Follow DESIGN.md's 'Updating from the brand': colours and fonts into styles/theme.css with roles assigned and contrast checked, the facts into src/site.ts, then DESIGN.md's palette, type, and Identity block. Show me the result on the working copy and list what the notes did not say that only I can supply.",
+      "prompt": "Apply the brand to this site from my crawled site: first write brand/ from it with the brand skill (visual identity, positioning, voice, the logo files, the best photos). Then follow BRAND.md's 'What the AI sets from them': colours and fonts into design/system.yaml by role and npm run system, contrast checked, and the facts into src/site.ts. Show me the result on the working copy and list what the notes did not say that only I can supply.",
       "when": [
         {
           "path": "raw/site/_sites.json",

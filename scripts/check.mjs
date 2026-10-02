@@ -2,8 +2,8 @@
 // The site's own checks, run with `npm run check`. They make DESIGN.md and
 // BRAND.md enforceable rather than advisory:
 //   - the brand notes the site is set from exist (BRAND.md)
-//   - every colour DESIGN.md's palette table lists exists in the theme, and
-//     the brand-dependent pairs (accent on canvas, ink-2 on canvas…) meet 4.5:1
+//   - styles/theme.css and DESIGN.md match design/system.yaml, and the
+//     role pairs the layout uses (accent on canvas, ink-2 on panel…) meet 4.5:1
 //   - page paths are unique and start with "/"
 //   - site-map.md's keep and merge rows resolve to a page or a redirect
 //   - posts carry a real date; the business note's phone looks like one
@@ -14,6 +14,7 @@
 // Exit 1 with the findings when something is off.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { DESIGN, RECORD, THEME, designMd, problems, readRecord, themeCss } from "./system.mjs";
 import { isHex, ratio, readTheme } from "./theme.mjs";
 
 const findings = [];
@@ -23,23 +24,20 @@ const { source: theme, colour } = readTheme();
 for (const f of ["positioning.md", "voice.md", "visual-identity.md"]) {
   if (!existsSync(join("brand", f))) findings.push(`brand/${f} is missing (BRAND.md lists the notes the site is set from)`);
 }
-const design = readFileSync("DESIGN.md", "utf8");
-const identity = design.split("## Identity")[1]?.split("\n## ")[0] ?? "";
-const unfilled = (identity.match(/to fill/g) ?? []).length;
-if (unfilled) console.log(`note: DESIGN.md's Identity block has ${unfilled} line(s) still to fill; the site is a template until the design skill's brief fills them`);
 
-// DESIGN.md palette vs the theme
-const palette = design.split("## Color")[1]?.split("\n## ")[0] ?? "";
-const known = new Set((theme.match(/#[0-9a-fA-F]{6}\b/g) ?? []).map((h) => h.toLowerCase()));
-for (const h of new Set(palette.match(/#[0-9a-fA-F]{6}\b/g) ?? [])) {
-  if (!known.has(h.toLowerCase())) findings.push(`DESIGN.md lists ${h} but styles/theme.css does not define it`);
-}
-for (const token of new Set(palette.match(/`(--color-[a-z0-9-]+)`/g) ?? [])) {
-  const name = token.replace(/`/g, "");
-  if (!theme.includes(`${name}:`)) findings.push(`DESIGN.md names ${name} but styles/theme.css does not define it`);
+// styles/theme.css and DESIGN.md are compiled from the record; a hand edit
+// to either is lost on the next compile, so it is a finding here
+const record = readRecord();
+const unfilled = Object.values(record.identity ?? {}).filter((v) => String(v).startsWith("to fill")).length;
+if (unfilled) console.log(`note: ${RECORD}'s identity has ${unfilled} line(s) still to fill; the site is a template until the design skill's step 4 fills them`);
+const recordProblems = problems(record);
+for (const p of recordProblems) findings.push(`${RECORD}: ${p}`);
+if (!recordProblems.length) {
+  if (theme !== themeCss(record)) findings.push(`${THEME} does not match ${RECORD}: change the record and run npm run system`);
+  if (readFileSync(DESIGN, "utf8") !== designMd(record)) findings.push(`${DESIGN} does not match ${RECORD}: change the record and run npm run system`);
 }
 
-// contrast of the brand-dependent pairs (WCAG 2.x)
+// contrast of the role pairs the layout and components use (WCAG 2.x)
 const resolved = Object.fromEntries(["canvas", "panel", "surface", "accent", "accent-ink", "ink", "ink-2", "ink-3", "night", "night-ink", "night-ink-2"].map((n) => [n, colour(n)]));
 const pairs = [
   ["ink", "canvas"], ["ink", "surface"], ["ink", "panel"],
@@ -51,7 +49,7 @@ for (const [fg, bg] of pairs) {
   const [a, b] = [resolved[fg], resolved[bg]];
   if (!isHex(a) || !isHex(b)) continue;
   const r = ratio(a, b);
-  if (r < 4.5) findings.push(`contrast: ${fg} (${a}) on ${bg} (${b}) is ${r.toFixed(1)}:1, under 4.5:1. Give the role a different value in styles/theme.css (DESIGN.md: Color rules)`);
+  if (r < 4.5) findings.push(`contrast: ${fg} (${a}) on ${bg} (${b}) is ${r.toFixed(1)}:1, under 4.5:1. Give the role a different value in design/system.yaml`);
 }
 
 // pages

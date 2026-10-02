@@ -60,8 +60,8 @@ Legal text goes verbatim into `legal/` with `path` and `title`.
 The notes in `brand/` from `_index/styles.json`, the logo candidates in
 `_index/media.json`, and the copy: `visual-identity.md` with colours as hex,
 the fonts, the logo files copied into `brand/logo/`. Then apply them:
-`DESIGN.md` → "Updating from the brand" (theme, `src/site.ts`, DESIGN.md's
-identity and palette). Copy the tracking IDs into `src/site.ts`.
+`BRAND.md` → "What the AI sets from them" (`design/system.yaml` and
+`npm run system`, then `src/site.ts`). Copy the tracking IDs into `src/site.ts`.
 
 ## 4. Plan: `site-map.md`
 

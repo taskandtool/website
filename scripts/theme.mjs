@@ -1,5 +1,5 @@
 // A theme's colours as values: every --color-* token in a theme file resolved
-// to its hex (following one var() into the brand block), and the WCAG
+// to its hex (following one var() to another token), and the WCAG
 // arithmetic over them. Shared by check.mjs (the site's own pairs), lint.mjs
 // (the pairs a rendered page actually uses) and variant.mjs.
 import { readFileSync } from "node:fs";

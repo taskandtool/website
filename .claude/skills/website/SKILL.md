@@ -72,8 +72,8 @@ public/           the fact notes with typed frontmatter (FACTS.md): business · 
 posts/ legal/     the blog collection (posts.md) and the verbatim legal pages; npm run content turns all three into src/generated/content.json
 site-map.md       the page plan and the migration ledger (migrate-site skill); src/redirects.ts is its 301 table
 raw/              a crawled site (tt-crawl, migrate-site skill): raw/site/<host> with pages, images, docs, structured, the _index inventory; raw/audit the audits
-styles/theme.css  the design tokens: the brand's colours and fonts, their roles, type scale, edges, rhythm
-DESIGN.md         the identity block, the rules the tokens serve, and "Updating from the brand"; read before designing
+design/system.yaml  the design system as one record; `npm run system` compiles it into styles/theme.css and DESIGN.md
+DESIGN.md         the identity block, the role of every token, the rules; read before designing, never edit by hand
 src/site.ts       the site's facts (name, tagline, contact, social, logo, fonts URL), the nav, the Page type
 src/layout.tsx    the document: head (title, description, fonts), header, footer, render()
 src/components/   Section, Eyebrow, Button; add shared pieces here
@@ -166,21 +166,20 @@ from the design library) becomes a page here in five mechanical steps:
 
 `brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
 audience, visual identity, do and don't, and `logo/`. The site never reads
-them; you do. Setting the site from them is a fixed procedure, "Updating
-from the brand" in `DESIGN.md`: colours and fonts into the brand block of
-`styles/theme.css` and roles assigned (accent, night, inks; `npm run check`
-measures contrast and fails a bad pair), the facts into `src/site.ts`
-(name, tagline, contact, social, logo, fonts URL), then `DESIGN.md`'s
-palette, type, and Identity block, then the pages. Do it on the first
+them; you do. Setting the site from them is a fixed procedure, "What the
+AI sets from them" in `BRAND.md`: colours and fonts into
+`design/system.yaml` by role (accent, night, inks) and `npm run system`
+(`npm run check` measures contrast and fails a bad pair), the facts into
+`src/site.ts` (name, tagline, contact, social, logo, fonts URL), then the
+pages. Do it on the first
 real build and whenever the notes change, and say what changed.
 
 The `brand` skill writes the notes, from whatever the owner gives you: the
 owner in chat first, then a crawl of their site (`migrate-site`), a
 document, a social profile. Keep them current.
 
-Theme values that are not brand (the type scale, radii, rhythm, the
-grounds) are yours: change them in `styles/theme.css` with the matching
-row in `DESIGN.md`. Self-hosted fonts go in `static/fonts/` with
+Values that are not brand (the type scale, radii, rhythm, the grounds) are
+yours: change them in `design/system.yaml` and run `npm run system`. Self-hosted fonts go in `static/fonts/` with
 `@font-face` in `styles/input.css`. The dev service rebuilds the CSS on
 every change; on a one-off run `npm run css`.
 

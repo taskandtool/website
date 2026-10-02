@@ -12,6 +12,7 @@
     "css:watch": "tailwindcss -i styles/input.css -o static/site.css --watch=always",
     "build": "tsx scripts/build.ts",
     "check": "node scripts/check.mjs",
+    "system": "node scripts/system.mjs",
     "lint": "node scripts/lint.mjs",
     "variant": "node scripts/variant.mjs",
     "typecheck": "tsc --noEmit -p .",

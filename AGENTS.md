@@ -18,15 +18,17 @@ working from memory.
 
 - `brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
   audience, visual identity, do and don't, and `logo/`. The site never
-  reads them at runtime; you do, to set `styles/theme.css`, `src/site.ts`,
-  and `DESIGN.md` from them ("Updating from the brand" in `DESIGN.md`).
+  reads them at runtime; you do, to set `design/system.yaml` and
+  `src/site.ts` from them ("What the AI sets from them" in `BRAND.md`).
   The `brand` skill writes them, and the facts in `public/`, from whatever
   the owner gives you: a crawl, a chat, a document, a social profile.
-- `styles/theme.css` is the website's design system as tokens: the brand's
-  colours and fonts, the roles they play, the type scale, edges, rhythm.
-  `DESIGN.md` explains every token, the composition rules, the refuse list,
-  and holds the site's Identity block. Read it before designing. The theme
-  in the box is a neutral starting point, not a style.
+- `design/system.yaml` is the website's design system as one record: the
+  brand's colours and fonts by role, the type scale, edges, rhythm, the
+  rules with their reasons, and how each kind of content is laid out.
+  `npm run system` compiles it into `styles/theme.css` (the classes) and
+  `DESIGN.md` (the readable contract, with the site's Identity block); never
+  edit those two by hand. Read `DESIGN.md` before designing. The record in
+  the box is a neutral starting point, not a style.
 - `public/` is the facts as notes with typed frontmatter (`FACTS.md`);
   `posts/` and `legal/` are the collections. `npm run content` turns them
   into `src/generated/content.json`, which the pages import; the build
@@ -63,8 +65,8 @@ working from memory.
 - Code in `src/` must run on Cloudflare (no Node built-ins, no filesystem,
   no per-request state); `src/server.ts` is the single exception. Files and
   heavy work happen at build time, on this machine.
-- Colours and fonts live in `styles/theme.css` with a row in `DESIGN.md`,
-  set from the brand notes. Markup never carries a hex value or a Tailwind
+- Colours and fonts live in `design/system.yaml`, set from the brand
+  notes. Markup never carries a hex value or a Tailwind
   default colour; `npm run lint` refuses both.
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.

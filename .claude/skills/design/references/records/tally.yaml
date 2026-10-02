@@ -1,0 +1,489 @@
+# Tally — the lead-generation arm. Studied from contractor quote pages that
+# convert: checked claims that scan at a glance, photographs of the work, cards
+# and tap tiles, and proof shown with the marks of whoever gave it.
+# The one idea: every rating, review and certification carries its source's own
+# mark in full colour (Google's G, Facebook's f, the manufacturer's badge) on a
+# light band, so the reader sees whose stars they are. Dark is kept for the one
+# closing band and the footer. (Proof on dark bands, the first version, hid the
+# marks and read as an odd purple banner; 2026-09-24.)
+id: tally
+title: Tally
+summary: >
+  A lead-generation system: one heavy grotesk on white, one action colour,
+  checked one-line claims, photographs of the work, and ratings, reviews and
+  certifications on light bands, each with its source's mark in colour.
+description: >
+  Tally shows whose word each thing is. A company claim is a checked line,
+  readable at a thumb-flick. A rating, a review or a certification carries its
+  source's own mark in full colour, on a light band where the marks read as
+  drawn: the Google G beside 4.9 and its stars, the manufacturer's badge in a
+  row of marks under the hero. A rating is a full-width banner of cells: mark,
+  figure, stars, count. Dark ground is kept for the closing band and the
+  footer. Containers are cards at
+  14px; anything pressed or typed is a 6px tile; a form, where a page carries
+  one, is a card of large tap tiles with a progress track. One heavy grotesk,
+  white ground, near-black ink, one action colour that the brand's own will
+  usually replace. Suited to trades, home services, clinics, local services:
+  anything sold on trust to someone on a phone.
+
+facets:
+  kind: style
+  vertical: [trades, home-services, local-services, clinics]
+  style_family: lead-generation
+  mood: [direct, trustworthy, plain]
+  density: dense
+  color_story: white-ink-and-one-action
+  motion_level: none
+  theme: [light]
+  complexity: 1
+
+provenance:
+  author: gavin
+  license: MIT
+  derived_from: null
+  inspiration_note: >
+    Original. Structure studied from contractor lead-generation pages (a quote
+    wizard, a rating banner, repeated proof); reproduces no brand's colours,
+    type or identity.
+
+# ── DESIGN.md frontmatter (exported verbatim) ──────────────────────
+tokens:
+  version: alpha
+  name: Tally
+  description: >
+    Lead-generation system. White ground, near-black ink, one action colour,
+    checked claims and tap tiles, and proof on light bands with its sources' marks.
+  colors:
+    primary: "#1FD65F"
+    primary-deep: "#0A6B30"
+    canvas: "#FFFFFF"
+    panel: "#F2F4F6"
+    line: "#D5DAE0"
+    ink: "#0E1116"
+    ink-muted: "#454C57"
+    night: "#14181F"
+    night-muted: "#AEB6C2"
+    star: "#FFB81C"
+  typography:
+    display-xl:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 56px
+      fontWeight: 800
+      lineHeight: 1.04
+      letterSpacing: -1.4px
+    display-lg:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 46px
+      fontWeight: 800
+      lineHeight: 1.08
+      letterSpacing: -0.9px
+    display-md:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 34px
+      fontWeight: 800
+      lineHeight: 1.06
+      letterSpacing: -0.8px
+    heading-lg:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 28px
+      fontWeight: 800
+      lineHeight: 1.1
+      letterSpacing: -0.5px
+    heading-md:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 24px
+      fontWeight: 700
+      lineHeight: 1.2
+      letterSpacing: -0.3px
+    heading-sm:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 19px
+      fontWeight: 700
+      lineHeight: 1.3
+      letterSpacing: 0px
+    body-lg:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 19px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+    body-md:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    tally:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 44px
+      fontWeight: 800
+      lineHeight: 1
+      letterSpacing: -1px
+      fontFeature: tnum
+    label:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 17px
+      fontWeight: 700
+      lineHeight: 1.2
+      letterSpacing: 0px
+    caption:
+      fontFamily: "Schibsted Grotesk"
+      fontSize: 15px
+      fontWeight: 500
+      lineHeight: 1.45
+      letterSpacing: 0px
+      fontFeature: tnum
+  rounded:
+    tight: 6px
+    card: 14px
+  spacing:
+    xs: 4px
+    sm: 12px
+    md: 20px
+    lg: 40px
+    xl: 72px
+    xxl: 112px
+  components:
+    body:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink}"
+      typography: "{typography.body-md}"
+    header:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink}"
+      typography: "{typography.label}"
+    button-primary:
+      backgroundColor: "{colors.primary}"
+      textColor: "{colors.ink}"
+      typography: "{typography.label}"
+      rounded: "{rounded.tight}"
+    button-primary-hover:
+      backgroundColor: "{colors.primary-deep}"
+      textColor: "{colors.canvas}"
+      typography: "{typography.label}"
+      rounded: "{rounded.tight}"
+    wizard:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink}"
+      typography: "{typography.heading-sm}"
+      rounded: "{rounded.card}"
+    wizard-tile:
+      backgroundColor: "{colors.panel}"
+      textColor: "{colors.ink}"
+      typography: "{typography.label}"
+      rounded: "{rounded.tight}"
+    input:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink}"
+      typography: "{typography.body-md}"
+      rounded: "{rounded.tight}"
+    check-mark:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.primary-deep}"
+    reassurance:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink-muted}"
+      typography: "{typography.caption}"
+    rating-banner:
+      backgroundColor: "{colors.panel}"
+      textColor: "{colors.ink}"
+      typography: "{typography.tally}"
+    rating-banner-label:
+      backgroundColor: "{colors.panel}"
+      textColor: "{colors.ink-muted}"
+      typography: "{typography.caption}"
+    close-band:
+      backgroundColor: "{colors.night}"
+      textColor: "{colors.canvas}"
+      typography: "{typography.display-lg}"
+    stars:
+      backgroundColor: "{colors.night}"
+      textColor: "{colors.star}"
+    review-card:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink}"
+      typography: "{typography.body-md}"
+      rounded: "{rounded.card}"
+    marks-bar:
+      backgroundColor: "{colors.canvas}"
+      textColor: "{colors.ink-muted}"
+      typography: "{typography.caption}"
+    badge:
+      backgroundColor: "{colors.panel}"
+      textColor: "{colors.ink}"
+      typography: "{typography.caption}"
+      rounded: "{rounded.tight}"
+    hairline:
+      backgroundColor: "{colors.line}"
+      textColor: "{colors.ink}"
+    footer:
+      backgroundColor: "{colors.night}"
+      textColor: "{colors.night-muted}"
+      typography: "{typography.caption}"
+
+# ── DESIGN.md prose sections (exported verbatim) ───────────────────
+sections:
+  overview: >
+    Tally shows whose word each thing is. The company speaks in checked
+    claims, steps and photographs of its work. Other people's words (ratings,
+    reviews, certifications) carry their source's own mark in full colour, on
+    {colors.canvas} or {colors.panel}, so the reader sees at a glance that the
+    stars are Google's and the badge is the manufacturer's. {colors.night} is
+    kept for the closing band and the footer. One family,
+    Schibsted Grotesk, carries everything; weight does the hierarchy.
+    {colors.primary} fills the primary action and nothing else, and is expected
+    to be replaced by the brand's own colour.
+  colors: >
+    {colors.canvas} is the ground and the form card. {colors.panel} is the
+    alternate band ground, the answer tiles and the badge chips. {colors.ink} is all text on
+    light ground;
+    {colors.ink-muted} is secondary text and the reassurance line under a
+    button, when the brief gives one. {colors.night} is the closing band and the footer; on it,
+    {colors.canvas} carries the words and {colors.night-muted} the labels.
+    Stars are the star graphic (assets/platforms/star.svg) or glyphs in {colors.star}, beside a
+    rating figure that states the rating in text, so they are decoration and need no contrast
+    of their own (the `stars` component pair is declared on {colors.night} only so the token
+    passes the contrast lint). {colors.primary} fills the primary button under
+    {colors.ink} text; {colors.primary-deep} is its hover and the check marks
+    beside claims. {colors.line} is a form's progress track, the card borders
+    and the rules between list rows.
+  typography: >
+    Schibsted Grotesk throughout. {typography.display-xl} for the hero
+    headline, {typography.display-lg} for section heads, {typography.heading-md}
+    for card and step titles, {typography.heading-sm} for form questions and
+    claim lead-ins, {typography.body-md} for prose, {typography.label} for
+    buttons, tiles and checked claims, {typography.caption} for attributions,
+    reassurance and badges. {typography.tally} is the rating figure in the
+    banner. Sentence case everywhere, including buttons. Measure under 60
+    characters.
+  layout: >
+    A twelve-column grid at 1152px with {spacing.lg} gutters; one column with
+    {spacing.md} margins below 768px. A band that pairs text with a card is a
+    7/5 split, the text on the left and the card on the right; on a phone the
+    card follows the text directly. A banner of figures runs the full width on
+    {colors.panel}. Bands alternate {colors.canvas} and {colors.panel},
+    with {colors.night} for the closing band only, in the order the page type sets; the
+    system decides only how each band looks. A card set beside a long list
+    may sit sticky in its column.
+  elevation_and_depth: >
+    Flat. Depth is the alternation of {colors.canvas} and {colors.panel}, the one dark close, and a one-pixel {colors.line}
+    border on the form card and inputs. No shadows, no gradients.
+  shapes: >
+    Two radii. {rounded.tight} (6px) for everything pressed or typed:
+    buttons, inputs, answer tiles, badges. {rounded.card} (14px) for
+    containers: the form card, review cards, photographs. Nothing is a pill.
+  components: >
+    Form card: {colors.canvas} card, {rounded.card}, a one-pixel {colors.line}
+    border. A form that asks choices is stepped: a {colors.line} progress
+    track with a {colors.primary} fill and "Step 2 of 4" in {typography.caption},
+    one question per step in {typography.heading-sm}, answers as
+    {colors.panel} tiles, 2-up, at least 56px tall; tapping one advances at
+    once with no Continue button. A Back text button returns a step. A step
+    with text inputs uses labelled inputs and the primary button, with the
+    reassurance line under it when there is one. Rating banner: {colors.panel}, one cell per
+    platform: the platform's mark in colour (about 32px), the figure in {typography.tally}
+    {colors.ink}, the stars as star graphics, then the count in {typography.caption}. Checked claim: a
+    {colors.primary-deep} check, the claim in {typography.label}, an optional
+    one-line gloss in {colors.ink-muted}. Review card: {colors.canvas} at {rounded.card}
+    on a {colors.panel} band, the platform's mark and stars on one line, the
+    quote, then the attribution in {typography.caption} {colors.ink-muted}. Badge:
+    {colors.panel} chip at {rounded.tight} carrying the name of a licence,
+    award or accreditation.
+  dos_and_donts:
+    do:
+      - rule: "Use the split head (words left, card right) on purpose: a lead page's reader acts on the first screen, so the action sits beside the promise, as the landing guide asks."
+        why: "The split hero is a generated-page default when it is automatic; here it is declared, and the full-bleed work strip, the checks and the marked proof are what make it tally."
+      - rule: "Set every rating, review and certification with its source's own mark in full colour, on {colors.canvas} or {colors.panel}."
+        why: "A reader trusts a rating when they can see whose it is; the marks are drawn for light ground, and in colour they are the brightest things on a quiet page."
+      - rule: "Set certification and membership logos on their own {colors.canvas} bar, trimmed to their visible edges and sized by shape (a square badge taller than a wordmark) so they read as one height, on one line."
+        why: "Logos are drawn for white; on a dark band they need chips and look like stickers. Their files carry uneven margins, so matching pixel heights does not match what the eye sees."
+      - rule: "Set a checked claim as a {colors.primary-deep} check beside {typography.label}, with any gloss beneath in {colors.ink-muted}; in the dark close the check and text turn {colors.canvas}."
+        why: "The check is the system's unit of scanning; one treatment everywhere lets a reader skim the page by its checks alone. What the claims say is the page type's business."
+      - rule: "When a form asks choices, step it: one question per step, {colors.panel} tiles 2-up, and a tap on a tile advances with no Continue button."
+        why: "Each tap is a small yes that costs nothing; a Continue button turns every step into two decisions."
+    dont:
+      - rule: "Don't set buttons or headings in capitals, or rotate or type out a headline."
+        why: "Capitals and moving text are slower to read; the offer has to be taken in at one glance."
+      - rule: "Don't use {colors.primary} for anything but the primary button and the progress fill."
+        why: "It is the only colour that means tap here; spent on decoration it stops meaning it."
+      - rule: "Don't set a list of claims as running paragraphs."
+        why: "The check is the unit of scanning; a claim buried in a paragraph loses the one treatment that lets a reader skim the page by its checks."
+  responsive_behavior: >
+    Designed at 390px first. Below 768px: one column, {spacing.md} margins,
+    the headline is {typography.display-md} and section heads
+    {typography.heading-lg}; {typography.display-xl} and
+    {typography.display-lg} take over from 768px. A card beside text follows
+    the text, full width. The rating banner goes 2-up. Review cards stack.
+    Buttons are full width. Tap targets are never below 48px.
+  known_gaps: >
+    No dark theme. A form is built only when the brief gives its fields and where it sends;
+    without them the card's action is a button to the brand's own form (the landing guide's
+    rule), never a form that ends on a thank-you step having sent nothing. No video treatment beyond a poster
+    frame at {rounded.card} with a caption.
+
+# ── Extensions (ours) ──────────────────────────────────────────────
+x_invariants:
+  style:
+    - "Ratings, reviews and certifications on {colors.canvas} or {colors.panel}, each with its source's mark in colour; {colors.night} only for the closing band and the footer."
+    - "Logo marks sit on their own {colors.canvas} bar: trimmed to their ink, one optical height, centred on one line, spanning the content width."
+    - "{rounded.card} for every container, {rounded.tight} for everything pressed or typed; nothing is a pill."
+    - "A stepped form asks one question per step and advances on a tile tap."
+  accessible:
+    - "Every form input has a visible label; tiles are buttons, 48px minimum, reachable by keyboard."
+    - "Stars (the star graphic) always sit beside a figure that states the rating in text; {colors.primary} never as text."
+
+x_declares: [split-hero]
+x_declares_reasons:
+  split-hero: >
+    The split hero is a generated-page default when it is automatic. Here it
+    is the job: a lead page's reader acts on the first screen, so the action
+    (the form card, or the button with its reassurance line) sits in the right
+    5 beside the promise and its checked claims in the left 7, and is never
+    pushed below the fold. What makes it tally and not a template is what
+    surrounds it: the full-bleed strip of the finished work beneath the words
+    and the card, never under them, the check marks, and the proof with each
+    source's mark in colour.
+
+x_imagery:
+  role: >
+    Evidence, and plenty of it: tally is photograph-led. Where a band has photographs it shows
+    them first and large, and the page carries more pictures than paragraphs. A photograph sits
+    at {rounded.card} with its caption beneath, never as decoration and never behind a band's
+    text.
+  density: "every photograph the brief places, and the brief should place many: one per item where it has one, a band of finished work, the team, customers' own photographs with their reviews; none decorative"
+  treatment: >
+    Photographs at {rounded.card}, in a 2- or 3-up grid, each with its
+    caption beneath when it has one. The hero may carry one wide photograph
+    full-bleed, as a strip beneath the words and the card, never under them: the
+    words stay on {colors.canvas} and nothing fades. On a phone the strip sits
+    between the words and the next band.
+  aspect_ratios: ["4/3", "3/2", "1/1", "16/9"]
+  caption: >
+    {typography.caption} in {colors.ink-muted} beneath the photograph. Its
+    words come from the brand folder (see standards/copy.md).
+  forbidden:
+    - "text over a photograph"
+    - "a photograph used as decoration"
+  no_assets_supplied: >
+    If the brief supplies no images, do not invent image paths. With no
+    photographs the page has no image grid; the proof bands carry the visual
+    weight.
+
+x_emphasis:
+  device: "a full-width banner of cells on `bg-panel`, the figure in `text-tally` `text-ink` with what it counts and its source beneath in `text-caption` `text-ink-muted`; when the figure is a rating, the platform's own mark in colour leads the cell, the stars as star graphics (assets/platforms/star.svg) sit beside the figure, and each platform takes its own cell"
+  applies_to: "the one figure the page leads on, once per page; siblings of the same kind take further cells in the same banner"
+  why: "A full-width band of cells is the one element every reader scrolls across; on light ground the platform's mark reads in its own colours, so the reader sees whose rating it is before reading the number."
+
+# How any band of any page is laid out in this system (AUTHORING.md, x_layout).
+# Look only: never a page type, never what content goes where.
+x_motion:
+  principle: "still: the page is evidence for a reader deciding on the first screen, and anything that rises or fades in delays the promise, the checks and the card that the split head puts side by side. The button's fill changes to {colors.primary-deep} on hover, instantly; nothing else changes."
+  reduced: "nothing moves in any case; nothing is hidden at any time"
+
+x_layout:
+  measure:
+    reading: "50–60ch, never over 60 — {typography.body-md}, {typography.body-lg} for a lead line"
+    caption: "the width of the photograph above it; {typography.caption} {colors.ink-muted}"
+  grid:
+    columns: 12
+    container: "1152px; {spacing.md} side margins at every width"
+    gutter: "{spacing.lg} between columns and cards ({spacing.md} inside a grid of cards)"
+    text_columns: "the left 7 of a 7/5 split, or 6 beside a 5-column card; running text held to measure.reading"
+    media_columns: "photographs in a 2- or 3-up grid across 12 at {rounded.card}; one wide photograph may run the head full-bleed; a photograph beside text takes 5 or 8 columns"
+  rhythm:
+    section: "{spacing.xl} → {spacing.lg}"
+    group: "{spacing.lg} → {spacing.md}"
+    item: "{spacing.md} between rows and cards"
+    element: "{spacing.xs} title to line; {spacing.sm} between checked lines"
+    separator: "surface — bands alternate {colors.canvas} and {colors.panel}, with {colors.night} for the closing band only; inside a band, rows open on a 1px {colors.line} top rule; no hairline between bands of the same ground — change the ground instead"
+  registers:
+    persuasion:
+      head: statement
+      type: "{typography.display-xl} title ({typography.display-md} below 768px), {typography.display-lg} band heads ({typography.heading-lg} below 768px), {typography.heading-md} card titles, {typography.label} checked claims, {typography.body-lg} leads"
+      rhythm: "as rhythm; bands alternate {colors.canvas} and {colors.panel}, the close on {colors.night}, and a band that pairs text with a card is a 7/5 split"
+    retrieval:
+      head: plain
+      type: "{typography.display-lg} title ({typography.heading-lg} below 768px), {typography.heading-sm} group heads, {typography.label} for names and keys, {typography.body-md} values, {typography.caption} sources"
+      rhythm: "one step denser: section {spacing.lg} → {spacing.md}, group {spacing.md}; what the reader came for (facts, table, rows) starts on the first screen across 12 columns; {colors.night} never behind the facts"
+    reading:
+      head: plain
+      type: "{typography.display-lg} title, {typography.body-lg} lead, {typography.heading-md} subheads, {typography.body-md} text"
+      rhythm: "one column at measure.reading, columns 1–7 on {colors.canvas}; checked lines may sit inside the text; a quotation drops in as one review card, with its platform's mark, only if it is someone else's words"
+  head:
+    statement: "A 7/5 split on {colors.canvas}: the title in {typography.display-xl} {colors.ink}, a {typography.body-lg} lead in {colors.ink-muted}, and up to three checked claims in {typography.label}, in the left 7; a card in the right 5 (a form card, or the action with its reassurance line). With a wide photograph (landscape, 1600px or wider, the finished job or the crew at work, its subject in the middle band of the frame since the strip crops top and bottom to about 2/1), it runs full-bleed as a strip beneath the words and the card, never under them: the words stay on {colors.canvas} and nothing fades. With none, the words and card stand alone on {colors.canvas}."
+    plain: "On {colors.canvas}: the title in {typography.display-lg} ({typography.heading-lg} below 768px) across 7 columns and one lead line in {typography.body-lg} {colors.ink-muted}; no photograph, no card, a 1px {colors.line} rule under it. The content starts {spacing.lg} below."
+  shapes:
+    items:
+      as: "a grid of checked rows; a grid of cards when each item has a photograph"
+      look: "a {colors.primary-deep} check (on {colors.night}: {colors.canvas}), the name in {typography.label}, a gloss in {typography.body-md} {colors.ink-muted}, each row on a 1px {colors.line} top rule. With photographs: the photograph at {rounded.card} 4/3, the name in {typography.heading-md}, checked lines beneath; on a {colors.panel} band each item is a {colors.canvas} card at {rounded.card} with {spacing.sm} padding"
+      counts: "1–3: one column of checked lines under the band head. 4–6: one column in the 7 beside a 5-column card, or two columns across 12. 7–12: two columns. With photographs: 2 at 6 + 6, 3 at 4 × 3, 4 at 3 × 4 (2 × 2 below 1024px), 5 as 3 then 2 at 6 + 6, 6 as 3 × 2, 7+ in rows of 3 closing on a 2-up row. When only some items have photographs, the photographed ones are cards and the rest follow as checked rows (name, one line) beneath them; never a card with an empty image. Short names past 12 (places, brands, services): {colors.panel} chips at {rounded.tight} in {typography.label}, a wrapping cluster, grouped under {typography.heading-sm} heads."
+    table:
+      as: "table on the band's ground"
+      look: "column heads in {typography.caption} {colors.ink-muted}, row heads in {typography.label} {colors.ink}, values in {typography.body-md} and numbers with tabular numerals, a 1px {colors.line} rule between rows; the row that matters may take {colors.panel}; on a {colors.panel} band the table sits in a {colors.canvas} card at {rounded.card}"
+      counts: "2–8 rows: across 7 beside a card, or 12. 9–30: across 12. 30+: one table per group under {typography.heading-sm} heads. 3+ columns below 768px: each row becomes a {colors.canvas} card — row head in {typography.label}, the other columns as caption label/value pairs — never a sideways scroll."
+    facts:
+      as: "a grid of cells, each on a 1px {colors.line} top rule"
+      look: "the key in {typography.label} {colors.ink}, the value in {typography.body-md} {colors.ink-muted}; a phone number or address that is tapped is a link in {colors.ink}, underlined, 48px tall"
+      counts: "1–2: side by side at 6 + 6. 3: three across from 768px. 4: four across from 1024px, 2 × 2 below. 5–8: two columns (four from 1024px when values are short). 9+: two columns grouped under {typography.heading-sm} heads, or a table if the keys repeat."
+    qa:
+      as: "a grid of pairs, each on a 1px {colors.line} top rule"
+      look: "the question in {typography.label} {colors.ink}, the answer in {typography.body-md} {colors.ink-muted} beneath; every answer open"
+      counts: "1–3: one column in 7. 4–12: two columns across 12, filled across then down; an odd n leaves the last pair alone on the left. 13+: two columns grouped under {typography.heading-sm} heads."
+    people:
+      as: "a grid of portraits; name cells without them"
+      look: "the portrait at {rounded.card}, 1/1 or 4/3, the name in {typography.label}, the role in {typography.caption} {colors.ink-muted}; without portraits, cells of name and role on a 1px {colors.line} top rule; a group photograph runs 8 columns with two supporting photographs stacked in the other 4"
+      counts: "1: media_text. 2: 6 + 6. 3: 4 × 3. 4: 3 × 4 from 1024px, 2 × 2 below. 5: 3, then 2 at 6 + 6. 6: 3 × 2. 7+: rows of 4, a short last row set left. Name cells without portraits: 4 across from 768px, 2 below."
+    sequence:
+      as: "a grid of numbered steps"
+      look: "the number in {typography.tally} {colors.ink} with tabular numerals, the step name in {typography.label}, its line in {typography.body-md} {colors.ink-muted}; no connecting lines or arrows"
+      counts: "2–3: across 12, one per column. 4: 2 × 2 beside a 5-column card, or 4 across 12. 5–6: 3 across, two rows. 7+ or dated entries: one column, each on a 1px {colors.line} top rule, the number or date at the left in {typography.heading-lg}."
+    media_text:
+      as: "sidebar"
+      look: "a photograph at {rounded.card} beside a heading in {typography.heading-lg} and checked lines or a short passage; the caption under the photograph in {typography.caption} {colors.ink-muted}"
+      counts: "1: photograph 5 and text 7, or text 7 and photograph 5. 2 in one band: side by side at 6 + 6, each a photograph in 2 of 5 columns with its text in 3 (stacked below 640px). 3+: set as items with photographs."
+    gallery:
+      as: "a 2- or 3-up grid"
+      look: "each photograph at {rounded.card}, 4/3 (16/9 below 640px), its caption beneath in {typography.caption} {colors.ink-muted}"
+      counts: "1: one wide photograph across 8–12. 2: 2-up. 3: 3-up. 4: 2 × 2, never 3 + 1. 5: 3, then 2-up. 6: 3 × 2. 7: 3, then 2-up twice. 8: 3, 3, then 2-up. 9+: rows of 3; a remainder of 1 turns the last two rows into 2-up rows, a remainder of 2 closes on one 2-up row. Never 4 across, never a lone orphan."
+    quote:
+      as: "a grid of review cards on a {colors.panel} band"
+      look: "each card {colors.canvas} at {rounded.card}, {spacing.md} padding: the platform's square mark in colour (24px) and the review's stars as star graphics (assets/platforms/star.svg, 18px each) on one line when the source gives a rating, the quotation in {typography.body-md} {colors.ink}, the attribution and date in {typography.caption} {colors.ink-muted}. A review that came with the customer's photograph carries it at the top of its card, 4/3 at {rounded.card}, full card width"
+      counts: "1: one card across 8, beside a figure cell (a count or rating in {typography.tally}) only when the brief gives that figure. 2: two cards at 6 + 6, or 4 + 4 + a figure card when the brief gives the figure. 3: 3-up. 4: 2 × 2. 5: 3, then 2-up. 6: 3 × 2. 7+: rows of 3, under the band's lead line in {typography.body-lg} {colors.ink-muted} (a count there only when the brief states it)."
+    prose:
+      as: "stack at measure.reading"
+      look: "{typography.body-md} {colors.ink}, supporting lines in {colors.ink-muted}, subheads in {typography.heading-md}; a run of claims inside the text is broken out as checked lines"
+      counts: "1–3 paragraphs: the left 7 of a band, a card or photograph beside. Longer: registers.reading."
+    form:
+      as: "a card; stepped when it asks choices"
+      look: "a {colors.canvas} card at {rounded.card} with a 1px {colors.line} border and {spacing.md}–{spacing.lg} padding. Stepped: 'Step n of m' in {typography.caption} {colors.ink-muted} over a {colors.line} progress track with a {colors.primary} fill, one question per step in {typography.heading-sm}, answers as {colors.panel} tiles at {rounded.tight}, 2-up, 56px tall, in {typography.label}; a tap advances; Back is a text button. Text fields: a label in {typography.label} above, the input {colors.canvas} with a 1px {colors.line} border at {rounded.tight}, 48px tall. The submit is button-primary, full width, 56px tall; a reassurance line in {typography.caption} {colors.ink-muted} centred beneath."
+      counts: "1–3 fields: one step, no track. 4+ fields with choices: stepped — choices first, one per step, the text fields together on the last step. 2–4 choices: 2-up tiles; 5–6: 2-up in three rows; 7+: a select. Placement: the right 5 of a 7/5 split, sticky beside a long list; alone, 6 columns; below 768px full width, following the text."
+    index:
+      as: "a grid of rows or cards"
+      look: "the title as the link in {typography.heading-sm} {colors.ink}, one line in {typography.body-md} {colors.ink-muted}, a date in {typography.caption}; each on a 1px {colors.line} top rule, or as a {colors.canvas} card at {rounded.card} with its photograph when entries have one"
+      counts: "1–6: one column of rows in 7. 7–20: two columns of rows. With photographs: 3-up cards, the gallery's remainder rules. 20+: rows grouped under {typography.heading-sm} heads."
+  close: "The one {colors.night} band: a 7/5 split, the heading in {typography.display-lg} {colors.canvas} and one {typography.body-lg} {colors.night-muted} line on the left 7, and on the right 5 the action again as the page gives it (the form card itself, never a button back to the top), {colors.canvas} card at {rounded.card}. The footer follows on {colors.night}."
+  focal: "Each band leads with its heading in {typography.display-lg} ({typography.heading-lg} on a phone), left-aligned. The check marks are the next thing the eye finds; in a proof band, the platform marks in colour, the figures in {typography.tally} and the stars. The {colors.primary} button is the one strong colour on screen; a form's progress fill is the only other place it appears."
+  never:
+    - "a rating or review without its source's mark, or proof on {colors.night}: the mark in colour is how the reader knows whose it is"
+    - "a pill, or a radius other than {rounded.tight} and {rounded.card} — the two radii tell pressed things from containers"
+    - "text over a photograph, or a photograph faded into a colour — the head's photograph is a strip beneath the words"
+    - "claims as running paragraphs — the check is the unit of scanning"
+    - "photographs four across, or a 3 + 1 row — an orphan reads as a leftover"
+    - "logo marks on {colors.night} — they are drawn for white, and on dark they need chips and look like stickers"
+    - "a shadow or a gradient — depth is the light/dark band split"
+
+# Where a brand's colour goes (AUTHORING.md, x_brand).
+x_brand:
+  slot: primary
+  text_on: dark
+  follows: [primary-deep]
+  accepts: "The system expects the brand's colour here: any brand colour that carries {colors.ink} text at 4.5:1 fills the action and the progress fill, and {colors.primary-deep} follows as the hover (under {colors.canvas} text) and the check marks, so it must hold 4.5:1 on {colors.canvas}; a brand colour too dark for ink text cannot fill the action, but can be set on {colors.primary-deep} and {colors.night} by overlay while a lighter brand colour takes the slot."
+
+# The reference is a real brand built blind from its brief (research/34 §7): HammerHead Roofing's
+# roof-replacement lander, which carries every proof device (Google and Facebook marks, BBB and
+# manufacturer marks, feature photographs, credited job photographs). Alenco's Tampa windows lander,
+# built blind after the same change, came out in the same design on thinner material.
+x_reference:
+  page: sites/hammerhead-tally/pages/lander/index.html
+  request: sites/hammerhead-tally/pages/lander/request.yaml
+x_status: proven

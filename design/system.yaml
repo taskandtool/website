@@ -1,0 +1,215 @@
+# The website's design system, as one record. `npm run system` compiles it
+# into styles/theme.css (the tokens Tailwind turns into classes) and DESIGN.md
+# (the readable contract); never edit those two by hand, `npm run check` says
+# when they no longer match this file. The shape is the design library's
+# (.claude/skills/design/references/authoring.md); this one is the neutral
+# starting point, replaced by the site's own when the owner picks a homepage
+# (the design skill, step 4).
+id: starter
+title: Starter
+summary: >
+  A neutral starting point, not a style: a warm off-white page, one accent for
+  every action, large and few headings, and a different shape for each section.
+
+# What makes this site this site. Filled from the brief and the homepage the
+# owner picked; "to fill" marks a site that is still a template.
+identity:
+  subject: "to fill: what this site sells, explains, or does"
+  audience: "to fill: who arrives, and what they already know"
+  one_job: "to fill: what the page must make clear or help someone do"
+  direction: "to fill: the chosen direction's name and one-sentence thesis"
+  source: "to fill: the real-world artifact or behaviour it borrows from"
+  signature: "to fill: the one moment a visitor should remember"
+  rejection: "to fill: the familiar pattern this site deliberately avoids"
+  photography: "to fill: real photos the owner has, or the honest slot until they do"
+
+tokens:
+  # Every colour by role. Markup uses only these (bg-*, text-*, border-*);
+  # Tailwind's own palette is switched off. A value is a hex, a reference to
+  # another role ({colors.ink}), or a CSS colour that uses references.
+  colors:
+    canvas: "#f6f3ec"
+    surface: "#fffdf8"
+    panel: "#ebe5d8"
+    night: "#14110d"
+    ink: "#191612"
+    ink-2: "#57514a"
+    ink-3: "#6b5f54"
+    night-ink: "#f6f3ec"
+    night-ink-2: "#bfb6aa"
+    accent: "#2f5bea"
+    accent-ink: "#ffffff"
+    accent-hover: "color-mix(in oklab, {colors.accent} 85%, black)"
+    line: "rgb(25 22 18 / 0.14)"
+    line-strong: "rgb(25 22 18 / 0.32)"
+    line-on-night: "rgb(246 243 236 / 0.16)"
+  # The family of `display` becomes font-display, the family of `copy`
+  # font-body; any other family is font-<style>. A family is a name, or a
+  # whole stack when it holds a comma.
+  typography:
+    display:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: clamp(3rem, 8vw, 6rem)
+      fontWeight: 700
+      lineHeight: 0.95
+      letterSpacing: -0.03em
+    section:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: clamp(2.25rem, 5vw, 3.75rem)
+      fontWeight: 600
+      lineHeight: 1
+      letterSpacing: -0.025em
+    title:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: clamp(1.5rem, 2.4vw, 2rem)
+      fontWeight: 600
+      lineHeight: 1.1
+      letterSpacing: -0.015em
+    lede:
+      fontFamily: "Inter"
+      fontSize: clamp(1.125rem, 1.4vw, 1.375rem)
+      fontWeight: 400
+      lineHeight: 1.5
+    copy:
+      fontFamily: "Inter"
+      fontSize: 1.125rem
+      fontWeight: 400
+      lineHeight: 1.6
+    specimen:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: clamp(6rem, 18vw, 11rem)
+      fontWeight: 600
+      lineHeight: 1
+      letterSpacing: -0.03em
+    label:
+      fontFamily: "Inter"
+      fontSize: 0.8125rem
+      fontWeight: 600
+      lineHeight: 1.4
+      letterSpacing: 0.04em
+  rounded:
+    control: 0.5rem
+    card: 1rem
+    frame: 1.5rem
+  shadows:
+    lift: "0 1px 2px rgb(25 22 18 / 0.06), 0 12px 32px -12px rgb(25 22 18 / 0.18)"
+  spacing:
+    section: clamp(5rem, 10vw, 8.5rem)
+    block: clamp(2.5rem, 4vw, 3.5rem)
+  containers:
+    content: 72rem
+    wide: 80rem
+  easing:
+    soft: cubic-bezier(0.2, 0, 0, 1)
+
+sections:
+  overview: >
+    A warm, quiet page that lets one thing be loud at a time. The ground is a
+    warm off-white, not pure white; the text is a near-black with brown in it;
+    one saturated accent does every action. Headings are large and few, set at
+    nine to twelve characters per line, so hierarchy comes from size and space
+    rather than from weight or decoration. Every section is composed
+    differently from the one before it. Colour and energy belong to the
+    content (photos, work, the brand's own material), not to the chrome
+    around it. This is the starting point, not a brand: the site's own system
+    replaces it.
+  colors: >
+    {colors.canvas} is the page ground; most sections sit on it.
+    {colors.surface} is a raised card or framed visual on the canvas.
+    {colors.panel} is one step down, a tinted band: at most two per page,
+    never adjacent. {colors.night} is the dark ground: the footer and at most
+    one statement band, never a card. {colors.ink} is headings and body on
+    light grounds, {colors.ink-2} secondary text, {colors.ink-3} captions and
+    metadata (never a border); on night, {colors.night-ink} and
+    {colors.night-ink-2}. {colors.accent} is the one action colour: primary
+    buttons, links in body copy, the focus ring; {colors.accent-ink} is text
+    on it and {colors.accent-hover} its hover. {colors.line} is every hairline
+    on light grounds, {colors.line-strong} input edges and table frames,
+    {colors.line-on-night} hairlines on night. Text meets 4.5:1 on its
+    ground; focus rings and input edges 3:1. Photographs and the brand's own
+    artwork carry colour; the interface around them stays in this palette.
+  typography: >
+    Two families: a display face for headings, a text face for reading.
+    {typography.display} is the h1 of the home page or a landing page, one per
+    page, 9 to 12 characters per line. {typography.section} is every h2;
+    beside a visual it wraps at 10 to 16ch. {typography.title} is the h3 of a
+    row, a card or a callout. {typography.lede} is the supporting thought
+    under a heading, max-w-xl, in {colors.ink-2}. {typography.copy} is body
+    copy, the default, under 70 characters a line. {typography.label} is the
+    one small label style, for metadata; nothing renders smaller.
+    {typography.specimen} is one giant glyph or word inside a visual
+    (role="img"), never a heading. Headings use font-display; a heading never
+    goes above 700 and body copy is always 400. No tracking-* or leading-* on
+    text that has a size token; the token carries both.
+  components: >
+    Buttons (Button in src/components): 48px minimum, px-5,
+    {rounded.control}, 16px semibold. Primary is {colors.accent} under
+    {colors.accent-ink}, hover {colors.accent-hover}; secondary is a
+    {colors.line-strong} outline with a {colors.panel} hover. One primary per
+    section; the label says what happens next ("Book a call", never "Learn
+    more"). Links in copy are underlined, 1px, offset, in the text's colour.
+    Nav links are {colors.ink-2}, {colors.ink} on hover, with
+    aria-current="page" on the current page. Cards only for discrete,
+    comparable objects (a service, a person, a plan): {rounded.card},
+    {colors.line} edge, {colors.surface}; never around a single paragraph.
+    Inputs are 48px tall, {rounded.control}, a {colors.line-strong} edge,
+    the label above in 16px semibold, help text in {colors.ink-3}. Lists of
+    rows: divide-y with generous py-8, a numeral or small object on the left,
+    a title and a sentence on the right; prefer rows to three cards in a grid.
+    Images at {rounded.card} or {rounded.frame}, real alt text, object-cover.
+  layout: >
+    The base unit is 4px. Sections take py-section ({spacing.section});
+    a heading group to what it introduces is mt-block ({spacing.block}).
+    max-w-content ({containers.content}) for reading sections, max-w-wide
+    ({containers.wide}) for the hero and a wide visual; px-5 sm:px-8 at the
+    sides. Compose from the content: a sequence, a comparison, a hierarchy
+    and a change of thought each look different. No two adjacent sections
+    share a composition or a ground. One section is the peak; everything
+    else is quieter. Prefer document flow; absolute positioning is for one
+    deliberate layer, never the skeleton.
+  elevation_and_depth: >
+    Three levels. Flat: sections, rows, text, most of the page. Lifted: a card
+    or framed visual on the canvas, a {colors.line} edge plus {shadows.lift},
+    for the one visual that should feel like an object. Overlay: a menu or
+    dialog on {colors.surface} with {shadows.lift} at {rounded.card}. No
+    inner shadows, no glass or blur, no gradients on interface elements.
+  motion: >
+    One thing moves per page, and only to explain a state or direct
+    attention. Hover and focus transitions are 150ms with {easing.soft}.
+    Nothing animates on load, nothing follows the scroll, and the finished
+    composition is always visible without motion; reduced motion turns every
+    transition off (styles/input.css).
+  responsive_behavior: >
+    Mobile and desktop are two compositions of the same content. Type sizes
+    are fluid, so headings need no mobile overrides. Below 1024px a split
+    stacks with the text first unless the visual is the point; rows stay
+    rows; cards go to one column below 640px. Touch targets are at least
+    44px, buttons 48px. The header is one row at every width; past four nav
+    links the rest go into a menu. Check 390px and 1280px and one width
+    between, with a long word and a long label. Semantic landmarks, one h1,
+    visible focus and useful alt text are part of it.
+  dos_and_donts:
+    do:
+      - rule: "Start from the brief and the real content; lock the words before the layout."
+        why: "A layout drawn before the words fits placeholder lengths, and real copy then breaks it or gets cut to fit."
+      - rule: "Spend boldness in one place per page."
+        why: "When every section is loud, none is; the peak is what a visitor remembers."
+      - rule: "Use the tokens; add a token to this record when one is missing."
+        why: "A one-off value in markup is a second design system that nobody maintains."
+      - rule: "Keep body copy at 18px with a measure under 70 characters."
+        why: "Small text and long lines are the first things that make a page tiring to read on a phone."
+    dont:
+      - rule: "Don't default to a centred hero over a glow, a logo strip, three feature cards, testimonials, pricing, an FAQ and a final call to action."
+        why: "It is the generated-page template; a visitor has seen it a hundred times and it says nothing about this business."
+      - rule: "Don't use icons in coloured circles as the visual language."
+        why: "They fill space without showing anything real about the work."
+      - rule: "Don't show proof that is not real: invented customers, quotes, counts, awards or prices."
+        why: "One fake detail spoils every true one beside it."
+      - rule: "Don't use gradients, blur, glass or glow to make up for a weak idea."
+        why: "Effects date fast and hide that the section has nothing to show."
+  known_gaps: >
+    No photography rules and no layout rules per kind of content: those come
+    with the site's own system.
+
+x_declares: []
+x_declares_reasons: {}
