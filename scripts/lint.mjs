@@ -208,7 +208,8 @@ for (const file of pages) {
     if (/^h[1-3]$/.test(tag) && (el.querySelector("em, i") || el.querySelector(".italic"))) report("italic-heading-word", page, el, "one italic word in a heading; let the sentence carry the emphasis");
     if (/^h[1-3]$/.test(tag)) {
       const prev = el.previousElementSibling;
-      if (prev && /^(p|span|div)$/.test(prev.rawTagName?.toLowerCase()) && classes(prev).some((x) => /^(uppercase|text-label)$/.test(variantless(x)))) {
+      // a dateline (a <time> above a post's title) is metadata, not an eyebrow
+      if (prev && /^(p|span|div)$/.test(prev.rawTagName?.toLowerCase()) && !prev.querySelector("time") && classes(prev).some((x) => /^(uppercase|text-label)$/.test(variantless(x)))) {
         report("eyebrow", page, prev, "a small uppercase label above the heading; fold its words into the heading, or drop it");
       }
     }
