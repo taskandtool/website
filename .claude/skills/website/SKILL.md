@@ -14,8 +14,7 @@ CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
 A site still on its welcome page starts with the `new-site` skill: intake,
-competitors, three homepages, then the system and the pages. What pages a
-site needs and what each says is the `pages` skill. Before a
+competitors, three homepages, then the system and the pages. Before a
 substantial new page or a redesign, work through the `design` and `writing`
 skills first: the brief, the voice card (`brand/voice.md`), the content
 inventory. Build from real words and real material. When the owner has a
