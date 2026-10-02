@@ -106,7 +106,7 @@ export function kpiChange(value: number | null, previous: number | null | undefi
 }
 
 /**
- * The class for each trend. The shared tokens have no green and red, so good
+ * The class for each trend. The theme tokens have no green and red, so good
  * takes the accent and bad stays ink; the arrow and the words carry the
  * meaning either way. An app with signal tokens (the Board's `late`) changes
  * it here.

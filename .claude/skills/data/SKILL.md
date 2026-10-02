@@ -1,46 +1,42 @@
 ---
-name: shared-data
-description: "The project's shared Postgres schema every app reads and writes (shared.* tables, email as the key, additive schema files), and the database handle, settings, gateway calls, email and spam checks for dev and production. Use before writing a shared table or copying another skill. Not for tables only this app uses."
+name: data
+description: "The project's database: one set of tables every app in the project uses (email as the key, additive schema files), and the Db handle for dev and production, settings, connection calls, email and spam checks. Use before creating or changing a table, or copying another skill. Not for files or media."
 ---
 
-# Shared data
+# Data
 
-Every app in a project can be granted the same Postgres database. Each app has
-its own login and its own schema for what is only its own. Next to those is
-one schema, `shared`, that every granted app reads and writes. Website form
-submissions, bookings and payments live there, so a CRM installed later finds
-them already full.
+A project has one Postgres database, and every app granted it reads, writes
+and alters every table by its plain name. Website form submissions, bookings
+and payments live there, so a CRM installed later finds them already full.
 
 Version: 0.1.0 (taskandtool/skills)
 
 ## The rules
 
-- **What another app could want goes in `shared`; what only this app uses goes
-  in its own schema.** A submission, a booking, a payment: shared. This app's
-  settings, drafts, its own notes: its own schema (unqualified names land there).
-- **Always write the schema name**: `shared.bookings`, never `bookings`. The
-  app's own schema comes first on its search path, so an unqualified name can
-  quietly mean a different table.
-- **A person is an email.** Every shared table that names a person has
-  `email citext`. Store it through `normalizeEmail` (`email.ts`). Nothing else
-  links people across apps: no shared people table, no foreign keys between
-  apps' tables.
+- **One database per project, one set of tables.** Every app sees every
+  table, so name a new table for what it holds (`quotes`, `report_snapshots`),
+  never for the app that made it.
 - **Look before you build.** Before creating anything, list what is there:
-  `select table_name from information_schema.tables where table_schema = 'shared'`.
-  A table another app made is the one to use. Never make a second
-  `shared.leads` beside `shared.submissions`.
-- **Shared tables only grow.** Another app may run an older or newer copy of
-  the same skill. A `schema.sql` holds only `create table if not exists
-  shared.x`, `create [unique] index if not exists … on shared.x`, `alter table
-  shared.x add column if not exists …` and `comment on`. Put constraints inline
-  in `create table`, or on the column in `add column`. Never drop, rename or
-  change a type; add a new column and stop writing the old one.
+  `select table_name from information_schema.tables where table_schema = 'public'`.
+  A table another app made is the one to use: add a column to it rather than
+  making a second one. Never make `leads` beside `submissions`.
+- **A person is an email.** Every table that names a person has
+  `email citext`. Store it through `normalizeEmail` (`email.ts`). Nothing else
+  links people across apps: no people table, no foreign keys between
+  skills' tables.
+- **Tables only grow.** Several apps may run different versions of the same
+  skill, so a newer one adds a column an older one ignores and neither breaks
+  the other. A `schema.sql` holds only `create table if not exists x`,
+  `create [unique] index if not exists … on x`, `alter table x add column if
+  not exists …` and `comment on`, with plain table names. Put constraints
+  inline in `create table`, or on the column in `add column`. Never drop,
+  rename or change a type; add a new column and stop writing the old one.
   `applySchema` refuses anything else before running any of it.
 - **A column added in a later version gets its own line**:
-  `alter table shared.x add column if not exists y …`, as well as being in
-  the `create table`. `create table if not exists` skips a table that is
-  already there, so a project whose table an older copy made never gets a
-  column that is only inside the `create`.
+  `alter table x add column if not exists y …`, as well as being in the
+  `create table`. `create table if not exists` skips a table that is already
+  there, so a project whose table an older copy made never gets a column that
+  is only inside the `create`.
 - **Times are `timestamptz`.** Store the IANA zone next to any time a person
   chose in their own zone (`time_zone text`). Never store a local time without
   its zone.
@@ -96,7 +92,7 @@ Each app makes its handle from the driver it already uses:
 ## Installing a skill's code into this app
 
 A skill's `.ts`/`.tsx` files are snippets: copy them into `src/<skill>/` and
-this skill's into `src/shared-data/`, so `../shared-data/db` resolves the same
+this skill's into `src/data/`, so `../data/db` resolves the same
 here as in the skills repo. Copy a skill's `test/` with it. Then:
 
 1. Run its `schema.sql` with `applySchema` from the app's setup or start
@@ -112,9 +108,7 @@ and keep the tests passing.
 ## When the database is not there
 
 No `DATABASE_URL` means the app has no database yet: ask the owner with
-`request_capability("postgres", why)` from `tools/taskandtool.py`. No `shared`
-schema means the platform has not set it up for this project yet: say so
-plainly and do not create it.
+`request_capability("postgres", why)` from `tools/taskandtool.py`.
 
 ## Files
 

@@ -74,7 +74,7 @@ const nearest = (el, prefix) => {
 
 // ── the refuse list (DESIGN.md: Do's and Don'ts) and the copy rules ──────
 const refuse = [
-  [/^(bg|text|border|from|to|via|ring|outline|fill|stroke)-\[#/, "a hex colour in markup; add a brand colour and a role token in styles/theme.css instead"],
+  [/^(bg|text|border|from|to|via|ring|outline|fill|stroke)-\[#/, "a hex colour in markup; give the colour a role in design/system.yaml and run npm run system"],
   [/^(bg|text|border|ring|outline)-(gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(-|$)/, "a Tailwind default colour; use the theme's tokens (bg-canvas, bg-panel, bg-night, text-ink…)"],
   [/^(bg-gradient-|bg-linear-|bg-radial-|bg-conic-)/, "a gradient; use a flat token ground"],
   [/^(backdrop-blur|blur-|drop-shadow-)/, "blur or glass; give depth with the theme's grounds instead"],
@@ -82,7 +82,7 @@ const refuse = [
   [/^animate-/, "an animation utility; one thing moves per page, written in CSS with a reduced-motion state"],
   [/^(tracking|leading)-/, "a tracking or leading override; the size token carries both"],
   [/^font-(bold|extrabold|black)$/, "a weight above the heading weight; use the size tokens' weights or font-semibold"],
-  [/^text-\[(?!clamp)/, "an arbitrary text size; add a --text-* token"],
+  [/^text-\[(?!clamp)/, "an arbitrary text size; add a type style to design/system.yaml and run npm run system"],
   [/^(p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|gap|gap-x|gap-y|space-x|space-y)-\[/, "an arbitrary spacing value; use the nearest step on the scale, or fix the alignment that needed it"],
 ];
 const copyTells = [
@@ -123,7 +123,7 @@ for (const file of pages) {
       if (hit) report("refused-class", page, el, `"${c}" is ${hit[1]}`);
       else if (!siteCss.has(c) && !c.startsWith("js-")) report("unknown-utility", page, el, `"${c}" produced no CSS, so it does nothing; use a theme token or a utility that exists`);
     }
-    if (tag === "style" && el.parentNode?.rawTagName?.toLowerCase() !== "head") report("raw-style", page, el, "a <style> block in the page bypasses the theme; use utilities, or add a token to styles/theme.css");
+    if (tag === "style" && el.parentNode?.rawTagName?.toLowerCase() !== "head") report("raw-style", page, el, "a <style> block in the page bypasses the theme; use utilities, or add a token to design/system.yaml");
     const style = el.getAttribute?.("style");
     if (style && /(#[0-9a-f]{3,6}\b|rgb|hsl|\d(px|rem|em)\b)/i.test(style) && !/^--[\w-]+:/.test(style.trim())) report("raw-style", page, el, `style="${style.slice(0, 40)}" sets a colour or length inline; use a utility (a dynamic value goes in a CSS variable)`);
 

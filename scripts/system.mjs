@@ -41,6 +41,7 @@ export function problems(rec) {
   }
   for (const id of rec.x_declares ?? []) if (!rec.x_declares_reasons?.[id]) out.push(`x_declares names ${id} without a reason in x_declares_reasons`);
   for (const side of ["do", "dont"]) for (const r of rec.sections?.dos_and_donts?.[side] ?? []) if (!r.why) out.push(`dos_and_donts.${side}: "${r.rule}" has no why`);
+  if (out.length) return [...new Set(out)];
   // what the base stylesheet reads must exist
   const css = themeCss(rec);
   for (const [, v] of readFileSync("styles/input.css", "utf8").matchAll(/var\((--[a-z0-9-]+)\)/g)) {

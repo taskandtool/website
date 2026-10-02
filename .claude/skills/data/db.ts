@@ -1,7 +1,7 @@
-// The database handle every shared snippet takes. Two functions, so the same
+// The database handle every snippet takes. Two functions, so the same
 // snippet runs on the machine (pg) and at the edge (the Neon HTTP driver):
 //
-//   const rows = await db.sql<{ id: number }>`select id from shared.bookings where email = ${email}`;
+//   const rows = await db.sql<{ id: number }>`select id from bookings where email = ${email}`;
 //   await db.transaction([q`select pg_advisory_xact_lock(${key})`, q`insert into …`]);
 //
 // A transaction is non-interactive: every statement is built before it runs
@@ -18,7 +18,7 @@
 // just returns the app's one handle.
 //
 //   app.route("/admin/rows", adminRoutes((c) => fromNeon(envVar(c, "DATABASE_URL")), opts));   // the edge
-//   app.route("/admin/rows", adminRoutes(() => shared(), opts));                         // the machine
+//   app.route("/admin/rows", adminRoutes(() => db, opts));                                // the machine
 import type { Context } from "hono";
 
 export type Row = Record<string, any>;

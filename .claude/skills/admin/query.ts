@@ -24,8 +24,20 @@ export function listUrl(base: string, params: Record<string, string | number | n
 
 /** A `return` field, accepted only as a path under `base` ("//evil" is not a path). */
 export function localPath(p: string, base: string, fallback: string): string {
-  const ok = p.startsWith("/") && !p.startsWith("//") && !p.includes("\\") && (p === base || p.startsWith(base + "/") || p.startsWith(base + "?"));
-  return ok ? p : fallback;
+  if (!p.startsWith("/") || p.startsWith("//") || p.includes("\\")) return fallback;
+  // Judge the path the browser will follow: dot segments resolved
+  // ("/admin/..//evil.example" is "//evil.example"), the query kept.
+  let resolved: string;
+  try {
+    const u = new URL(p, "http://x");
+    resolved = u.pathname + u.search;
+  } catch {
+    return fallback;
+  }
+  const ok =
+    !resolved.startsWith("//") &&
+    (resolved === base || resolved.startsWith(base + "/") || resolved.startsWith(base + "?"));
+  return ok ? resolved : fallback;
 }
 
 /**

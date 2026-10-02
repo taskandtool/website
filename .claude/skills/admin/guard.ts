@@ -16,7 +16,7 @@
 // with ADMIN_DEV_USER, honoured only for a request that is really local
 // (isLocal below).
 import type { Context, MiddlewareHandler } from "hono";
-import { envVar } from "../shared-data/env";
+import { envVar } from "../data/env";
 
 export type TeamVars = { user: string };
 

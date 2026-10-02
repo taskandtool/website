@@ -3,16 +3,16 @@
 # (the readable contract); never edit those two by hand, `npm run check` says
 # when they no longer match this file. The shape is the design library's
 # (.claude/skills/design/references/authoring.md); this one is the neutral
-# starting point, replaced by the site's own when the owner picks a homepage
-# (the design skill, step 4).
+# starting point. The first homepage replaces its tokens; the rest of the
+# record is filled when the site grows (the design skill).
 id: starter
 title: Starter
 summary: >
   A neutral starting point, not a style: a warm off-white page, one accent for
   every action, large and few headings, and a different shape for each section.
 
-# What makes this site this site. Filled from the brief and the homepage the
-# owner picked; "to fill" marks a site that is still a template.
+# What makes this site this site, filled when the site grows past its
+# homepage; "to fill" marks a site that is still a template.
 identity:
   subject: "to fill: what this site sells, explains, or does"
   audience: "to fill: who arrives, and what they already know"

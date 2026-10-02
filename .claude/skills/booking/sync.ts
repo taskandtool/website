@@ -1,5 +1,5 @@
 // MACHINE ONLY. The calendar sync job: never import this from a page or
-// from code that deploys to the edge. Pages read shared.busy; this fills it.
+// from code that deploys to the edge. Pages read busy; this fills it.
 //
 // Run it every 15 minutes as a command job (SKILL.md, "Connect a calendar"):
 //   npx tsx src/booking/sync.ts
@@ -13,20 +13,20 @@
 //    create finds that event next time instead of making a second one.
 // 2. Pull: for every calendar row, the events in [now, now + horizon] from
 //    Google events.list or Microsoft calendarView replace that calendar's
-//    shared.busy rows in one transaction. Our own events are known by their
+//    busy rows in one transaction. Our own events are known by their
 //    tag and left out, so a booking never blocks itself; the owner's events
 //    stay busy, even one at the same time as a booking. A failed fetch keeps
 //    the old rows and writes last_error.
 //
 // Every call goes through the Task & Tool gateway with the machine token
-// (shared-data/gateway.ts), to the Google connection's `google-calendar`
+// (data/gateway.ts), to the Google connection's `google-calendar`
 // endpoint or the Microsoft connection's `microsoft-calendar`; no OAuth token
 // is ever on this machine or at the edge. Events are written
 // with no attendees: Google and Microsoft would email the booker from the
 // owner's account. Confirmations go through the owner's sender (notify.ts).
 import { pathToFileURL } from "node:url";
-import { q, type Db } from "../shared-data/db";
-import { gatewayFetch } from "../shared-data/gateway";
+import { q, type Db } from "../data/db";
+import { gatewayFetch } from "../data/gateway";
 import { dayBounds } from "./slots";
 
 export const GOOGLE_SLUG = "google-calendar";
@@ -160,7 +160,7 @@ export async function microsoftBusy(gw: Gateway, calendarId: string, from: Date,
 type CalendarRow = { id: string; resource_id: string; provider: "google" | "microsoft"; external_id: string; time_zone: string; horizon_days: number };
 
 /**
- * Pull one calendar into shared.busy; on failure the old rows stay and
+ * Pull one calendar into busy; on failure the old rows stay and
  * last_error says why. Our own events are left out by their tag, so a booking
  * never blocks itself, even one whose event id was never saved (the job died
  * between the create and the save). Everything else in the calendar is busy,
@@ -175,7 +175,7 @@ export async function pullCalendar(db: Db, gw: Gateway, k: CalendarRow, now: Dat
     // Bookings whose event may be in this calendar and must not count as busy:
     // confirmed ones, and any whose last change is not pushed yet.
     const own = await db.sql`
-      select event_key, external_event_id, external_calendar_id::text as external_calendar_id from shared.bookings
+      select event_key, external_event_id, external_calendar_id::text as external_calendar_id from bookings
       where resource_id = ${k.resource_id}::bigint and event_key is not null
         and (status = 'confirmed' or coalesce(synced_sequence, -1) < sequence)
         and (ends_at > ${now.toISOString()}::timestamptz or coalesce(synced_sequence, -1) < sequence)`;
@@ -187,15 +187,15 @@ export async function pullCalendar(db: Db, gw: Gateway, k: CalendarRow, now: Dat
     }
     const busy = fetched.filter((e) => !(e.tag && tags.has(e.tag)) && !ids.has(e.id));
     await db.transaction([
-      q`delete from shared.busy where calendar_id = ${k.id}::bigint`,
-      q`insert into shared.busy (calendar_id, starts_at, ends_at)
+      q`delete from busy where calendar_id = ${k.id}::bigint`,
+      q`insert into busy (calendar_id, starts_at, ends_at)
         select ${k.id}::bigint, s, e from unnest(${busy.map((b) => b.start.toISOString())}::timestamptz[], ${busy.map((b) => b.end.toISOString())}::timestamptz[]) as u(s, e)`,
-      q`update shared.calendars set last_synced_at = now(), last_error = null where id = ${k.id}::bigint`,
+      q`update calendars set last_synced_at = now(), last_error = null where id = ${k.id}::bigint`,
     ]);
     return null;
   } catch (e) {
     const msg = (e as Error).message.slice(0, 500);
-    await db.sql`update shared.calendars set last_error = ${msg} where id = ${k.id}::bigint`;
+    await db.sql`update calendars set last_error = ${msg} where id = ${k.id}::bigint`;
     return msg;
   }
 }
@@ -298,9 +298,9 @@ export async function pushBookings(db: Db, gw: Gateway, now = new Date(), limit 
   // after a crash names the same event in the same calendar.
   const due = (await db.sql`
     with due as (
-      select b.id, (b.push_claimed_at is not null or b.external_error is not null) as attempted from shared.bookings b
+      select b.id, (b.push_claimed_at is not null or b.external_error is not null) as attempted from bookings b
       where ((b.status = 'confirmed' and b.external_event_id is null and b.ends_at > ${now.toISOString()}::timestamptz
-              and exists (select 1 from shared.calendars k where k.resource_id = b.resource_id and k.receives_bookings))
+              and exists (select 1 from calendars k where k.resource_id = b.resource_id and k.receives_bookings))
           or (b.external_event_id is not null and coalesce(b.synced_sequence, -1) < b.sequence)
           or (b.external_event_id is null and b.status <> 'confirmed' and coalesce(b.synced_sequence, -1) < b.sequence
               and (b.push_claimed_at is not null or b.external_error is not null)))
@@ -308,16 +308,16 @@ export async function pushBookings(db: Db, gw: Gateway, now = new Date(), limit 
       order by b.starts_at
       limit ${limit}
       for update skip locked)
-    update shared.bookings b set push_claimed_at = now(),
+    update bookings b set push_claimed_at = now(),
       event_key = coalesce(b.event_key, replace(gen_random_uuid()::text, '-', '')),
       external_calendar_id = coalesce(b.external_calendar_id, (
-        select k.id from shared.calendars k where k.resource_id = b.resource_id and k.receives_bookings order by k.id limit 1))
+        select k.id from calendars k where k.resource_id = b.resource_id and k.receives_bookings order by k.id limit 1))
     from due where b.id = due.id
     returning b.id::text as id, b.resource_id::text as resource_id, b.status, b.starts_at, b.ends_at, b.name, b.email::text as email,
               b.phone, b.sequence, b.event_key, b.external_event_id, b.external_calendar_id::text as external_calendar_id, due.attempted`) as Due[];
   if (!due.length) return { pushed: 0, errors: [] };
   const cals = (await db.sql`
-    select id::text as id, resource_id::text as resource_id, provider, external_id, receives_bookings from shared.calendars
+    select id::text as id, resource_id::text as resource_id, provider, external_id, receives_bookings from calendars
     where resource_id = any(${[...new Set(due.map((b) => b.resource_id))]}::bigint[]) order by id`) as Cal[];
 
   let pushed = 0;
@@ -328,7 +328,7 @@ export async function pushBookings(db: Db, gw: Gateway, now = new Date(), limit 
     try {
       if (!k) {
         // The calendar row was removed: nothing left to update there.
-        await db.sql`update shared.bookings set synced_sequence = ${b.sequence}, push_claimed_at = null where id = ${b.id}::bigint`;
+        await db.sql`update bookings set synced_sequence = ${b.sequence}, push_claimed_at = null where id = ${b.id}::bigint`;
         continue;
       }
       const tag = eventTag(b.event_key, k.id);
@@ -341,14 +341,14 @@ export async function pushBookings(db: Db, gw: Gateway, now = new Date(), limit 
         eventId = await placeEvent(gw, k, b, tag);
       }
       await db.sql`
-        update shared.bookings set external_event_id = ${eventId}, external_provider = ${eventId ? k.provider : null},
+        update bookings set external_event_id = ${eventId}, external_provider = ${eventId ? k.provider : null},
           synced_sequence = ${b.sequence}, push_claimed_at = null, external_error = null
         where id = ${b.id}::bigint`;
       pushed++;
     } catch (e) {
       const msg = (e as Error).message.slice(0, 500);
       errors.push(`booking ${b.id}: ${msg}`);
-      await db.sql`update shared.bookings set push_claimed_at = null, external_error = ${msg} where id = ${b.id}::bigint`;
+      await db.sql`update bookings set push_claimed_at = null, external_error = ${msg} where id = ${b.id}::bigint`;
     }
   }
   return { pushed, errors };
@@ -361,9 +361,9 @@ export async function syncCalendars(db: Db, gw: Gateway, now = new Date()): Prom
     select k.id::text as id, k.resource_id::text as resource_id, k.provider, k.external_id, r.time_zone,
            -- A crew books its members with the crew's horizon, so read as far as the furthest one.
            greatest(r.horizon_days, coalesce((
-             select max(c.horizon_days) from shared.resource_members m join shared.resources c on c.id = m.crew_id
+             select max(c.horizon_days) from resource_members m join resources c on c.id = m.crew_id
              where m.member_id = r.id and c.active), 0)) as horizon_days
-    from shared.calendars k join shared.resources r on r.id = k.resource_id where r.active order by k.id`) as CalendarRow[];
+    from calendars k join resources r on r.id = k.resource_id where r.active order by k.id`) as CalendarRow[];
   let pulled = 0;
   for (const k of rows) {
     const err = await pullCalendar(db, gw, k, now);
@@ -376,7 +376,7 @@ export async function syncCalendars(db: Db, gw: Gateway, now = new Date()): Prom
 // `npx tsx src/booking/sync.ts`: one run; exits 1 with the errors so the job's run history shows them.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { default: pg } = await import("pg");
-  const { fromPool } = await import("../shared-data/pg");
+  const { fromPool } = await import("../data/pg");
   const { PHOENIX_URL, MACHINE_TOKEN, DATABASE_URL } = process.env;
   if (!PHOENIX_URL || !MACHINE_TOKEN || !DATABASE_URL) {
     console.error("Needs PHOENIX_URL, MACHINE_TOKEN and DATABASE_URL: run it on the machine.");

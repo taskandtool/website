@@ -1,19 +1,21 @@
-// Applies a skill's schema.sql to the project's shared schema. Every app that
+// Applies a skill's schema.sql to the project's database. Every app that
 // carries the skill runs it at setup and when its service starts, so it must
 // be safe to run again, by any app, at any version of the skill.
 //
-// Two apps can carry different versions of the same skill, so shared tables
-// only grow. A schema file may hold nothing but:
+// Two apps can carry different versions of the same skill, so tables only
+// grow. A schema file may hold nothing but:
 //
-//   create table if not exists shared.<name> (...)
-//   create [unique] index if not exists <name> on shared.<table> (...)
-//   alter table shared.<name> add column if not exists <column> ...
+//   create table if not exists <name> (...)
+//   create [unique] index if not exists <name> on <table> (...)
+//   alter table <name> add column if not exists <column> ...
 //   comment on ...
 //
-// No drop, rename, type change, or added constraint (Postgres has no
-// `add constraint if not exists`): a newer skill adds a column an older app
-// ignores, and an older one never removes what a newer one needs. `applySchema`
-// refuses a file that breaks this before running any of it.
+// Table names are plain, never schema-qualified, so every table lands in the
+// one namespace every app reads. No drop, rename, type change, or added
+// constraint (Postgres has no `add constraint if not exists`): a newer skill
+// adds a column an older app ignores, and an older one never removes what a
+// newer one needs. `applySchema` refuses a file that breaks this before
+// running any of it.
 //
 // Machine only: run it from the app's setup or start script, never per request
 // and never at the edge.
@@ -22,13 +24,10 @@
 //   await applySchema(db, readFileSync("src/booking/schema.sql", "utf8"));
 import { q, type Db, type Query } from "./db";
 
-/** The platform's group role that owns the shared schema's tables. */
-export const SHARED_ROLE = "shared_owner";
-
 const ALLOWED = [
-  /^create\s+table\s+if\s+not\s+exists\s+shared\.\w+\s*\(/i,
-  /^create\s+(unique\s+)?index\s+if\s+not\s+exists\s+\w+\s+on\s+shared\.\w+\b/i,
-  /^alter\s+table\s+(if\s+exists\s+)?shared\.\w+\s+add\s+column\s+if\s+not\s+exists\s+\w+\s/i,
+  /^create\s+table\s+if\s+not\s+exists\s+\w+\s*\(/i,
+  /^create\s+(unique\s+)?index\s+if\s+not\s+exists\s+\w+\s+on\s+\w+(\s|\()/i,
+  /^alter\s+table\s+(if\s+exists\s+)?\w+\s+add\s+column\s+if\s+not\s+exists\s+\w+\s/i,
   /^comment\s+on\s+/i,
 ];
 
@@ -81,23 +80,11 @@ export function additiveProblems(text: string): string[] {
   return problems;
 }
 
-/**
- * Apply a schema file in one transaction, behind a lock every app shares, as
- * the shared role when this app's role is a member of it (so any app can add
- * a column to a table another app created).
- */
+/** Apply a schema file in one transaction, behind a lock every app shares. */
 export async function applySchema(db: Db, text: string): Promise<void> {
   const problems = additiveProblems(text);
   if (problems.length) throw new Error("schema refused:\n  " + problems.join("\n  "));
-
-  const [{ member }] = await db.sql<{ member: boolean }>`
-    select exists (
-      select 1 from pg_roles r
-      where r.rolname = ${SHARED_ROLE} and pg_has_role(current_user, r.oid, 'MEMBER')
-    ) as member`;
-
-  const run: Query[] = [q`select pg_advisory_xact_lock(hashtext('taskandtool.shared-schema'))`];
-  if (member) run.push({ text: `set local role ${SHARED_ROLE}`, values: [] });
+  const run: Query[] = [q`select pg_advisory_xact_lock(hashtext('taskandtool.schema'))`];
   for (const s of statements(text)) run.push({ text: s, values: [] });
   await db.transaction(run);
 }

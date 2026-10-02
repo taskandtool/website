@@ -2,7 +2,7 @@
 
 A Task & Tool **Starter App**: the business's public website, working from
 the first minute. A Hono site with a brand folder, a design system file, and
-one command that publishes it to production on Cloudflare. The AI builds it from the brand,
+one command that deploys it to production on Cloudflare. The AI builds it from the brand,
 from the owner's current site, or from a site they like, and ships it when
 the owner says so.
 
@@ -10,8 +10,8 @@ The repository *is* the app: what you clone is what runs. Installed with one
 click on Task & Tool, or cloned into a project of your own (below). MIT
 licensed.
 
-It serves from the machine while it is being built and pre-renders to the
-edge when the owner publishes. It needs nothing to start; managed Postgres
+It runs in dev on the machine while it is being built, and is pre-rendered
+to production on Cloudflare when the owner deploys. It needs nothing to start; managed Postgres
 once a form stores submissions, and depends on nothing else.
 
 ## What is in the box
@@ -38,17 +38,17 @@ Beside the site, the two conventions Task & Tool reads:
 .claude/skills/
   new-site/      the agency flow: a striking homepage first, then the system, the pages, the launch
   pages/         the page plan, a brief per page, the 18 page-type guides, search fields
-  website/       building and running the site, plus seo.md and posts.md
-  forms/ admin/ booking/ reports/ shared-data/
-                 shared skills from github.com/taskandtool/skills: forms, the private
+  website/       the mechanics: the dev loop, checks, screenshots, pages, deploy; seo.md, posts.md
+  forms/ admin/ booking/ reports/ data/
+                 business skills from github.com/taskandtool/skills: forms, the private
                  /admin, a booking page, reports, and the database handle they share
-  design/        creative direction: references (the design library's 14 systems), the brief,
-                 the first screen, the homepage built for real, the system record, the review gate
-  writing/       voice as behaviour, the copy inventory, the editing passes, slop to refuse
-  migrate-site/  take over an existing site: inventory, facts, brand, page map, pages, redirects, launch
+  design/        the look: the homepage first, the first screen, the system record as the site
+                 grows, the review gate; the design library's 14 systems as references
+  writing/       the words in the owner's voice, the editing passes, slop to refuse
+  migrate-site/  replace an existing site page for page: inventory, facts, brand, look, page map, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
-  launch-check/  the old URLs against the new site, before publishing and after the cutover
+  launch-check/  the old URLs against the new site, before deploying and after the cutover
 .agents/skills/  thin Codex adapters: the same descriptions, pointing at the bodies above
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
 starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an
@@ -103,7 +103,7 @@ the header and footer as structure, media, styles, screenshots, linked
 documents, the site's own structured data), the facts and brand as notes
 (the `brand` skill), a page map against the old URLs in `site-map.md`, pages one
 per turn, generated redirects and structured data, and `launch-check`
-before publishing and after the domain cutover, then `tt-crawl audit` as a
+before deploying and after the domain cutover, then `tt-crawl audit` as a
 weekly scheduled job that alerts the owner when the live site has broken
 links or SEO problems. The chat suggests the next step from the folder
 state (`starter-app.json`'s `when` conditions).

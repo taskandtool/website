@@ -19,12 +19,12 @@ Body in markdown. Headings from `##` down; images from static/images/
 with alt text; links to the site's pages.
 ```
 
-Migrating a blog: one file per old post from `raw/site/<host>/pages/` (or
-from `raw/site/<host>/wp/` when the old site was WordPress, which keeps authors
-and dates exactly), `path` set to the old URL so nothing redirects, the
+Migrating a blog: one file per old post from `raw/site/<host>/pages/`
+(`tt-crawl import` first when the old site was WordPress or has a feed: it
+writes each post there with its exact author and date), `path` set to the old URL so nothing redirects, the
 words kept and edited only through the writing skill's passes, the date
 kept. The `/blog` index appears automatically once a post exists; add it
 to the nav in `src/site.ts` when the business wants it there.
 
-Writing a new post: the `writing` skill's brief and voice card first; a
+Writing a new post: the `writing` skill and `brand/voice.md` first; a
 description that reads as the snippet; a real photo when there is one.

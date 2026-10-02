@@ -18,8 +18,8 @@
 //   no btree_gist extension is needed.
 // - Before that, the slot is recomputed with slots.ts from fresh rows, so
 //   hours, minimum notice and horizon hold for a hand-made POST too.
-import { q, type Db, type Query } from "../shared-data/db";
-import { normalizeEmail } from "../shared-data/email";
+import { q, type Db, type Query } from "../data/db";
+import { normalizeEmail } from "../data/email";
 import { isValidZone, slots as openSlots, type Interval, type Settings, type Slot, type Window } from "./slots";
 
 export type Resource = {
@@ -74,7 +74,7 @@ export const settingsOf = (r: Resource): Settings => ({
 const asDate = (v: unknown) => (v instanceof Date ? v : new Date(String(v)));
 const idOrNull = (v: unknown) => (v === null || v === undefined ? null : String(v));
 
-/** A shared.resources row as read by `select *` (bigint ids arrive as text from both drivers). */
+/** A resources row as read by `select *` (bigint ids arrive as text from both drivers). */
 export function toResource(r: Record<string, any>): Resource {
   return {
     id: String(r.id), kind: r.kind, slug: r.slug ?? null, name: r.name, email: r.email ?? null, time_zone: r.time_zone,
@@ -84,7 +84,7 @@ export function toResource(r: Record<string, any>): Resource {
   };
 }
 
-/** A shared.bookings row as read by `select *`, without the token hash. */
+/** A bookings row as read by `select *`, without the token hash. */
 export function toBooking(r: Record<string, any>): Booking {
   return {
     id: String(r.id), resource_id: String(r.resource_id), crew_id: idOrNull(r.crew_id), starts_at: asDate(r.starts_at), ends_at: asDate(r.ends_at),
@@ -97,13 +97,13 @@ export function toBooking(r: Record<string, any>): Booking {
 
 export async function resourceById(db: Db, id: string): Promise<Resource | null> {
   if (!/^\d{1,18}$/.test(id)) return null;
-  const [r] = await db.sql`select * from shared.resources where id = ${id}::bigint`;
+  const [r] = await db.sql`select * from resources where id = ${id}::bigint`;
   return r ? toResource(r) : null;
 }
 
 /** The public page's resource: active, by its slug. */
 export async function resourceBySlug(db: Db, slug: string): Promise<Resource | null> {
-  const [r] = await db.sql`select * from shared.resources where slug = ${slug} and active`;
+  const [r] = await db.sql`select * from resources where slug = ${slug} and active`;
   return r ? toResource(r) : null;
 }
 
@@ -123,11 +123,11 @@ export async function openSlotsFor(
   const st = settingsOf(resource);
   let members: { id: string; time_zone: string }[];
   if (opts.members) {
-    members = await db.sql`select id::text as id, time_zone from shared.resources where id = any(${opts.members}::bigint[]) and active`;
+    members = await db.sql`select id::text as id, time_zone from resources where id = any(${opts.members}::bigint[]) and active`;
   } else if (resource.kind === "crew") {
     members = await db.sql`
-      select r.id::text as id, r.time_zone from shared.resource_members m
-      join shared.resources r on r.id = m.member_id
+      select r.id::text as id, r.time_zone from resource_members m
+      join resources r on r.id = m.member_id
       where m.crew_id = ${resource.id}::bigint and r.active and r.kind = 'person'`;
   } else {
     members = resource.active ? [{ id: resource.id, time_zone: resource.time_zone }] : [];
@@ -141,13 +141,13 @@ export async function openSlotsFor(
 
   const [windows, timeOff, busy, bookings] = await Promise.all([
     db.sql`select resource_id::text as rid, weekday, start_local::text as start, end_local::text as "end"
-           from shared.availability where resource_id = any(${ids}::bigint[])`,
-    db.sql`select resource_id::text as rid, starts_at, ends_at from shared.time_off
+           from availability where resource_id = any(${ids}::bigint[])`,
+    db.sql`select resource_id::text as rid, starts_at, ends_at from time_off
            where resource_id = any(${ids}::bigint[]) and starts_at < ${hi}::timestamptz and ends_at > ${lo}::timestamptz`,
-    db.sql`select k.resource_id::text as rid, x.starts_at, x.ends_at from shared.busy x
-           join shared.calendars k on k.id = x.calendar_id
+    db.sql`select k.resource_id::text as rid, x.starts_at, x.ends_at from busy x
+           join calendars k on k.id = x.calendar_id
            where k.resource_id = any(${ids}::bigint[]) and x.starts_at < ${hi}::timestamptz and x.ends_at > ${lo}::timestamptz`,
-    db.sql`select resource_id::text as rid, starts_at, ends_at from shared.bookings
+    db.sql`select resource_id::text as rid, starts_at, ends_at from bookings
            where resource_id = any(${ids}::bigint[]) and status = 'confirmed'
              and starts_at < ${hi}::timestamptz and ends_at > ${lo}::timestamptz
              and (${except}::bigint is null or id <> ${except}::bigint)`,
@@ -269,29 +269,29 @@ export async function takeSlot(db: Db, resource: Resource, slot: OpenSlot, input
   // Among the members still free once the locks are held, the one whose
   // latest booking was made longest ago (never booked first), then by id.
   const insert = q`
-    insert into shared.bookings
+    insert into bookings
       (resource_id, crew_id, starts_at, ends_at, name, email, phone, booker_time_zone, status, answers, manage_token_hash, source)
     select c.id, ${crew}::bigint, ${start}::timestamptz, ${end}::timestamptz, ${input.name.trim()}, ${normalizeEmail(input.email)},
            ${input.phone?.trim() || null}, ${zone}, 'confirmed', ${JSON.stringify(input.answers ?? {})}::jsonb, ${hash}, ${input.source}
     from (
-      select r.id from shared.resources r
+      select r.id from resources r
       where r.id = any(${slot.members}::bigint[]) and r.active
         and not exists (
-          select 1 from shared.bookings b
+          select 1 from bookings b
           where b.resource_id = r.id and b.status = 'confirmed'
             and b.starts_at < ${end}::timestamptz + ${gap}::int * interval '1 minute'
             and b.ends_at > ${start}::timestamptz - ${gap}::int * interval '1 minute')
         and not exists (
-          select 1 from shared.busy x join shared.calendars k on k.id = x.calendar_id
+          select 1 from busy x join calendars k on k.id = x.calendar_id
           where k.resource_id = r.id
             and x.starts_at < ${end}::timestamptz + ${st.bufferAfterMin}::int * interval '1 minute'
             and x.ends_at > ${start}::timestamptz - ${st.bufferBeforeMin}::int * interval '1 minute')
         and not exists (
-          select 1 from shared.time_off t
+          select 1 from time_off t
           where t.resource_id = r.id
             and t.starts_at < ${end}::timestamptz + ${st.bufferAfterMin}::int * interval '1 minute'
             and t.ends_at > ${start}::timestamptz - ${st.bufferBeforeMin}::int * interval '1 minute')
-      order by (select max(b.created_at) from shared.bookings b where b.resource_id = r.id and b.status <> 'cancelled') asc nulls first, r.id
+      order by (select max(b.created_at) from bookings b where b.resource_id = r.id and b.status <> 'cancelled') asc nulls first, r.id
       limit 1
     ) c
     returning *`;
@@ -307,7 +307,7 @@ export async function takeSlot(db: Db, resource: Resource, slot: OpenSlot, input
 /** The booking a manage link names, or null (a malformed or unknown token is the same null). */
 export async function bookingByToken(db: Db, token: string): Promise<Booking | null> {
   if (!TOKEN_SHAPE.test(token)) return null;
-  const [r] = await db.sql`select * from shared.bookings where manage_token_hash = ${await tokenHash(token)}`;
+  const [r] = await db.sql`select * from bookings where manage_token_hash = ${await tokenHash(token)}`;
   return r ? toBooking(r) : null;
 }
 
@@ -336,21 +336,21 @@ export async function reschedule(db: Db, token: string, newStart: Date, now = ne
   const start = slot.start.toISOString(), end = slot.end.toISOString();
   const gap = st.bufferBeforeMin + st.bufferAfterMin;
   const move = q`
-    update shared.bookings b
+    update bookings b
     set starts_at = ${start}::timestamptz, ends_at = ${end}::timestamptz, sequence = b.sequence + 1, updated_at = now()
     where b.id = ${b.id}::bigint and b.status = 'confirmed' and b.starts_at > ${now.toISOString()}::timestamptz
       and not exists (
-        select 1 from shared.bookings o
+        select 1 from bookings o
         where o.resource_id = b.resource_id and o.id <> b.id and o.status = 'confirmed'
           and o.starts_at < ${end}::timestamptz + ${gap}::int * interval '1 minute'
           and o.ends_at > ${start}::timestamptz - ${gap}::int * interval '1 minute')
       and not exists (
-        select 1 from shared.busy x join shared.calendars k on k.id = x.calendar_id
+        select 1 from busy x join calendars k on k.id = x.calendar_id
         where k.resource_id = b.resource_id
           and x.starts_at < ${end}::timestamptz + ${st.bufferAfterMin}::int * interval '1 minute'
           and x.ends_at > ${start}::timestamptz - ${st.bufferBeforeMin}::int * interval '1 minute')
       and not exists (
-        select 1 from shared.time_off t
+        select 1 from time_off t
         where t.resource_id = b.resource_id
           and t.starts_at < ${end}::timestamptz + ${st.bufferAfterMin}::int * interval '1 minute'
           and t.ends_at > ${start}::timestamptz - ${st.bufferBeforeMin}::int * interval '1 minute')
@@ -364,7 +364,7 @@ export async function reschedule(db: Db, token: string, newStart: Date, now = ne
 export async function cancelByToken(db: Db, token: string, now = new Date()): Promise<ChangeResult> {
   if (!TOKEN_SHAPE.test(token)) return { ok: false, reason: "not_found" };
   const [r] = await db.sql`
-    update shared.bookings
+    update bookings
     set status = 'cancelled', cancelled_at = now(), sequence = sequence + 1, updated_at = now()
     where manage_token_hash = ${await tokenHash(token)} and status = 'confirmed' and starts_at > ${now.toISOString()}::timestamptz
     returning *`;
@@ -386,7 +386,7 @@ export type Status = (typeof STATUSES)[number];
  */
 export async function setStatus(db: Db, id: string, status: Exclude<Status, "confirmed">, by: string): Promise<Booking | null> {
   const [r] = await db.sql`
-    update shared.bookings
+    update bookings
     set status = ${status}, updated_by = ${by}, updated_at = now(),
         cancelled_at = case when ${status} = 'cancelled' then now() else cancelled_at end,
         sequence = sequence + case when ${status} = 'cancelled' then 1 else 0 end

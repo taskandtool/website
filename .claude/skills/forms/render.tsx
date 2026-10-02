@@ -1,7 +1,7 @@
 // A form drawn from its definition. Works with no JavaScript: a plain POST to
 // /forms/<key>, errors shown next to the field they are about (wired with
 // aria-describedby and aria-invalid), answers put back after an error, the
-// two spam fields (shared-data/spam.tsx) and where the visitor came from
+// two spam fields (data/spam.tsx) and where the visitor came from
 // (origin.ts). Ids carry the form key, so two forms can sit on one page.
 //
 //   <FormView form={form} stamp={await makeStamp(form.key, secret)} page={c.req.path} origin={originFields(c)} />
@@ -9,7 +9,7 @@
 // Usually reached through embedForm (routes.tsx), which loads the row and
 // makes the stamp.
 import type { Field, Form, Errors, Input } from "./fields";
-import { SpamFields } from "../shared-data/spam";
+import { SpamFields } from "../data/spam";
 import { REFERRER_FIELD, UTM_FIELD } from "./origin";
 
 const control =

@@ -1,7 +1,8 @@
-// The pages of the site, in nav order. Each module exports `page` (route,
-// title, description) and `Body` (the <main> content). Add a page: create
-// src/pages/<name>.tsx with the same shape and list it here; it becomes a
-// route on the machine and a pre-rendered HTML file at publish.
+// The pages of the site, in nav order. Each module exports one object,
+// `export const Name = { page, Body }`: `page` (route, title, description)
+// and `Body` (the <main> content). Add a page: create src/pages/<name>.tsx
+// in that shape and add it to `modules` here; it becomes a route on the
+// machine and a pre-rendered HTML file when deployed.
 import type { FC } from "hono/jsx";
 import type { Page } from "../site";
 import { Home } from "./home";

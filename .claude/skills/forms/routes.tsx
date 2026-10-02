@@ -16,10 +16,10 @@
 // where the visitor came from (origin.ts).
 import { Hono, type Context } from "hono";
 import type { Child } from "hono/jsx";
-import type { Db, GetDb } from "../shared-data/db";
-import { envOf, envVar } from "../shared-data/env";
-import { afterResponse, sendEmail } from "../shared-data/send";
-import { HONEYPOT, MIN_FILL_MS, STAMP, makeStamp, verdict } from "../shared-data/spam";
+import type { Db, GetDb } from "../data/db";
+import { envOf, envVar } from "../data/env";
+import { afterResponse, sendEmail } from "../data/send";
+import { HONEYPOT, MIN_FILL_MS, STAMP, makeStamp, verdict } from "../data/spam";
 import { FORM_KEY, sitePath, validate, type Answer, type Form, type Input, type Submission } from "./fields";
 import { cameFrom, originFields, readOrigin, REFERRER_FIELD, UTM_FIELD, type Origin } from "./origin";
 import { FormView } from "./render";
@@ -34,7 +34,7 @@ export type FormRoutesOptions = {
   page: PageRenderer;
   /** Where the private submission views are mounted, for the link in the owner's email. */
   adminPath?: string;
-  /** Email the form's notify_emails through the connected sender (shared-data/send.ts). Default true. */
+  /** Email the form's notify_emails through the connected sender (data/send.ts). Default true. */
   notify?: boolean;
   minFillMs?: number;
 };

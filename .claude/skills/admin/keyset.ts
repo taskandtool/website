@@ -9,7 +9,7 @@
 //
 //   const after = readCursor(c.req.query("after"));
 //   const rows = await db.sql<Row & Keyed>`
-//     select s.*, s.created_at::text as k from shared.submissions s
+//     select s.*, s.created_at::text as k from submissions s
 //     where (${after?.k ?? null}::timestamptz is null
 //            or (s.created_at, s.id) < (${after?.k ?? null}::timestamptz, ${after?.id ?? null}::bigint))
 //     order by s.created_at desc, s.id desc

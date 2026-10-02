@@ -2,8 +2,8 @@
 
 Fourteen design systems, each a different answer to the same question:
 fourteen studios, not fourteen colourways. Use them as references, never as
-templates: show the owner the previews, learn from the one they lean
-towards, and make this site its own system. A preview is the top of the
+templates: look at the previews, take ideas from the one or two closest to
+what the business needs, and make this site its own system. A preview is the top of the
 system's reference page, built blind from its record on a real business with
 the business swapped for a made-up one; `library/<id>.webp` beside this file.
 
@@ -29,9 +29,10 @@ same design, so the record alone reproduces the look.
 
 ## Showing them
 
-Pick the three to five that fit the business (by what it sells, who buys and
-what material it has: a business with no wide photographs is not `crest` or
-`open`), and show those previews as one group, one line each:
+When the owner wants to see directions, pick the few that fit the business
+(by what it sells, who buys and what material it has: a business with no
+wide photographs is not `crest` or `open`) and show those previews as one
+group, one line each:
 
 ```python
 from tools.taskandtool import create_deliverables

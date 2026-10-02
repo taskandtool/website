@@ -38,8 +38,9 @@ a line.
    Two things would make it better: a typical price, and photographs of a wardrobe.
    ```
 
-   Then carry on building unless they asked to approve first; what they
-   change later goes into the briefs.
+   Then carry on: build them all and show them together, except in a
+   migration (`migrate-site`), where each page is built and reviewed in its
+   own turn. What the owner changes later goes into the briefs.
 
 ## 2. A brief per page
 
@@ -57,8 +58,8 @@ in the format of `references/brief.md`:
    section it had and mark it carry, improve or drop; a drop goes in
    `omit:` with its reason. The old page is the floor for how complete the
    new one is, not the template for its shape.
-4. **Fetch rather than ask.** A fact on a page of the old site that the
-   crawl did not read is fetched (`tt-crawl`), never asked for.
+4. **Fetch rather than ask.** A page of their site the crawl did not read
+   is one `tt-crawl add <url>` away.
 5. **Choose the bands.** `core` bands are on nearly every page of the type;
    every other band earns its place when the material answers its question
    well. A good page is usually shorter than the menu. What you considered

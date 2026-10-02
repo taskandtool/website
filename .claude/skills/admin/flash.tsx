@@ -13,7 +13,8 @@ export function withFlash(path: string, code: string, n?: number): string {
   u.searchParams.set("saved", code);
   if (n !== undefined) u.searchParams.set("n", String(n));
   else u.searchParams.delete("n");
-  return u.pathname + u.search;
+  // A path that resolves to "//host" would leave the site; send it home.
+  return u.pathname.startsWith("//") ? "/" + u.search : u.pathname + u.search;
 }
 
 export function Flash({ code, n, messages }: { code?: string | null; n?: string | null; messages: FlashMessages }) {

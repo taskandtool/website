@@ -1,7 +1,7 @@
 import { after, before, test } from "node:test";
 import assert from "node:assert/strict";
-import { q } from "../../shared-data/db";
-import { scratch, why, type Scratch } from "../../shared-data/test/scratch";
+import { q } from "../../data/db";
+import { scratch, why, type Scratch } from "../../data/test/scratch";
 import { compareQuery, days, lastFull, previousPeriod, ratioOfSums, run, seriesQuery, weightedMean } from "../sql";
 
 const NY = "America/New_York";
@@ -54,10 +54,10 @@ test("a ratio comes from the totals, not from averaging each row's ratio", () =>
 
 test("an identifier can only come from the allowlist and values are parameters", () => {
   const qy = seriesQuery("leads", { from: "2026-09-01", to: "2026-09-07" }, "day", NY);
-  assert.match(qy.text, /from shared\.submissions/);
+  assert.match(qy.text, /from submissions/);
   assert.deepEqual(qy.values, ["2026-09-01", "2026-09-07", "day", NY]);
   // @ts-expect-error a source that is not in SOURCES does not compile
-  assert.throws(() => seriesQuery("shared.users; drop table x", { from: "2026-09-01", to: "2026-09-07" }, "day", NY));
+  assert.throws(() => seriesQuery("users; drop table x", { from: "2026-09-01", to: "2026-09-07" }, "day", NY));
   assert.throws(() => seriesQuery("leads", { from: "2026-09-01", to: "2026-09-07" }, "day", "Mars/Olympus"), RangeError);
   assert.throws(() => seriesQuery("leads", { from: "2026-09-08", to: "2026-09-07" }, "day", NY));
 });
@@ -66,13 +66,13 @@ let t: Scratch | null = null;
 before(async () => {
   t = await scratch();
   if (!t) return;
-  await t.db.sql`create table shared.submissions (id bigserial primary key, form_key text, email citext, source text, status text not null default 'new', created_at timestamptz not null)`;
+  await t.db.sql`create table submissions (id bigserial primary key, form_key text, email citext, source text, status text not null default 'new', created_at timestamptz not null)`;
 });
 after(async () => t?.drop());
 
 async function leads(...instants: string[]) {
-  await t!.db.sql`truncate shared.submissions`;
-  for (const at of instants) await t!.db.sql`insert into shared.submissions (form_key, email, source, created_at) values ('contact', 'a@example.com', 'website', ${at})`;
+  await t!.db.sql`truncate submissions`;
+  for (const at of instants) await t!.db.sql`insert into submissions (form_key, email, source, created_at) values ('contact', 'a@example.com', 'website', ${at})`;
 }
 
 test("a day bucket on the fall-back day holds its 25 hours", { skip: !process.env.TEST_DATABASE_URL && why }, async () => {
@@ -103,7 +103,7 @@ test("a week bucket across the change is still Monday to Sunday in the zone", { 
 
 test("quiet buckets are zero, spam is left out, and the session's zone changes nothing", { skip: !process.env.TEST_DATABASE_URL && why }, async () => {
   await leads("2026-09-01T15:00:00Z", "2026-09-03T15:00:00Z");
-  await t!.db.sql`insert into shared.submissions (form_key, email, source, status, created_at) values ('contact', 'x@example.com', 'website', 'spam', '2026-09-02T15:00:00Z')`;
+  await t!.db.sql`insert into submissions (form_key, email, source, status, created_at) values ('contact', 'x@example.com', 'website', 'spam', '2026-09-02T15:00:00Z')`;
   const query = seriesQuery("leads", { from: "2026-09-01", to: "2026-09-05" }, "day", NY);
   const [, rows] = await t!.db.transaction([q`set local timezone = 'Pacific/Auckland'`, query]);
   assert.deepEqual(

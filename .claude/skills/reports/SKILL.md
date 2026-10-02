@@ -1,6 +1,6 @@
 ---
 name: reports
-description: "Charts and report pages over the shared tables and the Google connection: KPI tiles, trends, funnels, the operations and SEO reports, branded from the theme, under /reports, and handed over as a PDF deliverable on a schedule. Use for any chart, dashboard or report. Not for lists of rows (admin)."
+description: "Charts and report pages over the project's tables and the Google connection: KPI tiles, trends, funnels, the operations and SEO reports, branded from the theme, under /reports, and handed over as a PDF deliverable on a schedule. Use for any chart, dashboard or report. Not for lists of rows (admin)."
 ---
 
 # Reports
@@ -63,7 +63,7 @@ exist) need `@theme static`, or a class that uses them, to reach the page.
   UTM source the forms skill stored, else the referring host, else direct
   (`leadsByOriginQuery`).
 - **A table may not exist yet** (no booking app, no payments):
-  `sharedTables(db)` checks `information_schema`, and the section says so
+  `projectTables(db)` checks `information_schema`, and the section says so
   in a sentence instead of failing the page.
 - **Identifiers are never parameters or input.** A query over another table
   is a new entry in `SOURCES` (`sql.ts`): table and column names are string
@@ -157,7 +157,7 @@ reports.get("/", async (c) => {
 app.route("/reports", reports);
 ```
 
-A new chart over a shared table: add its entry to `SOURCES`, then
+A new chart over another table: add its entry to `SOURCES`, then
 `run(db, seriesQuery(name, period, grain, zone))` and
 `compareQuery(...)`, and pass the rows to `LineChart` or `BarChart` with
 `bucketLabel` labels.

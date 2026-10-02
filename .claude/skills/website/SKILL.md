@@ -1,5 +1,6 @@
 ---
-description: "Build, run and publish this business website: the Hono app in this repo, its pages, brand tokens, components, the dev loop, checks, adding pages, images and forms, and publishing to production. Use for any change to the site, and for 'build my website', 'add a page', 'change the look', 'publish it'."
+name: website
+description: "The mechanics of this business website: the Hono app, its pages and components, the dev loop, the checks, screenshots, images, forms and the checklist before each deploy. Use for a change to the site's code, adding or editing a page, or deploying. A new homepage or site is new-site; the look is design."
 ---
 
 # Website
@@ -13,14 +14,9 @@ with a small Worker behind it for anything dynamic. The owner's
 CLAUDE.md in the app root says where things are; `DESIGN.md` and `brand/`
 say how it should look and sound.
 
-A site still on its welcome page starts with the `new-site` skill: intake,
-a striking homepage first, then the system and the pages. What pages a
-site needs and what each says is the `pages` skill. Before a
-substantial new page or a redesign, work through the `design` and `writing`
-skills first: the brief, the voice card (`brand/voice.md`), the content
-inventory. Build from real words and real material. When the owner has a
-current site to replace, the `migrate-site` skill comes first. This skill is
-the mechanics.
+This skill is the mechanics. A new homepage or site is the `new-site`
+skill, the look is `design`, what pages a site needs and what each says is
+`pages`, and a site to replace page for page is `migrate-site`.
 
 ## The loop on this machine
 
@@ -50,21 +46,19 @@ missing (a fresh clone, a replaced machine), re-run it; it is idempotent:
 bash ~/app/.taskandtool/setup.sh
 ```
 
-Before showing work: `npm run check` (the brand notes present, DESIGN.md and
-the theme in step, contrast of the brand pairs, site-map.md against the
-pages and redirects, page paths, the Cloudflare rule), `npm run typecheck`,
-`npm run build && npm run lint` (the rendered pages: the refuse list,
-contrast where each text actually sits, the copy rules, the reader basics,
-and hints for the patterns that read as generated; fix every error, and
-treat each hint as a question about the design), and, once the pages
-exist, `npm run audit` (the crawler against the working copy: broken links,
-heading order, alt text, form labels, link text, title and description
-lengths, page weight, the sitemap). Then look at the page yourself at
-1280px and 390px (the `design` skill's review gate says how: Obscura
-screenshots into `uploads/`) and show the screenshots in your reply with
-`create_deliverables` from `tools/taskandtool.py`, each as `"status":
-"info"` (something to look at, nothing to decide), so the owner sees the
-page in the chat and can click to enlarge, rather than a description of it.
+Before showing work:
+
+```bash
+npm run check                    # the project: the design record, contrast, page paths, the site map, the Cloudflare rule
+npm run build && npm run lint    # the rendered pages: errors to fix, hints to read as questions
+npm run shots                    # uploads/home-1280.png and home-390.png (npm run shots -- /services for another page)
+```
+
+Look at the screenshots yourself, then show them with `create_deliverables`
+from `tools/taskandtool.py`, so the owner sees the page in the chat, not a
+description of it. `npm run typecheck` after a change to `src/`, and `npm
+run audit` (the crawler against dev: links, headings, alt text, titles)
+once there are several pages.
 
 ## The shape
 
@@ -78,16 +72,16 @@ design/system.yaml  the design system as one record; `npm run system` compiles i
 DESIGN.md         the identity block, the role of every token, the rules; read before designing, never edit by hand
 src/site.ts       the site's facts (name, tagline, contact, social, logo, fonts URL), the nav, the Page type
 src/layout.tsx    the document: head (title, description, fonts), header, footer, render()
-src/components/   Section, Eyebrow, Button; add shared pieces here
-src/pages/*.tsx   one module per page: `page` (path, title, description) + `Body`
-src/pages/index.ts  the list of pages, in nav order — a page exists once it is listed here
+src/components/   Section, Button, the fact sections; add shared pieces here
+src/pages/*.tsx   one module per page: `export const Name = { page, Body }`
+src/pages/index.ts  the list of pages (`modules`), in nav order: a page exists once it is listed here
 src/app.tsx       the Hono app: the redirect table, a GET per route (pages, posts, legal), dynamic routes, the 404
 src/content.ts    the generated content and the JSON-LD builders (LocalBusiness, FAQPage, Service, BlogPosting)
-src/shared-data/  the database handle and settings, copied from the shared-data skill when the app first needs a database
+src/data/         the database handle and settings, copied from the data skill when the app first needs a database
 src/server.ts     the machine entry (Node); src/worker.ts the production (Cloudflare) entry
 styles/input.css  the stylesheet source → static/site.css
 static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)
-scripts/          dev.mjs · build.ts · check.mjs
+scripts/          dev.mjs · content.mjs · build.ts · system.mjs · check.mjs · lint.mjs · shots.mjs
 ```
 
 ## The facts, the collections, and what the build generates
@@ -110,12 +104,12 @@ the facts exist. Compose around them; do not retype a fact into markup.
 
 ## Adding a page
 
-1. Create `src/pages/<name>.tsx` with the same shape as `home.tsx`: export
-   `{ page, Body }`, where `page.path` starts with `/` and `page.description`
-   is a real sentence about the page.
-2. List it in `src/pages/index.ts`. That makes it a route here and a
-   pre-rendered `dist/<name>.html` at publish, served at `/<name>`. Add
-   its row to `site-map.md`.
+1. Create `src/pages/<name>.tsx` in the shape of `home.tsx`: `export const
+   Name = { page, Body }`, where `page.path` starts with `/` and
+   `page.description` is a real sentence about the page.
+2. Add it to `modules` in `src/pages/index.ts`. That makes it a route here
+   and a pre-rendered `dist/<name>.html` when deployed, served at
+   `/<name>`. Add its row to `site-map.md`.
 3. Put it in the header nav through `site.nav` in `src/site.ts` when it
    belongs there (at most four links; more go in a menu).
 4. Build the page from `Section`, the type classes, and the tokens. The
@@ -147,8 +141,8 @@ next turn can change safely.
 
 ### From an HTML page to a page here
 
-A page designed as plain HTML (one the owner hands over, a page from the
-design library) becomes a page here in five mechanical steps:
+A page designed as plain HTML (one the owner hands over) becomes a page
+here in five mechanical steps:
 
 1. Keep only what sits inside `<main>`; the layout already has the head,
    header and footer. Move anything the page adds to the head into
@@ -166,22 +160,12 @@ design library) becomes a page here in five mechanical steps:
 
 ## The brand, the theme, and the site's facts
 
-`brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
-audience, visual identity, do and don't, and `logo/`. The site never reads
-them; you do. Setting the site from them is a fixed procedure, "What the
-AI sets from them" in `BRAND.md`: colours and fonts into
-`design/system.yaml` by role (accent, night, inks) and `npm run system`
-(`npm run check` measures contrast and fails a bad pair), the facts into
-`src/site.ts` (name, tagline, contact, social, logo, fonts URL), then the
-pages. Do it on the first
-real build and whenever the notes change, and say what changed.
-
-The `brand` skill writes the notes, from whatever the owner gives you: the
-owner in chat first, then a crawl of their site (`migrate-site`), a
-document, a social profile. Keep them current.
-
-Values that are not brand (the type scale, radii, rhythm, the grounds) are
-yours: change them in `design/system.yaml` and run `npm run system`. Self-hosted fonts go in `static/fonts/` with
+`brand/` and `public/` are the brand and the facts as notes, written by the
+`brand` skill. The site never reads `brand/`; you set the site from it
+("What the AI sets from them" in `BRAND.md`): colours and fonts into
+`design/system.yaml` by role, then `npm run system`; the name, contact and
+logo into `src/site.ts`. Every other design value lives in
+`design/system.yaml` too. Self-hosted fonts go in `static/fonts/` with
 `@font-face` in `styles/input.css`. The dev service rebuilds the CSS on
 every change; on a one-off run `npm run css`.
 
@@ -204,11 +188,11 @@ every change; on a one-off run `npm run css`.
   layout. Server round-trips (a filter, a search) can use htmx the same way.
   No client framework unless a view genuinely needs one.
 - Forms, the private side and data the project's other apps share come
-  from the shared skills beside this one: `forms` (any form a visitor
-  sends, stored in `shared.submissions`, where a CRM finds them), `admin`
+  from the business skills beside this one: `forms` (any form a visitor
+  sends, stored in `submissions`, where a CRM finds them), `admin`
   (the private `/admin` with its lists and exports), `booking` (a booking
   page and the hours behind it), `reports` (charts and report pages), all
-  on `shared-data` (the database handle, settings, email, spam checks).
+  on `data` (the database handle, settings, email, spam checks).
   Copy a skill's code into `src/<skill>/` as its skill says; here the
   handle is `fromNeon(envVar(c, "DATABASE_URL"))`, since production runs
   on the Neon HTTP driver. A private view on a public site is kept for the
@@ -219,7 +203,7 @@ every change; on a one-off run `npm run css`.
   rule as all of `src/` (AGENTS.md: Rules); `npm run check` flags a Node
   import.
 - Sending email needs a sender the owner connects (Resend or Postmark,
-  through `/connections`); Task & Tool sends none. `shared-data`'s
+  through `/connections`); Task & Tool sends none. `data`'s
   `send.ts` uses it. Without one, the submission is stored and the owner
   sees it in `/admin` or the CRM. Say which the site does.
 
@@ -259,8 +243,7 @@ hand any time.
 
 The app is the owner's repository. Commit at milestones with plain
 messages; never commit `dist/`, `build/`, `node_modules/`, `static/site.css`,
-or any credential. Pushing to GitHub is the owner's call (CLAUDE.md: Git
-and GitHub).
+or any credential. Pushing to GitHub is the owner's call.
 
 ## Off the platform
 
@@ -269,6 +252,5 @@ This site runs anywhere with Node 20: `npm install`, `npm run dev`. Only
 own computer and Cloudflare account, `npm run build` then `npx wrangler
 deploy` (`wrangler.jsonc`) does the same job.
 
-On this machine, `npm run deploy` is the only way to production, and
-`wrangler.jsonc` is for the owner's own computer, not for here; the `deploy`
-skill has the rules, the owner's own Cloudflare account included.
+On this machine, production is `npm run deploy`; any other destination,
+the owner's own Cloudflare account included, is the `deploy` skill's.

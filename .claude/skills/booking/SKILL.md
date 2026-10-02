@@ -1,13 +1,13 @@
 ---
 name: booking
-description: "Appointments in the project's shared Postgres: weekly hours, time off, crews, the tested slot calculator, double-booking-safe booking, manage links, .ics invites, the hours editor, and the calendar sync job for Google and Microsoft. Use for any booking page, availability or calendar sync. Not for embedding Calendly."
+description: "Appointments in the project's Postgres: weekly hours, time off, crews, the tested slot calculator, double-booking-safe booking, manage links, .ics invites, the hours editor, and the calendar sync job for Google and Microsoft. Use for any booking page, availability or calendar sync. Not for embedding Calendly."
 ---
 
 # Booking
 
-Who can be booked (`shared.resources`, a person or a crew), when
-(`shared.availability`, `shared.time_off`), what the calendar says is busy
-(`shared.calendars`, `shared.busy`), and what is booked (`shared.bookings`).
+Who can be booked (`resources`, a person or a crew), when
+(`availability`, `time_off`), what the calendar says is busy
+(`calendars`, `busy`), and what is booked (`bookings`).
 Every app granted the project database reads the same rows: the Booking app
 sets the hours, the Website's booking page shows them, the CRM lists the
 bookings by email.
@@ -17,7 +17,7 @@ Version: 0.1.0 (taskandtool/skills)
 ## The rules
 
 - **Pages read Postgres and nothing else.** Never call a calendar from a page,
-  in dev or in production. The sync job copies busy times into `shared.busy`;
+  in dev or in production. The sync job copies busy times into `busy`;
   the page reads that. So production's Worker needs only `DATABASE_URL`, never
   a calendar token, and works the same whichever calendar the owner uses.
 - **Store instants, show local.** Bookings and time off are `timestamptz`.
@@ -39,16 +39,16 @@ Version: 0.1.0 (taskandtool/skills)
   check in JavaScript between statements, and do not open an interactive
   transaction: the Neon HTTP driver cannot.
 - **The double-booking window.** An event added to the calendar since the
-  last sync is not in `shared.busy` yet, so that time can be booked. Both
+  last sync is not in `busy` yet, so that time can be booked. Both
   then show in the owner's calendar. Say so if the owner asks; syncing every
   15 minutes keeps it small. Bookings never double-book each other.
 - **Confirmations go through the owner's sender only.** Task & Tool sends no
   email for an app. `sendInvite` (`notify.ts`) sends through
-  `shared-data/send.ts`, configured once for the project's skills by
+  `data/send.ts`, configured once for the project's skills by
   `NOTIFY_FROM` and `NOTIFY_VIA` (the forms skill's "Telling the owner"). No
   sender: send nothing, and the manage page's .ics download is the invite.
 - **The confirm form is spam-checked** with the forms' honeypot and minimum
-  fill time (`shared-data/spam.tsx`); set `SPAM_SECRET` so the stamp is
+  fill time (`data/spam.tsx`); set `SPAM_SECRET` so the stamp is
   signed. A bot is sent back to the day's times and nothing is booked.
 - **Invites** (`ics.ts`): UID `booking-<id>@<domain>` never changes; SEQUENCE
   is `bookings.sequence`, which rises on every reschedule and cancel (clients
@@ -76,7 +76,7 @@ slot), calendar push notifications (the job polls), Calendly or Cal.com sync.
 an event get one, with no attendees, since Google and Microsoft would email
 the booker from the owner's account; a raised SEQUENCE moves or deletes the
 event), then pulls each calendar's events for the horizon and replaces that
-calendar's `shared.busy` rows in one transaction, leaving out our own events.
+calendar's `busy` rows in one transaction, leaving out our own events.
 A failed pull keeps the old rows and writes `calendars.last_error`, which the
 Calendars page shows.
 
@@ -112,21 +112,21 @@ It exits 1 with the errors when something failed, so `job_runs` shows why.
 
 | File | What |
 |---|---|
-| `schema.sql` | The seven shared tables and their indexes |
+| `schema.sql` | The seven tables and their indexes |
 | `slots.ts` | The pure slot calculator, zone arithmetic, formatting for a viewer |
 | `book.ts` | Open slots from the database, `book`, `reschedule`, `cancelByToken`, `setStatus` |
 | `hours.ts` | The editor's writes: weekly hours, time off, settings, crews, calendars |
 | `public.tsx` | `bookingPages`: day and time picker, confirm form, manage page (with the deposit's status), .ics; `onBooked`, `afterBook` |
 | `admin.tsx` | `bookingAdmin` (list, detail, status, calendars) and `availabilityRoutes` (the editor) |
 | `ics.ts` | RFC 5545 invite builder |
-| `notify.ts` | `sendInvite`: the confirmation with its .ics, through `shared-data/send.ts` |
+| `notify.ts` | `sendInvite`: the confirmation with its .ics, through `data/send.ts` |
 | `sync.ts` | The calendar sync job (machine only) |
 | `test/` | Slots and DST, concurrency, sync with a fake gateway, ICS, the pages, spam, afterBook |
 
 ## Recipes
 
 **Add a booking page to the Website.** Copy this folder to `src/booking/`
-with `shared-data/` and `admin/`; run `schema.sql` with `applySchema` from
+with `data/` and `admin/`; run `schema.sql` with `applySchema` from
 the setup script. Make a resource with a `slug` in the editor. Mount
 `bookingPages(getDb, { base: "/book", domain, css, source: "website", Page })`,
 passing the site's own frame as `Page`, and
@@ -139,7 +139,7 @@ deposit, `afterBook` returns the Checkout URL (the payments skill's recipe).
 **Let the owner change hours from another app (the CRM).** Copy `slots.ts`,
 `book.ts`, `hours.ts` and `admin.tsx` and mount only
 `availabilityRoutes(getDb, { base: "/hours", css, source: "crm" })` on a private path. It
-writes the shared tables the booking page reads, so the change is live on
+writes the tables the booking page reads, so the change is live on
 the next page load; nothing to sync or deploy.
 
 **Connect a calendar.** The job calls the endpoint `google-calendar` (the

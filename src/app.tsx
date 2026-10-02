@@ -62,9 +62,8 @@ app.get("/robots.txt", (c) =>
 );
 
 // Dynamic routes (form posts, anything computed per request) go below. They
-// run on the machine and, after publishing, in the edge Worker. See the
-// `website` skill's forms.md for a contact form that writes to the project's
-// database.
+// run on the machine and, after deploying, in the production Worker. A form
+// that stores what visitors send is the `forms` skill.
 
 app.notFound((c) => c.html(render(NotFound.page, <NotFound.Body />), 404));
 

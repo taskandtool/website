@@ -1,5 +1,5 @@
 // A form's definition and the one validator every submission goes through.
-// The definition is a row in shared.forms (`fields` is this ordered array), so
+// The definition is a row in forms (`fields` is this ordered array), so
 // the renderer, the server check and the form editor all read the same thing.
 //
 //   const r = validate(form.fields, input);           // input from the POST body
@@ -7,10 +7,10 @@
 //   insert r.submission                               // name, email, phone in columns; the rest in data
 //
 // Fields named `name`, `email` and `phone` fill those columns of
-// shared.submissions, so the CRM finds the person; every other answer goes in
+// submissions, so the CRM finds the person; every other answer goes in
 // `data`, keyed by the field's name. Anything posted that is not a field is
 // ignored. Edge-safe.
-import { normalizeEmail } from "../shared-data/email";
+import { normalizeEmail } from "../data/email";
 
 export const FIELD_TYPES = ["text", "email", "tel", "textarea", "select", "checkbox", "radio", "date", "number", "consent"] as const;
 export type FieldType = (typeof FIELD_TYPES)[number];
@@ -30,7 +30,7 @@ export interface Field {
   autocomplete?: string;
 }
 
-/** A row of shared.forms, as the snippets use it. */
+/** A row of forms, as the snippets use it. */
 export interface Form {
   key: string;
   title: string;

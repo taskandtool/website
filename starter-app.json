@@ -7,20 +7,21 @@
   },
   "suggestions": [
     {
-      "id": "get-my-site-started",
-      "label": "Get my site started",
-      "prompt": "Build my site. Here is what I have to get you started (links to us on the web, competitor sites, design inspiration, what I want from this site and what I don't, our goals): ",
+      "id": "build-me-a-homepage",
+      "label": "Build me a homepage",
+      "prompt": "Build me a homepage. Our website or business: ",
       "when": [
         {
-          "path": "DESIGN.md",
-          "is": "unfilled"
+          "path": "src/pages/home.tsx",
+          "is": "contains",
+          "text": "Chat with AI to get this site up and running"
         }
       ]
     },
     {
-      "id": "read-my-current-website",
-      "label": "Read my current website",
-      "prompt": "Read my current website with the migrate-site skill: ask me the two questions first (keep the URLs? faithful rebuild or redesign?), then crawl it with tt-crawl into raw/site with styles and screenshots, fetch the documents it links to, detect WordPress, and report what you found: pages, forms, embeds, tracking IDs, and whether you hit the page limit. My site is ",
+      "id": "rebuild-my-current-site",
+      "label": "Rebuild my current site page for page",
+      "prompt": "Rebuild my current site page for page with the migrate-site skill: ask me the two questions first (keep the URLs? faithful rebuild or redesign?), then crawl it with tt-crawl into raw/site with styles and screenshots, fetch the documents it links to, detect WordPress, and report what you found: pages, forms, embeds, tracking IDs, and whether you hit the page limit. My site is ",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -29,32 +30,16 @@
       ]
     },
     {
-      "id": "extract-the-facts-from-my",
-      "label": "Extract the facts from my site",
-      "prompt": "Extract the facts from my crawled site into public/ with the brand skill: seed public/business.md from raw/site/<host>/structured and _index/facts.json, fill services, faq, team, policies, and proof from the pages and linked documents, copy legal text verbatim into legal/, then run npm run content and npm run check. Tell me every fact you could not find and every conflict you saw.",
+      "id": "build-out-the-site",
+      "label": "Build out the rest of the site",
+      "prompt": "Build out the rest of the site with the new-site skill: read the rest of our current site, plan the other pages, and keep the homepage's look on every one of them.",
       "when": [
         {
-          "path": "raw/site/_sites.json",
+          "path": "design/briefs/home.md",
           "is": "present"
         },
         {
-          "path": "public/business.md",
-          "is": "unfilled"
-        }
-      ]
-    },
-    {
-      "id": "apply-my-brand-from-my",
-      "label": "Apply my brand from my site",
-      "prompt": "Apply the brand to this site from my crawled site: first write brand/ from it with the brand skill (visual identity, positioning, voice, the logo files, the best photos). Then follow BRAND.md's 'What the AI sets from them': colours and fonts into design/system.yaml by role and npm run system, contrast checked, and the facts into src/site.ts. Show me the result on the working copy and list what the notes did not say that only I can supply.",
-      "when": [
-        {
-          "path": "raw/site/_sites.json",
-          "is": "contains",
-          "text": "\"styles\": true"
-        },
-        {
-          "path": "brand/visual-identity.md",
+          "path": "site-map.md",
           "is": "unfilled"
         }
       ]
@@ -66,7 +51,8 @@
       "when": [
         {
           "path": "raw/site/_sites.json",
-          "is": "present"
+          "is": "contains",
+          "text": "\"profile\": \"pages\""
         },
         {
           "path": "site-map.md",
@@ -94,7 +80,7 @@
         {
           "path": "public",
           "is": "newer_than",
-          "than": "src/generated/content.json"
+          "than": "site-map.md"
         },
         {
           "path": "site-map.md",
@@ -109,7 +95,8 @@
       "when": [
         {
           "path": "raw/site/_sites.json",
-          "is": "present"
+          "is": "contains",
+          "text": "\"profile\": \"pages\""
         },
         {
           "path": "site-map.md",
@@ -133,7 +120,7 @@
     {
       "id": "add-a-page",
       "label": "Add a page",
-      "prompt": "Add a page to the site. Follow the website skill: a new module in src/pages, listed in src/pages/index.ts, a row in site-map.md, in the nav if it belongs there, built from the design system and real copy. The page is "
+      "prompt": "Add a page to the site with the pages skill: its brief, then the page in the site's design, its row in site-map.md, and the nav if it belongs there. The page is "
     },
     {
       "id": "add-a-blog-post",
@@ -143,7 +130,7 @@
     {
       "id": "add-a-contact-form",
       "label": "Add a contact form",
-      "prompt": "Add a contact form with the forms skill: the form as a row in shared.forms, submissions into shared.submissions (ask me to enable Postgres with request_capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
+      "prompt": "Add a contact form with the forms skill: the form as a row in the forms table, every submission in submissions (ask me to enable Postgres with request_capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
     },
     {
       "id": "publish-to-production",

@@ -1,6 +1,6 @@
 // The public booking pages: pick a day, pick a time, give a name and email,
 // done; and the manage link that reschedules or cancels. Edge-safe: they
-// read Postgres only (shared.busy is what the sync job last copied from the
+// read Postgres only (busy is what the sync job last copied from the
 // calendar) and never call a calendar.
 //
 //   app.route("/book", bookingPages(getDb, {
@@ -12,15 +12,15 @@
 // Times are shown in the viewer's zone, with the zone named. A two-line
 // script adds ?tz= from the browser once; with no JavaScript the page shows
 // the business's zone and says so. Every form is a POST with a 303. The
-// confirm form carries the shared spam fields (shared-data/spam.tsx); a
+// confirm form carries the spam fields (data/spam.tsx); a
 // deposit, when the app takes one, is `afterBook` sending the booker to pay,
-// and the manage page shows its status from shared.payments.
+// and the manage page shows its status from payments.
 import { Hono } from "hono";
 import type { Context } from "hono";
 import type { Child } from "hono/jsx";
-import type { Db, GetDb } from "../shared-data/db";
-import { envVar } from "../shared-data/env";
-import { HONEYPOT, makeStamp, SpamFields, STAMP, verdict } from "../shared-data/spam";
+import type { Db, GetDb } from "../data/db";
+import { envVar } from "../data/env";
+import { HONEYPOT, makeStamp, SpamFields, STAMP, verdict } from "../data/spam";
 import {
   book, bookingByToken, cancelByToken, openSlotsFor, reschedule, resourceById, resourceBySlug, settingsResourceFor,
   type Booking, type OpenSlot, type Resource,
@@ -401,12 +401,12 @@ const DEPOSIT: Record<string, string> = {
 export async function depositStatus(db: Db, bookingId: string): Promise<string | null> {
   try {
     const [p] = await db.sql<{ status: string }>`
-      select status from shared.payments
+      select status from payments
       where ref_type = 'booking' and ref_id = ${bookingId} and kind = 'deposit'
       order by created_at desc, id desc limit 1`;
     return p?.status ?? null;
   } catch (e) {
-    if ((e as { code?: string }).code === "42P01") return null; // no shared.payments: this project takes no payments
+    if ((e as { code?: string }).code === "42P01") return null; // no payments: this project takes no payments
     throw e;
   }
 }

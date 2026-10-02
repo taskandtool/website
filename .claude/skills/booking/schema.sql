@@ -1,11 +1,11 @@
 -- booking: who can be booked, when, and what is booked. Additive only
--- (shared-data/SKILL.md): run with applySchema from setup or start.
+-- (data/SKILL.md): run with applySchema from setup or start.
 --
 -- Times a person chose are instants (timestamptz) with the IANA zone stored
 -- beside them. Weekly hours are wall times (time) in the resource's zone.
 -- Weekday is 0 Sunday to 6 Saturday, as extract(dow) and Date#getUTCDay.
 
-create table if not exists shared.resources (
+create table if not exists resources (
   id bigserial primary key,
   kind text not null default 'person' check (kind in ('person', 'crew')),
   slug text,
@@ -24,13 +24,13 @@ create table if not exists shared.resources (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-create unique index if not exists resources_slug on shared.resources (slug);
-create index if not exists resources_email on shared.resources (email);
+create unique index if not exists resources_slug on resources (slug);
+create index if not exists resources_email on resources (email);
 
 -- A crew is booked as one; each booking goes to one free member.
-create table if not exists shared.resource_members (
-  crew_id bigint not null references shared.resources (id) on delete cascade,
-  member_id bigint not null references shared.resources (id) on delete cascade,
+create table if not exists resource_members (
+  crew_id bigint not null references resources (id) on delete cascade,
+  member_id bigint not null references resources (id) on delete cascade,
   created_at timestamptz not null default now(),
   primary key (crew_id, member_id),
   check (crew_id <> member_id)
@@ -38,9 +38,9 @@ create table if not exists shared.resource_members (
 
 -- Weekly hours. end_local may be 24:00 (until midnight); a window never
 -- crosses midnight: split it into two rows on two weekdays.
-create table if not exists shared.availability (
+create table if not exists availability (
   id bigserial primary key,
-  resource_id bigint not null references shared.resources (id) on delete cascade,
+  resource_id bigint not null references resources (id) on delete cascade,
   weekday smallint not null check (weekday between 0 and 6),
   start_local time not null,
   end_local time not null,
@@ -48,11 +48,11 @@ create table if not exists shared.availability (
   created_at timestamptz not null default now(),
   check (start_local < end_local)
 );
-create index if not exists availability_resource on shared.availability (resource_id, weekday);
+create index if not exists availability_resource on availability (resource_id, weekday);
 
-create table if not exists shared.time_off (
+create table if not exists time_off (
   id bigserial primary key,
-  resource_id bigint not null references shared.resources (id) on delete cascade,
+  resource_id bigint not null references resources (id) on delete cascade,
   starts_at timestamptz not null,
   ends_at timestamptz not null,
   note text,
@@ -60,14 +60,14 @@ create table if not exists shared.time_off (
   created_at timestamptz not null default now(),
   check (ends_at > starts_at)
 );
-create index if not exists time_off_resource_end on shared.time_off (resource_id, ends_at);
+create index if not exists time_off_resource_end on time_off (resource_id, ends_at);
 
 -- A calendar the owner connected for a resource. external_id is the
 -- provider's calendar id (primary means the account's main calendar).
 -- receives_bookings: the sync job writes bookings into the first such one.
-create table if not exists shared.calendars (
+create table if not exists calendars (
   id bigserial primary key,
-  resource_id bigint not null references shared.resources (id) on delete cascade,
+  resource_id bigint not null references resources (id) on delete cascade,
   provider text not null check (provider in ('google', 'microsoft')),
   external_id text not null default 'primary',
   receives_bookings boolean not null default true,
@@ -76,23 +76,23 @@ create table if not exists shared.calendars (
   updated_by citext,
   created_at timestamptz not null default now()
 );
-create unique index if not exists calendars_resource_provider_external on shared.calendars (resource_id, provider, external_id);
+create unique index if not exists calendars_resource_provider_external on calendars (resource_id, provider, external_id);
 
 -- Busy times copied from a calendar by the sync job; it replaces a
 -- calendar's rows on every run. Pages read only this, never the calendar.
-create table if not exists shared.busy (
+create table if not exists busy (
   id bigserial primary key,
-  calendar_id bigint not null references shared.calendars (id) on delete cascade,
+  calendar_id bigint not null references calendars (id) on delete cascade,
   starts_at timestamptz not null,
   ends_at timestamptz not null,
   check (ends_at > starts_at)
 );
-create index if not exists busy_calendar_end on shared.busy (calendar_id, ends_at);
+create index if not exists busy_calendar_end on busy (calendar_id, ends_at);
 
-create table if not exists shared.bookings (
+create table if not exists bookings (
   id bigserial primary key,
-  resource_id bigint not null references shared.resources (id),
-  crew_id bigint references shared.resources (id),
+  resource_id bigint not null references resources (id),
+  crew_id bigint references resources (id),
   starts_at timestamptz not null,
   ends_at timestamptz not null,
   name text not null,
@@ -116,18 +116,18 @@ create table if not exists shared.bookings (
   updated_at timestamptz not null default now(),
   check (ends_at > starts_at)
 );
-create index if not exists bookings_resource_end on shared.bookings (resource_id, ends_at);
-create index if not exists bookings_starts on shared.bookings (starts_at, id);
-create index if not exists bookings_email on shared.bookings (email);
-create unique index if not exists bookings_manage_token on shared.bookings (manage_token_hash);
+create index if not exists bookings_resource_end on bookings (resource_id, ends_at);
+create index if not exists bookings_starts on bookings (starts_at, id);
+create index if not exists bookings_email on bookings (email);
+create unique index if not exists bookings_manage_token on bookings (manage_token_hash);
 
-comment on column shared.bookings.sequence is 'Rises on every reschedule and cancel. It is the ICS SEQUENCE, and the sync job compares it with synced_sequence.';
-comment on column shared.bookings.manage_token_hash is 'Hex SHA-256 of the manage link token. The token itself is never stored.';
+comment on column bookings.sequence is 'Rises on every reschedule and cancel. It is the ICS SEQUENCE, and the sync job compares it with synced_sequence.';
+comment on column bookings.manage_token_hash is 'Hex SHA-256 of the manage link token. The token itself is never stored.';
 
 -- Our name for the booking's calendar event, chosen before the event exists,
 -- so a create the job retries finds the event it already made instead of
 -- making a second one, and the pull knows our events by it (sync.ts). The
 -- default fills every row, old ones included, whichever app inserts: 32 hex
 -- characters, which Google's event ids (base32hex) accept as they are.
-alter table shared.bookings add column if not exists event_key text default replace(gen_random_uuid()::text, '-', '');
-comment on column shared.bookings.event_key is 'Random, never changes. sync.ts derives each calendar event''s id or tag from it.';
+alter table bookings add column if not exists event_key text default replace(gen_random_uuid()::text, '-', '');
+comment on column bookings.event_key is 'Random, never changes. sync.ts derives each calendar event''s id or tag from it.';

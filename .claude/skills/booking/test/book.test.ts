@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { applySchema } from "../../shared-data/migrate";
-import { scratch, why, type Scratch } from "../../shared-data/test/scratch";
+import { applySchema } from "../../data/migrate";
+import { scratch, why, type Scratch } from "../../data/test/scratch";
 import {
   book, bookingByToken, cancelByToken, openSlotAt, openSlotsFor, reschedule, resourceById, setStatus, takeSlot, tokenHash, type Resource,
 } from "../book";
@@ -45,7 +45,7 @@ test("two people booking the same slot at once: exactly one gets it", (t) =>
     );
     assert.equal(tries.filter((x) => x.ok).length, 1);
     assert.deepEqual(tries.filter((x) => !x.ok).map((x) => !x.ok && x.reason), ["taken", "taken", "taken", "taken"]);
-    const [{ n }] = await s.db.sql`select count(*)::int as n from shared.bookings`;
+    const [{ n }] = await s.db.sql`select count(*)::int as n from bookings`;
     assert.equal(n, 1);
   }));
 
@@ -58,7 +58,7 @@ test("the lock is taken before the check: a booking committed while waiting is s
     try {
       await other.query("begin");
       await other.query("select pg_advisory_xact_lock(hashtext('booking:' || $1::text))", [r.id]);
-      await other.query(`insert into shared.bookings (resource_id, starts_at, ends_at, name, email)
+      await other.query(`insert into bookings (resource_id, starts_at, ends_at, name, email)
         values ($1::bigint, '2026-03-09T10:00:00Z', '2026-03-09T11:00:00Z', 'First', 'first@example.com')`, [r.id]);
       const racing = Promise.all([1, 2].map((i) => takeSlot(s.db, r, slot, { ...who, email: `p${i}@example.com`, resourceId: r.id, start: slot.start })));
       await new Promise((ok) => setTimeout(ok, 300)); // both are now waiting on the lock
@@ -68,7 +68,7 @@ test("the lock is taken before the check: a booking committed while waiting is s
     } finally {
       other.release();
     }
-    const [{ n }] = await s.db.sql`select count(*)::int as n from shared.bookings`;
+    const [{ n }] = await s.db.sql`select count(*)::int as n from bookings`;
     assert.equal(n, 1);
   }));
 
@@ -78,8 +78,8 @@ test("the transaction re-checks in SQL even when the page's check was stale", (t
     const slot = (await openSlotAt(s.db, r, T("2026-03-09T11:00:00Z"), NOW))!;
     assert.ok(slot);
     // Between the page's check and the insert: a calendar sync adds a busy row.
-    const [k] = await s.db.sql`insert into shared.calendars (resource_id, provider) values (${r.id}::bigint, 'google') returning id::text as id`;
-    await s.db.sql`insert into shared.busy (calendar_id, starts_at, ends_at) values (${k.id}::bigint, '2026-03-09T11:30:00Z', '2026-03-09T12:30:00Z')`;
+    const [k] = await s.db.sql`insert into calendars (resource_id, provider) values (${r.id}::bigint, 'google') returning id::text as id`;
+    await s.db.sql`insert into busy (calendar_id, starts_at, ends_at) values (${k.id}::bigint, '2026-03-09T11:30:00Z', '2026-03-09T12:30:00Z')`;
     const r1 = await takeSlot(s.db, r, slot, { ...who, resourceId: r.id, start: slot.start });
     assert.equal(!r1.ok && r1.reason, "taken");
     // And a booking someone else just took.
@@ -94,8 +94,8 @@ test("the transaction re-checks in SQL even when the page's check was stale", (t
 test("a busy row from a synced calendar blocks a slot", (t) =>
   withDb(t, async (s) => {
     const r = await person(s, "Pat");
-    const [k] = await s.db.sql`insert into shared.calendars (resource_id, provider) values (${r.id}::bigint, 'microsoft') returning id::text as id`;
-    await s.db.sql`insert into shared.busy (calendar_id, starts_at, ends_at) values (${k.id}::bigint, '2026-03-09T10:15:00Z', '2026-03-09T10:45:00Z')`;
+    const [k] = await s.db.sql`insert into calendars (resource_id, provider) values (${r.id}::bigint, 'microsoft') returning id::text as id`;
+    await s.db.sql`insert into busy (calendar_id, starts_at, ends_at) values (${k.id}::bigint, '2026-03-09T10:15:00Z', '2026-03-09T10:45:00Z')`;
     const r1 = await book(s.db, { ...who, resourceId: r.id, start: T("2026-03-09T10:00:00Z") });
     assert.equal(!r1.ok && r1.reason, "taken");
     assert.ok((await book(s.db, { ...who, resourceId: r.id, start: T("2026-03-09T11:00:00Z") })).ok);
@@ -130,7 +130,7 @@ test("cancelling frees the slot; a wrong token does nothing", (t) =>
     const first = await book(s.db, { ...who, resourceId: r.id, start: T("2026-03-09T10:00:00Z") });
     assert.ok(first.ok);
     assert.match(first.token, /^[A-Za-z0-9_-]{43}$/);
-    const [stored] = await s.db.sql`select manage_token_hash from shared.bookings`;
+    const [stored] = await s.db.sql`select manage_token_hash from bookings`;
     assert.equal(stored.manage_token_hash, await tokenHash(first.token));
     assert.notEqual(stored.manage_token_hash, first.token);
     assert.equal(first.booking.email, "ann@example.com");
@@ -178,7 +178,7 @@ test("a crew booking goes to the free member booked least recently", (t) =>
 
     // History: Ann booked on 1 Feb, Bo on 2 Feb, Cy never.
     for (const [m, at] of [[ann, "2026-02-01T00:00:00Z"], [bo, "2026-02-02T00:00:00Z"]] as const) {
-      await s.db.sql`insert into shared.bookings (resource_id, starts_at, ends_at, name, email, status, created_at)
+      await s.db.sql`insert into bookings (resource_id, starts_at, ends_at, name, email, status, created_at)
         values (${m.id}::bigint, '2026-02-10T10:00:00Z', '2026-02-10T11:00:00Z', 'Old', 'old@example.com', 'completed', ${at}::timestamptz)`;
     }
     const go = (iso: string, email: string) => book(s.db, { ...who, email, resourceId: crew.value.id, start: T(iso) });
@@ -200,7 +200,7 @@ test("a crew booking goes to the free member booked least recently", (t) =>
     assert.ok(r5.ok);
     assert.equal(r5.booking.resource_id, cy.id);
     // A busy member is skipped even when least recently booked.
-    await s.db.sql`insert into shared.time_off (resource_id, starts_at, ends_at) values (${ann.id}::bigint, '2026-03-09T12:00:00Z', '2026-03-09T13:00:00Z')`;
+    await s.db.sql`insert into time_off (resource_id, starts_at, ends_at) values (${ann.id}::bigint, '2026-03-09T12:00:00Z', '2026-03-09T13:00:00Z')`;
     const r6 = await go("2026-03-09T12:00:00Z", "f@example.com");
     assert.ok(r6.ok);
     assert.equal(r6.booking.resource_id, bo.id);

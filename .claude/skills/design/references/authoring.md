@@ -28,15 +28,18 @@ x_motion                    one entrance and one signature gesture, or "still: <
 x_layout                    how any band of any page is laid out (below)
 ```
 
-The library's `facets`, `provenance`, `x_brand`, `x_reference` and
-`x_status` describe a library entry, not a site; leave them out.
+The library's `facets`, `provenance`, `description`, `x_brand`,
+`x_reference`, `x_status`, the `version`, `name`, `description` and
+`components` inside `tokens`, and `sections.shapes` describe a library entry,
+not a site; leave them out.
 
 ## Tokens: the site's roles
 
 The library names colours per system (`claret`, `cloth`, `wine`). The site
 names them by role, because the layout, the components and
-`styles/input.css` use these classes on every page. The record must define
-each; `npm run system` says which is missing.
+`styles/input.css` use these classes on every page. The record defines
+each: `npm run system` names one the base stylesheet reads, and `npm run
+lint` a class a page uses that no token makes.
 
 | Role | What it is | Claret would map |
 |---|---|---|
@@ -119,5 +122,5 @@ example.
 
 A fresh builder, given only `design/briefs/home.md`, the facts and this record,
 should produce the homepage again: the blind rebuild in the design
-skill's step 4. Where the rebuild differs, the record left something out;
+skill's "When the site grows". Where the rebuild differs, the record left something out;
 add it to the record, not to the page.

@@ -1,6 +1,6 @@
 import { after, before, test } from "node:test";
 import assert from "node:assert/strict";
-import { scratch, why, type Scratch } from "../../shared-data/test/scratch";
+import { scratch, why, type Scratch } from "../../data/test/scratch";
 import { loadOps, OpsReport } from "../ops";
 import { run, revenueQuery } from "../sql";
 
@@ -13,15 +13,15 @@ const skip = !process.env.TEST_DATABASE_URL && why;
 before(async () => {
   t = await scratch();
   if (!t) return;
-  await t.db.sql`create table shared.submissions (id bigserial primary key, form_key text, email citext, source text, status text not null default 'new', data jsonb not null default '{}', created_at timestamptz not null)`;
-  await t.db.sql`create table shared.forms (id bigserial primary key, key text not null unique, title text not null)`;
-  await t.db.sql`insert into shared.forms (key, title) values ('contact', 'Contact')`;
+  await t.db.sql`create table submissions (id bigserial primary key, form_key text, email citext, source text, status text not null default 'new', data jsonb not null default '{}', created_at timestamptz not null)`;
+  await t.db.sql`create table forms (id bigserial primary key, key text not null unique, title text not null)`;
+  await t.db.sql`insert into forms (key, title) values ('contact', 'Contact')`;
 });
 after(async () => t?.drop());
 
 test("a project with only forms gets leads and a one-step funnel, and says what is missing", { skip }, async () => {
   const db = t!.db;
-  await db.sql`insert into shared.submissions (form_key, email, source, status, data, created_at) values
+  await db.sql`insert into submissions (form_key, email, source, status, data, created_at) values
     ('contact', 'Ann@Example.com', 'website', 'new', '{"_utm": {"source": "google", "medium": "cpc"}, "_referrer": "google.com"}', '2026-09-02T15:00:00Z'),
     ('contact', 'bob@example.com', 'website', 'spam', '{"_utm": {"source": "spamhub"}}', '2026-09-03T15:00:00Z'),
     ('quote', 'cat@example.com', 'crm', 'new', '{"_referrer": "news.example"}', '2026-09-20T15:00:00Z'),
@@ -33,7 +33,7 @@ test("a project with only forms gets leads and a one-step funnel, and says what 
   assert.equal(data.leads?.previous, 1);
   // Where they came from: the UTM source first, else the referrer's host, else direct. Never the app's slug.
   assert.deepEqual(data.leads?.byOrigin, [{ origin: "direct", leads: 1 }, { origin: "google", leads: 1 }, { origin: "news.example", leads: 1 }]);
-  // By form: the form's title where shared.forms has it, else its key.
+  // By form: the form's title where forms has it, else its key.
   assert.deepEqual(data.leads?.byForm, [{ form: "Contact", leads: 2 }, { form: "quote", leads: 1 }]);
   assert.equal(data.bookings, null);
   assert.equal(data.revenue, null);
@@ -49,13 +49,13 @@ test("a project with only forms gets leads and a one-step funnel, and says what 
 
 test("the funnel matches people by email whatever its case, and only narrows", { skip }, async () => {
   const db = t!.db;
-  await db.sql`create table shared.bookings (id bigserial primary key, resource_id bigint, email citext not null, status text not null, starts_at timestamptz not null, name text, created_at timestamptz not null)`;
-  await db.sql`create table shared.payments (id bigserial primary key, email citext, amount_cents bigint not null, refunded_cents bigint not null default 0, currency text not null, status text not null, kind text, livemode boolean, paid_at timestamptz, created_at timestamptz not null default now())`;
-  await db.sql`insert into shared.bookings (resource_id, email, status, starts_at, name, created_at) values
+  await db.sql`create table bookings (id bigserial primary key, resource_id bigint, email citext not null, status text not null, starts_at timestamptz not null, name text, created_at timestamptz not null)`;
+  await db.sql`create table payments (id bigserial primary key, email citext, amount_cents bigint not null, refunded_cents bigint not null default 0, currency text not null, status text not null, kind text, livemode boolean, paid_at timestamptz, created_at timestamptz not null default now())`;
+  await db.sql`insert into bookings (resource_id, email, status, starts_at, name, created_at) values
     (1, 'ANN@example.COM', 'completed', '2026-09-10T14:00:00Z', 'Ann', '2026-09-03T10:00:00Z'),
     (1, 'cat@example.com', 'no_show', '2026-09-25T14:00:00Z', 'Cat', '2026-09-21T10:00:00Z'),
     (1, 'stranger@example.com', 'completed', '2026-09-12T14:00:00Z', null, '2026-09-04T10:00:00Z')`;
-  await db.sql`insert into shared.payments (email, amount_cents, currency, status, livemode, paid_at) values
+  await db.sql`insert into payments (email, amount_cents, currency, status, livemode, paid_at) values
     ('ann@EXAMPLE.com', 5000, 'usd', 'paid', true, '2026-09-10T16:00:00Z'),
     ('stranger@example.com', 9000, 'usd', 'paid', true, '2026-09-12T16:00:00Z')`;
   const data = await loadOps(db, { period, grain: "week", zone: NY });
@@ -78,8 +78,8 @@ test("the funnel matches people by email whatever its case, and only narrows", {
 
 test("revenue is per currency, net of refunds, and never summed across currencies", { skip }, async () => {
   const db = t!.db;
-  await db.sql`truncate shared.payments`;
-  await db.sql`insert into shared.payments (email, amount_cents, refunded_cents, currency, status, livemode, paid_at) values
+  await db.sql`truncate payments`;
+  await db.sql`insert into payments (email, amount_cents, refunded_cents, currency, status, livemode, paid_at) values
     ('a@example.com', 10000, 0, 'usd', 'paid', true, '2026-09-05T12:00:00Z'),
     ('b@example.com', 4000, 1500, 'usd', 'partially_refunded', true, '2026-09-06T12:00:00Z'),
     ('c@example.com', 2000, 2000, 'usd', 'refunded', true, '2026-09-07T12:00:00Z'),
@@ -104,8 +104,8 @@ test("revenue is per currency, net of refunds, and never summed across currencie
 test("a payment whose refund arrived before its payment event still counts, placed by when it was made", { skip }, async () => {
   // an early charge.refunded moves pending straight to (partially_)refunded, and paid_at is empty until the payment event
   const db = t!.db;
-  await db.sql`truncate shared.payments`;
-  await db.sql`insert into shared.payments (email, amount_cents, refunded_cents, currency, status, livemode, paid_at, created_at) values
+  await db.sql`truncate payments`;
+  await db.sql`insert into payments (email, amount_cents, refunded_cents, currency, status, livemode, paid_at, created_at) values
     ('ann@example.com', 6000, 2000, 'usd', 'partially_refunded', true, null, '2026-09-10T12:00:00Z'),
     ('x@example.com', 3000, 3000, 'usd', 'refunded', true, null, '2026-09-11T12:00:00Z'),
     ('y@example.com', 9000, 0, 'usd', 'pending', true, null, '2026-09-11T12:00:00Z')`;

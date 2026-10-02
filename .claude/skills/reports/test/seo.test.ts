@@ -1,6 +1,6 @@
 import { after, before, test } from "node:test";
 import assert from "node:assert/strict";
-import { scratch, why, type Scratch } from "../../shared-data/test/scratch";
+import { scratch, why, type Scratch } from "../../data/test/scratch";
 import { createSnapshotTable, fetchSeo, googleCall, gscTotals, loadSnapshot, saveSnapshot, type SeoData } from "../seo";
 import { SeoReport } from "../seo-report";
 import { chromeArgs, findChrome, printToPdf } from "../print";

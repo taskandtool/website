@@ -1,6 +1,6 @@
 ---
 name: booking
-description: "Appointments in the project's shared Postgres: weekly hours, time off, crews, the tested slot calculator, double-booking-safe booking, manage links, .ics invites, the hours editor, and the calendar sync job for Google and Microsoft. Use for any booking page, availability or calendar sync. Not for embedding Calendly."
+description: "Appointments in the project's Postgres: weekly hours, time off, crews, the tested slot calculator, double-booking-safe booking, manage links, .ics invites, the hours editor, and the calendar sync job for Google and Microsoft. Use for any booking page, availability or calendar sync. Not for embedding Calendly."
 ---
 
 # Booking

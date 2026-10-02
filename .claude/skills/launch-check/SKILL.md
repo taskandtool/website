@@ -1,5 +1,6 @@
 ---
-description: "Check a rebuilt site against the old one, before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the cutover keeps email working — then keep the live site audited weekly. Use before publishing a migrated site, after the cutover, and on an audit alert."
+name: launch-check
+description: "Check a rebuilt site against the old one, before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the cutover keeps email working — then keep the live site audited weekly. Use before deploying a migrated site, after the cutover, and on an audit alert."
 ---
 
 # Launch check
@@ -8,7 +9,7 @@ Deterministic first, judgment second. The old site's inventory
 (`raw/site/<host>/_index/inventory.json`, from the crawl) is the ledger; the check
 crawls the new site against it.
 
-## Before publishing (on the working copy)
+## Before deploying (in dev)
 
 ```bash
 npm run check && npm run build
@@ -23,7 +24,7 @@ sitemap lists every route and nothing else; the home page's JSON-LD
 parses. Fix, rebuild, re-run until the report is clean, then show the
 owner the report as a table.
 
-## Publishing and the cutover
+## Deploying and the cutover
 
 1. `site.url` in `src/site.ts` is the real domain (canonical tags and the
    sitemap depend on it). Tracking IDs are in `src/site.ts`.
@@ -41,11 +42,9 @@ tt-crawl check https://theirdomain.com
 ```
 
 5. Set the weekly audit up as a **scheduled job** (`schedule_job` from
-   `tools/taskandtool.py`). Asked for in the owner's own chat it starts
-   running; called with nobody there it arrives paused, and the reply's `note`
-   says which happened — read it and say the right thing. Either way tell them
-   what it checks, that it is weekly, and that the Jobs tab is where they
-   pause or remove it. The command runs on this machine from the app root every
+   `tools/taskandtool.py`), kept for the team. Tell the owner what it
+   checks, that it runs weekly, and that they can see or remove it on the
+   app's Upcoming page. The command runs on this machine from the app root every
    Monday morning and exits non-zero when it finds anything, which is what
    alerts the owner; the report lands in `raw/audit/<host>/<date>.md`,
    `raw/audit/_latest.json` points at it, and the chat then offers "Fix the site audit findings":
@@ -53,7 +52,8 @@ tt-crawl check https://theirdomain.com
    ```python
    from tools.taskandtool import schedule_job
    schedule_job("weekly-site-audit", "0 7 * * 1",
-                command="tt-crawl audit https://theirdomain.com")
+                command="tt-crawl audit https://theirdomain.com",
+                client_visible=False)
    ```
 
    `tt-crawl audit` crawls the production site and reports broken internal links
@@ -74,4 +74,4 @@ rankings usually settle within two to four weeks after a clean migration.
 When the weekly audit alerts them, read the report `raw/audit/_latest.json` names, fix what is
 in the site's control (a broken internal link, a missing description, a
 page that lost its h1), tell the owner about what is not (a partner's
-site that went away), rebuild, and deploy.
+site that went away), and offer to deploy the fix.

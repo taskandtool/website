@@ -3,12 +3,12 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
-import { applySchema } from "../../shared-data/migrate";
-import { scratch, why, type Scratch } from "../../shared-data/test/scratch";
+import { applySchema } from "../../data/migrate";
+import { scratch, why, type Scratch } from "../../data/test/scratch";
 import { embedForm, formRoutes, summary } from "../routes";
 import { formsAdmin } from "../admin";
 import { CONTACT_FORM, seedForm } from "../store";
-import { makeStamp } from "../../shared-data/spam";
+import { makeStamp } from "../../data/spam";
 
 const schema = readFileSync(fileURLToPath(new URL("../schema.sql", import.meta.url)), "utf8");
 
@@ -60,11 +60,11 @@ test("a submission is stored with the email lowered and the rest in data, then 3
     });
     assert.equal(res.status, 303);
     assert.equal(res.headers.get("location"), "/forms/contact/thanks");
-    const rows = await s.db.sql`select form_key, name, email::text as email, phone, data, source, page, status from shared.submissions`;
+    const rows = await s.db.sql`select form_key, name, email::text as email, phone, data, source, page, status from submissions`;
     assert.deepEqual(rows, [
       { form_key: "contact", name: "Ann Lee", email: "ann@example.com", phone: null, data: { message: "Hello there" }, source: "website", page: "/contact", status: "new" },
     ]);
-    const [f] = await s.db.sql`select title from shared.forms where key = 'contact'`;
+    const [f] = await s.db.sql`select title from forms where key = 'contact'`;
     assert.equal(f.title, "Contact");
 
     const thanks = await app.request("https://site.example/forms/contact/thanks");
@@ -87,7 +87,7 @@ test("errors re-render in the app's page with 422 and keep the stamp; nothing is
     assert.match(h, /aria-invalid="true"/);
     assert.match(h, /value="nope"/);
     assert.ok(h.includes(`name="_started" value="${stamp}"`));
-    assert.equal((await s.db.sql`select count(*)::int as n from shared.submissions`)[0].n, 0);
+    assert.equal((await s.db.sql`select count(*)::int as n from submissions`)[0].n, 0);
   } finally {
     await s.drop();
   }
@@ -103,11 +103,11 @@ test("a bot is thanked: the honeypot drops it, a too-fast post is kept as spam",
     assert.equal(trap.status, 303);
     const nostamp = await post(app, "/forms/contact", good);
     assert.equal(nostamp.status, 303);
-    assert.equal((await s.db.sql`select count(*)::int as n from shared.submissions`)[0].n, 0);
+    assert.equal((await s.db.sql`select count(*)::int as n from submissions`)[0].n, 0);
 
     const fast = await post(app, "/forms/contact", { ...good, _started: await makeStamp("contact", undefined) });
     assert.equal(fast.status, 303);
-    const rows = await s.db.sql`select status from shared.submissions`;
+    const rows = await s.db.sql`select status from submissions`;
     assert.deepEqual(rows, [{ status: "spam" }]);
 
     const big = await post(app, "/forms/contact", { ...good, message: "x".repeat(40_000), _started: await oldStamp() });
@@ -124,7 +124,7 @@ test("the private views need the team header, record who changed a status, and e
   try {
     const app = site(s);
     await post(app, "/forms/contact", { name: "=HYPERLINK(\"http://x\")", email: "ann@example.com", message: "+1 call", _started: await oldStamp() });
-    const [{ id }] = await s.db.sql`select id::text as id from shared.submissions`;
+    const [{ id }] = await s.db.sql`select id::text as id from submissions`;
 
     for (const path of ["/admin/forms", "/admin/forms/submissions", `/admin/forms/submissions/${id}`, "/admin/forms/submissions.csv", "/admin/forms/form/contact"]) {
       assert.equal((await app.request(`https://site.example${path}`)).status, 404, path);
@@ -137,7 +137,7 @@ test("the private views need the team header, record who changed a status, and e
 
     const res = await post(app, `/admin/forms/submissions/${id}/status`, { status: "done", return: "/admin/forms/submissions" }, team);
     assert.equal(res.status, 303);
-    const [row] = await s.db.sql`select status, updated_by::text as updated_by from shared.submissions where id = ${id}::bigint`;
+    const [row] = await s.db.sql`select status, updated_by::text as updated_by from submissions where id = ${id}::bigint`;
     assert.deepEqual(row, { status: "done", updated_by: "owner@example.com" });
 
     const csv = await (await app.request("https://site.example/admin/forms/submissions.csv?form=contact", { headers: team })).text();
@@ -154,7 +154,7 @@ test("the editor saves field changes as rows and refuses a stale version", async
   if (!s) return;
   try {
     const app = site(s);
-    const [{ v }] = await s.db.sql`select updated_at::text as v from shared.forms where key = 'contact'`;
+    const [{ v }] = await s.db.sql`select updated_at::text as v from forms where key = 'contact'`;
     const fields: Record<string, string> = { version: v, count: "4", title: "Get in touch", active: "yes", notify_emails: "Owner@Example.com" };
     CONTACT_FORM.fields.forEach((f, i) => {
       fields[`f.${i}.name`] = f.name;
@@ -165,7 +165,7 @@ test("the editor saves field changes as rows and refuses a stale version", async
     // Remove phone and move the message above email, in two saves.
     let res = await post(app, "/admin/forms/form/contact", { ...fields, op: "remove:2" }, team);
     assert.equal(res.status, 303);
-    const [after] = await s.db.sql`select title, fields, notify_emails::text[] as notify, updated_by::text as by, updated_at::text as v from shared.forms where key = 'contact'`;
+    const [after] = await s.db.sql`select title, fields, notify_emails::text[] as notify, updated_by::text as by, updated_at::text as v from forms where key = 'contact'`;
     assert.equal(after.title, "Get in touch");
     assert.deepEqual(after.fields.map((f: { name: string }) => f.name), ["name", "email", "message"]);
     assert.deepEqual(after.notify, ["owner@example.com"]);
@@ -174,7 +174,7 @@ test("the editor saves field changes as rows and refuses a stale version", async
     // The same post again carries the old version: refused, nothing changes.
     res = await post(app, "/admin/forms/form/contact", { ...fields, op: "add" }, team);
     assert.equal(res.status, 409);
-    const [still] = await s.db.sql`select jsonb_array_length(fields) as n from shared.forms where key = 'contact'`;
+    const [still] = await s.db.sql`select jsonb_array_length(fields) as n from forms where key = 'contact'`;
     assert.equal(still.n, 3);
 
     const bad = await post(app, "/admin/forms/form/contact", { ...fields, version: after.v, "f.1.type": "select" }, team);
@@ -223,7 +223,7 @@ test("a chunked post with no length is cut off at the limit; a small one still w
     assert.equal(forever.status, 413);
     const small = await chunked(new URLSearchParams({ name: "Ann", email: "ann@example.com", _started: stamp }).toString());
     assert.equal(small.status, 303);
-    assert.equal((await s.db.sql`select count(*)::int as n from shared.submissions`)[0].n, 1);
+    assert.equal((await s.db.sql`select count(*)::int as n from submissions`)[0].n, 1);
   } finally {
     await s.drop();
   }
@@ -241,7 +241,7 @@ test("a NUL or a repeated __proto__ is stored or ignored, never a server error",
       body,
     });
     assert.equal(res.status, 303);
-    const [row] = await s.db.sql`select name, data from shared.submissions`;
+    const [row] = await s.db.sql`select name, data from submissions`;
     assert.deepEqual(row, { name: "Ann Lee", data: { message: "hithere" } });
   } finally {
     await s.drop();
@@ -263,7 +263,7 @@ test("the editor keeps a field's length limit and autocomplete hint it does not 
     form.title = "Quote";
     const res = await post(app, "/admin/forms/form/quote", form, team);
     assert.equal(res.status, 303);
-    const [row] = await s.db.sql`select fields from shared.forms where key = 'quote'`;
+    const [row] = await s.db.sql`select fields from forms where key = 'quote'`;
     assert.deepEqual(row.fields, [{ name: "note", label: "Note", type: "textarea", maxLength: 900, autocomplete: "off" }]);
   } finally {
     await s.drop();
@@ -306,7 +306,7 @@ test("a submission records where the visitor came from: UTM tokens and the refer
     assert.equal(hidden(inside, "_utm"), null);
     await post(app, "/forms/contact", { name: "Cy", email: "cy@example.com", _started: stamp });
 
-    const rows = await s.db.sql`select name, data from shared.submissions order by id`;
+    const rows = await s.db.sql`select name, data from submissions order by id`;
     assert.deepEqual(rows.map((r) => [r.name, r.data]), [
       ["Ann", { _utm: { source: "google", medium: "cpc", campaign: "spring-sale" }, _referrer: "news.example" }],
       ["Bo", { _utm: { medium: "email" } }],
@@ -314,7 +314,7 @@ test("a submission records where the visitor came from: UTM tokens and the refer
     ]);
 
     // The team sees it on the submission, not as raw data.
-    const [{ id }] = await s.db.sql`select id::text as id from shared.submissions where name = 'Ann'`;
+    const [{ id }] = await s.db.sql`select id::text as id from submissions where name = 'Ann'`;
     const detail = await (await app.request(`https://site.example/admin/forms/submissions/${id}`, { headers: team })).text();
     assert.match(detail, /google \(cpc, spring-sale\)/);
     assert.doesNotMatch(detail, /_utm/);
@@ -329,7 +329,7 @@ test("a form made in the editor is stamped with this app's slug", async (t) => {
   try {
     const res = await post(site(s), "/admin/forms", { key: "quote", title: "Quote" }, team);
     assert.equal(res.status, 303);
-    const [row] = await s.db.sql`select source, updated_by::text as by from shared.forms where key = 'quote'`;
+    const [row] = await s.db.sql`select source, updated_by::text as by from forms where key = 'quote'`;
     assert.deepEqual(row, { source: "website", by: "owner@example.com" });
   } finally {
     await s.drop();

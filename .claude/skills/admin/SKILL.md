@@ -5,7 +5,7 @@ description: "The private side of an app: lists of what came in (submissions, bo
 
 # Admin
 
-Private views over the shared tables: the CRM's starting surface and the
+Private views over the project's tables: the CRM's starting surface and the
 Website's `/admin`. The other skills build their own lists on these pieces.
 
 Version: 0.1.0 (taskandtool/skills)
@@ -119,16 +119,16 @@ One URL answers three ways (`isPartial(c)` in `query.ts`):
 Copy the folder whole into `src/admin/` with its tests; keep the exports of
 `guard`, `layout`, `keyset` and `csv` as they are.
 
-## Adding a list for a new shared table
+## Adding a list for a new table
 
 1. Copy `example.tsx` to `<skill>/admin.tsx` (or the app's `src/admin/<name>.tsx`)
-   and replace `shared.example_rows` and its columns. Keep `id::text as id`
+   and replace `example_rows` and its columns. Keep `id::text as id`
    and `created_at::text as k` in every select a cursor is made from.
 2. Put the `(created_at desc, id desc)` index and the trigram indexes in the
    owning skill's `schema.sql`, not in admin.
 3. Set `STATUSES` to the table's real statuses; give each a tone.
-4. Mount it under the private prefix and add it to the shared `nav`. Every
-   route factory takes `(getDb, opts)`, opts named `base`, `css`, `timeZone`,
+4. Mount it under the private prefix and add it to the `nav` every private
+   view passes. Every route factory takes `(getDb, opts)`, opts named `base`, `css`, `timeZone`,
    `nav`, `pageSize` (and `source`, the app's slug, where it writes rows).
 5. Copy `test/example.test.ts` beside it, point it at the real table, and
    keep the same-millisecond paging, cross-site and no-header cases.

@@ -11,9 +11,10 @@ about itself, once, consistently.
 - The canonical tag on every page, pointing at `site.url` + path. While
   the site serves on the platform subdomain and the old site is still on
   the real domain, this is what keeps the two from competing.
-- JSON-LD: `LocalBusiness` from `public/business.md` (home page),
-  `FAQPage` from `public/faq.md`, `Service` from offerings, `BlogPosting`
-  per post (`src/content.ts`). Facts change in the note, never in code.
+- JSON-LD from the notes, by the builders in `src/content.ts`: the home
+  page carries `LocalBusiness` and `FAQPage`, each post `BlogPosting`. A
+  service or location page adds `serviceJsonLd` or `localBusinessJsonLd` to
+  its `page.jsonLd`. Facts change in the note, never in code.
 - 301s from `src/redirects.ts`, validated at build (no loops, every
   target a page, a redirect, or an external URL).
 - Tracking IDs from `src/site.ts` (`tracking`): copy them from the
@@ -30,8 +31,7 @@ about itself, once, consistently.
   rewrite the words only when they were bad.
 - Internal links in body copy to the pages in `site-map.md`, with
   descriptive link text ("our roofing services", not "click here"). Every
-  page reachable from the nav or another page; the launch check flags
-  orphans.
+  page reachable from the nav or another page.
 - Images: real `alt` text (what is in the picture, for someone who cannot
   see it; empty alt only for pure decoration), sized for the web, in
   `static/images/`.

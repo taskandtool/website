@@ -29,7 +29,7 @@ for (const f of ["positioning.md", "voice.md", "visual-identity.md"]) {
 // to either is lost on the next compile, so it is a finding here
 const record = readRecord();
 const unfilled = Object.values(record.identity ?? {}).filter((v) => String(v).startsWith("to fill")).length;
-if (unfilled) console.log(`note: ${RECORD}'s identity has ${unfilled} line(s) still to fill; the site is a template until the design skill's step 4 fills them`);
+if (unfilled) console.log(`note: ${RECORD}'s identity has ${unfilled} line(s) still to fill; the design skill fills them when the site grows`);
 const recordProblems = problems(record);
 for (const p of recordProblems) findings.push(`${RECORD}: ${p}`);
 if (!recordProblems.length) {
@@ -111,10 +111,10 @@ try {
 }
 
 // the edge rule
-const nodeImport = /from\s+["'](node:[a-z_]+|fs|path|child_process|os|net|crypto|http|https|stream|url|util)["']/;
+const nodeImport = /from\s+["'](node:[a-z_/]+|(?:fs|path|child_process|os|net|crypto|http|https|stream|url|util)(?:\/[a-z_]+)?)["']/;
 for (const file of walk("src")) {
   const src = readFileSync(file, "utf8");
-  if (!file.endsWith("server.ts")) {
+  if (file !== join("src", "server.ts")) {
     const m = src.match(nodeImport);
     if (m) findings.push(`${file} imports ${m[1]}: Node built-ins cannot run in production on Cloudflare (only src/server.ts may)`);
   }

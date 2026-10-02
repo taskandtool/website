@@ -1,14 +1,14 @@
 // The private side of forms: the forms, what came in (per form and across
 // them), one submission, its status, a CSV export, and the form editor that
-// writes shared.forms. Built from admin/'s pieces; teamOnly is applied here
+// writes forms. Built from admin/'s pieces; teamOnly is applied here
 // as well, so a mount that forgets it still answers 404.
 //
 //   app.route("/admin/forms", formsAdmin(getDb, {
 //     base: "/admin/forms", css: "/site.css", timeZone: "America/Chicago", source: "website" }));
 import { Hono, type Context } from "hono";
 import type { Child } from "hono/jsx";
-import type { Db, GetDb } from "../shared-data/db";
-import { normalizeEmail } from "../shared-data/email";
+import type { Db, GetDb } from "../data/db";
+import { normalizeEmail } from "../data/email";
 import { BulkForm } from "../admin/bulk";
 import { csvResponse, type CsvColumn } from "../admin/csv";
 import { FieldList, JsonData, Section } from "../admin/detail";
@@ -79,7 +79,7 @@ export function listPage(db: Db, f: SubmissionFilter, after: Cursor | null, size
   return db.sql<Item>`
     select id::text as id, form_key, name, email::text as email, phone, status, page, source, created_at,
            updated_by::text as updated_by, created_at::text as k, case when ${withData} then data end as data
-    from shared.submissions s
+    from submissions s
     where (${f.form}::text is null or s.form_key = ${f.form})
       and (case when ${f.status}::text is null then s.status <> 'spam' else s.status = ${f.status} end)
       and (${pat}::text is null or s.name ilike ${pat} or s.email::text ilike ${pat})
@@ -92,9 +92,9 @@ export function listPage(db: Db, f: SubmissionFilter, after: Cursor | null, size
 async function allForms(db: Db) {
   return db.sql<{ key: string; title: string; active: boolean; new_count: number; total: number }>`
     select f.key, f.title, f.active,
-           (select count(*) from shared.submissions s where s.form_key = f.key and s.status = 'new')::int as new_count,
-           (select count(*) from shared.submissions s where s.form_key = f.key and s.status <> 'spam')::int as total
-    from shared.forms f
+           (select count(*) from submissions s where s.form_key = f.key and s.status = 'new')::int as new_count,
+           (select count(*) from submissions s where s.form_key = f.key and s.status <> 'spam')::int as total
+    from forms f
     order by f.title, f.key`;
 }
 
@@ -102,7 +102,7 @@ async function formRow(db: Db, key: string) {
   const [row] = await db.sql`
     select key, title, fields, notify_emails::text[] as notify_emails, redirect_to, success_message, submit_label, active,
            updated_at::text as version
-    from shared.forms where key = ${key}`;
+    from forms where key = ${key}`;
   return row ? { form: toForm(row), raw: (Array.isArray(row.fields) ? row.fields : []) as Record<string, unknown>[], version: row.version as string } : null;
 }
 
@@ -186,7 +186,7 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
     if (!title) errors.title = "Give the form a title.";
     if (!errors.key && !errors.title) {
       const made = await getDb(c).sql`
-        insert into shared.forms (key, title, fields, source, updated_by)
+        insert into forms (key, title, fields, source, updated_by)
         values (${key}, ${title}, ${JSON.stringify(CONTACT_FORM.fields)}::jsonb, ${opts.source}, ${c.get("user")})
         on conflict (key) do nothing
         returning key`;
@@ -237,7 +237,7 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
     // Saved only over the version the editor opened, so two people editing at
     // once cannot silently overwrite each other.
     const saved = await db.sql`
-      update shared.forms
+      update forms
       set title = ${form.title}, fields = ${JSON.stringify(fields)}::jsonb, notify_emails = ${form.notify_emails}::citext[],
           redirect_to = ${form.redirect_to}, success_message = ${form.success_message}, submit_label = ${form.submit_label},
           active = ${form.active}, updated_by = ${c.get("user")}, updated_at = now()
@@ -366,7 +366,7 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
     if (!ids.length) return c.redirect(withFlash(ret, "none-selected"), 303);
     if (!status) return c.redirect(withFlash(ret, "pick-status"), 303);
     const changed = await getDb(c).sql`
-      update shared.submissions
+      update submissions
       set status = ${status}, updated_at = now(), updated_by = ${c.get("user")}
       where id = any(${ids}::bigint[]) and status <> ${status}
       returning id`;
@@ -380,7 +380,7 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
     const [r] = await db.sql<Item & { updated_at: Date }>`
       select id::text as id, form_key, name, email::text as email, phone, status, page, source, created_at,
              updated_by::text as updated_by, updated_at, created_at::text as k, data
-      from shared.submissions where id = ${id}::bigint`;
+      from submissions where id = ${id}::bigint`;
     if (!r) return c.notFound();
     const form = (await formRow(db, r.form_key))?.form;
     const data = { ...(r.data ?? {}) };
@@ -455,7 +455,7 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
     if (!status) return c.text("Choose one of the listed statuses.", 400);
     const ret = localPath(str(body.return), subs, `${subs}/${id}`);
     const [row] = await getDb(c).sql<Item>`
-      update shared.submissions
+      update submissions
       set status = ${status}, updated_at = now(), updated_by = ${c.get("user")}
       where id = ${id}::bigint
       returning id::text as id, form_key, name, email::text as email, phone, status, page, source, created_at,

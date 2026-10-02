@@ -28,7 +28,7 @@
 // A composed query runs through `run`: Db.sql takes only a template, so a
 // statement built from fixed fragments runs as a one-statement transaction,
 // which both adapters accept.
-import type { Db, Query, Row } from "../shared-data/db";
+import type { Db, Query, Row } from "../data/db";
 
 export type Grain = "day" | "week" | "month";
 export type Period = { from: string; to: string };
@@ -42,7 +42,7 @@ export async function run<T extends Row = Row>(db: Db, query: Query): Promise<T[
 // ---- What can be charted ----------------------------------------------------
 
 type Source = {
-  /** schema-qualified table */
+  /** the table, by its plain name */
   table: string;
   /** the timestamptz column that places a row in a bucket */
   at: string;
@@ -54,11 +54,11 @@ type Source = {
 
 export const SOURCES = {
   /** form submissions that are not spam, by when they arrived */
-  leads: { table: "shared.submissions", at: "created_at", where: "status is distinct from 'spam'", agg: "count(*)" },
+  leads: { table: "submissions", at: "created_at", where: "status is distinct from 'spam'", agg: "count(*)" },
   /** appointments held or due, by when they happen */
-  bookings: { table: "shared.bookings", at: "starts_at", where: "status <> 'cancelled'", agg: "count(*)" },
+  bookings: { table: "bookings", at: "starts_at", where: "status <> 'cancelled'", agg: "count(*)" },
   /** bookings made, by when they were made, cancelled ones included */
-  bookings_made: { table: "shared.bookings", at: "created_at", where: "true", agg: "count(*)" },
+  bookings_made: { table: "bookings", at: "created_at", where: "true", agg: "count(*)" },
 } as const satisfies Record<string, Source>;
 
 export type SourceName = keyof typeof SOURCES;
@@ -243,16 +243,16 @@ export function weightedMean<T>(rows: readonly T[], field: keyof T, weight: keyo
 
 // ---- The operations report --------------------------------------------------
 //
-// These read the shared tables by fixed names and run only when the tables
-// exist (`sharedTables`). Every period bound is computed in SQL in the zone.
+// These read the forms, booking and payments tables by fixed names and run only when the tables
+// exist (`projectTables`). Every period bound is computed in SQL in the zone.
 
-export type SharedTables = { submissions: boolean; forms: boolean; bookings: boolean; payments: boolean };
+export type ProjectTables = { submissions: boolean; forms: boolean; bookings: boolean; payments: boolean };
 
-/** Which of the shared tables this project has. A project without booking has no shared.bookings. */
-export async function sharedTables(db: Db): Promise<SharedTables> {
+/** Which of those tables this project has. A project without booking has no bookings. */
+export async function projectTables(db: Db): Promise<ProjectTables> {
   const rows = await db.sql<{ table_name: string }>`
     select table_name from information_schema.tables
-    where table_schema = 'shared' and table_name in ('submissions', 'forms', 'bookings', 'payments')`;
+    where table_schema = 'public' and table_name in ('submissions', 'forms', 'bookings', 'payments')`;
   const has = new Set(rows.map((r) => r.table_name));
   return { submissions: has.has("submissions"), forms: has.has("forms"), bookings: has.has("bookings"), payments: has.has("payments") };
 }
@@ -283,7 +283,7 @@ export function revenueQuery(p: Period, zone: string, prev: Period = previousPer
   coalesce(sum(refunded_cents) filter (where ${cur}), 0)::float8 as refunds,
   coalesce(sum(amount_cents - refunded_cents) filter (where ${cur}), 0)::float8 as net,
   coalesce(sum(amount_cents - refunded_cents) filter (where not (${cur})), 0)::float8 as previous_net
-from shared.payments
+from payments
 where status in ('paid', 'partially_refunded', 'refunded') and livemode is not false
   and ${at} >= ($4::date::timestamp at time zone $3) and ${at} < ${end("$3")}
 group by 1
@@ -298,20 +298,20 @@ order by gross desc, 1`,
  * step counts people from the step before, so the funnel only narrows. Steps
  * for a missing table are left out: `{ step, people }` rows in order.
  */
-export function funnelQuery(p: Period, zone: string, has: SharedTables): Query | null {
+export function funnelQuery(p: Period, zone: string, has: ProjectTables): Query | null {
   check(p, null, zone);
   if (!has.submissions) return null;
   const inPeriod = (col: string) => `${col} >= ${start("$3")} and ${col} < ${end("$3")}`;
   const ctes = [
-    `lead as (select distinct lower(email::text) as e from shared.submissions
+    `lead as (select distinct lower(email::text) as e from submissions
       where email is not null and status is distinct from 'spam' and ${inPeriod("created_at")})`,
   ];
   const steps = ["lead"];
   if (has.bookings) {
     ctes.push(
-      `booked as (select distinct l.e from lead l join shared.bookings b on lower(b.email::text) = l.e
+      `booked as (select distinct l.e from lead l join bookings b on lower(b.email::text) = l.e
         where b.status <> 'cancelled' and ${inPeriod("b.created_at")})`,
-      `showed as (select distinct k.e from booked k join shared.bookings b on lower(b.email::text) = k.e
+      `showed as (select distinct k.e from booked k join bookings b on lower(b.email::text) = k.e
         where b.status = 'completed' and ${inPeriod("b.starts_at")})`,
     );
     steps.push("booked", "showed");
@@ -319,7 +319,7 @@ export function funnelQuery(p: Period, zone: string, has: SharedTables): Query |
   if (has.payments) {
     const from = steps[steps.length - 1];
     ctes.push(
-      `paid as (select distinct f.e from ${from} f join shared.payments pay on lower(pay.email::text) = f.e
+      `paid as (select distinct f.e from ${from} f join payments pay on lower(pay.email::text) = f.e
         where pay.status in ('paid', 'partially_refunded') and pay.livemode is not false and ${inPeriod("coalesce(pay.paid_at, pay.created_at)")})`,
     );
     steps.push("paid");
@@ -343,20 +343,20 @@ export function leadsByOriginQuery(p: Period, zone: string, limit = 12): Query {
   check(p, null, zone);
   return {
     text: `select coalesce(nullif(data->'_utm'->>'source', ''), nullif(data->>'_referrer', ''), 'direct') as origin, count(*)::float8 as leads
-from shared.submissions
+from submissions
 where status is distinct from 'spam' and created_at >= ${start("$3")} and created_at < ${end("$3")}
 group by 1 order by 2 desc, 1 limit $4`,
     values: [p.from, p.to, zone, limit],
   };
 }
 
-/** Non-spam leads per form in the period, most first, named by the form's title when shared.forms is there. */
-export function leadsByFormQuery(p: Period, zone: string, has: SharedTables, limit = 12): Query {
+/** Non-spam leads per form in the period, most first, named by the form's title when forms is there. */
+export function leadsByFormQuery(p: Period, zone: string, has: ProjectTables, limit = 12): Query {
   check(p, null, zone);
-  const name = has.forms ? "coalesce((select f.title from shared.forms f where f.key = s.form_key), s.form_key)" : "s.form_key";
+  const name = has.forms ? "coalesce((select f.title from forms f where f.key = s.form_key), s.form_key)" : "s.form_key";
   return {
     text: `select ${name} as form, count(*)::float8 as leads
-from shared.submissions s
+from submissions s
 where s.status is distinct from 'spam' and s.created_at >= ${start("$3")} and s.created_at < ${end("$3")}
 group by 1 order by 2 desc, 1 limit $4`,
     values: [p.from, p.to, zone, limit],
@@ -368,7 +368,7 @@ export function recentBookingsQuery(limit = 10): Query {
   return {
     text: `select id::text as id, name, email::text as email, status,
   to_char(starts_at at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as starts_at
-from shared.bookings
+from bookings
 order by created_at desc, id desc
 limit $1`,
     values: [limit],

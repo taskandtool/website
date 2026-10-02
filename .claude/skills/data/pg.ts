@@ -1,8 +1,8 @@
 // The handle on node-postgres, for apps that run on the machine (the Board,
 // the CRM). Node only: never import this from code that deploys to the edge.
 //
-//   import { fromPool } from "../shared-data/pg";
-//   export const shared = () => fromPool(db());   // db() is the app's own pool
+//   import { fromPool } from "../data/pg";
+//   export const db = fromPool(pool);   // pool is the app's one pg.Pool
 import type pg from "pg";
 import { q, type Db, type Query, type Row } from "./db";
 

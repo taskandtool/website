@@ -2,7 +2,7 @@
 // Website's Worker) and on the machine alike. One HTTP request per statement
 // or per transaction; nothing is kept between requests.
 //
-//   import { fromNeon } from "../shared-data/neon";
+//   import { fromNeon } from "../data/neon";
 //   const getDb = (c: Context) => fromNeon(envVar(c, "DATABASE_URL"));   // a binding at the edge, the env on the machine (env.ts)
 import { neon } from "@neondatabase/serverless";
 import { q, type Db, type Query, type Row } from "./db";

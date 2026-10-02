@@ -1,4 +1,4 @@
-// Email is how apps recognise one person across the project: every shared
+// Email is how apps recognise one person across the project: every
 // table that names a person has an `email citext` column, and the CRM joins on
 // it. citext makes the comparison case-blind; this trims and checks the shape
 // before anything is stored, so " Ann@Example.com " and "ann@example.com" are

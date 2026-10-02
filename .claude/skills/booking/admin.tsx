@@ -6,16 +6,16 @@
 //   app.route("/admin/bookings", bookingAdmin(getDb, { base: "/admin/bookings", css: "/site.css", source: "website" }));
 //
 // Another app that only edits hours (the CRM, "let me change my booking
-// slots") mounts the editor alone; it writes the same shared tables the
+// slots") mounts the editor alone; it writes the same tables the
 // booking page reads, so the change shows on the next page load:
 //
 //   app.route("/hours", availabilityRoutes(getDb, { base: "/hours", css: "/site.css", source: "crm" }));
 //
-// `getDb` makes the request's handle (shared-data/db.ts).
+// `getDb` makes the request's handle (data/db.ts).
 import { Hono } from "hono";
 import type { Context } from "hono";
 import type { Child } from "hono/jsx";
-import type { Db, GetDb } from "../shared-data/db";
+import type { Db, GetDb } from "../data/db";
 import { FieldList, JsonData, Section } from "../admin/detail";
 import { Flash, withFlash, type FlashMessages } from "../admin/flash";
 import { teamOnly, type TeamVars } from "../admin/guard";
@@ -85,7 +85,7 @@ export function bookingsPage(db: Db, f: Filter, after: Cursor | null, size: numb
     ? db.sql<Row>`
         select b.id::text as id, b.name, b.email::text as email, b.status, b.starts_at, b.ends_at, r.name as resource_name, r.time_zone,
                b.starts_at::text as k
-        from shared.bookings b join shared.resources r on r.id = b.resource_id
+        from bookings b join resources r on r.id = b.resource_id
         where b.ends_at > ${t}::timestamptz
           and (${pat}::text is null or b.name ilike ${pat} or b.email::text ilike ${pat})
           and (${f.resource}::bigint is null or b.resource_id = ${f.resource}::bigint or b.crew_id = ${f.resource}::bigint)
@@ -95,7 +95,7 @@ export function bookingsPage(db: Db, f: Filter, after: Cursor | null, size: numb
     : db.sql<Row>`
         select b.id::text as id, b.name, b.email::text as email, b.status, b.starts_at, b.ends_at, r.name as resource_name, r.time_zone,
                b.starts_at::text as k
-        from shared.bookings b join shared.resources r on r.id = b.resource_id
+        from bookings b join resources r on r.id = b.resource_id
         where b.ends_at <= ${t}::timestamptz
           and (${pat}::text is null or b.name ilike ${pat} or b.email::text ilike ${pat})
           and (${f.resource}::bigint is null or b.resource_id = ${f.resource}::bigint or b.crew_id = ${f.resource}::bigint)
@@ -201,7 +201,7 @@ export function bookingAdmin(getDb: GetDb, opts: BookingAdminOptions) {
     const id = idParam(c.req.param("id"));
     if (!id) return c.notFound();
     const d = getDb(c);
-    const [raw] = await d.sql`select * from shared.bookings where id = ${id}::bigint`;
+    const [raw] = await d.sql`select * from bookings where id = ${id}::bigint`;
     if (!raw) return c.notFound();
     const b = toBooking(raw);
     const who = await resourceById(d, b.resource_id);
@@ -251,7 +251,7 @@ export function bookingAdmin(getDb: GetDb, opts: BookingAdminOptions) {
       const [r] = await getDb(c).sql<Row>`
         select b.id::text as id, b.name, b.email::text as email, b.status, b.starts_at, b.ends_at, r.name as resource_name, r.time_zone,
                b.starts_at::text as k
-        from shared.bookings b join shared.resources r on r.id = b.resource_id where b.id = ${id}::bigint`;
+        from bookings b join resources r on r.id = b.resource_id where b.id = ${id}::bigint`;
       return r ? c.html(<TableRow spec={spec(ret)} row={r} />) : c.notFound();
     }
     return c.redirect(withFlash(ret, changed ? "status" : "unchanged"), 303);

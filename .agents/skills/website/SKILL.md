@@ -1,6 +1,6 @@
 ---
 name: website
-description: "Build, run and publish this business website: the Hono app in this repo, its pages, brand tokens, components, the dev loop, checks, adding pages, images and forms, and publishing to production. Use for any change to the site, and for 'build my website', 'add a page', 'change the look', 'publish it'."
+description: "The mechanics of this business website: the Hono app, its pages and components, the dev loop, the checks, screenshots, images, forms and the checklist before each deploy. Use for a change to the site's code, adding or editing a page, or deploying. A new homepage or site is new-site; the look is design."
 ---
 
 # Website

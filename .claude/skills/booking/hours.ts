@@ -3,8 +3,8 @@
 // returns field errors rather than throwing, so a form can show them next to
 // the field. Copy this with admin.tsx's editor into any app that edits
 // hours (the CRM); the booking pages pick the change up on their next read.
-import type { Db } from "../shared-data/db";
-import { normalizeEmail } from "../shared-data/email";
+import type { Db } from "../data/db";
+import { normalizeEmail } from "../data/email";
 import { checkSettings, isValidZone, parseWallTime, wallToInstant, type Settings } from "./slots";
 import { toResource, type Resource } from "./book";
 
@@ -23,7 +23,7 @@ const asDate = (v: unknown) => (v instanceof Date ? v : new Date(String(v)));
 export async function weeklyHours(db: Db, resourceId: string): Promise<HoursWindow[]> {
   const rows = await db.sql`
     select id::text as id, weekday, start_local::text as start, end_local::text as "end"
-    from shared.availability where resource_id = ${resourceId}::bigint order by weekday, start_local`;
+    from availability where resource_id = ${resourceId}::bigint order by weekday, start_local`;
   return rows.map((r) => ({ id: r.id, weekday: Number(r.weekday), start: hhmm(parseWallTime(r.start)), end: hhmm(parseWallTime(r.end)) }));
 }
 
@@ -43,10 +43,10 @@ export async function addWindow(db: Db, resourceId: string, weekday: unknown, st
   if (Object.keys(errors).length) return { ok: false, errors };
   const endText = e === 1440 ? "24:00" : hhmm(e);
   const rows = await db.sql`
-    insert into shared.availability (resource_id, weekday, start_local, end_local, updated_by)
+    insert into availability (resource_id, weekday, start_local, end_local, updated_by)
     select ${resourceId}::bigint, ${day}, ${hhmm(s)}::time, ${endText}::time, ${by}
     where not exists (
-      select 1 from shared.availability a
+      select 1 from availability a
       where a.resource_id = ${resourceId}::bigint and a.weekday = ${day}
         and a.start_local < ${endText}::time and a.end_local > ${hhmm(s)}::time)
     returning id`;
@@ -54,7 +54,7 @@ export async function addWindow(db: Db, resourceId: string, weekday: unknown, st
 }
 
 export async function removeWindow(db: Db, resourceId: string, windowId: string): Promise<void> {
-  await db.sql`delete from shared.availability where id = ${windowId}::bigint and resource_id = ${resourceId}::bigint`;
+  await db.sql`delete from availability where id = ${windowId}::bigint and resource_id = ${resourceId}::bigint`;
 }
 
 /**
@@ -71,7 +71,7 @@ export function localInputToInstant(v: unknown, zone: string): Date | null {
 
 export async function timeOffList(db: Db, resourceId: string, from = new Date()): Promise<TimeOff[]> {
   const rows = await db.sql`
-    select id::text as id, starts_at, ends_at, note from shared.time_off
+    select id::text as id, starts_at, ends_at, note from time_off
     where resource_id = ${resourceId}::bigint and ends_at > ${from.toISOString()}::timestamptz order by starts_at limit 200`;
   return rows.map((r) => ({ id: r.id, starts_at: asDate(r.starts_at), ends_at: asDate(r.ends_at), note: r.note ?? null }));
 }
@@ -86,13 +86,13 @@ export async function addTimeOff(db: Db, resource: Resource, starts: unknown, en
   const text = typeof note === "string" ? note.trim().slice(0, 500) : "";
   if (Object.keys(errors).length) return { ok: false, errors };
   await db.sql`
-    insert into shared.time_off (resource_id, starts_at, ends_at, note, updated_by)
+    insert into time_off (resource_id, starts_at, ends_at, note, updated_by)
     values (${resource.id}::bigint, ${s!.toISOString()}::timestamptz, ${e!.toISOString()}::timestamptz, ${text || null}, ${by})`;
   return { ok: true, value: null };
 }
 
 export async function removeTimeOff(db: Db, resourceId: string, id: string): Promise<void> {
-  await db.sql`delete from shared.time_off where id = ${id}::bigint and resource_id = ${resourceId}::bigint`;
+  await db.sql`delete from time_off where id = ${id}::bigint and resource_id = ${resourceId}::bigint`;
 }
 
 // ---- the resource itself ------------------------------------------------------
@@ -144,11 +144,11 @@ export async function createResource(db: Db, f: ResourceFields, by: string, sour
   if (!r.ok) return r;
   const v = r.value;
   const rows = await db.sql`
-    insert into shared.resources (kind, slug, name, email, time_zone, duration_min, interval_min, buffer_before_min,
+    insert into resources (kind, slug, name, email, time_zone, duration_min, interval_min, buffer_before_min,
       buffer_after_min, min_notice_min, horizon_days, active, source, updated_by)
     select ${v.kind}, ${v.slug}, ${v.name}, ${v.email}, ${v.time_zone}, ${v.duration_min}, ${v.interval_min}, ${v.buffer_before_min},
       ${v.buffer_after_min}, ${v.min_notice_min}, ${v.horizon_days}, ${v.active}, ${source}, ${by}
-    where ${v.slug}::text is null or not exists (select 1 from shared.resources where slug = ${v.slug})
+    where ${v.slug}::text is null or not exists (select 1 from resources where slug = ${v.slug})
     returning *`;
   return rows.length ? { ok: true, value: toResource(rows[0]) } : { ok: false, errors: { slug: "Another booking page already uses this address." } };
 }
@@ -159,31 +159,31 @@ export async function saveResource(db: Db, id: string, f: ResourceFields, by: st
   if (!r.ok) return r;
   const v = r.value;
   const rows = await db.sql`
-    update shared.resources set slug = ${v.slug}, name = ${v.name}, email = ${v.email}, time_zone = ${v.time_zone},
+    update resources set slug = ${v.slug}, name = ${v.name}, email = ${v.email}, time_zone = ${v.time_zone},
       duration_min = ${v.duration_min}, interval_min = ${v.interval_min}, buffer_before_min = ${v.buffer_before_min},
       buffer_after_min = ${v.buffer_after_min}, min_notice_min = ${v.min_notice_min}, horizon_days = ${v.horizon_days},
       active = ${v.active}, updated_by = ${by}, updated_at = now()
     where id = ${id}::bigint
-      and (${v.slug}::text is null or not exists (select 1 from shared.resources o where o.slug = ${v.slug} and o.id <> ${id}::bigint))
+      and (${v.slug}::text is null or not exists (select 1 from resources o where o.slug = ${v.slug} and o.id <> ${id}::bigint))
     returning *`;
   return rows.length ? { ok: true, value: toResource(rows[0]) } : { ok: false, errors: { slug: "Another booking page already uses this address." } };
 }
 
 export async function allResources(db: Db): Promise<Resource[]> {
-  return (await db.sql`select * from shared.resources order by active desc, name, id`).map(toResource);
+  return (await db.sql`select * from resources order by active desc, name, id`).map(toResource);
 }
 
 export async function crewMembers(db: Db, crewId: string): Promise<Resource[]> {
   return (await db.sql`
-    select r.* from shared.resource_members m join shared.resources r on r.id = m.member_id
+    select r.* from resource_members m join resources r on r.id = m.member_id
     where m.crew_id = ${crewId}::bigint order by r.name`).map(toResource);
 }
 
 /** Add a person to a crew; a crew is never a member. */
 export async function addMember(db: Db, crewId: string, memberId: string): Promise<Saved> {
   const rows = await db.sql`
-    insert into shared.resource_members (crew_id, member_id)
-    select c.id, p.id from shared.resources c, shared.resources p
+    insert into resource_members (crew_id, member_id)
+    select c.id, p.id from resources c, resources p
     where c.id = ${crewId}::bigint and c.kind = 'crew' and p.id = ${memberId}::bigint and p.kind = 'person'
     on conflict do nothing
     returning crew_id`;
@@ -191,7 +191,7 @@ export async function addMember(db: Db, crewId: string, memberId: string): Promi
 }
 
 export async function removeMember(db: Db, crewId: string, memberId: string): Promise<void> {
-  await db.sql`delete from shared.resource_members where crew_id = ${crewId}::bigint and member_id = ${memberId}::bigint`;
+  await db.sql`delete from resource_members where crew_id = ${crewId}::bigint and member_id = ${memberId}::bigint`;
 }
 
 // ---- calendars -----------------------------------------------------------------
@@ -200,7 +200,7 @@ export async function calendars(db: Db, resourceId?: string): Promise<(Calendar 
   const rows = await db.sql`
     select k.id::text as id, k.resource_id::text as resource_id, k.provider, k.external_id, k.receives_bookings,
            k.last_synced_at, k.last_error, r.name as resource_name
-    from shared.calendars k join shared.resources r on r.id = k.resource_id
+    from calendars k join resources r on r.id = k.resource_id
     where (${resourceId ?? null}::bigint is null or k.resource_id = ${resourceId ?? null}::bigint)
     order by r.name, k.id`;
   return rows.map((r) => ({ ...r, last_synced_at: r.last_synced_at ? asDate(r.last_synced_at) : null }) as Calendar & { resource_name: string });
@@ -216,12 +216,12 @@ export async function addCalendar(db: Db, resourceId: string, provider: unknown,
   const ext = typeof externalId === "string" && externalId.trim() ? externalId.trim().slice(0, 300) : "primary";
   if (!p) return { ok: false, errors: { provider: "Choose Google or Microsoft." } };
   const rows = await db.sql`
-    insert into shared.calendars (resource_id, provider, external_id, updated_by)
+    insert into calendars (resource_id, provider, external_id, updated_by)
     values (${resourceId}::bigint, ${p}, ${ext}, ${by})
     on conflict do nothing returning id`;
   return rows.length ? { ok: true, value: null } : { ok: false, errors: { external_id: "This calendar is already added." } };
 }
 
 export async function removeCalendar(db: Db, resourceId: string, id: string): Promise<void> {
-  await db.sql`delete from shared.calendars where id = ${id}::bigint and resource_id = ${resourceId}::bigint`;
+  await db.sql`delete from calendars where id = ${id}::bigint and resource_id = ${resourceId}::bigint`;
 }

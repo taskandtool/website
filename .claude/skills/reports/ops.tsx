@@ -1,4 +1,4 @@
-// The operations report, from the shared tables: leads, bookings, revenue
+// The operations report, from the project's tables: leads, bookings, revenue
 // per currency, the funnel lead, booked, showed, paid (matched by email),
 // bookings per week, leads by where they came from and by form, and the
 // latest bookings. A table the
@@ -12,7 +12,7 @@
 //       <OpsReport data={data} />
 //     </AdminLayout>,
 //   );
-import type { Db } from "../shared-data/db";
+import type { Db } from "../data/db";
 import { DataTable, When } from "../admin/list";
 import { BarChart, bucketLabel, fromMinor, FunnelChart, KpiRow, KpiTile, LineChart, ReportSection } from "./charts";
 import { periodText } from "./seo-report";
@@ -27,10 +27,10 @@ import {
   revenueQuery,
   run,
   seriesQuery,
-  sharedTables,
+  projectTables,
   type Grain,
   type Period,
-  type SharedTables,
+  type ProjectTables,
 } from "./sql";
 
 export type Revenue = { currency: string; gross: number; refunds: number; net: number; previous_net: number };
@@ -42,7 +42,7 @@ export type OpsData = {
   previous: Period;
   grain: Grain;
   zone: string;
-  tables: SharedTables;
+  tables: ProjectTables;
   leads: (Compared & { byOrigin: { origin: string; leads: number }[]; byForm: { form: string; leads: number }[] }) | null;
   bookings: (Compared & { recent: { id: string; name: string | null; email: string; status: string; starts_at: string }[] }) | null;
   revenue: Revenue[] | null;
@@ -61,7 +61,7 @@ async function compared(db: Db, name: "leads" | "bookings", p: Period, prev: Per
 export async function loadOps(db: Db, opts: { period: Period; grain: Grain; zone: string; previous?: Period }): Promise<OpsData> {
   const { period, grain, zone } = opts;
   const previous = opts.previous ?? previousPeriod(period, grain);
-  const tables = await sharedTables(db);
+  const tables = await projectTables(db);
   const funnel = funnelQuery(period, zone, tables);
   const [leads, byOrigin, byForm, bookings, recent, revenue, steps] = await Promise.all([
     tables.submissions ? compared(db, "leads", period, previous, grain, zone) : null,

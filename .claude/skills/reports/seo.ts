@@ -3,7 +3,7 @@
 // answers only the machine's token, so a report served from the edge reads
 // a snapshot a job saved (saveSnapshot / loadSnapshot), never Google.
 //
-//   const call = googleCall(process.env);                                // through the gateway (shared-data/gateway.ts)
+//   const call = googleCall(process.env);                                // through the gateway (data/gateway.ts)
 //   const period = lastFull("day", 28, zone, { lag: 3 });                // Search Console is final after ~3 days
 //   const data = await fetchSeo(call, { siteUrl: "sc-domain:acme.com", ga4Property: "123456789", period });
 //   await saveSnapshot(db, "seo", data);                                 // the table is made once, by createSnapshotTable at setup
@@ -23,9 +23,9 @@
 //   `gsc.incompleteFrom` says when the period ran into one.
 // - GA4 totals come from the API's TOTAL aggregation: a session that spans
 //   midnight is in two date rows, so summing them counts it twice.
-import type { Db } from "../shared-data/db";
-import type { Env } from "../shared-data/env";
-import { gatewayFetch } from "../shared-data/gateway";
+import type { Db } from "../data/db";
+import type { Env } from "../data/env";
+import { gatewayFetch } from "../data/gateway";
 import { addDays, days, previousPeriod, ratioOfSums, weightedMean, type Period } from "./sql";
 
 /** One call through the gateway: POST a JSON body to a vendor path, get JSON back. */
@@ -246,8 +246,7 @@ export async function fetchSeo(call: Call, opts: { siteUrl: string; ga4Property?
 
 // ---- Snapshots ----------------------------------------------------------------
 //
-// The latest figures per key, in a table of this app's own schema (no
-// schema name, so it lands there; it is nobody else's business). The job
+// The latest figures per key, in report_snapshots. The job
 // on the machine saves; the page, wherever it runs, loads. The table is made
 // once, by createSnapshotTable in the app's setup script, not on every save.
 

@@ -43,13 +43,12 @@ Two files, in this order, whenever the brand changes:
    `styles/input.css`), from `positioning.md` and `visual-identity.md`.
 
 Then the pages, through the `design` and `writing` skills, with
-`voice.md` as the voice card. The suggested first prompt is in the chat
-("Apply my brand"); it names these steps.
+`voice.md` as the voice card.
 
 ## Filling the folder
 
 The `brand` skill fills `brand/` from whatever the owner gives you (a
-crawl of their site with `migrate-site`, a chat, a document, a social
-profile), citing each line. Then set the site from it as above.
+crawl of their site, a chat, a document, a social profile), citing each
+line. Then set the site from it as above.
 
 Nothing in `brand/` is secret. Credentials never belong here.

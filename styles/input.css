@@ -1,4 +1,4 @@
-/* The site's stylesheet source. `npm run css` builds public/site.css from it. */
+/* The site's stylesheet source. `npm run css` builds static/site.css from it. */
 @import "tailwindcss" source(none);
 @import "./theme.css";   /* the design tokens: brand colours and fonts, roles, scale, edges, rhythm */
 

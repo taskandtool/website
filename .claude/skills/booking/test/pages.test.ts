@@ -4,13 +4,13 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
-import { applySchema } from "../../shared-data/migrate";
-import { scratch, why } from "../../shared-data/test/scratch";
+import { applySchema } from "../../data/migrate";
+import { scratch, why } from "../../data/test/scratch";
 import { bookingAdmin } from "../admin";
 import { addWindow, createResource } from "../hours";
 import { bookingPages, type BookingEvent } from "../public";
-import { makeStamp } from "../../shared-data/spam";
-import type { Scratch } from "../../shared-data/test/scratch";
+import { makeStamp } from "../../data/spam";
+import type { Scratch } from "../../data/test/scratch";
 
 const schema = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "schema.sql"), "utf8");
 const team = { "x-tasktool-user": "owner@example.com" };
@@ -100,7 +100,7 @@ test("a visitor books, sees the time in their zone, downloads the invite, and ca
     assert.equal(res.status, 409);
     assert.match(await res.text(), /can no longer be changed/);
     // With no organizer email there is no CANCEL to offer: 404, not a 500.
-    await s.db.sql`update shared.resources set email = null where id = ${r.value.id}::bigint`;
+    await s.db.sql`update resources set email = null where id = ${r.value.id}::bigint`;
     assert.equal((await app.request(`/book/manage/${token}/invite.ics`)).status, 404);
 
     // The hours editor: a window that ends before it starts is refused next to the field.
@@ -134,7 +134,7 @@ async function firstSlot(app: Hono) {
   return { start: new URL(link, "http://x").searchParams.get("start")!, confirm, stamp: /name="_started" value="([^"]+)"/.exec(confirm)![1] };
 }
 
-test("the confirm form has the shared spam fields: a filled honeypot or a forged stamp books nothing; too fast asks again", async (t) => {
+test("the confirm form has the spam fields: a filled honeypot or a forged stamp books nothing; too fast asks again", async (t) => {
   const s = await scratch();
   if (!s) return t.skip(why);
   try {
@@ -152,7 +152,7 @@ test("the confirm form has the shared spam fields: a filled honeypot or a forged
     assert.equal(res.headers.get("location"), "/book/intro");
     res = await app.request("/book/intro", form(who)); // no stamp at all
     assert.equal(res.status, 303);
-    assert.equal((await s.db.sql`select count(*)::int as n from shared.bookings`)[0].n, 0);
+    assert.equal((await s.db.sql`select count(*)::int as n from bookings`)[0].n, 0);
 
     // The stamp the page just served is too fresh: the form comes back with a new one and nothing is booked.
     res = await app.request("/book/intro", form({ ...who, name: "Ann", _started: stamp }));
@@ -160,13 +160,13 @@ test("the confirm form has the shared spam fields: a filled honeypot or a forged
     const again = await res.text();
     assert.match(again, /press Book it again/);
     assert.match(again, /value="Ann"/);
-    assert.equal((await s.db.sql`select count(*)::int as n from shared.bookings`)[0].n, 0);
+    assert.equal((await s.db.sql`select count(*)::int as n from bookings`)[0].n, 0);
   } finally {
     await s.drop();
   }
 });
 
-test("afterBook can send the booker on (a deposit); the manage page shows the deposit read from shared.payments", async (t) => {
+test("afterBook can send the booker on (a deposit); the manage page shows the deposit read from payments", async (t) => {
   const s = await scratch();
   if (!s) return t.skip(why);
   try {
@@ -198,10 +198,10 @@ test("afterBook can send the booker on (a deposit); the manage page shows the de
     const manage = new URL(seen[1].manageUrl).pathname;
 
     // With the payments skill's table, the manage page reads the latest deposit for this booking.
-    await s.db.sql`create table shared.payments (id bigserial primary key, ref_type text, ref_id text, kind text, status text not null, created_at timestamptz not null default now())`;
-    await s.db.sql`insert into shared.payments (ref_type, ref_id, kind, status) values ('booking', ${seen[1].booking.id}, 'deposit', 'pending')`;
+    await s.db.sql`create table payments (id bigserial primary key, ref_type text, ref_id text, kind text, status text not null, created_at timestamptz not null default now())`;
+    await s.db.sql`insert into payments (ref_type, ref_id, kind, status) values ('booking', ${seen[1].booking.id}, 'deposit', 'pending')`;
     assert.match(await (await app.request(manage)).text(), /Deposit not confirmed yet/);
-    await s.db.sql`update shared.payments set status = 'paid'`;
+    await s.db.sql`update payments set status = 'paid'`;
     assert.match(await (await app.request(manage)).text(), /Deposit paid\./);
     assert.doesNotMatch(await (await app.request(new URL(seen[0].manageUrl).pathname)).text(), /Deposit/);
 

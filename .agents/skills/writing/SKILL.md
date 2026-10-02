@@ -1,6 +1,6 @@
 ---
 name: writing
-description: "Set the voice and write the words for this site: the voice card from the owner's own sentences, the copy inventory, headlines and calls to action, and the editing passes that strip what generated text falls into. Use with the design skill before laying out a page, and whenever copy is written or rewritten."
+description: "Write the words for this site in the owner's voice: headlines, sections and calls to action, and the editing passes that strip what generated text falls into. Use whenever copy is written or rewritten, with the design skill before laying out a page."
 ---
 
 # Writing

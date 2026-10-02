@@ -8,14 +8,17 @@ work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
 machine needs (dependencies, the site reader, the `web` service). All of it
 is the owner's to change.
 
-The skills: `new-site` (from nothing to a launched site), `website` (build,
-run and publish to production), `pages` (the page plan and a brief per
+"Build me a homepage", "build my site" or a link to the business: start
+with the `new-site` skill.
+
+The skills: `new-site` (a homepage first, then the whole site), `website`
+(the mechanics: run, change, deploy), `pages` (the page plan and a brief per
 page), `design` and `writing` (the taste bar), `brand` (the brand and fact
 notes), `migrate-site` and `launch-check` (taking over an existing site and
-keeping it audited), and the shared skills `forms`, `admin`, `booking` and
-`reports` on `shared-data` (forms, the private `/admin`, a booking page,
-reports; what they store lives in the project's `shared` schema, where the
-project's other apps read it). The platform's
+keeping it audited), and the business skills `forms`, `admin`, `booking`
+and `reports` on `data` (forms, the private `/admin`, a booking page,
+reports; what they store is in the project's database, which the project's
+other apps read too). The platform's
 `deploy` skill says what production is. Read the one that fits the ask
 rather than working from memory.
 
@@ -48,10 +51,11 @@ rather than working from memory.
   `src/layout.tsx` is the document (head, header, footer).
   `src/components/index.tsx` holds the shared pieces. `src/app.tsx` is the
   Hono app. The database, when the app has one, is reached through the
-  `shared-data` skill's handle, copied into `src/shared-data/`.
+  `data` skill's handle, copied into `src/data/`.
 - `static/` is served as static files; `styles/input.css` is the stylesheet
   source, built to `static/site.css`.
-- `scripts/` holds the build, the dev loop, the checks, and the deploy hook.
+- `scripts/` holds the dev loop, the build, the design system compiler,
+  the checks, the lint and the screenshots.
 
 ## The loop
 
@@ -59,10 +63,10 @@ rather than working from memory.
   and the server restarts on every change, so an edit is in dev on refresh.
   If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
   (idempotent) or register it by hand as the `website` skill says.
-- `npm run check`, then `npm run build && npm run lint`, before showing work; `npm run audit` before publishing
-  (the crawler's health check against the working copy). `npm run build`
-  to produce `dist/` and `build/worker.mjs`. `npm run deploy` publishes
-  to production (the `website` skill), when the owner asks.
+- Before showing work: `npm run check`, `npm run build && npm run lint`,
+  `npm run shots` (the page at desktop and phone width). `npm run deploy`
+  deploys to production, when the owner asks (the `website` skill's
+  checklist first).
 - Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
   any credential.
 

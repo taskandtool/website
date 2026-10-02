@@ -3,11 +3,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { applySchema } from "../../shared-data/migrate";
-import { scratch, why, type Scratch } from "../../shared-data/test/scratch";
+import { applySchema } from "../../data/migrate";
+import { scratch, why, type Scratch } from "../../data/test/scratch";
 import { book, cancelByToken, reschedule, setStatus } from "../book";
 import { addMember, addWindow, createResource } from "../hours";
-import { gatewayFetch } from "../../shared-data/gateway";
+import { gatewayFetch } from "../../data/gateway";
 import { eventTag, GOOGLE_TAG, MICROSOFT_TAG, syncCalendars, type Gateway } from "../sync";
 
 const schema = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "schema.sql"), "utf8");
@@ -46,12 +46,12 @@ async function setup(s: Scratch, provider: "google" | "microsoft", zone = "UTC")
   }, "o@example.com", "test");
   assert.ok(r.ok);
   for (let d = 0; d < 7; d++) await addWindow(s.db, r.value.id, String(d), "09:00", "17:00", "o@example.com");
-  const [k] = await s.db.sql`insert into shared.calendars (resource_id, provider, external_id) values (${r.value.id}::bigint, ${provider}, ${provider === "google" ? "pat@example.com" : "primary"}) returning id::text as id`;
+  const [k] = await s.db.sql`insert into calendars (resource_id, provider, external_id) values (${r.value.id}::bigint, ${provider}, ${provider === "google" ? "pat@example.com" : "primary"}) returning id::text as id`;
   return { resource: r.value, calendarId: k.id as string };
 }
 
 const busyRows = async (s: Scratch) =>
-  (await s.db.sql`select starts_at, ends_at from shared.busy order by starts_at`).map((r) => [new Date(r.starts_at).toISOString(), new Date(r.ends_at).toISOString()]);
+  (await s.db.sql`select starts_at, ends_at from busy order by starts_at`).map((r) => [new Date(r.starts_at).toISOString(), new Date(r.ends_at).toISOString()]);
 
 async function withDb(t: { skip: (m: string) => void }, fn: (s: Scratch) => Promise<void>) {
   const s = await scratch();
@@ -157,8 +157,8 @@ function microsoftCalendar() {
 }
 
 /** The process died after the provider made the event: the claim stays and no id was saved. */
-const dieAfterCreate = (s: Scratch) => s.db.sql`update shared.bookings set external_event_id = null, external_provider = null, synced_sequence = null, push_claimed_at = now()`;
-const claimExpires = (s: Scratch) => s.db.sql`update shared.bookings set push_claimed_at = now() - interval '11 minutes'`;
+const dieAfterCreate = (s: Scratch) => s.db.sql`update bookings set external_event_id = null, external_provider = null, synced_sequence = null, push_claimed_at = now()`;
+const claimExpires = (s: Scratch) => s.db.sql`update bookings set push_claimed_at = now() - interval '11 minutes'`;
 
 test("event tags are base32hex and name the calendar row", () => {
   const tag = eventTag("0123456789abcdef0123456789abcdef", "26");
@@ -170,7 +170,7 @@ test("event tags are base32hex and name the calendar row", () => {
 test("Google: events.list through the gateway replaces the calendar's busy rows", (t) =>
   withDb(t, async (s) => {
     const { calendarId } = await setup(s, "google", "America/New_York");
-    await s.db.sql`insert into shared.busy (calendar_id, starts_at, ends_at) values (${calendarId}::bigint, '2026-03-05T10:00:00Z', '2026-03-05T11:00:00Z')`;
+    await s.db.sql`insert into busy (calendar_id, starts_at, ends_at) values (${calendarId}::bigint, '2026-03-05T10:00:00Z', '2026-03-05T11:00:00Z')`;
     const ev = (id: string, start: string, end: string, extra = {}) => ({ id, status: "confirmed", start: { dateTime: start }, end: { dateTime: end }, ...extra });
     const { calls, gw } = fake({
       "GET /google-calendar/calendar/v3/calendars/": (c) =>
@@ -203,7 +203,7 @@ test("Google: events.list through the gateway replaces the calendar's busy rows"
       ["2026-03-11T15:00:00.000Z", "2026-03-11T15:30:00.000Z"],
       ["2026-03-12T04:00:00.000Z", "2026-03-13T04:00:00.000Z"], // all day on 12 March in New York (EDT)
     ]);
-    const [k] = await s.db.sql`select last_synced_at, last_error from shared.calendars`;
+    const [k] = await s.db.sql`select last_synced_at, last_error from calendars`;
     assert.ok(k.last_synced_at);
     assert.equal(k.last_error, null);
   }));
@@ -211,19 +211,19 @@ test("Google: events.list through the gateway replaces the calendar's busy rows"
 test("Google: an error, or a refusal, is stored and the old busy rows stay", (t) =>
   withDb(t, async (s) => {
     const { calendarId } = await setup(s, "google");
-    await s.db.sql`insert into shared.busy (calendar_id, starts_at, ends_at) values (${calendarId}::bigint, '2026-03-05T10:00:00Z', '2026-03-05T11:00:00Z')`;
+    await s.db.sql`insert into busy (calendar_id, starts_at, ends_at) values (${calendarId}::bigint, '2026-03-05T10:00:00Z', '2026-03-05T11:00:00Z')`;
     const missing = fake({ "GET /google-calendar/": () => json({ error: { code: 404, message: "Not Found" } }, 404) });
     const r = await syncCalendars(s.db, missing.gw, NOW);
     assert.equal(r.pulled, 0);
     assert.match(r.errors[0], /404/);
-    let [k] = await s.db.sql`select last_synced_at, last_error from shared.calendars`;
+    let [k] = await s.db.sql`select last_synced_at, last_error from calendars`;
     assert.match(k.last_error, /Not Found/);
     assert.equal(k.last_synced_at, null);
     assert.equal((await busyRows(s)).length, 1, "a failed fetch never wipes what we had");
 
     const refused = fake({ "GET /google-calendar/": () => new Response('{"error":"needs_reconnect"}', { status: 409, headers: { "x-tasktool-refusal": "needs_reconnect" } }) });
     await syncCalendars(s.db, refused.gw, NOW);
-    [k] = await s.db.sql`select last_error from shared.calendars`;
+    [k] = await s.db.sql`select last_error from calendars`;
     assert.match(k.last_error, /needs_reconnect.*reconnect/);
     assert.equal((await busyRows(s)).length, 1);
   }));
@@ -285,7 +285,7 @@ test("bookings are written to the calendar under our id, moved, and removed; our
     assert.equal(insert.path, "/google-calendar/calendar/v3/calendars/pat%40example.com/events");
     assert.equal(insert.body.start.dateTime, "2026-03-09T10:00:00.000Z");
     assert.equal(insert.body.attendees, undefined, "no attendees: the provider would email the booker");
-    let [row] = await s.db.sql`select event_key, external_event_id, external_provider, synced_sequence, push_claimed_at from shared.bookings`;
+    let [row] = await s.db.sql`select event_key, external_event_id, external_provider, synced_sequence, push_claimed_at from bookings`;
     const tag = eventTag(row.event_key, calendarId);
     assert.equal(insert.body.id, `${tag}v0`, "the id is ours, chosen before the call");
     assert.deepEqual(insert.body.extendedProperties, { private: { [GOOGLE_TAG]: tag } });
@@ -314,7 +314,7 @@ test("bookings are written to the calendar under our id, moved, and removed; our
     await syncCalendars(s.db, gw, NOW);
     await syncCalendars(s.db, gw, NOW);
     assert.equal(calls.filter((c) => c.method === "DELETE").length, 1);
-    [row] = await s.db.sql`select synced_sequence, sequence from shared.bookings`;
+    [row] = await s.db.sql`select synced_sequence, sequence from bookings`;
     assert.equal(row.synced_sequence, row.sequence);
     assert.equal(g.ours()[0].status, "cancelled");
   }));
@@ -341,7 +341,7 @@ test("Google: the job dies after the create; the event is not busy meanwhile and
     assert.deepEqual([r.pushed, r.errors], [1, []]);
     assert.equal(calls.filter((c) => c.method === "POST").length, 0, "found by its tag, not created again");
     assert.equal(g.ours().length, 1);
-    const [row] = await s.db.sql`select external_event_id, synced_sequence, push_claimed_at from shared.bookings`;
+    const [row] = await s.db.sql`select external_event_id, synced_sequence, push_claimed_at from bookings`;
     assert.deepEqual([row.external_event_id, row.synced_sequence, row.push_claimed_at], [g.ours()[0].id, 0, null]);
   }));
 
@@ -377,7 +377,7 @@ test("Google: the job dies after the create, then the booking is cancelled; the 
     await claimExpires(s);
     assert.deepEqual((await syncCalendars(s.db, gw, NOW)).errors, []);
     assert.equal(g.ours()[0].status, "cancelled");
-    const [row] = await s.db.sql`select synced_sequence, sequence from shared.bookings`;
+    const [row] = await s.db.sql`select synced_sequence, sequence from bookings`;
     assert.equal(row.synced_sequence, row.sequence);
   }));
 
@@ -385,7 +385,7 @@ test("Google: an insert answered 409 (the id exists) takes that event over", (t)
   withDb(t, async (s) => {
     const { resource, calendarId } = await setup(s, "google");
     assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
-    const [{ event_key }] = await s.db.sql`select event_key from shared.bookings`;
+    const [{ event_key }] = await s.db.sql`select event_key from bookings`;
     const id = `${eventTag(event_key, calendarId)}v0`;
     const g = googleCalendar();
     // An earlier attempt's event, since deleted by the owner (Google keeps the id).
@@ -395,7 +395,7 @@ test("Google: an insert answered 409 (the id exists) takes that event over", (t)
     assert.deepEqual([r.pushed, r.errors], [1, []]);
     assert.deepEqual(calls.filter((c) => c.method !== "GET").map((c) => c.method), ["POST", "PATCH"]);
     assert.deepEqual([g.events.get(id).status, g.events.get(id).start.dateTime], ["confirmed", "2026-03-09T10:00:00.000Z"]);
-    const [row] = await s.db.sql`select external_event_id from shared.bookings`;
+    const [row] = await s.db.sql`select external_event_id from bookings`;
     assert.equal(row.external_event_id, id);
   }));
 
@@ -418,7 +418,7 @@ test("Microsoft: a lost create response, then a rerun, makes one event; the pull
     });
     let r = await syncCalendars(s.db, gw, NOW);
     assert.match(r.errors[0], /socket hang up/);
-    let [row] = await s.db.sql`select event_key, external_event_id, external_error from shared.bookings`;
+    let [row] = await s.db.sql`select event_key, external_event_id, external_error from bookings`;
     assert.equal(row.external_event_id, null);
     const tag = eventTag(row.event_key, calendarId);
     const sent = calls.find((c) => c.method === "POST")!;
@@ -434,7 +434,7 @@ test("Microsoft: a lost create response, then a rerun, makes one event; the pull
     const lookup = new URL(calls.find((c) => c.path.startsWith("/microsoft-calendar/v1.0/me/events?"))!.url);
     assert.equal(lookup.searchParams.get("$filter"), `singleValueExtendedProperties/Any(ep: ep/id eq '${MICROSOFT_TAG}' and ep/value eq '${tag}')`);
     assert.equal(m.ours().length, 1);
-    [row] = await s.db.sql`select external_event_id, external_error from shared.bookings`;
+    [row] = await s.db.sql`select external_event_id, external_error from bookings`;
     assert.deepEqual([row.external_event_id, row.external_error], [m.ours()[0].id, null]);
     assert.deepEqual(await busyRows(s), [["2026-03-09T10:00:00.000Z", "2026-03-09T11:00:00.000Z"]]);
   }));
@@ -465,7 +465,7 @@ test("a failed push is recorded on the booking and retried next run", (t) =>
     });
     let r = await syncCalendars(s.db, gw, NOW);
     assert.match(r.errors[0], /403/);
-    let [row] = await s.db.sql`select external_event_id, external_error, push_claimed_at from shared.bookings`;
+    let [row] = await s.db.sql`select external_event_id, external_error, push_claimed_at from bookings`;
     assert.deepEqual([row.external_event_id, row.push_claimed_at], [null, null]);
     assert.match(row.external_error, /ErrorAccessDenied/);
     fail = false;
@@ -473,7 +473,7 @@ test("a failed push is recorded on the booking and retried next run", (t) =>
     assert.equal(r.pushed, 1);
     const sent = calls.filter((c) => c.method === "POST").pop()!;
     assert.deepEqual(sent.body.start, { dateTime: "2026-03-09T10:00:00", timeZone: "UTC" });
-    [row] = await s.db.sql`select external_event_id, external_error from shared.bookings`;
+    [row] = await s.db.sql`select external_event_id, external_error from bookings`;
     assert.deepEqual([row.external_event_id, row.external_error], ["AAMk-1", null]);
   }));
 
@@ -503,7 +503,7 @@ test("an event the owner deleted is written again when its booking moves", (t) =
     assert.ok((await reschedule(s.db, a.token, T("2026-03-09T14:00:00Z"), NOW)).ok);
     const r = await syncCalendars(s.db, gw, NOW);
     assert.deepEqual(r.errors, []);
-    const [row] = await s.db.sql`select external_event_id, synced_sequence, sequence from shared.bookings`;
+    const [row] = await s.db.sql`select external_event_id, synced_sequence, sequence from bookings`;
     assert.equal(row.external_event_id, "AAMk-2");
     assert.equal(row.synced_sequence, row.sequence);
     const sent = calls.filter((c) => c.method === "POST").pop()!;
@@ -533,11 +533,11 @@ test("event_key is filled for every booking, old rows included, and stays put", 
     assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
     assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T12:00:00Z"), name: "Bo", email: "bo@example.com", source: "website", now: NOW })).ok);
     // Rows from before the column existed get a key when the schema adds it.
-    await s.db.sql`alter table shared.bookings drop column event_key`;
+    await s.db.sql`alter table bookings drop column event_key`;
     await applySchema(s.db, schema);
-    const before = await s.db.sql`select event_key from shared.bookings order by id`;
+    const before = await s.db.sql`select event_key from bookings order by id`;
     assert.ok(before.every((r) => /^[0-9a-f]{32}$/.test(r.event_key)));
     assert.notEqual(before[0].event_key, before[1].event_key);
     await applySchema(s.db, schema);
-    assert.deepEqual(await s.db.sql`select event_key from shared.bookings order by id`, before, "running the schema again changes nothing");
+    assert.deepEqual(await s.db.sql`select event_key from bookings order by id`, before, "running the schema again changes nothing");
   }));

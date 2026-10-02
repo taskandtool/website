@@ -134,3 +134,16 @@ test("search patterns treat wildcards as text; return paths stay inside the app"
     assert.equal(localPath(bad, "/admin", "/admin"), "/admin", bad);
   }
 });
+
+test("a return path that resolves off the site is refused, and a flash never leaves it", async () => {
+  const { localPath } = await import("../query");
+  const { withFlash } = await import("../flash");
+  for (const evil of ["/admin/..//evil.example", "/admin/%2e%2e//evil.example", "//evil.example", "/\\evil.example"]) {
+    assert.equal(localPath(evil, "/admin", "/admin"), "/admin", evil);
+  }
+  // A doubled slash after the first segment is still a path on this site.
+  assert.equal(localPath("/admin/.//x", "/admin", "/"), "/admin//x");
+  assert.equal(localPath("/admin/forms?status=new", "/admin", "/"), "/admin/forms?status=new");
+  assert.ok(!withFlash("/.//evil.example", "done").startsWith("//"));
+  assert.equal(withFlash("/admin/forms?after=x", "done"), "/admin/forms?saved=done");
+});

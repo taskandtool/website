@@ -1,7 +1,6 @@
 // The home page as it ships: one line that says the site is waiting to be
 // made, so a site published on day one shows a clean page. The AI replaces it
-// with the business's front door once the owner has picked a homepage (the
-// new-site and design skills).
+// with the business's homepage (the new-site and design skills).
 import { content, faqJsonLd, localBusinessJsonLd } from "../content";
 import { site, type Page } from "../site";
 

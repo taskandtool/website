@@ -1,19 +1,19 @@
-// A complete private list over one shared table, wired from every piece in
+// A complete private list over one table, wired from every piece in
 // this folder: search, a status filter, Load more, a detail page, a status
 // change that records who made it, a bulk change, and a CSV of the current
-// filter streamed page by page. Copy it and rename; `shared.example_rows` is
-// a stand-in for the owning skill's table (shared.submissions, shared.bookings,
-// shared.payments), whose schema.sql carries the indexes this list needs:
+// filter streamed page by page. Copy it and rename; `example_rows` is
+// a stand-in for the owning skill's table (submissions, bookings,
+// payments), whose schema.sql carries the indexes this list needs:
 //
-//   create index if not exists example_rows_recent on shared.example_rows (created_at desc, id desc);
-//   create index if not exists example_rows_name_trgm on shared.example_rows using gin (name gin_trgm_ops);
-//   create index if not exists example_rows_email_trgm on shared.example_rows using gin ((email::text) gin_trgm_ops);
+//   create index if not exists example_rows_recent on example_rows (created_at desc, id desc);
+//   create index if not exists example_rows_name_trgm on example_rows using gin (name gin_trgm_ops);
+//   create index if not exists example_rows_email_trgm on example_rows using gin ((email::text) gin_trgm_ops);
 //
 // Mount it on the private prefix; `getDb` makes the request's handle (db.ts):
 //   app.route("/admin/rows", adminRoutes(getDb, { base: "/admin/rows", css: "/site.css", timeZone: "America/Chicago" }));
 import { Hono } from "hono";
 import type { Context } from "hono";
-import type { Db, GetDb } from "../shared-data/db";
+import type { Db, GetDb } from "../data/db";
 import { BulkForm } from "./bulk";
 import { csvResponse, type CsvColumn } from "./csv";
 import { FieldList, JsonData, Section } from "./detail";
@@ -62,7 +62,7 @@ export function listPage(db: Db, f: ListFilter, after: Cursor | null, size: numb
   const pat = likePattern(f.q);
   return db.sql<Item>`
     select id::text as id, name, email::text as email, status, created_at, updated_by::text as updated_by, created_at::text as k
-    from shared.example_rows r
+    from example_rows r
     where (${pat}::text is null or r.name ilike ${pat} or r.email::text ilike ${pat})
       and (${f.status}::text is null or r.status = ${f.status})
       and (${after?.k ?? null}::timestamptz is null
@@ -185,7 +185,7 @@ export function adminRoutes(getDb: GetDb, opts: AdminOptions) {
     if (!ids.length) return c.redirect(withFlash(ret, "none-selected"), 303);
     if (!status) return c.redirect(withFlash(ret, "pick-status"), 303);
     const changed = await getDb(c).sql`
-      update shared.example_rows
+      update example_rows
       set status = ${status}, updated_at = now(), updated_by = ${c.get("user")}
       where id = any(${ids}::bigint[]) and status <> ${status}
       returning id`;
@@ -198,7 +198,7 @@ export function adminRoutes(getDb: GetDb, opts: AdminOptions) {
     const [r] = await getDb(c).sql<Full>`
       select id::text as id, name, email::text as email, status, created_at, updated_by::text as updated_by,
              created_at::text as k, data, source, updated_at
-      from shared.example_rows where id = ${id}::bigint`;
+      from example_rows where id = ${id}::bigint`;
     if (!r) return c.notFound();
     const self = `${base}/${r.id}`;
     return c.html(
@@ -248,7 +248,7 @@ export function adminRoutes(getDb: GetDb, opts: AdminOptions) {
     if (!status) return c.text("Choose one of the listed statuses.", 400);
     const ret = localPath(str(body.return), base, `${base}/${id}`);
     const [row] = await getDb(c).sql<Item>`
-      update shared.example_rows
+      update example_rows
       set status = ${status}, updated_at = now(), updated_by = ${c.get("user")}
       where id = ${id}::bigint
       returning id::text as id, name, email::text as email, status, created_at, updated_by::text as updated_by, created_at::text as k`;

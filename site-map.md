@@ -1,9 +1,9 @@
 # Site map
 
 The plan for this site, and the ledger of a migration when there was an
-old site. The AI fills it with the owner (the `migrate-site` skill); the
-build reads nothing from it, but `npm run check` holds the pages and the
-redirect table to it.
+old site. The AI fills it (the `pages` skill, or `migrate-site` for a site
+replaced page for page); the build reads nothing from it, but `npm run
+check` holds the pages and the redirect table to it.
 
 ## Decisions
 

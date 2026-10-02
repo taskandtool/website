@@ -32,11 +32,6 @@ export function Section({
   );
 }
 
-/** The small line above a heading. Use it only when it adds orientation. */
-export function Eyebrow({ children }: { children?: Child }) {
-  return <p class="text-label uppercase text-ink-3">{children}</p>;
-}
-
 /** The primary action: one per section at most. */
 export function Button({
   href,
