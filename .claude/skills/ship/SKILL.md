@@ -30,7 +30,7 @@ print(serving_status())
 
 ## Publishing to production
 
-1. Finish the work: `npm run check`, `npm run typecheck`, `npm run audit`
+1. Finish the work: `npm run check`, `npm run typecheck`, `npm run build && npm run lint`, `npm run audit`
    (the crawler's audit against dev: broken links, headings, alt text,
    labels, link text, title and description lengths, page weight,
    sitemap), and a look at the pages in the browser. Fix what the audit

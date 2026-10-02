@@ -10,8 +10,7 @@ const page: Page = {
 function Body() {
   return (
     <Section labelledBy="nf-title">
-      <p class="text-label uppercase text-ink-3">404</p>
-      <h1 id="nf-title" class="mt-4 max-w-[12ch] text-section">There is no page here.</h1>
+      <h1 id="nf-title" class="max-w-[12ch] text-section">There is no page here.</h1>
       <p class="mt-6 max-w-md text-lede text-ink-2">
         The address may have changed, or the link was wrong. The home page has everything.
       </p>

@@ -6,8 +6,8 @@ brand's colours and fonts, the roles they play, the scale, edges, rhythm);
 this file explains them and is updated from the brand notes in `brand/`
 (`BRAND.md`, and "Updating from the brand" at the end of this file). Change
 a value there, then update its row here. The AI reads this file before it
-designs or changes a page, and `npm run check` enforces the parts that can
-be checked. Sections follow the common DESIGN.md order so any tool that
+designs or changes a page; `npm run check` (the theme) and `npm run lint`
+(the rendered pages) enforce the parts that can be checked. Sections follow the common DESIGN.md order so any tool that
 reads the format finds what it expects.
 
 ## Identity
@@ -85,7 +85,7 @@ Rules:
 - Photographs, product shots, and the brand's own artwork carry colour. The
   interface around them stays in the palette above.
 - A new colour needs a brand entry, a role token, and a row here. No hex
-  values in markup (`npm run check` refuses them).
+  values in markup (`npm run lint` refuses them).
 
 ## Typography Rules
 
@@ -224,9 +224,17 @@ Don't:
 - Grey-on-grey body text, tiny labels, or missing focus states.
 - Hex values, Tailwind default colours, `tracking-*`, `leading-*`,
   `font-bold`, gradients, blur, glass, or `animate-*` in page markup
-  (`npm run check` refuses each of these).
+  (`npm run lint` refuses each of these).
 - A page that could belong to a different business after swapping the logo.
 - An Identity block still reading "to fill" on a page presented as done.
+
+## Declared
+
+The patterns `npm run lint` hints at that this site uses on purpose, one line
+each with the reason; the lint is then quiet about them. Only hints can be
+declared, never errors.
+
+<!-- - light-on-dark: the reason, in one sentence -->
 
 ## Agent Prompt Guide
 
@@ -248,7 +256,8 @@ Quick reference for the AI changing this site:
 Before a new page or a redesign: read `.claude/skills/design/SKILL.md` and
 `.claude/skills/writing/SKILL.md`, write the brief and the voice card
 (`brand/voice.md`), explore three directions, pick one, fill the Identity
-block above, then build. After: `npm run check`, render at 390px and
+block above, then build. After: `npm run check`, `npm run build && npm run
+lint`, render at 390px and
 1280px, and run the review gate in the design skill.
 
 ## Updating from the brand

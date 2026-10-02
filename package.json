@@ -12,6 +12,7 @@
     "css:watch": "tailwindcss -i styles/input.css -o static/site.css --watch=always",
     "build": "tsx scripts/build.ts",
     "check": "node scripts/check.mjs",
+    "lint": "node scripts/lint.mjs",
     "typecheck": "tsc --noEmit -p .",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
     "deploy": "python3 scripts/deploy.py"
@@ -28,10 +29,11 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
+    "@types/node": "^22.0.0",
     "esbuild": "^0.28.2",
+    "node-html-parser": "^6.1.13",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.13",
-    "typescript": "^5.9.0",
-    "@types/node": "^22.0.0"
+    "typescript": "^5.9.0"
   }
 }

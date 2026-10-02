@@ -57,7 +57,7 @@ tt-crawl check https://theirdomain.com
                 command="tt-crawl audit https://theirdomain.com")
    ```
 
-   `tt-crawl audit` crawls the live site and reports broken internal links
+   `tt-crawl audit` crawls the production site and reports broken internal links
    and images, broken external links, redirect chains, pages missing a
    title, description, or single h1, duplicate titles, images without alt
    text, canonical tags pointing elsewhere, noindex pages, sitemap drift,

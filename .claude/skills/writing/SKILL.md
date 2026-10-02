@@ -196,7 +196,7 @@ Three checks a word list cannot do (do them on every page):
    none is generic by construction.
 3. At most one triad on the page.
 
-`npm run check` refuses the phrases below in pages and posts (legal pages
+`npm run lint` refuses the phrases below in the rendered pages and posts (legal pages
 are verbatim and exempt). Delete or rewrite:
 
 - openers such as “In today's fast-paced world,” “In a world where,” “Imagine

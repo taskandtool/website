@@ -51,7 +51,7 @@ working from memory.
   and the server restarts on every change, so an edit is in dev on refresh.
   If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
   (idempotent) or register it by hand as the `website` skill says.
-- `npm run check` before showing work; `npm run audit` before publishing
+- `npm run check`, then `npm run build && npm run lint`, before showing work; `npm run audit` before publishing
   (the crawler's health check against the working copy). `npm run build`
   to produce `dist/` and `build/worker.mjs`. `npm run deploy` publishes
   to production (the `ship` skill), when the owner asks.
@@ -65,7 +65,7 @@ working from memory.
   heavy work happen at build time, on this machine.
 - Colours and fonts live in `styles/theme.css` with a row in `DESIGN.md`,
   set from the brand notes. Markup never carries a hex value or a Tailwind
-  default colour; `npm run check` refuses both.
+  default colour; `npm run lint` refuses both.
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.
 - The first deploy opens production to the team; making it public is the

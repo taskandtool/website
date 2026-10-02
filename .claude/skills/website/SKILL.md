@@ -48,9 +48,11 @@ bash ~/app/.taskandtool/setup.sh
 
 Before showing work: `npm run check` (the brand notes present, DESIGN.md and
 the theme in step, contrast of the brand pairs, site-map.md against the
-pages and redirects, page paths, the Cloudflare rule, and the refuse list: no hex or
-default Tailwind colours, gradients, blur, tracking or leading overrides,
-weights above 700, `animate-*`), `npm run typecheck`, and, once the pages
+pages and redirects, page paths, the Cloudflare rule), `npm run typecheck`,
+`npm run build && npm run lint` (the rendered pages: the refuse list,
+contrast where each text actually sits, the copy rules, the reader basics,
+and hints for the patterns that read as generated; fix every error, and
+treat each hint as a question about the design), and, once the pages
 exist, `npm run audit` (the crawler against the working copy: broken links,
 heading order, alt text, form labels, link text, title and description
 lengths, page weight, the sitemap). Then look at the page yourself at
@@ -115,7 +117,7 @@ the facts exist. Compose around them; do not retype a fact into markup.
 4. Build the page from `Section`, the type classes, and the tokens. The
    Tailwind default palette, shadows, radii, blurs, and animations are
    switched off in the theme, so only the site's tokens exist as classes;
-   `npm run check` refuses the rest (`DESIGN.md`: Do's and Don'ts).
+   `npm run lint` refuses the rest (`DESIGN.md`: Do's and Don'ts).
 
 Nested paths work the same way: `/services/roofing` becomes
 `dist/services/roofing.html`.
@@ -154,8 +156,9 @@ from the design library) becomes a page here in five mechanical steps:
    `.map()` over `content`, or the matching section from
    `src/components/facts.tsx`, so each fact lives once, in its note.
 5. Classes stay as they are when they use the site's tokens. Run `npm run
-   check` and `npm run typecheck`; a class the theme does not have is the
-   check's finding to fix, not something to add a token for silently.
+   typecheck`, then `npm run build && npm run lint`; a class the theme does
+   not have is the lint's finding to fix, not something to add a token for
+   silently.
 
 ## The brand, the theme, and the site's facts
 
