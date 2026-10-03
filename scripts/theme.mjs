@@ -46,3 +46,12 @@ export function chromaHue(h) {
 }
 
 export const isHex = (v) => HEX.test(v || "");
+
+// The role pairs the layout and components put text on (WCAG 2.x, 4.5:1):
+// npm run check measures them, from-site seeds colours that pass them.
+export const TEXT_PAIRS = [
+  ["ink", "canvas"], ["ink", "surface"], ["ink", "panel"],
+  ["ink-2", "canvas"], ["ink-2", "panel"], ["ink-3", "canvas"], ["ink-3", "panel"],
+  ["accent", "canvas"], ["accent-ink", "accent"],
+  ["night-ink", "night"], ["night-ink-2", "night"],
+];

@@ -27,7 +27,9 @@ styles/          theme.css (the tokens, compiled from the record) and input.css 
 DESIGN.md        the design system to read, compiled from the record: identity, the role of every token,
                  composition, do and don't
 static/          static files, served as-is
-scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle) · system.mjs (the record → theme.css + DESIGN.md) · check.mjs · lint.mjs
+scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle)
+                 · system.mjs (the record → theme.css, DESIGN.md, src/fonts.ts) · check.mjs · lint.mjs · test.mjs
+                 · verify.mjs (all of them) · from-site.mjs · parts.mjs · images.mjs · shots.mjs · show.mjs
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 AGENTS.md        what the AI reads first; CLAUDE.md imports it
 ```
@@ -75,7 +77,7 @@ starter-app.json       the manifest: what the app needs, what "ready" means, and
 ## Install
 
 **On Task & Tool.** Pick Website when you create an app. The machine clones
-this repository into the app, pinned to a reviewed commit, and runs
+this repository into the app from its main branch and runs
 `.taskandtool/setup.sh` (`npm install`, the CSS, the Obscura browser, the
 `web` service). Nothing is sent into your chat: the manifest's suggestions are
 what an empty chat offers. On machine replacement the clone and the setup
@@ -122,7 +124,7 @@ state (`starter-app.json`'s `when` conditions).
 ## Developing this Starter App
 
 - **Tests:** the crawler's live in its own repo. Here:
-  `npm install && npm run check && npm run typecheck && npm run build`.
+  `npm install && npm run verify`.
   `node_modules/`, `dist/`, `build/` and `static/site.css` are ignored and
   never committed.
 - **Try the skills:** clone it as above and drive Claude Code in the clone.

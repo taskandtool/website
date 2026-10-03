@@ -8,19 +8,22 @@ work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
 machine needs (dependencies, the site reader, the `web` service). All of it
 is the owner's to change.
 
-"Build me a homepage", "build my site" or a link to the business: start
-with the `new-site` skill.
+Which skill to read, by what the owner asks:
 
-The skills: `new-site` (a homepage first, then the whole site), `website`
-(the mechanics: run, change, deploy), `pages` (the page plan and a brief per
-page), `design` and `writing` (the taste bar), `brand` (the brand and fact
-notes), `migrate-site` and `launch-check` (taking over an existing site and
-keeping it audited), and the business skills `forms`, `admin`, `booking`
-and `reports` on `data` (forms, the private `/admin`, a booking page,
-reports; what they store is in the project's database, which the project's
-other apps read too). The platform's
-`deploy` skill says what production is. Read the one that fits the ask
-rather than working from memory.
+- "build me a homepage", "build my site", a link to their business: `new-site`
+- "change the look", "it looks generic", colours, fonts: `design`
+- a new page, the page plan, what a page should say: `pages`
+- words and headlines: `writing`
+- notes about the business, a crawl, a document, photos: `brand`
+- "migrate", "rebuild", "redesign" a site they have: `migrate-site`; the
+  cutover and the weekly audit: `launch-check`
+- a form, a private `/admin`, a booking page, a report or chart: `forms`,
+  `admin`, `booking`, `reports`, all on `data` (what they store is in the
+  project's database, which the project's other apps read too)
+- running, editing code, images, deploying: `website`; what production is:
+  the platform's `deploy` skill
+
+Read the one that fits the ask rather than working from memory.
 
 ## Commands
 
@@ -29,53 +32,38 @@ Each prints what it did and what to read next.
 
 ```bash
 npm run from-site -- <url>   # a first homepage's start, ~20s: reads their homepage, gallery and services page;
-                             # writes the business note, the logo, their photos at web size into static/images/,
-                             # design tokens from their colours and fonts; prints what to read next
+                             # writes the business note, the logo, their photos at web size, design tokens
+                             # from their colours and fonts; prints what it wrote, kept, and what to read next
 npm run parts                # what a page is built from: components and props, the classes, the page shape,
                              # the facts the notes hold, the photos and their sizes
-npm run verify               # check, typecheck, build and lint in one call; stops at the first failure
-npm run show [-- /path]      # whole-page screenshots at desktop and phone width, sent to the chat
-npm run shots [-- /path]     # the same screenshots without sending them (uploads/<page>-<width>/01.png first)
-npm run system               # design/system.yaml -> styles/theme.css + DESIGN.md, after any design change
+npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
+npm run verify               # content, check, typecheck, test, build, lint in one call; stops at the first failure
+npm run shots [-- /path]     # whole-page screenshots at 1280 and 390 wide (uploads/<page>-<width>/01.png first);
+                             # --first-screen, --width N
+npm run show -- --from-shots # the screenshots you looked at, sent to the chat (without the flag it takes them again)
+npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
+npm test                     # the tests under src/ (a skill's tests arrive with its code)
 npm run audit                # the crawler against dev: links, headings, alt text, titles
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)
 ```
 
-Before showing work: `npm run verify`, look at the page with `npm run shots`,
-then `npm run show`.
+The ones with options take `--help`. Before showing work: `npm run verify`, look at the
+page with `npm run shots`, then `npm run show -- --from-shots`.
 
 ## Where things are
 
-- `brand/` is the brand as markdown notes (`BRAND.md`): positioning, voice,
-  audience, visual identity, do and don't, and `logo/`. The site never
-  reads them at runtime; you do, to set `design/system.yaml` and
-  `src/site.ts` from them ("What the AI sets from them" in `BRAND.md`).
-  The `brand` skill writes them, and the facts in `public/`, from whatever
-  the owner gives you: a crawl, a chat, a document, a social profile.
-- `design/system.yaml` is the website's design system as one record: the
-  brand's colours and fonts by role, the type scale, edges, rhythm, the
-  rules with their reasons, and how each kind of content is laid out.
-  `npm run system` compiles it into `styles/theme.css` (the classes) and
-  `DESIGN.md` (the readable contract, with the site's Identity block); never
-  edit those two by hand. Read `DESIGN.md` before designing. The record in
-  the box is a neutral starting point, not a style.
-- `public/` is the facts as notes with typed frontmatter (`FACTS.md`);
-  `posts/` and `legal/` are the collections. `npm run content` turns them
-  into `src/generated/content.json`, which the pages import; the build
-  generates the JSON-LD, sitemap, robots, canonical tags, and validates
-  `src/redirects.ts` from them. A fact lives in a note, once.
-- `src/site.ts` is the site's identity: name, tagline, fonts to load,
-  logo, nav, the real domain (`url`), tracking IDs; contact details come
-  from the business note.
-- `site-map.md` is the page plan and, for a migration, the ledger
-  (`migrate-site` skill). `raw/` is a crawled site when there is one.
-- `src/pages/*.tsx` are the pages; `src/pages/index.ts` lists them.
-  `src/layout.tsx` is the document (head, header, footer).
-  `src/components/index.tsx` holds the shared pieces. `src/app.tsx` is the
-  Hono app. The database, when the app has one, is reached through the
-  `data` skill's handle, copied into `src/data/`.
-- `static/` is served as static files; `styles/input.css` is the stylesheet
-  source, built to `static/site.css`.
+- `brand/` the brand as notes (`BRAND.md`), and `public/` the facts as notes
+  with typed frontmatter (`FACTS.md`); the `brand` skill writes both. A fact
+  lives in a note, once; `npm run content` compiles the notes for the pages.
+- `design/system.yaml` the design system as one record; `npm run system`
+  compiles it. Never edit `styles/theme.css`, `DESIGN.md` or `src/fonts.ts`
+  by hand. Read `DESIGN.md` before designing.
+- `src/site.ts` the name, tagline, logo, nav and real domain;
+  `src/pages/*.tsx` the pages, listed in `src/pages/index.ts`;
+  `src/layout.tsx` the head, header and footer; `src/components/` the shared
+  pieces; `src/app.tsx` the Hono app.
+- `site-map.md` the page plan; `raw/` a crawled site; `static/` files served
+  as they are.
 
 ## The loop
 

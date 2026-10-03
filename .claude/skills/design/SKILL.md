@@ -1,6 +1,6 @@
 ---
 name: design
-description: "The look of this website: the homepage built for real and shown, the first screen, the design system record and how it grows with the site, type, colour, imagery and layout, and the rendered review. Use when building or changing how a page looks, when the owner says change the look or it looks generic, and when the site grows past its homepage."
+description: "Designs the look of this website: the homepage built for real and shown, the first screen, the design system record and how it grows with the site, type, colour, imagery and layout, and the rendered review. Use when building or changing how a page looks, when the owner says change the look or it looks generic, and when the site grows past its homepage."
 ---
 
 # Design
@@ -43,7 +43,7 @@ Most owners judge a design by looking at it.
    `data-lint-allow="<rule>"` on that element and say so in one line.
 5. **Review, commit, show.** The review gate below, then commit (one plain
    line), so any version the owner has seen comes back with one `git
-   checkout`. Then `npm run show`.
+   checkout`. Then `npm run show -- --from-shots`.
 
 Then follow the owner. A small change is an edit to the same page. When
 they want options, or a change worth comparing, build each option as the
@@ -108,7 +108,7 @@ every page:
    with their reasons, the imagery, the motion, `x_layout` for every shape
    of content (not only what the homepage shows), and `identity` from the
    brief. `references/records/` holds two proven library records as worked
-   examples. Then `npm run system`.
+   examples, and `references/authoring.md` ends with a filled identity. Then `npm run system`.
 2. **Rebuild it blind.** Give a sub-agent with a fresh context only
    `design/briefs/home.md`, `public/`, `brand/` and `design/system.yaml`,
    and have it build the homepage as a scratch page at `/rebuild`
@@ -139,25 +139,5 @@ Read the images in order, and answer:
 5. Is every claim on the page in the notes?
 
 Fix the largest problem and look again; the first render always shows
-something the code did not. Then `npm run show` sends the screenshots to
-the chat.
-
-## A worked example
-
-The identity, filled, for a made-up business (a cabinetry workshop):
-
-```text
-Subject:            Fitted kitchens and wardrobes, made and installed by Harlow Joinery
-Audience:           Homeowners in Bristol renovating a kitchen, comparing three or four makers
-One job:            Get a workshop visit booked
-Direction:          Poster on a wall: the work said plainly, in heavy type, with black edges
-Source:             The workshop's own job sheets and the hand-lettered boards outside it
-Signature:          The hero block on a hard shadow with the giant word MADE in its foot
-Rejection:          The kitchen-showroom site: soft photos, a centred slogan, three cards of services
-Photography:        Three finished kitchens from this year
-```
-
-Everything on the page follows from those lines: the h1 is the owner's
-claim in their words, the process is four rows because there are four
-steps, and the one motion is the button press. An identity with "premium"
-or "modern" in it has not been written yet.
+something the code did not. Then `npm run show -- --from-shots` sends the
+screenshots you looked at to the chat.

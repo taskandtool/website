@@ -75,7 +75,7 @@
     {
       "id": "update-pages-whose-facts-changed",
       "label": "Update pages whose facts changed",
-      "prompt": "The notes in public/ changed after the pages were last built. Read site-map.md's notes column to find the pages that draw on the changed notes, update them, run npm run content and npm run check, and show me what changed and where.",
+      "prompt": "The notes in public/ changed after the pages were last built. Read site-map.md's notes column to find the pages that draw on the changed notes, update them, run npm run verify, and show me what changed and where.",
       "when": [
         {
           "path": "public",
@@ -91,7 +91,7 @@
     {
       "id": "check-the-launch",
       "label": "Check the launch",
-      "prompt": "Run the launch-check skill against the working copy: npm run check, npm run build, then tt-crawl check against localhost:3000 with raw/site/<host>/_index/inventory.json. Fix what it finds, re-run until clean, and show me the report as a table with what changed.",
+      "prompt": "Run the launch-check skill against the working copy: npm run verify, then tt-crawl check against localhost:3000 with raw/site/<host>/_index/inventory.json. Fix what it finds, re-run until clean, and show me the report as a table with what changed.",
       "when": [
         {
           "path": "raw/site/_sites.json",

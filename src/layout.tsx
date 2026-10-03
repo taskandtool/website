@@ -1,7 +1,9 @@
 // The document around every page: head, header, footer. Pages supply the
-// <main> content. Name, fonts, logo, and contact details come from src/site.ts.
+// <main> content. Name, logo, and contact details come from src/site.ts; the
+// fonts from src/fonts.ts (generated from design/system.yaml).
 import { html, raw } from "hono/html";
 import type { Child } from "hono/jsx";
+import { googleFontsUrl } from "./fonts";
 import { site, pageTitle, logoUrl, canonicalUrl, formatHours, type Page } from "./site";
 
 export function Layout({ page, children }: { page: Page; children?: Child }) {
@@ -15,11 +17,11 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         <meta property="og:title" content={pageTitle(page)} />
         <meta property="og:description" content={page.description} />
         <meta property="og:type" content="website" />
-        {site.fonts.googleFontsUrl ? (
+        {googleFontsUrl ? (
           <>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-            <link rel="stylesheet" href={site.fonts.googleFontsUrl} />
+            <link rel="stylesheet" href={googleFontsUrl} />
           </>
         ) : null}
         <link rel="stylesheet" href="/site.css" />

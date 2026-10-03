@@ -1,6 +1,7 @@
 // What the whole site knows about itself. The AI writes the literals below
-// from the brand notes (positioning.md for the name and lines,
-// visual-identity.md for the fonts and logo; BRAND.md). Contact details,
+// from the brand notes (positioning.md for the lines, the logo from
+// brand/logo/; BRAND.md); the fonts come from design/system.yaml through
+// src/fonts.ts. The name, contact details,
 // hours, and social links come from the `business` note in public/ when it
 // has them (FACTS.md), so the footer never carries a second copy of a fact.
 // Edge-safe: no filesystem, no Node built-ins.
@@ -42,13 +43,6 @@ export const site = {
   social: (Array.isArray(business.same_as) ? Object.fromEntries(business.same_as.map((u: string) => [hostLabel(u), u])) : {}) as Record<string, string>,
   /** A file under brand/logo/, served at /brand/logo/<file>; empty sets the name as text. */
   logo: { file: "", alt: "" },
-  fonts: {
-    display: "Bricolage Grotesque",
-    body: "Inter",
-    /** The Google Fonts stylesheet loading them, or "" for self-hosted or system fonts. */
-    googleFontsUrl:
-      "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap",
-  },
   /** Analytics and verification IDs carried over from the old site (the
    *  inventory's `tracking`), rendered by the layout. Empty = nothing rendered. */
   tracking: { ga4: "", metaPixel: "", searchConsole: "" },

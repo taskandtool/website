@@ -1,6 +1,6 @@
 ---
 name: launch-check
-description: "Check a rebuilt site against the old one, before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the cutover keeps email working — then keep the live site audited weekly. Use before deploying a migrated site, after the cutover, and on an audit alert."
+description: "Checks a rebuilt site against the old one, before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, the cutover keeps email working; then keeps the live site audited weekly. Use before deploying a migrated site, after the cutover, and on an audit alert."
 ---
 
 # Launch check
@@ -12,7 +12,7 @@ crawls the new site against it.
 ## Before deploying (in dev)
 
 ```bash
-npm run check && npm run build
+npm run verify
 tt-crawl check http://localhost:3000    # the inventory is the one raw/site/<host>; the report goes to raw/audit/<host>/launch-<date>.md
 ```
 

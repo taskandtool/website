@@ -13,9 +13,10 @@
 // quiet. One element can opt out of one rule with data-lint-allow="rule-id"
 // (an owner who insists on a phrase, a decorative exception), on it or an
 // ancestor. Legal pages are verbatim and exempt from the copy rules.
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "node-html-parser";
+import { walk } from "./files.mjs";
 import { chromaHue, luminance, ratio, readTheme } from "./theme.mjs";
 
 if (!existsSync("dist/index.html")) {
@@ -24,11 +25,6 @@ if (!existsSync("dist/index.html")) {
 }
 const { colours } = readTheme();
 
-const walk = (dir) =>
-  readdirSync(dir).flatMap((e) => {
-    const p = join(dir, e);
-    return statSync(p).isDirectory() ? walk(p) : [p];
-  });
 
 // ── what the site declares and what the CSS defines ──────────────────────
 const design = readFileSync("DESIGN.md", "utf8");

@@ -124,3 +124,23 @@ A fresh builder, given only `design/briefs/home.md`, the facts and this record,
 should produce the homepage again: the blind rebuild in the design
 skill's "When the site grows". Where the rebuild differs, the record left something out;
 add it to the record, not to the page.
+
+## A worked example: the identity
+
+The identity, filled, for a made-up business (a cabinetry workshop):
+
+```text
+Subject:            Fitted kitchens and wardrobes, made and installed by Harlow Joinery
+Audience:           Homeowners in Bristol renovating a kitchen, comparing three or four makers
+One job:            Get a workshop visit booked
+Direction:          Poster on a wall: the work said plainly, in heavy type, with black edges
+Source:             The workshop's own job sheets and the hand-lettered boards outside it
+Signature:          The hero block on a hard shadow with the giant word MADE in its foot
+Rejection:          The kitchen-showroom site: soft photos, a centred slogan, three cards of services
+Photography:        Three finished kitchens from this year
+```
+
+Everything on the page follows from those lines: the h1 is the owner's
+claim in their words, the process is four rows because there are four
+steps, and the one motion is the button press. An identity with "premium"
+or "modern" in it has not been written yet.

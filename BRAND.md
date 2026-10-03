@@ -10,8 +10,8 @@ with the `brand` skill, then reads the notes and sets the site from them.
 ```
 brand/
   positioning.md       what the business does, for whom, what makes it different;
-                       the name as it should appear, the tagline, a description;
-                       contact details and social links
+                       the name as it should appear, the tagline, a description
+                       (contact details and social links are facts, in public/business.md)
   voice.md             the voice card, three example sentences, and the fingerprint: signatures
                        with quoted evidence, the never-list, rewrite pairs, the lexicon, how the
                        sentences run, tone by surface (website, ad, post, email), sources
@@ -37,10 +37,11 @@ Two files, in this order, whenever the brand changes:
    `styles/theme.css` and `DESIGN.md`. A brand colour that fails 4.5:1 as
    text gets a different role, never a squint; `npm run check` measures the
    pairs.
-2. **`src/site.ts`**: the name, tagline, description, locale, contact
-   details, social links, logo file, and the fonts' Google Fonts URL (or
-   self-hosted fonts in `static/fonts/` with `@font-face` in
-   `styles/input.css`), from `positioning.md` and `visual-identity.md`.
+2. **`src/site.ts`**: the name, tagline, description, locale and logo
+   file, from `positioning.md` and `visual-identity.md`. Contact details
+   and social links come from `public/business.md`, and the fonts' link
+   from the record (`npm run system` writes `src/fonts.ts`; self-hosted
+   fonts go in `static/fonts/` with `@font-face` in `styles/input.css`).
 
 Then the pages, through the `design` and `writing` skills, with
 `voice.md` as the voice card.

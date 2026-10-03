@@ -14,8 +14,9 @@
 // Exit 1 with the findings when something is off.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { DESIGN, RECORD, THEME, designMd, problems, readRecord, themeCss } from "./system.mjs";
-import { isHex, ratio, readTheme } from "./theme.mjs";
+import { DESIGN, FONTS, RECORD, THEME, designMd, fontsTs, problems, readRecord, themeCss } from "./system.mjs";
+import { walk } from "./files.mjs";
+import { TEXT_PAIRS, isHex, ratio, readTheme } from "./theme.mjs";
 
 const findings = [];
 const { source: theme, colour } = readTheme();
@@ -34,18 +35,13 @@ const recordProblems = problems(record);
 for (const p of recordProblems) findings.push(`${RECORD}: ${p}`);
 if (!recordProblems.length) {
   if (theme !== themeCss(record)) findings.push(`${THEME} does not match ${RECORD}: change the record and run npm run system`);
+  if (!existsSync(FONTS) || readFileSync(FONTS, "utf8") !== fontsTs(record)) findings.push(`${FONTS} does not match ${RECORD}: run npm run system`);
   if (readFileSync(DESIGN, "utf8") !== designMd(record)) findings.push(`${DESIGN} does not match ${RECORD}: change the record and run npm run system`);
 }
 
 // contrast of the role pairs the layout and components use (WCAG 2.x)
 const resolved = Object.fromEntries(["canvas", "panel", "surface", "accent", "accent-ink", "ink", "ink-2", "ink-3", "night", "night-ink", "night-ink-2"].map((n) => [n, colour(n)]));
-const pairs = [
-  ["ink", "canvas"], ["ink", "surface"], ["ink", "panel"],
-  ["ink-2", "canvas"], ["ink-2", "panel"], ["ink-3", "canvas"], ["ink-3", "panel"],
-  ["accent", "canvas"], ["accent-ink", "accent"],
-  ["night-ink", "night"], ["night-ink-2", "night"],
-];
-for (const [fg, bg] of pairs) {
+for (const [fg, bg] of TEXT_PAIRS) {
   const [a, b] = [resolved[fg], resolved[bg]];
   if (!isHex(a) || !isHex(b)) continue;
   const r = ratio(a, b);
@@ -53,12 +49,6 @@ for (const [fg, bg] of pairs) {
 }
 
 // pages
-function walk(dir) {
-  return readdirSync(dir).flatMap((e) => {
-    const p = join(dir, e);
-    return statSync(p).isDirectory() ? walk(p) : [p];
-  });
-}
 const pageFiles = walk("src/pages").filter((f) => f.endsWith(".tsx"));
 const seen = new Map();
 for (const file of pageFiles) {
@@ -105,16 +95,29 @@ if (existsSync("public")) {
 try {
   const gen = JSON.parse(readFileSync("src/generated/content.json", "utf8"));
   for (const p of gen.posts) if (!/^\d{4}-\d{2}-\d{2}$/.test(p.date)) findings.push(`posts/${p._file}: date must be YYYY-MM-DD`);
-  if (gen.facts.business && gen.facts.business.name && gen.facts.business.telephone && !/^\+?[0-9 ()-]{6,}$/.test(gen.facts.business.telephone)) findings.push(`public/business.md: telephone does not look like a phone number`);
+  const b = gen.facts.business || {};
+  if (b.name && b.telephone && !/^\+?[0-9 ().-]{6,}$/.test(b.telephone)) findings.push(`public/business.md: telephone "${b.telephone}" does not look like a phone number (digits, spaces, dots, dashes, brackets)`);
+  if (b.time_zone) {
+    try {
+      new Intl.DateTimeFormat("en", { timeZone: b.time_zone });
+    } catch {
+      findings.push(`public/business.md: time_zone "${b.time_zone}" is not an IANA zone (e.g. America/New_York, Europe/London)`);
+    }
+  }
 } catch {
   console.log("note: src/generated/content.json missing; run npm run content");
 }
 
-// the edge rule
-const nodeImport = /from\s+["'](node:[a-z_/]+|(?:fs|path|child_process|os|net|crypto|http|https|stream|url|util)(?:\/[a-z_]+)?)["']/;
+// the edge rule: what ships to Cloudflare. Tests (a test/ folder or a
+// *.test.ts file, copied with a skill's code) run on this machine and never
+// ship, so they may use Node.
+const nodeImport = /(?:from\s+|import\s*\(\s*|require\s*\(\s*)["'](node:[a-z_/]+|(?:fs|path|child_process|os|net|crypto|http|https|stream|url|util)(?:\/[a-z_]+)?)["']/;
+// comments out, strings kept: a "/api/*" route must not open a comment
+const code = (src) => src.replace(/("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`)|\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, (m, str) => str ?? "");
 for (const file of walk("src")) {
-  const src = readFileSync(file, "utf8");
-  if (file !== join("src", "server.ts")) {
+  // comments may show a machine-side usage; only code counts
+  const src = code(readFileSync(file, "utf8"));
+  if (file !== join("src", "server.ts") && !/(^|\/)test\/|\.test\.tsx?$/.test(file)) {
     const m = src.match(nodeImport);
     if (m) findings.push(`${file} imports ${m[1]}: Node built-ins cannot run in production on Cloudflare (only src/server.ts may)`);
   }

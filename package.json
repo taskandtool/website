@@ -19,7 +19,9 @@
     "show": "node scripts/show.mjs",
     "parts": "node scripts/parts.mjs",
     "from-site": "node scripts/from-site.mjs",
+    "images": "node scripts/images.mjs",
     "typecheck": "tsc --noEmit -p .",
+    "test": "node scripts/test.mjs",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
     "deploy": "npm run build && python3 ~/tools/taskandtool.py deploy dist --worker build/worker.mjs"
   },
@@ -36,8 +38,10 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "@types/node": "^22.0.0",
+    "@types/pg": "^8.23.1",
     "esbuild": "^0.28.2",
     "node-html-parser": "^6.1.13",
+    "pg": "^8.23.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.13",
     "typescript": "^5.9.0"
