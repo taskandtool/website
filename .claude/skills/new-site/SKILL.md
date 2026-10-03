@@ -24,15 +24,21 @@ Read the folders and carry on from where they are:
 
 ## The homepage
 
-1. **Start from their site:** `npm run from-site -- <url>`. In seconds it
-   crawls the homepage and does the mechanical part: the business note,
-   the logo, the sharp photographs at web size, the fonts, and design
-   tokens seeded from their colours. Read what it prints. With a name and
-   no link, find their website first (a search connection when the app
-   has one, otherwise your own web search) and say in one line who you
-   found.
-2. **Write `public/services.md`** from the homepage's words, with the
+1. **Start from their site:** `npm run from-site -- <url>` (about 20
+   seconds). It reads their homepage, gallery and services page and does
+   the mechanical part: the business note, the logo, their photographs at
+   web size in `static/images/`, the fonts, and design tokens seeded from
+   their colours; it prints what to read next. With a name and no link,
+   find their website first (a search connection when the app has one,
+   otherwise your own web search) and say in one line who you found.
+2. **Write `public/services.md`** from the services page it names, with the
    `brand` skill's rules.
+
+What a page is built from (`npm run parts`; if the list is not shown here,
+run it):
+
+!`npm run --silent parts 2>/dev/null || true`
+
 3. **Design and build it:** the `design` skill's "The homepage first", and
    its first screen above all. The owner is deciding whether to trust you
    with the rest of the site.

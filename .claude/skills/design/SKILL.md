@@ -38,12 +38,12 @@ Most owners judge a design by looking at it.
    by role, fonts, sizes, radii), then `npm run system`. The tokens are all
    a first page needs.
 4. **Build the page** in `src/pages/home.tsx` (the `website` skill's "How a
-   page is written"), then `npm run build && npm run lint` and fix what is a
-   mistake. When the owner asked for something the lint flags, put
+   page is written"; `npm run parts` lists what it is built from), then
+   `npm run verify` and fix what is a mistake. When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so in one line.
 5. **Review, commit, show.** The review gate below, then commit (one plain
    line), so any version the owner has seen comes back with one `git
-   checkout`. Show the screenshots.
+   checkout`. Then `npm run show`.
 
 Then follow the owner. A small change is an edit to the same page. When
 they want options, or a change worth comparing, build each option as the
@@ -116,7 +116,7 @@ every page:
    Where they differ in a way the owner would notice, the record left it
    out: add it, rebuild once more, then delete the scratch page. Without a
    sub-agent, skip this and say so.
-3. **Check it:** `npm run check`, `npm run build && npm run lint`.
+3. **Check it:** `npm run verify`.
 
 The other pages then follow the record (the `pages` skill). A later change
 to the look is a change to the record.
@@ -126,10 +126,10 @@ to the look is a change to the record.
 Look at the rendered page, never the code:
 
 ```bash
-npm run shots          # uploads/home-1280.png and uploads/home-390.png
+npm run shots          # the whole page at 1280 and 390 wide: uploads/home-1280/01.png, 02.png …, uploads/home-390/…
 ```
 
-Read both, and answer:
+Read the images in order, and answer:
 
 1. Can a stranger name the business, the offer and the next action at once?
 2. Is the first screen clearly better than their current homepage's
@@ -139,8 +139,8 @@ Read both, and answer:
 5. Is every claim on the page in the notes?
 
 Fix the largest problem and look again; the first render always shows
-something the code did not. Then show the screenshots with
-`create_deliverables` from `tools/taskandtool.py`.
+something the code did not. Then `npm run show` sends the screenshots to
+the chat.
 
 ## A worked example
 

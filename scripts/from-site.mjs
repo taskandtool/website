@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 // A first homepage's starting point from the business's current site:
-// `npm run from-site -- https://theirsite.com`.
+// `npm run from-site -- https://theirsite.com [--only-homepage] [--json]`.
 //
-// Crawls the homepage when it has not been (tt-crawl brand --max-pages 1),
-// then does by script what needs no judgement: the business note's facts
+// Reads the homepage (tt-crawl brand --max-pages 1), then, unless
+// --only-homepage, the pages it links to that hold photographs (gallery,
+// photos, portfolio, projects, our work: two at most) and its services page,
+// all at once (tt-crawl add). Then it does by script what needs no
+// judgement: the business note's facts
 // (cited to the crawl), the logo into brand/logo/, the sharpest photographs
 // into static/images/ at web size, the site's name, fonts and logo in
 // src/site.ts, and design tokens in design/system.yaml seeded from the
@@ -16,17 +19,38 @@ import { join } from "node:path";
 import YAML from "yaml";
 import { chromaHue, luminance, ratio } from "./theme.mjs";
 
-const url = process.argv[2];
+const args = process.argv.slice(2);
+const url = args.find((a) => !a.startsWith("--"));
+const onlyHomepage = args.includes("--only-homepage");
+const asJson = args.includes("--json");
 if (!/^https?:\/\//.test(url || "")) {
-  console.error("usage: npm run from-site -- https://theirsite.com");
+  console.error(`from-site needs the business's site as a full URL.
+  Try: npm run from-site -- https://theirsite.com
+  Options: --only-homepage (skip the gallery and services pages), --json (the summary as JSON)`);
   process.exit(1);
 }
 const host = new URL(url).hostname.replace(/^www\./, "");
 const dir = `raw/site/${host}`;
-if (!existsSync(join(dir, "_index/facts.json"))) {
-  execFileSync("tt-crawl", ["brand", url, "--max-pages", "1"], { stdio: ["ignore", "ignore", "inherit"] });
-}
 const read = (f, fallback) => (existsSync(join(dir, f)) ? JSON.parse(readFileSync(join(dir, f), "utf8")) : fallback);
+const crawl = (cmd) => execFileSync("tt-crawl", cmd, { stdio: ["ignore", "ignore", "pipe"] });
+try {
+  if (!existsSync(join(dir, "_index/facts.json"))) crawl(["brand", url, "--max-pages", "1"]);
+} catch (e) {
+  console.error(`from-site: could not read ${url}: ${String(e.stderr || e.message).trim().split("\n").pop()}
+  Is the address right? Try it in curl: curl -sI ${url}`);
+  process.exit(1);
+}
+// The pages that carry what a homepage needs beyond the homepage itself.
+const pagesRead = new Set((read("_index/manifest.json", {}).pages || []).map((p) => p.url));
+const linked = (read("_index/inventory.json", {}).records || []).map((r) => r.url).filter((u) => !pagesRead.has(u));
+const photoPages = linked.filter((u) => /\/(gallery|photos?|portfolio|projects|our-work|work)(\/|$)/i.test(new URL(u).pathname)).slice(0, 2);
+const servicesPage = linked.find((u) => /\/(services?|what-we-do)\/?$/i.test(new URL(u).pathname));
+const extra = onlyHomepage ? [] : [...photoPages, servicesPage].filter(Boolean);
+if (extra.length) {
+  try {
+    crawl(["add", ...extra]);
+  } catch {}
+}
 const facts = read("_index/facts.json", {});
 const markup = read("structured/business.json", {});
 const styles = read("_index/styles.json", { colors: [], fonts: [], roles: {} });
@@ -68,9 +92,9 @@ if (logo) {
   done.push(`brand/logo/${logoFile} (${logo.width}x${logo.height})`);
 }
 const photos = media
-  .filter((it) => it.kind === "photo" && it.file && (it.width || 0) >= 1200 && existsSync(fileOf(it)))
+  .filter((it) => it.kind === "photo" && it.file && (it.width || 0) >= 800 && existsSync(fileOf(it)))
   .sort((a, b) => (b.width || 0) - (a.width || 0))
-  .slice(0, 8);
+  .slice(0, 16);
 mkdirSync("static/images", { recursive: true });
 // At most 2400px wide for the web: ffmpeg, else Pillow; a photograph neither
 // can shrink is left out rather than shipped at its full size.
@@ -93,9 +117,10 @@ const shown = photos.flatMap((it) => {
   const name = it.file.replace(/\.(png|jpe?g|webp)$/i, ".jpg");
   if (!existsSync(join("static/images", name)) && !webSize(fileOf(it), join("static/images", name), it.width)) return [];
   const where = it.pages?.[0]?.heading ? ` beside "${it.pages[0].heading}"` : "";
-  return [`/images/${name}  ${it.width}x${it.height}${where}${it.alts?.[0] ? ` alt "${it.alts[0]}"` : ""}`];
+  const fits = it.width >= 2000 ? "  full width" : "";
+  return [`/images/${name}  ${it.width}x${it.height}${fits}${where}${it.alts?.[0] ? ` alt "${it.alts[0]}"` : ""}`];
 });
-if (shown.length) done.push(`static/images/: ${shown.length} photographs at most 2400px wide`);
+if (shown.length) done.push(`static/images/: ${shown.length} photographs, at most 2400px wide`);
 
 // ── colours and fonts ─────────────────────────────────────────────────────
 const solid = (c) => (/^#[0-9a-f]{6}$/i.test(c) ? c.toLowerCase() : null);
@@ -161,12 +186,35 @@ if (headFont && bodyFont && readFileSync("src/site.ts", "utf8").includes('displa
   done.push(`src/site.ts: ${[...new Set([headFont, bodyFont])].join(" and ")} from Google Fonts${logoFile ? ", the logo" : ""}`);
 }
 
-console.log(`from-site: ${host}
+// ── what the agent reads next ─────────────────────────────────────────────
+const pageFile = (u) => (read("_index/manifest.json", {}).pages || []).find((p) => p.url === u)?.file;
+const services = servicesPage && pageFile(servicesPage);
+const summary = {
+  site: host,
+  wrote: done,
+  homepage_words: `${dir}/pages/index.md`,
+  services_words: services ? `${dir}/${services}` : null,
+  looks_today: `${dir}/shots/index/`,
+  colours_by_use: palette.slice(0, 8),
+  fonts,
+  photographs: shown,
+  next: [
+    services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
+    "design and build the homepage: the design skill's \"The homepage first\"",
+  ],
+};
+if (asJson) {
+  console.log(JSON.stringify(summary, null, 2));
+} else {
+  console.log(`from-site: ${host}
 ${done.map((d) => `  ${d}`).join("\n")}
 
-The homepage's words:    ${dir}/pages/index.md
-How it looks today:      ${dir}/shots/index/
-Colours by use:          ${palette.slice(0, 8).join(" ")}
+The homepage's words:    ${summary.homepage_words}${summary.services_words ? `\nThe services page:       ${summary.services_words}` : ""}
+How it looks today:      ${summary.looks_today}
+Colours by use:          ${summary.colours_by_use.join(" ")}
 Fonts:                   ${fonts.join(", ") || "none read"}
-Photographs:
-${shown.map((s) => `  ${s}`).join("\n") || "  none sharp enough for a full-width image"}`);
+Photographs (in static/images/, at most 2400px wide; "full width" ones can run edge to edge):
+${shown.map((s) => `  ${s}`).join("\n") || "  none sharp enough for a full-width image"}
+
+Next: ${summary.next.join("; then ")}.`);
+}

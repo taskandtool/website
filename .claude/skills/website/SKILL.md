@@ -49,16 +49,14 @@ bash ~/app/.taskandtool/setup.sh
 Before showing work:
 
 ```bash
-npm run check                    # the project: the design record, contrast, page paths, the site map, the Cloudflare rule
-npm run build && npm run lint    # the rendered pages: errors to fix, hints to read as questions
-npm run shots                    # uploads/home-1280.png and home-390.png (npm run shots -- /services for another page)
+npm run verify                   # check, typecheck, build, lint; stops at the first failure and says what to fix
+npm run shots                    # whole page at 1280 and 390 wide: uploads/home-1280/01.png first (-- /services for another page)
+npm run show                     # the same screenshots, sent to the chat as one group
 ```
 
-Look at the screenshots yourself, then show them with `create_deliverables`
-from `tools/taskandtool.py`, so the owner sees the page in the chat, not a
-description of it. `npm run typecheck` after a change to `src/`, and `npm
-run audit` (the crawler against dev: links, headings, alt text, titles)
-once there are several pages.
+Look at the screenshots yourself before `show`, so what the owner sees is
+what you checked. `npm run audit` (the crawler against dev: links,
+headings, alt text, titles) once there are several pages.
 
 ## The shape
 
@@ -81,7 +79,7 @@ src/data/         the database handle and settings, copied from the data skill w
 src/server.ts     the machine entry (Node); src/worker.ts the production (Cloudflare) entry
 styles/input.css  the stylesheet source → static/site.css
 static/           static files, served as-is: images, favicon (robots.txt and sitemap.xml are generated)
-scripts/          dev.mjs · content.mjs · build.ts · system.mjs · check.mjs · lint.mjs · shots.mjs · from-site.mjs
+scripts/          dev.mjs · content.mjs · build.ts · system.mjs · check.mjs · lint.mjs · verify.mjs · shots.mjs · show.mjs · parts.mjs · from-site.mjs
 ```
 
 ## The facts, the collections, and what the build generates
@@ -154,9 +152,8 @@ here in five mechanical steps:
    `.map()` over `content`, or the matching section from
    `src/components/facts.tsx`, so each fact lives once, in its note.
 5. Classes stay as they are when they use the site's tokens. Run `npm run
-   typecheck`, then `npm run build && npm run lint`; a class the theme does
-   not have is the lint's finding to fix, not something to add a token for
-   silently.
+   verify`; a class the theme does not have is the lint's finding to fix,
+   not something to add a token for silently.
 
 ## The brand, the theme, and the site's facts
 
@@ -212,10 +209,9 @@ every change; on a one-off run `npm run css`.
 The platform's `deploy` skill says what production is and when to deploy;
 this is the site's part, every time:
 
-1. **The checks pass.** `npm run check`, `npm run typecheck`, `npm run
-   build && npm run lint`, and `npm run audit` (broken links, headings, alt
-   text, labels, link text, titles and descriptions, page weight, the
-   sitemap). Fix what they list.
+1. **The checks pass.** `npm run verify`, then `npm run audit` (broken
+   links, headings, alt text, labels, link text, titles and descriptions,
+   page weight, the sitemap). Fix what they list.
 2. **The brand holds.** Every fact on a changed page comes from `public/`:
    no customer, number, price, award or quote that is not in the notes. The
    copy reads in `brand/voice.md`'s voice (the `writing` skill's pass).

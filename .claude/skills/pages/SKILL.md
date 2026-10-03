@@ -97,15 +97,15 @@ From its brief, in the record:
 
 ## 4. Check and show
 
-1. `npm run check`, then `npm run build && npm run lint`: fix every error,
-   read every hint as a question about the page.
+1. `npm run verify`: fix every error, read every hint as a question about
+   the page.
 2. The website skill's `seo.md` by hand: one h1, headings in order, internal
    links with descriptive text, real alt text.
-3. Screenshot at 390px and 1280px (the design skill's review gate), look,
-   and fix what the screenshots show.
-4. Mark the row `built` in `site-map.md`, and show the pages as one group of
-   screenshots with `create_deliverables`, one line each, then the one line
-   of what would make them better (the `NEED:`s, rolled up).
+3. `npm run shots -- /path` for each page (the design skill's review gate),
+   look, and fix what the screenshots show.
+4. Mark the row `built` in `site-map.md`, show each page (`npm run show --
+   /path`), then the one line of what would make them better (the
+   `NEED:`s, rolled up).
 
 ## Reviews, on any page
 

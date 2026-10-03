@@ -24,23 +24,25 @@ rather than working from memory.
 
 ## Commands
 
-The work is in these scripts; use them rather than doing the same by hand.
+The work is in these scripts; run them rather than doing the same by hand.
+Each prints what it did and what to read next.
 
 ```bash
-npm run from-site -- <url>   # a first homepage's start: crawl their homepage, write the business note,
-                             # copy the logo and sharp photos, seed design tokens from their colours and fonts
-npm run system               # design/system.yaml -> styles/theme.css + DESIGN.md (after any design change)
-npm run check                # the project: the record, contrast, page paths, site map, the Cloudflare rule
-npm run build                # pre-render every page to dist/ and bundle the Worker
-npm run lint                 # the built pages: errors to fix, hints to read as questions
-npm run shots [-- /path]     # screenshots at 1280 and 390 wide into uploads/, for you and create_deliverables
-npm run typecheck            # after a change to src/
+npm run from-site -- <url>   # a first homepage's start, ~20s: reads their homepage, gallery and services page;
+                             # writes the business note, the logo, their photos at web size into static/images/,
+                             # design tokens from their colours and fonts; prints what to read next
+npm run parts                # what a page is built from: components and props, the classes, the page shape,
+                             # the facts the notes hold, the photos and their sizes
+npm run verify               # check, typecheck, build and lint in one call; stops at the first failure
+npm run show [-- /path]      # whole-page screenshots at desktop and phone width, sent to the chat
+npm run shots [-- /path]     # the same screenshots without sending them (uploads/<page>-<width>/01.png first)
+npm run system               # design/system.yaml -> styles/theme.css + DESIGN.md, after any design change
 npm run audit                # the crawler against dev: links, headings, alt text, titles
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)
 ```
 
-Before showing work: `npm run check`, `npm run build && npm run lint`, then
-`npm run shots`, look at the screenshots, and show them.
+Before showing work: `npm run verify`, look at the page with `npm run shots`,
+then `npm run show`.
 
 ## Where things are
 

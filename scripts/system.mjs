@@ -144,7 +144,7 @@ export function designMd(rec) {
     ...(t.containers ? [`- Widths: ${list("containers", (k) => `max-w-${k}`)}.`] : []),
     ``,
     `## Changing the design`, ``,
-    `Edit \`${RECORD}\` and run \`npm run system\`; then \`npm run check\`, \`npm run build && npm run lint\`.`,
+    `Edit \`${RECORD}\` and run \`npm run system\`; then \`npm run verify\`.`,
     `A new brand colour or font goes into the record's tokens by role, never into markup. How a record is`,
     `written, and how it grows from the first homepage, is the \`design\` skill.`, ``);
   return L.join("\n");
