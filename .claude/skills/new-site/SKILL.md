@@ -38,8 +38,9 @@ Read the folders and carry on from where they are:
    guessed prices. The facts on the page come from this note, through
    `ServicesSection` or `content`, never typed into the markup. When
    `from-site` put logos in `public/proof.md`, look at each and give it its
-   `name` (the organisation) and `kind`; they and any reviews go on the
-   homepage (the `design` skill's "Proof").
+   `name` (the organisation) and `kind` (association, certification,
+   brand they service or stock, partner, client). Every one, and any
+   reviews, go on the homepage (the `design` skill's "Proof").
 
 What a page is built from (`npm run parts`; if the list is not shown here,
 run it):

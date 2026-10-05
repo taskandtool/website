@@ -85,17 +85,16 @@ proud to send the link.
 - **Colour.** Every colour has a job; the accent is for actions. Contrast
   holds in every state: hover, focus, over a photograph.
 - **Imagery.** A generated image is described apart from the layout:
-  subject, composition, light, crop and the empty space the words need.
-  Words stay in HTML, never baked into an image.
+  subject, composition, light, crop and the space the words need. Words
+  stay in HTML, never baked into an image.
 - **Motion.** One orchestrated moment, or none. Nothing waits behind it,
   and reduced motion shows the finished page.
-- **Proof.** Their own logos of clients, partners, associations and
-  certifications, and their reviews word for word (`public/proof.md`; the
-  `MarksSection` and `ProofSection` components), go on the homepage and
-  every service page whenever the note holds any: logos near the promise or
-  the action, reviews where a visitor decides. Their old site's proof left
-  off the new one is a regression. Real proof is content, never a default
-  to refuse; only invented or generic proof is.
+- **Proof.** The logos and reviews in `public/proof.md` (`MarksSection`,
+  `ProofSection`) go on the homepage and every service page: every logo,
+  under an honest label for its kind (members of, certified by, brands we
+  service, partners, clients), near the promise or the action; reviews
+  word for word where a visitor decides. Their old site's proof left off
+  is a regression. Real proof is content, never a default to refuse.
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 
