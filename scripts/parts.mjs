@@ -14,9 +14,11 @@ const out = [];
 out.push("Components (import from \"../components\" and \"../components/facts\"):");
 for (const file of ["src/components/index.tsx", "src/components/facts.tsx"]) {
   const src = read(file);
-  for (const m of src.matchAll(/\/\*\*\s*([^*]+?)\s*\*\/\s*export function (\w+)\(\{([^}]*)\}/g)) {
+  // a doc comment on one line or several (each continued with " * ")
+  for (const m of src.matchAll(/\/\*\*((?:(?!\*\/)[\s\S])*)\*\/\s*export function (\w+)\(\{([^}]*)\}/g)) {
     const props = m[3].split(",").map((p) => p.trim().split(/[=\s:]/)[0]).filter(Boolean).join(", ");
-    out.push(`  <${m[2]}${props ? ` ${props}` : ""}>  ${m[1].replace(/\s+/g, " ")}`);
+    const doc = m[1].replace(/^\s*\*\s?/gm, " ").replace(/\s+/g, " ").trim();
+    out.push(`  <${m[2]}${props ? ` ${props}` : ""}>  ${doc}`);
   }
 }
 

@@ -4,10 +4,13 @@
 //
 // Reads the homepage (tt-crawl brand --max-pages 1), then, unless
 // --only-homepage, the pages it links to that hold photographs (gallery,
-// photos, portfolio, projects, our work: two at most) and its services page,
-// all at once (tt-crawl add). Then it does by script what needs no judgement:
-// the business note's facts (cited to the crawl), the logo into brand/logo/,
-// their photographs at web size into static/images/, the logo in
+// photos, portfolio, projects, our work: two at most), its services page and
+// a page of proof (testimonials, reviews, clients, partners), all at once
+// (tt-crawl add). Then it does by script what needs no judgement: the
+// business note's facts (cited to the crawl), the logo into brand/logo/,
+// their photographs at web size into static/images/, the proof (others'
+// logos into static/images/marks/, reviews word for word) into
+// public/proof.md, the logo in
 // src/site.ts, and design tokens in design/system.yaml seeded from the site's
 // own colours and fonts, written only when every text pair npm run check
 // measures reaches 4.5:1. A note, logo or record already filled in is kept,
@@ -60,8 +63,9 @@ const inventory = read("_index/inventory.json", {}).records || [];
 const pathOf = (u) => new URL(u).pathname;
 const photoPages = inventory.map((r) => r.url).filter((u) => /\/(gallery|photos?|portfolio|projects|our-work|work)(\/|$)/i.test(pathOf(u))).slice(0, 2);
 const servicesPage = inventory.map((r) => r.url).find((u) => /\/(services?|what-we-do)\/?$/i.test(pathOf(u)));
+const proofPage = inventory.map((r) => r.url).find((u) => /\/(testimonials?|reviews?|clients?|partners?|our-clients|customers|case-studies)\/?$/i.test(pathOf(u)));
 const isRead = (u) => (manifest().pages || []).some((p) => p.url === u);
-const unread = (onlyHomepage ? [] : [...photoPages, servicesPage]).filter((u) => u && !isRead(u));
+const unread = (onlyHomepage ? [] : [...photoPages, servicesPage, proofPage]).filter((u) => u && !isRead(u));
 if (unread.length) {
   try {
     crawl(["add", ...unread]);
@@ -160,6 +164,38 @@ const shown = photos.flatMap((it) => {
 });
 if (shown.length) wrote.push(`static/images/: ${shown.length} photographs at web size`);
 
+// ── the proof: others' logos and reviews ──────────────────────────────────
+// Every mark the crawl kept (an association, a certification, a partner, a
+// client) goes in static/images/marks/ as it is, and every review word for
+// word, into public/proof.md while it holds none. Naming each mark is the
+// AI's: it looks at the logo.
+const marks = media.filter((it) => it.kind === "mark" && it.file && existsSync(fileOf(it)));
+const reviews = read("_index/reviews.json", []).filter((r) => r.quote && r.name);
+const proofFile = "public/proof.md";
+const proofNote = existsSync(proofFile) ? readFileSync(proofFile, "utf8") : "";
+const [, proofFront = "title: Proof\ntype: proof\nstatus: current", proofBody = ""] = proofNote.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/) || [];
+const proof = YAML.parseDocument(proofFront);
+const proofEmpty = !proof.get("items")?.items?.length && !proof.get("marks")?.items?.length;
+// copied as they are: a logo keeps its transparency, and a second run finds the same file
+const markRows = [];
+if ((marks.length || reviews.length) && proofEmpty) {
+  if (marks.length) mkdirSync("static/images/marks", { recursive: true });
+  for (const it of marks) {
+    const dest = join("static/images/marks", it.file);
+    if (!existsSync(dest)) copyFileSync(fileOf(it), dest);
+    const where = it.pages?.[0]?.beside || it.pages?.[0]?.heading || "";
+    markRows.push({ file: `/images/marks/${it.file}`, alt: realAlt(it.alts?.[0]), where: where.slice(0, 60) });
+  }
+  proof.set("updated", new Date().toISOString().slice(0, 10));
+  proof.set("items", reviews.map((r) => ({ quote: r.quote, who: r.name, platform: r.platform || "", date: r.date || "", ...(r.stars ? { stars: r.stars } : {}), source: `${dir}/_index/reviews.json (${r.url})` })));
+  proof.set("marks", markRows.map((m) => ({ name: m.alt, file: m.file, kind: "", source: `${dir}/_index/media.json` })));
+  proof.set("sources", [`${dir}/_index/reviews.json`, `${dir}/_index/media.json`]);
+  const body = proofBody.trim() || "Real testimonials, and the logos of clients, partners, associations,\ncertifications, awards and press (`marks`), each with its source.";
+  writeFileSync(proofFile, `---\n${proof.toString().trimEnd()}\n---\n\n${body}\n`);
+  wrote.push(`${proofFile}: ${reviews.length} review${reviews.length === 1 ? "" : "s"} word for word, ${markRows.length} logo${markRows.length === 1 ? "" : "s"} of others in static/images/marks/`);
+  if (markRows.some((m) => !m.alt)) notes.push(`name each logo in ${proofFile} (marks: name and kind): look at the image`);
+} else if (marks.length || reviews.length) kept.push(`${proofFile} (already holds proof)`);
+
 // ── the logo in src/site.ts, while it has none ────────────────────────────
 const siteTs = readFileSync("src/site.ts", "utf8");
 const noLogo = /logo: \{ file: "", alt: "" \}/;
@@ -181,7 +217,7 @@ const headFont = [styles.roles.h1?.font, styles.roles.h2?.font].find((f) => f &&
 // Google drop that weight, or the whole family when none is left.
 async function googleWeights(family) {
   const ask = async (q) => {
-    const res = await fetch(`https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}${q}`, { signal: AbortSignal.timeout(8000) });
+    const res = await fetch(`https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}${q}`, { signal: AbortSignal.timeout(15000) });
     return res.ok ? [...new Set([...(await res.text()).matchAll(/font-weight:\s*(\d+)/g)].map((m) => Number(m[1])))] : [];
   };
   try {
@@ -287,10 +323,12 @@ const summary = {
   colours_by_use: palette.slice(0, 8),
   fonts,
   photographs: shown,
+  proof: { logos: markRows.map((m) => `${m.file}${m.alt ? `  "${m.alt}"` : ""}${m.where ? `  beside "${m.where}"` : ""}`), reviews: reviews.length },
   rest_of_site_later: `tt-crawl brand ${manifest().start || url} --resume`,
   next: [
     services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
-    "design and build the homepage: the design skill's \"The homepage first\"",
+    ...(markRows.some((m) => !m.alt) ? [`name the logos in public/proof.md`] : []),
+    "design and build the homepage, with the proof on it: the design skill's \"The homepage first\"",
   ],
 };
 if (asJson) {
@@ -305,6 +343,8 @@ Colours by use:          ${summary.colours_by_use.join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
 Photographs (in static/images/; "full width" ones can run edge to edge):
 ${shown.map((s) => `  ${s}`).join("\n") || "  none 800px or wider"}
+Proof (public/proof.md): ${reviews.length} review${reviews.length === 1 ? "" : "s"}, ${markRows.length} logo${markRows.length === 1 ? "" : "s"} of others${markRows.length ? " (static/images/marks/):" : ""}
+${summary.proof.logos.map((l) => `  ${l}`).join("\n")}
 
 Next: ${summary.next.join("; then ")}.
 Later, the rest of their site: ${summary.rest_of_site_later}`);

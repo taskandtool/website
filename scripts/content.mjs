@@ -31,7 +31,7 @@ const slug = (file) => basename(file, ".md");
 
 // public/: the facts. One note per topic; the frontmatter `type` says how
 // the build reads it (see FACTS.md).
-const facts = { business: null, locations: [], offerings: [], faq: [], proof: [] };
+const facts = { business: null, locations: [], offerings: [], faq: [], proof: [], marks: [] };
 for (const f of notes("public")) {
   const { data, body } = readNote(join("public", f));
   const type = data.type;
@@ -64,6 +64,8 @@ for (const f of notes("public")) {
     }
   } else if (type === "proof") {
     for (const item of data.items ?? []) if (item && item.quote) facts.proof.push({ ...item, _file: f });
+    // a mark shows once it has a file; its name is the image's alt text
+    for (const mark of data.marks ?? []) if (mark && mark.file) facts.marks.push({ ...mark, _file: f });
   }
 }
 // A business note still full of "to fill" is not a fact yet.

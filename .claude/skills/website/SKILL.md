@@ -48,9 +48,9 @@ Before showing work:
 
 ```bash
 npm run verify                   # content, check, typecheck, test, build, lint; stops at the first failure and says what to fix
-npm run shots                    # whole page at 1280 and 390 wide: uploads/home-1280/01.png first
+npm run shots                    # at 1280 and 390 wide: uploads/home-1280/overview.png (a long page), then 01.png …
                                  # (-- /services for another page, --first-screen, --width N)
-npm run show -- --from-shots     # the screenshots you looked at, sent to the chat as one group
+npm run show -- --from-shots     # each page whole, one image per width, sent to the chat
 ```
 
 Look at the screenshots yourself before `show`, so what the owner sees is
@@ -71,7 +71,8 @@ in a note, once; a page that shows it is listed in `site-map.md`'s notes
 column so a change points at the pages.
 
 Sections that render from the notes are ready in `src/components/facts.tsx`:
-`ServicesSection`, `FaqSection`, `ContactSection`, `ProofSection`. Each
+`ServicesSection`, `FaqSection`, `ContactSection`, `ProofSection` (reviews),
+`MarksSection` (their logos of clients, partners and associations). Each
 renders nothing while its note is empty, so a page can include them before
 the facts exist. Compose around them; do not retype a fact into markup.
 `npm run parts` prints the components, their props and the facts there are.

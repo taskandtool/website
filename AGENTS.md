@@ -38,9 +38,10 @@ npm run parts                # what a page is built from: components and props, 
                              # the facts the notes hold, the photos and their sizes
 npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
 npm run verify               # content, check, typecheck, test, build, lint in one call; stops at the first failure
-npm run shots [-- /path]     # whole-page screenshots at 1280 and 390 wide (uploads/<page>-<width>/01.png first);
+npm run shots [-- /path]     # the page at 1280 and 390 wide: uploads/<page>-<width>/overview.png (all of it, when
+                             # longer than one image), then 01.png, 02.png … at full size;
                              # --first-screen, --width N
-npm run show -- --from-shots # the screenshots you looked at, sent to the chat (without the flag it takes them again)
+npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
 npm test                     # the tests under src/ (a skill's tests arrive with its code)
 npm run audit                # the crawler against dev: links, headings, alt text, titles

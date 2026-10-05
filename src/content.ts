@@ -12,6 +12,7 @@ export const content = generated as {
     offerings: Record<string, any>[];
     faq: { question: string; answer: string; answerHtml: string }[];
     proof: Record<string, any>[];
+    marks: { name: string; file: string; kind?: string; source?: string }[];
   };
   posts: { path: string; title: string; date: string; description: string; author: string; tags: string[]; html: string }[];
   legal: { path: string; title: string; updated: string; html: string }[];

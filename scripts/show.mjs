@@ -1,14 +1,16 @@
 #!/usr/bin/env node
-// Screenshots of pages, sent to the chat as one group. Look at them yourself
-// first (npm run shots); this only shows them.
-import { existsSync, readdirSync } from "node:fs";
+// Screenshots of pages, sent to the chat as one group: each page whole at each
+// width, one image apiece (page.png), for the owner to scroll. Look at them
+// yourself first (npm run shots); this only shows them.
+import { existsSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 
 const USAGE = `usage: npm run show [-- /path ...] [--from-shots] [--first-screen] [--width N ...] [--message "…"]
 
-Takes each page whole at desktop (1280) and phone (390) width and sends every
-image to the chat as one group (create_deliverables). /path defaults to /.
+Takes each page whole at desktop (1280) and phone (390) width and sends one
+image of each whole page per width to the chat as one group
+(create_deliverables). /path defaults to /.
   --from-shots     send what npm run shots already took, without taking them again
   --first-screen   only what shows before scrolling
   --width N        a width in pixels; repeat for more
@@ -73,11 +75,18 @@ for (const path of paths) {
   folders.push(...results.map((r) => r.dir));
 }
 
-const files = folders.flatMap((d) => readdirSync(d).filter((f) => f.endsWith(".png")).sort().map((f) => join(d, f)));
+// the whole page in one image when shoot made one, else its strips in order
+const files = folders.flatMap((d) => {
+  const pngs = readdirSync(d).filter((f) => f.endsWith(".png"));
+  // create_deliverables takes images under 8 MB; a longer page goes as strips
+  if (pngs.includes("page.png") && statSync(join(d, "page.png")).size < 7.5 * 1024 * 1024) return [join(d, "page.png")];
+  return pngs.filter((f) => /^\d+\.png$/.test(f)).sort().map((f) => join(d, f));
+});
 const sent = files.slice(0, MAX_ITEMS);
 const items = sent.map((f) => {
   const [page, width] = [f.split("/").slice(-2)[0].replace(/-\d+$/, ""), f.split("/").slice(-2)[0].split("-").pop()];
-  return { path: f, title: `${page}, ${width}px, ${f.split("/").pop()}`, status: "info" };
+  const which = f.endsWith("page.png") ? "the whole page" : f.split("/").pop();
+  return { path: f, title: `${page}, ${width}px, ${which}`, status: "info" };
 });
 
 const py = `import json, os, sys

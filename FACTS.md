@@ -18,7 +18,7 @@ markdown at request time.
 | `location` (one note per site) | the same fields | `LocalBusiness` JSON-LD on its location page (`localBusinessJsonLd` in its `page.jsonLd`) |
 | `offering` | `title`, `price`, `currency`, `unit`, `area_served`; the first paragraph of the body, or, when the body has `## ` headings, one offering per section (the heading its title, its first paragraph the summary, no price) | a service section; `Service` JSON-LD on its page (`serviceJsonLd` in its `page.jsonLd`) |
 | `faq` | none; `## ` headings and the text beneath | an FAQ section, `FAQPage` JSON-LD |
-| `proof` | `items` (quote, who, source, date) | a testimonial strip; never invented |
+| `proof` | `items` (quote, who, platform, date, source); `marks` (name, file, kind, source): the logos of clients, partners, associations, certifications | `ProofSection` (reviews) and `MarksSection` (a logo row); never invented |
 | `entity`, `policy`, `process`, `concept` | none | read by the AI when writing pages |
 
 A field left empty, `null`, or "to fill" is treated as absent: the site

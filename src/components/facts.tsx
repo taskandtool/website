@@ -33,6 +33,26 @@ export function ServicesSection({ id = "services", heading = "What we do" }: { i
   );
 }
 
+/** The logos of the business's clients, partners, associations and
+ *  certifications (the proof note's `marks`), as one row at their own
+ *  colours; a short heading says what they are. Renders nothing without marks. */
+export function MarksSection({ id = "marks", heading = "Trusted by and members of" }: { id?: string; heading?: string }) {
+  const items = content.facts.marks;
+  if (!items.length) return null;
+  return (
+    <Section id={id} labelledBy={`${id}-title`}>
+      <h2 id={`${id}-title`} class="text-title">{heading}</h2>
+      <ul class="mt-6 flex flex-wrap items-center gap-x-12 gap-y-8">
+        {items.map((m) => (
+          <li>
+            <img src={m.file} alt={m.name} class="h-12 w-auto max-w-48 object-contain" loading="lazy" />
+          </li>
+        ))}
+      </ul>
+    </Section>
+  );
+}
+
 /** The FAQ, as a definition list; the questions come from faq.md's headings. */
 export function FaqSection({ id = "faq", heading = "Questions people ask", ground = "panel" as const }: { id?: string; heading?: string; ground?: "canvas" | "panel" }) {
   const items = content.facts.faq;

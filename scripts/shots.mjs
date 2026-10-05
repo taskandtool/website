@@ -5,8 +5,11 @@ import { spawnSync } from "node:child_process";
 
 const USAGE = `usage: npm run shots [-- /path] [--first-screen] [--width N ...]
 
-The whole page at desktop (1280) and phone (390) width as strips:
-uploads/<page>-<width>/01.png, 02.png … (read in order). /path defaults to /.
+The page at desktop (1280) and phone (390) width: uploads/<page>-<width>/
+overview.png (the whole page in one image, for its shape, when it is
+longer than one image), then 01.png,
+02.png … (the page at full size, read in order), and page.png (the whole
+page at full size, what npm run show sends). /path defaults to /.
   --first-screen   only what shows before scrolling, one image per width
   --width N        a width in pixels; repeat for more`;
 

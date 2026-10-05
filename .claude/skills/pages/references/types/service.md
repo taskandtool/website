@@ -24,7 +24,8 @@ service across several pages; gather from all of them.
   price       prices, ranges, or prices for typical jobs
   options     types, materials, tiers the customer chooses between
   proof       reviews about this service, photographs of this work (being done and finished),
-              certifications relevant to it
+              certifications relevant to it, logos of clients, partners and associations
+              (public/proof.md marks)
   objections  cost, insurance, timing, disruption, repair versus replace
   area        where this service is offered, and any local proof per place
 </inventory>
@@ -51,8 +52,10 @@ against the material. Each line says what the band holds, then when it earns its
 
   hero        core      The service by its search name, the problem it fixes, where, the action.
   included    core      What the customer gets, as named items.
-  proof       core      A review about this service, a job photograph, or a result. The strongest
-                        one sits beside the claim it proves. When there is none, a NEED.
+  proof       core      A review about this service, a job photograph, or a result, and their
+                        logos of clients, partners and associations whenever public/proof.md
+                        holds any. The strongest one sits beside the claim it proves. When
+                        there is none, a NEED.
   price       optional  Prices, ranges or typical-job prices, with units.
                         When: the brand has them.
   work        optional  Photographs of this service being done and finished; before-and-after pairs.

@@ -36,7 +36,10 @@ Read the folders and carry on from where they are:
    in the frontmatter, no "to fill" left, then a `## <service>` section per
    service in the page's own facts, cited. Nothing it does not say: no
    guessed prices. The facts on the page come from this note, through
-   `ServicesSection` or `content`, never typed into the markup.
+   `ServicesSection` or `content`, never typed into the markup. When
+   `from-site` put logos in `public/proof.md`, look at each and give it its
+   `name` (the organisation) and `kind`; they and any reviews go on the
+   homepage (the `design` skill's "Proof").
 
 What a page is built from (`npm run parts`; if the list is not shown here,
 run it):

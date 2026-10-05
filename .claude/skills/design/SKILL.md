@@ -89,6 +89,13 @@ proud to send the link.
   Words stay in HTML, never baked into an image.
 - **Motion.** One orchestrated moment, or none. Nothing waits behind it,
   and reduced motion shows the finished page.
+- **Proof.** Their own logos of clients, partners, associations and
+  certifications, and their reviews word for word (`public/proof.md`; the
+  `MarksSection` and `ProofSection` components), go on the homepage and
+  every service page whenever the note holds any: logos near the promise or
+  the action, reviews where a visitor decides. Their old site's proof left
+  off the new one is a regression. Real proof is content, never a default
+  to refuse; only invented or generic proof is.
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 
@@ -103,45 +110,38 @@ page that could be another business with the logo swapped.
 ## When the site grows
 
 When the owner wants more than the homepage, the record carries the look to
-every page:
-
-1. **Fill the rest of the record** by `references/authoring.md`: the rules
-   with their reasons, the imagery, the motion, `x_layout` for every shape
-   of content (not only what the homepage shows), and `identity` from the
-   brief. `references/records/` holds two proven library records as worked
-   examples, and `references/authoring.md` ends with a filled identity. Then `npm run system`.
-2. **Rebuild it blind.** Give a sub-agent with a fresh context only
-   `design/briefs/home.md`, `public/`, `brand/` and `design/system.yaml`,
-   and have it build the homepage as a scratch page at `/rebuild`
-   (`src/pages/rebuild.tsx`). Screenshot both (`npm run shots -- /rebuild`).
-   Where they differ in a way the owner would notice, the record left it
-   out: add it, rebuild once more, then delete the scratch page. Without a
-   sub-agent, skip this and say so.
-3. **Check it:** `npm run verify`.
-
-The other pages then follow the record (the `pages` skill). A later change
-to the look is a change to the record.
+every page: `references/growing.md` (fill the record, rebuild it blind,
+check it). The other pages then follow the record (the `pages` skill).
 
 ## Review gate
 
 Look at the rendered page, never the code:
 
 ```bash
-npm run shots          # the whole page at 1280 and 390 wide: uploads/home-1280/01.png, 02.png …, uploads/home-390/…
+npm run shots          # per width (1280, 390): uploads/home-1280/overview.png, then 01.png, 02.png …
 ```
 
-Read the images in order, and answer:
+`overview.png` is the whole page in one image (for a long page); the
+strips are the same page at full size, top to bottom. Read them in order:
 
-1. Can a stranger name the business, the offer and the next action at once?
-2. Is the first screen clearly better than their current homepage's
-   (`raw/site/<host>/shots/`), and would the owner send it to someone?
-3. Does the composition come from this business, or from a trend?
-4. Which element is there only to look busy? Remove it.
-5. Is every claim on the page in the notes?
+1. **The overview: the page's shape.** Name the sections top to bottom. Is
+   there one peak, or do they all shout? Do two neighbours share a
+   composition or a ground? Is the proof (their logos, their reviews) on
+   the page when the notes hold any?
+2. **The strips: each section in turn.** For each, say what it is for and
+   the worst thing you can see: text that wraps badly or runs over an
+   image, a crop that cuts the subject, uneven spacing or alignment, low
+   contrast, an empty or broken image, a section that could be another
+   business's. Then the first screen against their current homepage
+   (`raw/site/<host>/shots/`): is it clearly better, would the owner send
+   it to someone?
+3. **The phone strips:** the first screen holds the promise and the action;
+   nothing is cut off, squeezed or tiny.
+4. **Every claim** on the page is in the notes.
 
-The first render always shows something the code did not. List every
-problem the images show, fix them all in one pass (rewrite the file, or one
-script for several edits; not one edit per problem), then `npm run verify`
-and `npm run shots` once more. Two looks are usually enough; a third only
-for something still broken. Then `npm run show -- --from-shots` sends the
-screenshots you looked at to the chat.
+The first render always shows something the code did not. Write the
+problems as one list, section by section, fix them all in one pass (rewrite
+the file, or one script for several edits; not one edit per problem), then
+`npm run verify` and `npm run shots` once more. Two looks are usually
+enough; a third only for something still broken. Then `npm run show --
+--from-shots` sends each page whole, one image per width, to the chat.
