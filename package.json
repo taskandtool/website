@@ -15,6 +15,7 @@
     "system": "node scripts/system.mjs",
     "lint": "node scripts/lint.mjs",
     "proof": "node scripts/proof.mjs",
+    "trace": "node scripts/trace.mjs",
     "verify": "node scripts/verify.mjs",
     "shots": "node scripts/shots.mjs",
     "show": "node scripts/show.mjs",

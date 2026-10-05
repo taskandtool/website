@@ -52,7 +52,8 @@ try {
 // ── findings ──────────────────────────────────────────────────────────────
 const findings = [];
 const HINTS = new Set(["same-hue-text", "light-on-dark", "adjacent-ground", "card-in-card", "side-stripe",
-  "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread", "we-over-you", ...HINT_RULES]);
+  "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread", "we-over-you",
+  "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", ...HINT_RULES]);
 const allowed = (el, rule) => {
   for (let e = el; e; e = e.parentNode) if (e.getAttribute?.("data-lint-allow")?.split(/\s+/).includes(rule)) return true;
   return false;
@@ -92,6 +93,26 @@ const refuse = [
 ];
 const variantless = (c) => c.slice(c.lastIndexOf(":") + 1);
 
+// ── a band's prose: its text less headings, questions, calls to action and quotes ──
+const BLOCK = /^(p|div|li|ul|ol|section|article|header|footer|aside|nav|blockquote|figure|figcaption|br|tr|td|th|dd|dl|form|label|table|details)$/;
+// quotes are others' words, kept as they wrote them: never ours to fix
+const SKIP = /^(h[1-6]|summary|dt|a|button|script|style|svg|noscript|template|blockquote|q)$/;
+// teasers: also skip a list item or card that links to another page (a blog index's summaries)
+const prose = (node, teasers = false) => {
+  if (node.nodeType === 3) return node.text;
+  const tag = node.rawTagName?.toLowerCase() || "";
+  const teaser = teasers && /^(li|article)$/.test(tag) && node.querySelector('a[href^="/"]');
+  if (teaser || SKIP.test(tag) || node.getAttribute?.("aria-hidden") === "true") return BLOCK.test(tag) || /^h[1-6]$/.test(tag) ? "\n" : " ";
+  const inner = node.childNodes.map((n) => prose(n, teasers)).join("");
+  return BLOCK.test(tag) ? `\n${inner}\n` : inner;
+};
+const tidy = (t) => t.replace(/[ \t]+/g, " ").replace(/ *\n[\s]*/g, "\n").trim();
+
+// Where a rating comes from: a count ("212 Google reviews", "4.9/5") or a platform named in text or a logo's alt.
+const PROOF_COUNT = /\b\d[\d,.]*\+?\s+(\w+\s+)?(reviews?|ratings?|customers?|clients?|bookings?)\b|\b\d(\.\d)?\s*\/\s*5\b/i;
+const PLATFORMS = /\b(google|facebook|yelp|trustpilot|tripadvisor|houzz|checkatrade|airbnb|booking\.com|etsy|amazon|g2|capterra|feefo|reviews\.io|bbb|angi|thumbtack|nextdoor|app store|google play|bark|treatwell|opentable)\b/i;
+const pageBands = [];
+
 // ── each page ────────────────────────────────────────────────────────────
 const pages = walk("dist").filter((f) => f.endsWith(".html"));
 for (const file of pages) {
@@ -104,6 +125,15 @@ for (const file of pages) {
   if (!root.querySelector("html")?.getAttribute("lang")) report("html-lang", page, null, "the <html> has no lang; the layout sets it from site.locale");
   const h1s = root.querySelectorAll("h1").length;
   if (page !== "/404" && h1s !== 1) report("single-h1", page, null, `${h1s} <h1> on the page; give it exactly one, the page's own heading`);
+  let level = 0;
+  for (const h of all.filter((e) => /^h[1-6]$/i.test(e.rawTagName))) {
+    const n = Number(h.rawTagName[1]);
+    if (level && n > level + 1) report("heading-order", page, h, `an <h${n}> after an <h${level}> skips a level; screen readers navigate by them, so use <h${level + 1}> and set its size with a class`);
+    level = n;
+  }
+  const h1 = root.querySelector("h1");
+  const h1Words = h1 ? h1.text.trim().split(/\s+/).filter(Boolean).length : 0;
+  if (h1Words > 10) report("long-h1", page, h1, `the <h1> is ${h1Words} words; a headline is one claim, so cut it to ten or fewer and move the rest to the line beneath`);
 
   for (const el of all) {
     const tag = el.rawTagName?.toLowerCase();
@@ -115,6 +145,12 @@ for (const file of pages) {
       const hit = refuse.find(([rx]) => rx.test(bare));
       if (hit) report("refused-class", page, el, `"${c}" is ${hit[1]}`);
       else if (!siteCss.has(c) && !c.startsWith("js-")) report("unknown-utility", page, el, `"${c}" produced no CSS, so it does nothing; use a theme token or a utility that exists`);
+    }
+    const cols = Number(cls.map((c) => c.match(/^grid-cols-(\d+)$/)?.[1]).find(Boolean) || 0);
+    if (cols >= 3 && !cls.includes("hidden")) report("phone-grid", page, el, `"grid-cols-${cols}" applies at every width, so a phone gets ${cols} columns and overflows or crushes them; start at one or two and widen from a breakpoint (md:grid-cols-${cols})`);
+    if (tag === "video" && el.hasAttribute("autoplay")) {
+      const missing = ["muted", "playsinline", "poster"].filter((a) => !el.hasAttribute(a));
+      if (missing.length) report("video-autoplay", page, el, `an autoplaying <video> without ${missing.join(", ")}; phones only autoplay a muted inline video, and the poster is what shows until it plays`);
     }
     if (tag === "style" && el.parentNode?.rawTagName?.toLowerCase() !== "head") report("raw-style", page, el, "a <style> block in the page bypasses the theme; use utilities, or add a token to design/system.yaml");
     const style = el.getAttribute?.("style");
@@ -206,8 +242,40 @@ for (const file of pages) {
     }
   }
 
+  // proof: stars say where they came from (a count, a platform, or the quoted review they belong to)
+  const ownText = (el) => el.childNodes.filter((n) => n.nodeType === 3).map((n) => n.text).join("");
+  for (const el of all) {
+    const stars = /out of \d+ stars?/i.test(el.getAttribute?.("aria-label") || "") || (ownText(el).match(/[★☆]/g) || []).length >= 3
+      || el.childNodes.filter((n) => n.rawTagName?.toLowerCase() === "img" && /star/i.test(n.getAttribute("src") || "")).length >= 3;
+    if (!stars || el.parentNode?.getAttribute?.("aria-label")?.match(/stars?$/i)) continue;
+    let sourced = false;
+    for (let a = el.parentNode, i = 0; !sourced && a?.getAttribute && i < 3 && !/^(section|main|body)$/i.test(a.rawTagName); a = a.parentNode, i++) {
+      const said = `${a.text} ${a.querySelectorAll("img").map((m) => m.getAttribute("alt") || "").join(" ")}`;
+      sourced = PROOF_COUNT.test(said) || PLATFORMS.test(said) || !!a.querySelector('blockquote, q, a[href^="http"]');
+    }
+    if (!sourced) report("unsourced-stars", page, el, "stars with no count and no platform beside them read as made up; show them from public/proof.md with RatingLine (the figure, the count, the platform), or on the review they belong to");
+  }
+
+  // calls to action: links styled as buttons, and buttons, outside the site's header, nav and footer
+  const actions = main.querySelectorAll("a, button").filter((el) => {
+    if (el.closest("nav") || (main.rawTagName?.toLowerCase() !== "main" && el.closest("header, footer"))) return false;
+    if (/^(tel|mailto):/.test(el.getAttribute("href") || "") || (el.getAttribute("type") === "button" && el.closest("form"))) return false;
+    return el.rawTagName.toLowerCase() === "button" || classes(el).map(variantless).some((c) => /^(bg-|rounded|border$)/.test(c));
+  });
+  const labels = [];
+  for (const l of actions.map((el) => el.text.replace(/\s+/g, " ").replace(/[→›»]\s*$/, "").trim().toLowerCase()).filter(Boolean)) {
+    if (!labels.some((x) => l.startsWith(x) || x.startsWith(l))) labels.push(l);
+  }
+  if (labels.length > 2) report("cta-labels", page, null, `${labels.length} different calls to action (${labels.map((l) => `"${l}"`).join(", ")}); pick the one action this page asks for and word it the same everywhere, with links for the rest`);
+  for (const el of main.querySelectorAll("a, button")) {
+    if (!el.closest("nav") && /[→›»]\s*$/.test(el.text.trim())) report("arrow-cta", page, el, "an arrow after the label; let the verb carry the action");
+  }
+  const marks = main.querySelectorAll("*").filter((el) => !el.childNodes.some((n) => n.nodeType === 1) && /^(0[1-9]|10)\.?$/.test(el.text.trim()));
+  if (marks.length >= 2 && !marks.every((m) => m.closest("ol"))) report("numbered-markers", page, marks[0], `${marks.length} "01, 02" markers outside an <ol>; number only a real sequence (steps, in order, in an <ol>), and drop them from items that are merely parallel`);
+
   // the copy: em dashes, and the tropes skill per band (legal pages are verbatim)
   if (!legalPaths.has(page)) {
+    pageBands.push({ page, bands: (bands.length ? bands : [main]).map((b) => ({ el: b, whole: b.text.replace(/\s+/g, " ").trim(), lines: tidy(prose(b, true)).split("\n") })) });
     for (const el of main.querySelectorAll("*")) {
       const own = el.childNodes.filter((n) => n.nodeType === 3).map((n) => n.text).join(" ");
       if (!own.trim() || el.closest("script") || el.closest("blockquote, q")) continue;
@@ -221,18 +289,14 @@ for (const file of pages) {
 // A band's prose is its text less headings, questions (a FAQ's summary or dt)
 // and calls to action, checked on their own, and quotes, which stay as written. Block elements break
 // lines, so list items and cards stay separate sentences.
+// The innermost element holding the words, so data-lint-allow and the report point at it.
+function locateIn(band, words) {
+  let hit = null;
+  for (const el of band.querySelectorAll("*")) if ((el.text.toLowerCase().match(WORD) || []).join(" ").includes(words)) hit = el;
+  return hit || band;
+}
+
 function lintCopy(page, bands) {
-  const BLOCK = /^(p|div|li|ul|ol|section|article|header|footer|aside|nav|blockquote|figure|figcaption|br|tr|td|th|dd|dl|form|label|table|details)$/;
-  // quotes are others' words, kept as they wrote them: never ours to fix
-  const SKIP = /^(h[1-6]|summary|dt|a|button|script|style|svg|noscript|template|blockquote|q)$/;
-  const prose = (node) => {
-    if (node.nodeType === 3) return node.text;
-    const tag = node.rawTagName?.toLowerCase() || "";
-    if (SKIP.test(tag) || node.getAttribute?.("aria-hidden") === "true") return BLOCK.test(tag) || /^h[1-6]$/.test(tag) ? "\n" : " ";
-    const inner = node.childNodes.map(prose).join("");
-    return BLOCK.test(tag) ? `\n${inner}\n` : inner;
-  };
-  const tidy = (t) => t.replace(/[ \t]+/g, " ").replace(/ *\n[\s]*/g, "\n").trim();
   const flat = (t) => t.replace(/\s+/g, " ").toLowerCase();
   // The innermost element in the band holding the words, so data-lint-allow and the report point at it.
   const locate = (band, match) => {
@@ -266,6 +330,35 @@ function lintCopy(page, bands) {
       for (const f of tropesIn(label, { kind: "page" })) {
         if (f.rule === "em-dash" || f.rule === "we-over-you") continue;
         report(f.rule, page, el, say(f), f.severity === "hint" ? "hint" : "error");
+      }
+    }
+  }
+}
+
+// The same five-word phrase on two pages. A band that is the same on both
+// (a shared component) is one thing said once, and is skipped.
+const WORD = /[a-z0-9]+(?:['’][a-z]+)?/g;
+const shared = new Set();
+const seenBand = new Map();
+for (const { page, bands } of pageBands) for (const b of bands) {
+  if (b.whole && seenBand.has(b.whole) && seenBand.get(b.whole) !== page) shared.add(b.whole);
+  if (!seenBand.has(b.whole)) seenBand.set(b.whole, page);
+}
+const phrases = new Map();
+for (const { page, bands } of pageBands) {
+  const said = new Set();
+  for (const b of bands) {
+    if (shared.has(b.whole)) continue;
+    for (const line of b.lines) {
+      const w = line.toLowerCase().match(WORD) || [];
+      for (let i = 0; i + 5 <= w.length; i++) {
+        const g = w.slice(i, i + 5).join(" ");
+        const first = phrases.get(g);
+        if (!first) phrases.set(g, page);
+        else if (first !== page && !said.has(first)) {
+          said.add(first);
+          report("phrase-across-pages", page, locateIn(b.el, g), `"${g}" is on ${first} too; say it once, where it belongs, and give this page its own words`);
+        }
       }
     }
   }

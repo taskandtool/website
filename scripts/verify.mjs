@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // Every check before showing work, in one call: `npm run verify`.
 // content (the notes compiled), check (the project), typecheck (src/), test
-// (any skill's tests), build (dist/), proof (the homepage shows it all), lint
-// (the built pages), one line each. It runs them all and lists every
-// failure together, so they are fixed in one pass; proof and lint need the
-// build, so a failed build skips them. Lint hints are listed but never fail.
+// (any skill's tests), build (dist/), proof (the homepage shows it all), trace
+// (every fact on the pages is in the notes), lint (the built pages), one line
+// each. It runs them all and lists every failure together, so they are fixed
+// in one pass; proof, trace and lint need the build, so a failed build skips
+// them. Lint hints are listed but never fail.
 import { spawnSync } from "node:child_process";
 
 if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run verify\n\nRuns content, check, typecheck, test, build, proof and lint, and lists every failure together.");
+  console.log("usage: npm run verify\n\nRuns content, check, typecheck, test, build, proof, trace and lint, and lists every failure together.");
   process.exit(0);
 }
 
@@ -19,9 +20,10 @@ const steps = [
   ["test", "the tests under src/"],
   ["build", "every page pre-rendered to dist/, the Worker bundled"],
   ["proof", "every logo and rating in public/proof.md on the homepage, and its reviews"],
+  ["trace", "every phone, email, price, year, count and quote on the pages is in the notes"],
   ["lint", "the built pages"],
 ];
-const NEEDS_BUILD = new Set(["proof", "lint"]);
+const NEEDS_BUILD = new Set(["proof", "trace", "lint"]);
 
 const failed = [];
 for (const [name, what] of steps) {

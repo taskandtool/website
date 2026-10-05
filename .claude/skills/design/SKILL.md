@@ -41,14 +41,15 @@ Most owners judge a design by looking at it.
    what it is built from), then `npm run verify` and fix what is a mistake.
    When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so in one line.
-5. **Review.** Start the `writing` skill's cold read (a sub-agent) on the
-   built page, run the review gate below meanwhile, and fix both lists in
-   one pass.
+5. **Review.** Two fresh sub-agents at once: the `writing` skill's cold
+   read, and the review gate below on the screenshots. Fix both lists in
+   one pass. No sub-agents: do both yourself and say so.
 6. **Commit and show.** Commit (one plain line), so any version the owner
    has seen comes back with one `git checkout`; then `npm run show --
    --from-shots`.
 
-Then follow the owner. A small change is an edit to the same page. When
+Then follow the owner. A small change is an edit, one look at that page's
+shots, and a show; a new section or page gets the full review. When
 they want options, or a change worth comparing, build each option as the
 real page in turn, commit each, show them side by side, and keep the one
 they pick.
@@ -137,10 +138,8 @@ strips are the same page at full size, top to bottom. Read them in order:
    new first screen clearly better, would the owner send it to someone?
 4. **The phone strips:** the first screen holds the promise and the action;
    nothing is cut off, squeezed or tiny.
-5. **The words:** every claim is in the notes.
 
-The first render always shows something the code did not. Write the
-problems as one list, section by section, fix them all in one pass (rewrite
+Write the problems as one list, section by section, fix them all in one pass (rewrite
 the file, or one script for several edits; not one edit per problem), then
 `npm run verify` and `npm run shots` once more. Two looks are usually
 enough; a third only for something still broken. Then `npm run show --

@@ -17,7 +17,7 @@
 // and it says which.
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import YAML from "yaml";
 import { webSize } from "./images.mjs";
 import { TEXT_PAIRS, chromaHue, isHex, luminance, ratio } from "./theme.mjs";
@@ -86,6 +86,29 @@ const first = (k) => facts[k]?.[0]?.value || "";
 const US_ONE_ZONE = { AL: "America/Chicago", AR: "America/Chicago", CA: "America/Los_Angeles", CO: "America/Denver", CT: "America/New_York", DC: "America/New_York", DE: "America/New_York", GA: "America/New_York", HI: "Pacific/Honolulu", IA: "America/Chicago", IL: "America/Chicago", LA: "America/Chicago", MA: "America/New_York", MD: "America/New_York", ME: "America/New_York", MN: "America/Chicago", MO: "America/Chicago", MS: "America/Chicago", MT: "America/Denver", NC: "America/New_York", NH: "America/New_York", NJ: "America/New_York", NM: "America/Denver", NY: "America/New_York", OH: "America/New_York", OK: "America/Chicago", PA: "America/New_York", RI: "America/New_York", SC: "America/New_York", UT: "America/Denver", VA: "America/New_York", VT: "America/New_York", WA: "America/Los_Angeles", WI: "America/Chicago", WV: "America/New_York", WY: "America/Denver" };
 const COUNTRY_ONE_ZONE = { GB: "Europe/London", UK: "Europe/London", "UNITED KINGDOM": "Europe/London", IE: "Europe/Dublin", IRELAND: "Europe/Dublin", FR: "Europe/Paris", DE: "Europe/Berlin", NL: "Europe/Amsterdam", BE: "Europe/Brussels", IT: "Europe/Rome", CH: "Europe/Zurich", AT: "Europe/Vienna", SE: "Europe/Stockholm", NO: "Europe/Oslo", DK: "Europe/Copenhagen", FI: "Europe/Helsinki", PL: "Europe/Warsaw", NZ: "Pacific/Auckland", SG: "Asia/Singapore", JP: "Asia/Tokyo", ZA: "Africa/Johannesburg" };
 
+// "Mon: 8:00am - 6:00pm" lines as schema.org opening hours, runs of days with
+// the same times joined ("Mo-Sa 08:00-18:00"); [] when they do not read cleanly
+function schemaHours(lines) {
+  const DAYS = ["mo", "tu", "we", "th", "fr", "sa", "su"];
+  const t24 = (h, m, ap) => `${String((Number(h) % 12) + (/p/i.test(ap) ? 12 : 0)).padStart(2, "0")}:${m || "00"}`;
+  const byDay = new Map();
+  for (const line of lines) {
+    const m = String(line).match(/^\s*(mon|tue|wed|thu|fri|sat|sun)[a-z]*\.?\s*:?\s*(\d{1,2})(?::(\d{2}))?\s*([ap])\.?m\.?\s*[-–to]+\s*(\d{1,2})(?::(\d{2}))?\s*([ap])\.?m/i);
+    if (m) byDay.set(m[1].slice(0, 2).toLowerCase(), `${t24(m[2], m[3], m[4])}-${t24(m[5], m[6], m[7])}`);
+  }
+  const out = [];
+  for (let i = 0; i < 7; i++) {
+    const t = byDay.get(DAYS[i]);
+    if (!t) continue;
+    let j = i;
+    while (j + 1 < 7 && byDay.get(DAYS[j + 1]) === t) j++;
+    const cap = (d) => d[0].toUpperCase() + d[1];
+    out.push(`${cap(DAYS[i])}${j > i ? `-${cap(DAYS[j])}` : ""} ${t}`);
+    i = j;
+  }
+  return out;
+}
+
 function addressFrom() {
   const a = markup.address;
   if (a && typeof a === "object" && (a.streetAddress || a.addressLocality)) {
@@ -106,7 +129,8 @@ const business = YAML.parseDocument(front);
 if (business.get("name") && !/to fill/i.test(business.get("name"))) kept.push(`${businessFile} (already filled)`);
 else {
   const address = addressFrom();
-  const hours = [markup.openingHours].flat().filter((h) => typeof h === "string" && /^[A-Z][a-z](-[A-Z][a-z])?(,[A-Z][a-z])*\s+\d/.test(h));
+  const marked = [markup.openingHours].flat().filter((h) => typeof h === "string" && /^[A-Z][a-z](-[A-Z][a-z])?(,[A-Z][a-z])*\s+\d/.test(h));
+  const hours = marked.length ? marked : schemaHours((facts.hours || []).map((h) => h.value));
   const inUS = address && /^(|US|USA|United States)$/i.test(String(address.country).trim());
   const zone = address && ((inUS && US_ONE_ZONE[address.region]) || COUNTRY_ONE_ZONE[String(address.country).trim().toUpperCase()]);
   const set = {
@@ -166,21 +190,59 @@ const shown = photos.flatMap((it) => {
 });
 if (shown.length) wrote.push(`static/images/: ${shown.length} photographs at web size`);
 
-// Each photograph is looked at once: one numbered sheet (raw/photos.png) and
-// a row for each in brand/images.md, which the AI fills from the sheet; later
-// work reads the file, not the pictures.
+// Their videos: at web size in static/videos/ (ffmpeg, else as they are),
+// with one frame each beside the photographs on the sheet.
+const probe = (file) => {
+  try {
+    const [w, h, s] = execFileSync("ffprobe", ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height:format=duration", "-of", "csv=p=0:s=,", file], { encoding: "utf8" }).trim().split(/[,\n]/);
+    return { width: Number(w), height: Number(h), seconds: Math.round(Number(s)) };
+  } catch {
+    return null;
+  }
+};
+const videoRows = [];
+for (const it of media.filter((m) => m.kind === "video" && m.file && existsSync(fileOf(m)))) {
+  mkdirSync("static/videos", { recursive: true });
+  mkdirSync("raw/frames", { recursive: true });
+  const dest = join("static/videos", it.file.replace(/\.[a-z0-9]+$/i, ".mp4"));
+  if (!existsSync(dest)) {
+    try {
+      execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", fileOf(it), "-vf", "scale='min(1920,iw)':-2", "-c:v", "libx264", "-crf", "28", "-preset", "veryfast", "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", dest], { stdio: "ignore" });
+    } catch {
+      copyFileSync(fileOf(it), dest);
+    }
+  }
+  const frame = join("raw/frames", basename(dest).replace(/\.mp4$/, ".jpg"));
+  try {
+    if (!existsSync(frame)) execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-ss", "1", "-i", dest, "-frames:v", "1", frame], { stdio: "ignore" });
+  } catch {}
+  const p = probe(dest) || {};
+  videoRows.push({ file: dest, frame: existsSync(frame) ? frame : "", source: fileOf(it), ...p, autoplay: it.autoplay });
+}
+if (videoRows.length) wrote.push(`static/videos/: ${videoRows.length} videos at web size`);
+
+// Each photograph and video is looked at once: one numbered sheet
+// (raw/photos.png) and a row for each in brand/images.md, which the AI fills
+// from the sheet; later work reads the file, not the pictures.
 let photoSheet = "";
 const imagesNote = "brand/images.md";
-if (photoRows.length && existsSync(imagesNote) && /\| to fill \|/.test(readFileSync(imagesNote, "utf8"))) {
+if ((photoRows.length || videoRows.length) && existsSync(imagesNote) && /\| to fill \|/.test(readFileSync(imagesNote, "utf8"))) {
+  const pictures = [...photoRows.map((r) => r.file), ...videoRows.filter((v) => v.frame).map((v) => v.frame)];
   try {
-    execFileSync("tt-crawl", ["sheet", ...photoRows.map((r) => r.file), "--columns", "3", "--cell", "380x300", "--out", "raw/photos.png"], { stdio: "ignore" });
+    execFileSync("tt-crawl", ["sheet", ...pictures, "--columns", "3", "--cell", "380x300", "--out", "raw/photos.png"], { stdio: "ignore" });
     photoSheet = "raw/photos.png";
   } catch {}
-  const rows = photoRows.map((r) => `| ${r.file} (${r.width}x${r.height}) | | | | | | ${r.source} |`).join("\n");
+  const shape = (v) => (v.width ? `${v.width}x${v.height}, ${v.seconds}s, ${v.width >= v.height ? "landscape" : "portrait"}` : "video");
+  const rows = [
+    ...photoRows.map((r) => `| ${r.file} (${r.width}x${r.height}) | | | | | | ${r.source} |`),
+    ...videoRows.filter((v) => v.frame).map((v) => `| ${v.file} (video: ${shape(v)}) | | | | | | ${v.source} |`),
+  ].join("\n");
   writeFileSync(imagesNote, readFileSync(imagesNote, "utf8").replace(/^\| to fill \|.*$/m, rows));
   wrote.push(`${imagesNote}: a row for each photograph${photoSheet ? `, numbered in ${photoSheet}` : ""}`);
-  notes.push(`describe each photograph once in ${imagesNote}${photoSheet ? ` from ${photoSheet} (numbered in the table's order)` : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip)`);
+  notes.push(`describe each photograph and video once in ${imagesNote}${photoSheet ? ` from ${photoSheet} (numbered in the table's order)` : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`);
 }
+if (photoRows.length && !photoRows.some((r) => r.width >= 2000) && !videoRows.length)
+  notes.push("no photograph is 2000px wide: ask the owner for the originals (a NEED) rather than running a smaller one full width");
 
 // ── the proof: what others say ────────────────────────────────────────────
 // Everything the crawl and their Google listing hold goes into
