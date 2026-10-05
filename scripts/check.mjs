@@ -48,7 +48,13 @@ if (!recordProblems.length) {
 const resolved = Object.fromEntries(["canvas", "panel", "surface", "accent", "accent-ink", "ink", "ink-2", "ink-3", "night", "night-ink", "night-ink-2"].map((n) => [n, colour(n)]));
 for (const [fg, bg] of TEXT_PAIRS) {
   const [a, b] = [resolved[fg], resolved[bg]];
-  if (!isHex(a) || !isHex(b)) continue;
+  if (!isHex(a) || !isHex(b)) {
+    for (const [role, v] of [[fg, a], [bg, b]]) {
+      const f = `contrast: ${role} is ${v}, which cannot be measured: give it a 6-digit hex in design/system.yaml`;
+      if (v && !isHex(v) && !findings.includes(f)) findings.push(f);
+    }
+    continue;
+  }
   const r = ratio(a, b);
   if (r < 4.5) findings.push(`contrast: ${fg} (${a}) on ${bg} (${b}) is ${r.toFixed(1)}:1, under 4.5:1. Give the role a different value in design/system.yaml`);
 }
@@ -62,6 +68,14 @@ for (const file of pageFiles) {
     if (seen.has(m[1]) && seen.get(m[1]) !== file) findings.push(`page path ${m[1]} is defined in both ${seen.get(m[1])} and ${file}`);
     seen.set(m[1], file);
   }
+}
+
+// a page module nothing imports is never routed: it is listed in src/pages/index.ts
+const imports = ["src/pages/index.ts", "src/app.tsx"].filter(existsSync).map((f) => readFileSync(f, "utf8")).join("\n");
+for (const file of pageFiles) {
+  const name = file.replace(/^src\/pages\//, "").replace(/\.tsx$/, "");
+  if (readFileSync(file, "utf8").match(/path:\s*["']/) && !new RegExp(`from ["']\\./${name}["']|from ["']\\./pages/${name}["']`).test(imports))
+    findings.push(`${file} is a page nothing lists: import it in src/pages/index.ts and add it to modules`);
 }
 
 // site-map.md: every keep or merge row resolves to a page or a redirect

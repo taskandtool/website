@@ -34,6 +34,8 @@ export const site = {
   /** The canonical origin (https://example.com) once the site has one; the
    *  canonical tag points here so the platform copy never competes with it. */
   url: "",
+  /** A closure or announcement across the top of every page, until its last day. */
+  notice: { text: typeof business.notice === "string" ? business.notice : "", until: typeof business.notice_until === "string" ? business.notice_until : "" },
   contact: {
     phone: business.telephone || "",
     email: business.email || "",

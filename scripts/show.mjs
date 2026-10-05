@@ -47,6 +47,13 @@ if (!paths.length) paths.push("/");
 const nameOf = (p) => (p === "/" ? "home" : p.replace(/^\/|\/$/g, "").replace(/[^a-z0-9]+/gi, "-").toLowerCase());
 message ||= paths.length === 1 ? `The ${nameOf(paths[0]) === "home" ? "home" : paths[0]} page at desktop and phone width` : `${paths.length} pages at desktop and phone width`;
 
+// dev must answer before anything is shot, or every page looks missing
+const devUp = () => spawnSync("curl", ["-s", "-o", "/dev/null", "-w", "%{http_code}", "--max-time", "5", "http://localhost:3000/"], { encoding: "utf8" }).stdout !== "000";
+if (!fromShots && !devUp()) {
+  console.error("show: dev is not answering on localhost:3000. Start it: bash ~/app/.taskandtool/setup.sh (or npm run dev), or send what shots took: --from-shots");
+  process.exit(1);
+}
+
 // the image folders for each page: shot now, or the ones shots left
 const folders = [];
 for (const path of paths) {

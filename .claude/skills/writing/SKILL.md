@@ -51,17 +51,14 @@ Use the ones the page needs, each once.
 
 ## Tropes
 
-`npm run lint` runs the `tropes` skill's checker on every built page,
-section by section: the sentence shapes generated text falls into, weak
-actions, a line that repeats its heading, a phrase repeated across
-sections. Its catalogue (`tropes/references/copy.md`) says how to fix
-each. Rewrite the passage, never one phrase at a time, and never flatten a
-sentence the owner actually wrote.
+`npm run lint` runs the `tropes` skill on every built page; its findings say
+how to fix each. Rewrite the passage, never one phrase at a time, and never
+flatten a sentence the owner actually wrote.
 
 ## The cold read
 
 When a page is built, give a fresh sub-agent only the rendered words
-(`dist/<page>.html`), `public/` and `brand/voice.md`, and ask for every line
+(`dist/index.html` for the homepage, `dist/<path>.html` for a page), `public/` and `brand/voice.md`, and ask for every line
 to change as `| line, exactly | replacement, or CUT | why |`: a claim the
 notes don't hold, a line no person would say, a vague line, a tell the
 checker missed. Apply the table in one pass. Without a sub-agent, read the

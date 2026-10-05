@@ -43,6 +43,15 @@ about itself, once, consistently.
   for search engines rather than people, or change a URL without a
   redirect.
 
+## Ranking for a search
+
+A local business ranks on three things. Its Google profile and its reviews
+(right name, address, phone, categories, hours, photos; reviews answered) are
+the owner's to tend: say so plainly. Pages that answer the search: one per
+service and per place it truly serves (a brief's `query`; `location.md`'s rule
+against doorway pages). The same name, address and phone everywhere. Then
+build or improve those pages.
+
 ## Before launch
 
 `npm run verify`, then the `launch-check` skill: every old

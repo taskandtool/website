@@ -17,6 +17,9 @@ if (process.argv.includes("--help") || process.argv.includes("-h")) {
   process.exit(0);
 }
 
+// a note that cannot be read leaves its facts off the site: say so and fail
+const problems = [];
+
 function readNote(file) {
   const raw = readFileSync(file, "utf8");
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -25,7 +28,7 @@ function readNote(file) {
   try {
     data = YAML.parse(m[1]) ?? {};
   } catch (e) {
-    console.error(`${file}: frontmatter is not valid YAML (${e.message}); ignored`);
+    problems.push(`${file}: frontmatter is not valid YAML (${e.message.split("\n")[0]})`);
   }
   return { data, body: m[2] };
 }
@@ -75,6 +78,7 @@ for (const f of notes("public")) {
 }
 // A business note still full of "to fill" is not a fact yet.
 if (facts.business) {
+  if (Array.isArray(facts.business.area_served)) facts.business.area_served = facts.business.area_served.join(", ");
   for (const k of ["name", "legal_name", "telephone", "email", "price_range", "area_served"]) if (!filled(facts.business[k])) delete facts.business[k];
   if (!facts.business.name) facts.business = null;
 }
@@ -84,7 +88,7 @@ const posts = [];
 for (const f of notes("posts")) {
   const { data, body } = readNote(join("posts", f));
   if (!data.title || !data.date) {
-    console.error(`posts/${f}: needs title and date in frontmatter; skipped`);
+    problems.push(`posts/${f}: needs title and date in frontmatter`);
     continue;
   }
   posts.push({
@@ -116,6 +120,10 @@ for (const f of notes("legal")) {
 mkdirSync("src/generated", { recursive: true });
 const out = { generatedAt: new Date().toISOString(), facts, posts, legal };
 writeFileSync("src/generated/content.json", JSON.stringify(out, null, 2) + "\n");
+if (problems.length) {
+  console.error(`content: ${problems.length} note(s) not read, so their facts are not on the site:\n  - ${problems.join("\n  - ")}`);
+  process.exit(1);
+}
 if (process.argv.includes("--verbose")) {
   console.log(`content: business ${facts.business ? "yes" : "no"}, ${facts.offerings.length} offering(s), ${facts.faq.length} faq, ${posts.length} post(s), ${legal.length} legal page(s)`);
 }

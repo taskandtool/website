@@ -40,8 +40,9 @@ Read the folders and carry on from where they are:
 3. **Proof.** Nothing persuades like what others say, so the homepage
    leans on it. Name each logo in `public/proof.md` (`raw/logos.png` shows
    them numbered) and delete any that is not a logo. Then get what
-   `from-site` could not reach: their Facebook and other review pages, sites
-   that mention them, anything the owner sent. Paste the words in as written.
+   `from-site` could not reach (the brand skill's Sources: their Facebook
+   and review pages through a Connection, anything the owner sent). Paste
+   the words in as written.
 
 What a page is built from (`npm run parts`; if the list is not shown here,
 run it):

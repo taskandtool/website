@@ -19,26 +19,18 @@ skill, the look is `design`, what pages a site needs and what each says is
 interactivity, forms and data, after launch and off the platform are in
 `references/media-data-and-hosting.md`.
 
-## The loop on this machine
-
-`npm run dev` is what the `web` service runs: Tailwind rebuilds
-`static/site.css` and the server restarts on every change, so an edit shows
-on the next refresh of dev. If dev does not answer
-(`curl -s -o /dev/null -w '%{http_code}\n' localhost:3000/`), re-run
-`bash ~/app/.taskandtool/setup.sh`: it installs, builds and registers the
-service, and is safe to run again.
-
-Before showing work:
+## Before showing work
 
 ```bash
-npm run verify                   # content, check, typecheck, test, build, proof, lint; lists every failure to fix in one pass
+npm run verify                   # content, check, typecheck, test, build, proof, trace, lint; every failure at once
 npm run shots                    # at 1280 and 390 wide: uploads/home-1280/overview.png (a long page), then 01.png …
                                  # (-- /services /about for other pages, --first-screen, --width N)
 npm run show -- --from-shots     # each page whole, one image per width, sent to the chat
 ```
 
 Look at the screenshots yourself before `show`, so what the owner sees is
-what you checked. `npm run audit` (the crawler against dev: links,
+what you checked. A small edit: fix it at its source (the note, the brief or
+the page), `npm run verify`, shots of that page, one look, show. `npm run audit` (the crawler against dev: links,
 headings, alt text, titles) once there are several pages.
 
 ## The facts, the collections, and what the build generates
@@ -114,14 +106,9 @@ this is the site's part, every time:
    values (`npm run lint` flags them).
 3. **You looked at it.** The changed pages in dev, at desktop and phone
    width.
-4. **Before the first deploy to a real domain:** `site.url` in
-   `src/site.ts` is that domain (the canonical tags and the sitemap use
+4. **Once the site has its own domain:** `site.url` in `src/site.ts` is
+   that domain (the canonical tags and the sitemap use
    it), and a migrated site has passed the `launch-check` skill.
 
 Then `npm run deploy`: it builds the site (every page pre-rendered, a small
 Worker for dynamic routes) and deploys it.
-
-## Git
-
-The app is the owner's repository (AGENTS.md: The loop); pushing to GitHub
-is the owner's call.

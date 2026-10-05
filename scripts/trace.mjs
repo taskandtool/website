@@ -32,6 +32,8 @@ const note = (file) =>
   readFileSync(file, "utf8")
     // a frontmatter comment is a template's example, not a fact
     .replace(/^---\n[\s\S]*?\n---/, (fm) => fm.replace(/^\s*#.*$|\s+#\s.*$/gm, ""))
+    // a value a note has replaced is no longer a fact
+    .replace(/^.*\bsuperseded\b.*$/gim, "")
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1");
 const corpus = SOURCES.filter(existsSync)
   .flatMap(walk)

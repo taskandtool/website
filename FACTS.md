@@ -14,7 +14,7 @@ markdown at request time.
 
 | Note (`type`) | Frontmatter the build reads | Rendered as |
 |---|---|---|
-| `business` | `name`, `legal_name`, `telephone`, `email`, `address` (street, locality, region, postal_code, country), `geo` (lat, lng), `opening_hours` (schema.org strings), `time_zone` (IANA, the zone the hours, bookings and reports are in), `price_range`, `same_as`, `area_served`, `schema_type` | the footer and contact details (`src/site.ts`), `LocalBusiness` JSON-LD on the home page |
+| `business` | `name`, `legal_name`, `telephone`, `email`, `address` (street, locality, region, postal_code, country), `geo` (lat, lng), `opening_hours` (schema.org strings), `notice` + `notice_until` (an announcement across every page), `time_zone` (IANA, the zone the hours, bookings and reports are in), `price_range`, `same_as`, `area_served`, `schema_type` | the footer and contact details (`src/site.ts`), `LocalBusiness` JSON-LD on the home page |
 | `location` (one note per site) | the same fields | `LocalBusiness` JSON-LD on its location page (`localBusinessJsonLd` in its `page.jsonLd`) |
 | `offering` | `title`, `price`, `currency`, `unit`, `area_served`; the first paragraph of the body, or, when the body has `## ` headings, one offering per section (the heading its title, its first paragraph the summary, no price) | a service section; `Service` JSON-LD on its page (`serviceJsonLd` in its `page.jsonLd`) |
 | `faq` | none; `## ` headings and the text beneath | an FAQ section, `FAQPage` JSON-LD |

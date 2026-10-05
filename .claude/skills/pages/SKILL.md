@@ -94,19 +94,18 @@ From its brief, in the record:
 
 1. `npm run verify` and `npm run shots -- /path /path …` for every new page,
    then the design skill's review gate, the writing skill's cold read and
-   `seo.md` (one h1, headings in order, descriptive links, real alt text):
-   one list of everything they find, fixed in one pass, then both again.
+   the website skill's `seo.md` (one h1, headings in order, descriptive
+   links, real alt text):
+   one list of everything they find, fixed in one pass, then `npm run
+   verify` again.
 2. Mark the rows `built` in `site-map.md`, show the pages (`npm run show --
    --from-shots /path …`), then the one line of what would make them better
    (the `NEED:`s, rolled up).
 
 ## Proof, on every page
 
-Use all of `public/proof.md` wherever it helps a reader decide. A review or
-rating shows its platform's icon (`static/images/platforms/`) and its stars
-as graphics; `RatingLine`, `ReviewsSection`, `LogosSection`,
-`PeopleSection` and `NumbersSection` do this, or build your own from
-`content.facts`.
+All of `public/proof.md` wherever it helps a reader decide: the design
+skill's "Proof, front and centre".
 
 ## Changing a page later
 

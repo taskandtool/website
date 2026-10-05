@@ -11,16 +11,19 @@ is the owner's to change.
 Which skill to read, by what the owner asks:
 
 - "build me a homepage", "build my site", a link to their business: `new-site`
-- "change the look", "it looks generic", colours, fonts: `design`
+- "change the look", "it looks generic", colours, fonts, a new logo: `design`
 - a new page, the page plan, what a page should say: `pages`
 - words and headlines: `writing`; the tells generated text falls into: `tropes`
-- notes about the business, a crawl, a document, photos: `brand`
+- facts about the business (hours, phone, a new service), a crawl, a
+  document, photos or logos sent in chat (`uploads/`, then `npm run images`): `brand`
+- a blog post: the website skill's `posts.md`, with `writing`
+- "help us rank for …": the website skill's `seo.md` ("Ranking for a search")
 - "migrate", "rebuild", "redesign" a site they have: `migrate-site`; the
   cutover and the weekly audit: `launch-check`
 - a form, a private `/admin`, a booking page, a report or chart: `forms`,
   `admin`, `booking`, `reports`, all on `data` (what they store is in the
   project's database, which the project's other apps read too)
-- running, editing code, images, deploying: `website`; what production is:
+- a small edit (a typo, a line), running, code, deploying: `website`; what production is:
   the platform's `deploy` skill
 
 Read the one that fits the ask rather than working from memory.
@@ -37,8 +40,7 @@ npm run from-site -- <url>   # a first homepage's start, about a minute: reads t
 npm run parts                # what a page is built from: components and props, the classes, the page shape,
                              # the facts the notes hold, the photos and their sizes
 npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
-npm run verify               # content, check, typecheck, test, build, proof, lint in one call; stops at the first failure
-npm run proof                # is every logo, rating and some reviews from public/proof.md on the homepage
+npm run verify               # content, check, typecheck, test, build, proof, trace, lint: lists every failure at once
 npm run shots [-- /path]     # the page at 1280 and 390 wide: uploads/<page>-<width>/overview.png (all of it, when
                              # longer than one image), then 01.png, 02.png … at full size;
                              # --first-screen, --width N
@@ -72,7 +74,7 @@ page with `npm run shots`, then `npm run show -- --from-shots`.
 - `npm run dev` is what the `web` service runs: Tailwind rebuilds the CSS
   and the server restarts on every change, so an edit is in dev on refresh.
   If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
-  (idempotent) or register it by hand as the `website` skill says.
+  (it is safe to run again).
 - Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
   any credential.
 

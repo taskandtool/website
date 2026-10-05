@@ -35,12 +35,14 @@ for (const [name, what] of steps) {
   const out = `${run.stdout || ""}${run.stderr || ""}`.replace(/\s+$/, "");
   if (run.status !== 0) {
     console.log(`  !!  ${name}: failed (${what})`);
-    failed.push({ name, tail: out.split("\n").slice(-25).join("\n") });
+    const all = out.split("\n");
+    const cut = all.length > 25 ? `(${all.length - 25} more lines above: npm run ${name})\n` : "";
+    failed.push({ name, tail: cut + all.slice(-25).join("\n") });
     continue;
   }
   const lines = out.split("\n").filter((l) => l.trim());
   const last = (lines.pop() || "ok").trim().replace(new RegExp(`^${name}: `), "");
-  console.log(`  ok  ${name}: ${name === "build" ? "dist/ written" : name === "content" ? "compiled" : last}`);
+  console.log(`  ok  ${name}: ${name === "build" ? "dist/ written" : last}`);
   if (name === "lint") {
     const hints = out.split("\n").filter((l) => /^\s*hint\b|^\s{8}\S/.test(l));
     if (hints.length) console.log(hints.join("\n"));

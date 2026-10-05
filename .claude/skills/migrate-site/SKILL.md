@@ -88,9 +88,9 @@ Each page through the `pages` skill (its brief, then the page, in the
 site's record; in a faithful rebuild the copy is the owner's and is only
 edited, never re-voiced unless asked), with the old page's raw markdown
 open for what it said and which links it carried. Title and h1
-keep their intent (`seo.md`); photographs come from `_index/media.json`'s
+keep their intent (the website skill's `seo.md`); photographs come from `_index/media.json`'s
 photo entries at full size with their alt text; internal
-links point at the new map. Posts go through `posts.md`; legal pages
+links point at the new map. Posts go through the website skill's `posts.md`; legal pages
 render from `legal/`. Mark the row built, show the page, and
 stop for review before the next page.
 

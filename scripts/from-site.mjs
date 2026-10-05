@@ -35,7 +35,9 @@ if (args.includes("--help") || args.includes("-h")) {
   console.log(USAGE);
   process.exit(0);
 }
-const url = args.find((a) => !a.startsWith("--"));
+const given = args.find((a) => !a.startsWith("--"));
+// a bare domain is their site too
+const url = given && !/^https?:\/\//.test(given) && /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(given) ? `https://${given}` : given;
 const onlyHomepage = args.includes("--only-homepage");
 const asJson = args.includes("--json");
 if (!/^https?:\/\//.test(url || "")) {

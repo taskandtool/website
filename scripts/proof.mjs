@@ -7,12 +7,18 @@
 import { existsSync, readFileSync } from "node:fs";
 import YAML from "yaml";
 
-if (process.argv.includes("--help")) {
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
   console.log("usage: npm run proof\n\nChecks that dist/index.html shows every logo and rating in public/proof.md, and at least one review.");
   process.exit(0);
 }
 const note = existsSync("public/proof.md") ? readFileSync("public/proof.md", "utf8") : "";
-const proof = YAML.parse(note.match(/^---\n([\s\S]*?)\n---/)?.[1] || "") || {};
+let proof = {};
+try {
+  proof = YAML.parse(note.match(/^---\n([\s\S]*?)\n---/)?.[1] || "") || {};
+} catch (e) {
+  console.error(`proof: public/proof.md's frontmatter is not valid YAML: ${e.message.split("\n")[0]}`);
+  process.exit(1);
+}
 if (!existsSync("dist/index.html")) {
   console.error("proof: no dist/ yet; run npm run build first");
   process.exit(1);
@@ -26,7 +32,8 @@ const findings = [];
 
 const logos = list("logos").filter((l) => l?.file);
 const missingLogos = logos.filter((l) => !page.includes(l.file));
-for (const l of logos.filter((l) => !l.name)) findings.push(`${l.file} has no name in public/proof.md: look at it and write the organisation's name`);
+const unnamed = logos.filter((l) => !l.name);
+if (unnamed.length) findings.push(`${unnamed.length} logo${unnamed.length === 1 ? " has" : "s have"} no name in public/proof.md: name them from raw/logos.png (numbered in the note's order)`);
 if (missingLogos.length) findings.push(`${missingLogos.length} of ${logos.length} logos are not on the homepage: ${missingLogos.map((l) => l.name || l.file).join(", ")}`);
 
 const ratings = list("ratings").filter((r) => r?.value);

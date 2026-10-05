@@ -39,6 +39,7 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         >
           Skip to content
         </a>
+        <Notice />
         <Header current={page.path} />
         <main id="main">{children}</main>
         <Footer />
@@ -64,6 +65,18 @@ function Tracking() {
       {id(t.metaPixel) ? (
         <script>{raw(`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${id(t.metaPixel)}');fbq('track','PageView');`)}</script>
       ) : null}
+    </>
+  );
+}
+
+/** The business note's notice, gone after its last day: at build, and in the browser for a page built before then. */
+function Notice() {
+  const { text, until } = site.notice;
+  if (!text || (until && until < new Date().toISOString().slice(0, 10))) return null;
+  return (
+    <>
+      <p class="bg-accent px-5 py-2 text-center text-accent-ink" data-until={until || undefined}>{text}</p>
+      {until ? <script>{raw(`document.querySelectorAll("[data-until]").forEach(function(e){if(new Date(e.dataset.until+"T23:59:59")<new Date())e.remove()})`)}</script> : null}
     </>
   );
 }
