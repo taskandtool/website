@@ -2,11 +2,12 @@
 
 `design/system.yaml` is the site's design system as one record, in the
 design library's shape. `npm run system` compiles it into `styles/theme.css`
-and `DESIGN.md`; nothing else holds a design value. Two proven library
-records sit beside this file as worked examples: `records/tally.yaml` (light,
-lead generation) and `records/claret.yaml` (a dark colour-field room). Read
-one whole before writing; they show the level of detail that lets a page be
-rebuilt from the record alone.
+and `DESIGN.md`; nothing else holds a design value. The library's
+fourteen systems sit in `records/` in this shape (`library.md` previews
+them). Read the closest one whole before writing; they show the level of
+detail that lets a page be rebuilt from the record alone, and their
+`x_components` hold proof patterns (rating banners, review cards, logo
+bars) to borrow.
 
 ## What the site's record holds
 
@@ -28,10 +29,8 @@ x_motion                    one entrance and one signature gesture, or "still: <
 x_layout                    how any band of any page is laid out (below)
 ```
 
-The library's `facets`, `provenance`, `description`, `x_brand`,
-`x_reference`, `x_status`, the `version`, `name`, `description` and
-`components` inside `tokens`, and `sections.shapes` describe a library entry,
-not a site; leave them out.
+A record may also carry `x_components`, the component recipes it was
+designed with.
 
 ## Tokens: the site's roles
 

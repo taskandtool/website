@@ -69,11 +69,6 @@ in the format of `references/brief.md`:
    from a guide or another page.
 7. **Write the search fields** (`references/brief.md`).
 
-**Read the briefs cold.** When you can start a sub-agent, give a fresh one
-the briefs, `public/` and the `writing` skill: it checks every fact against
-the notes and reads the words as someone who did not write them. Apply what
-it finds, except a change that would lose a fact.
-
 ## 3. Build each page
 
 From its brief, in the record:
@@ -97,29 +92,21 @@ From its brief, in the record:
 
 ## 4. Check and show
 
-1. `npm run verify`: fix every error, read every hint as a question about
-   the page.
-2. The website skill's `seo.md` by hand: one h1, headings in order, internal
-   links with descriptive text, real alt text.
-3. `npm run shots -- /path` for each page (the design skill's review gate),
-   look, and fix what the screenshots show.
-4. Mark the row `built` in `site-map.md`, show each page (`npm run show --
-   /path`), then the one line of what would make them better (the
-   `NEED:`s, rolled up).
+1. `npm run verify` and `npm run shots -- /path /path …` for every new page,
+   then the design skill's review gate, the writing skill's cold read and
+   `seo.md` (one h1, headings in order, descriptive links, real alt text):
+   one list of everything they find, fixed in one pass, then both again.
+2. Mark the rows `built` in `site-map.md`, show the pages (`npm run show --
+   --from-shots /path …`), then the one line of what would make them better
+   (the `NEED:`s, rolled up).
 
-## Reviews, on any page
+## Proof, on every page
 
-Wherever a page shows a review or a rating, it shows whose it is and how
-many stars, as graphics:
-
-- **The platform's mark** beside each review and rating, in its own colours,
-  unaltered (an SVG from the platform's brand resources, in
-  `static/images/platforms/`). A platform without one is named in words.
-- **The stars** as one graphic per star, in a row labelled once for screen
-  readers ("5 out of 5 stars"), from the review's own count; a rating nobody
-  recorded is not assumed.
-- A review whose platform is unknown carries neither, and its attribution is
-  as the source gives it.
+Use all of `public/proof.md` wherever it helps a reader decide. A review or
+rating shows its platform's icon (`static/images/platforms/`) and its stars
+as graphics; `RatingLine`, `ReviewsSection`, `LogosSection`,
+`PeopleSection` and `NumbersSection` do this, or build your own from
+`content.facts`.
 
 ## Changing a page later
 

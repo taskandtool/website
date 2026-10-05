@@ -13,11 +13,20 @@
 // quiet. One element can opt out of one rule with data-lint-allow="rule-id"
 // (an owner who insists on a phrase, a decorative exception), on it or an
 // ancestor. Legal pages are verbatim and exempt from the copy rules.
+//
+// The copy rules are the tropes skill's (.claude/skills/tropes/tropes.mjs),
+// run per band of <main> with the band's heading, and across the bands.
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "node-html-parser";
+import { check as tropes, findings as tropesIn, HINT_RULES } from "../.claude/skills/tropes/tropes.mjs";
 import { walk } from "./files.mjs";
 import { chromaHue, luminance, ratio, readTheme } from "./theme.mjs";
+
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  console.log("usage: npm run lint\n\nChecks the built pages in dist/: the refuse list, contrast in context, and the copy through the tropes skill.");
+  process.exit(0);
+}
 
 if (!existsSync("dist/index.html")) {
   console.error("lint: no dist/ yet; run npm run build first");
@@ -43,15 +52,15 @@ try {
 // ── findings ──────────────────────────────────────────────────────────────
 const findings = [];
 const HINTS = new Set(["same-hue-text", "light-on-dark", "adjacent-ground", "card-in-card", "side-stripe",
-  "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread"]);
+  "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread", "we-over-you", ...HINT_RULES]);
 const allowed = (el, rule) => {
   for (let e = el; e; e = e.parentNode) if (e.getAttribute?.("data-lint-allow")?.split(/\s+/).includes(rule)) return true;
   return false;
 };
-const report = (rule, page, el, message) => {
-  if (HINTS.has(rule) && declared.has(rule)) return;
+const report = (rule, page, el, message, level = HINTS.has(rule) ? "hint" : "error") => {
+  if (level === "hint" && declared.has(rule)) return;
   if (el && allowed(el, rule)) return;
-  findings.push({ rule, level: HINTS.has(rule) ? "hint" : "error", page, where: el ? describe(el) : "", message });
+  findings.push({ rule, level, page, where: el ? describe(el) : "", message });
 };
 const describe = (el) => {
   const text = el.text.replace(/\s+/g, " ").trim().slice(0, 40);
@@ -80,18 +89,6 @@ const refuse = [
   [/^font-(bold|extrabold|black)$/, "a weight above the heading weight; use the size tokens' weights or font-semibold"],
   [/^text-\[(?!clamp)/, "an arbitrary text size; add a type style to design/system.yaml and run npm run system"],
   [/^(p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|gap|gap-x|gap-y|space-x|space-y)-\[/, "an arbitrary spacing value; use the nearest step on the scale, or fix the alignment that needed it"],
-];
-const copyTells = [
-  /\bin today'?s (fast-paced|digital|competitive|ever-changing) world\b/i,
-  /\bin a world where\b/i, /\bimagine a world\b/i, /\bwelcome to (our|my|the) (website|site|home)/i,
-  /\bhere'?s the thing\b/i, /\band honestly\?/i, /\byou know what'?s wild\b/i, /\bthat changes everything\b/i,
-  /\bwhether you'?re\b/i, /\blook no further\b/i, /\blet'?s dive in\b/i,
-  /\bsay goodbye to\b/i, /\bto the next level\b/i, /\bdon'?t just \w+, \w+/i,
-  /\bgame-?changer\b/i, /\ball-in-one\b/i, /\bseamless(ly)?\b/i, /\bcutting-edge\b/i,
-  /\b(unlock|unleash|elevate|revolutioni[sz]e|supercharge) your\b/i, /\bleverage\b/i,
-  /\bwe'?re passionate about\b/i, /\bwe pride ourselves\b/i, /\bwe do things differently\b/i,
-  /\bstands? as a testament\b/i, /\bevolving landscape\b/i, /\bnestled in\b/i, /\bin the heart of\b/i,
-  /\bit'?s not (just )?(about )?\w+[,.;] it'?s\b/i, /\bnot just \w+(?: \w+)?, but\b/i,
 ];
 const variantless = (c) => c.slice(c.lastIndexOf(":") + 1);
 
@@ -209,14 +206,67 @@ for (const file of pages) {
     }
   }
 
-  // the copy: refused phrases and em dashes in what the page says (legal pages are verbatim)
+  // the copy: em dashes, and the tropes skill per band (legal pages are verbatim)
   if (!legalPaths.has(page)) {
     for (const el of main.querySelectorAll("*")) {
       const own = el.childNodes.filter((n) => n.nodeType === 3).map((n) => n.text).join(" ");
-      if (!own.trim() || el.closest("script")) continue;
+      if (!own.trim() || el.closest("script") || el.closest("blockquote, q")) continue;
       if (own.includes("—")) report("em-dash", page, el, "an em dash in the copy; write a comma, a colon or a new sentence");
-      const m = copyTells.map((rx) => own.match(rx)).find(Boolean);
-      if (m) report("refused-phrase", page, el, `"${m[0]}" is a phrase the writing skill refuses; say the specific thing instead`);
+    }
+    lintCopy(page, bands.length ? bands : [main]);
+  }
+}
+
+// ── the copy, through the tropes skill ───────────────────────────────────
+// A band's prose is its text less headings, questions (a FAQ's summary or dt)
+// and calls to action, checked on their own, and quotes, which stay as written. Block elements break
+// lines, so list items and cards stay separate sentences.
+function lintCopy(page, bands) {
+  const BLOCK = /^(p|div|li|ul|ol|section|article|header|footer|aside|nav|blockquote|figure|figcaption|br|tr|td|th|dd|dl|form|label|table|details)$/;
+  // quotes are others' words, kept as they wrote them: never ours to fix
+  const SKIP = /^(h[1-6]|summary|dt|a|button|script|style|svg|noscript|template|blockquote|q)$/;
+  const prose = (node) => {
+    if (node.nodeType === 3) return node.text;
+    const tag = node.rawTagName?.toLowerCase() || "";
+    if (SKIP.test(tag) || node.getAttribute?.("aria-hidden") === "true") return BLOCK.test(tag) || /^h[1-6]$/.test(tag) ? "\n" : " ";
+    const inner = node.childNodes.map(prose).join("");
+    return BLOCK.test(tag) ? `\n${inner}\n` : inner;
+  };
+  const tidy = (t) => t.replace(/[ \t]+/g, " ").replace(/ *\n[\s]*/g, "\n").trim();
+  const flat = (t) => t.replace(/\s+/g, " ").toLowerCase();
+  // The innermost element in the band holding the words, so data-lint-allow and the report point at it.
+  const locate = (band, match) => {
+    const m = flat(match);
+    let hit = null;
+    for (const el of band.querySelectorAll("*")) if (flat(el.text).includes(m)) hit = el;
+    return hit || band;
+  };
+  const sections = bands.map((band) => {
+    const h = band.querySelector("h1, h2, h3");
+    return { heading: h ? h.text.replace(/\s+/g, " ").trim() : "", body: tidy(prose(band)) };
+  });
+  const say = (f) => `"${f.match.slice(0, 60)}": ${f.fix}`;
+  for (const f of tropes(sections, { kind: "page" })) {
+    if (f.rule === "em-dash") continue; // reported per element above
+    if (f.sections) {
+      const [i, j] = f.sections;
+      report(f.rule, page, locate(bands[j], f.match), `${say(f)} (said in band ${i + 1} too)`, f.severity === "hint" ? "hint" : "error");
+    } else {
+      const band = f.section === undefined ? null : bands[f.section];
+      const el = band && (["triads", "uniform-length", "dated-vocabulary"].includes(f.rule) ? band : locate(band, f.match));
+      report(f.rule, page, el, say(f), f.severity === "hint" ? "hint" : "error");
+    }
+  }
+  // Calls to action and FAQ questions, one by one.
+  for (const band of bands) {
+    for (const el of band.querySelectorAll("a, button, summary, dt")) {
+      if (el.closest("nav")) continue;
+      const label = el.text.replace(/\s+/g, " ").trim();
+      if (!label) continue;
+      for (const f of tropesIn(label, { kind: "page" })) {
+        if (f.rule === "em-dash" || f.rule === "we-over-you") continue;
+        report(f.rule, page, el, say(f), f.severity === "hint" ? "hint" : "error");
+      }
     }
   }
 }
@@ -229,9 +279,11 @@ const byRule = new Map();
 for (const f of findings) byRule.set(f.rule, [...(byRule.get(f.rule) || []), f]);
 const errors = findings.filter((f) => f.level === "error").length;
 const hints = findings.length - errors;
+// every error, so all are fixed in one pass; hints two per rule
 for (const [rule, list] of byRule) {
-  for (const f of list.slice(0, 2)) console.log(`  ${f.level.padEnd(5)} ${rule}  ${f.page}${f.where ? "  " + f.where : ""}\n        ${f.message}`);
-  if (list.length > 2) console.log(`        (+${list.length - 2} more like this)`);
+  const shown = list[0].level === "error" ? list : list.slice(0, 2);
+  for (const f of shown) console.log(`  ${f.level.padEnd(5)} ${rule}  ${f.page}${f.where ? "  " + f.where : ""}\n        ${f.message}`);
+  if (list.length > shown.length) console.log(`        (+${list.length - shown.length} more hints like this)`);
 }
 console.log(`lint: ${errors} error(s), ${hints} hint(s) across ${pages.length} page(s)`);
 if (errors) process.exit(1);

@@ -180,6 +180,10 @@ export const googleFontsUrl = ${JSON.stringify(url)};
 }
 
 if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  if (process.argv.includes("--help") || process.argv.includes("-h")) {
+    console.log("usage: npm run system\n\nCompiles design/system.yaml into styles/theme.css, DESIGN.md and src/fonts.ts.");
+    process.exit(0);
+  }
   const rec = readRecord();
   const found = problems(rec);
   if (found.length) {

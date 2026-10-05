@@ -1,6 +1,6 @@
 ---
 name: website
-description: "Runs, changes and deploys this business website: the Hono app, its pages and components, the dev loop, the checks, screenshots, images, forms and the checklist before each deploy. Use for a change to the site's code, editing a page's code, or deploying. A new homepage or site is new-site; the look is design."
+description: "Runs, changes and deploys this business website: the Hono app, its pages and components, the dev loop, the checks, screenshots, images and the checklist before each deploy. Use for a change to the site's code, editing a page's code, or deploying. A new homepage or site is new-site; the look is design."
 ---
 
 # Website
@@ -23,33 +23,17 @@ interactivity, forms and data, after launch and off the platform are in
 
 `npm run dev` is what the `web` service runs: Tailwind rebuilds
 `static/site.css` and the server restarts on every change, so an edit shows
-on the next refresh of dev. Check it is running before starting work:
-
-```bash
-sprite-env services get web        # definition, status, restart_count
-curl -s -o /dev/null -w '%{http_code}\n' localhost:3000/
-```
-
-If the service does not exist (the setup could not register it, or the app
-was created another way), register it once; the platform's `serving` skill
-has the mechanics:
-
-```bash
-sprite-env services create web \
-  --cmd bash --args "-c,set -a; . /home/sprite/.env; set +a; exec npm run dev" \
-  --dir /home/sprite/app --env "PORT=3000" --http-port 3000
-```
-
-Setup left the dependencies installed and the CSS built. If either is
-missing (a fresh clone, a replaced machine), re-run it; it is idempotent:
-`bash ~/app/.taskandtool/setup.sh`.
+on the next refresh of dev. If dev does not answer
+(`curl -s -o /dev/null -w '%{http_code}\n' localhost:3000/`), re-run
+`bash ~/app/.taskandtool/setup.sh`: it installs, builds and registers the
+service, and is safe to run again.
 
 Before showing work:
 
 ```bash
-npm run verify                   # content, check, typecheck, test, build, lint; stops at the first failure and says what to fix
+npm run verify                   # content, check, typecheck, test, build, proof, lint; lists every failure to fix in one pass
 npm run shots                    # at 1280 and 390 wide: uploads/home-1280/overview.png (a long page), then 01.png …
-                                 # (-- /services for another page, --first-screen, --width N)
+                                 # (-- /services /about for other pages, --first-screen, --width N)
 npm run show -- --from-shots     # each page whole, one image per width, sent to the chat
 ```
 
@@ -71,8 +55,8 @@ in a note, once; a page that shows it is listed in `site-map.md`'s notes
 column so a change points at the pages.
 
 Sections that render from the notes are ready in `src/components/facts.tsx`:
-`ServicesSection`, `FaqSection`, `ContactSection`, `ProofSection` (reviews),
-`MarksSection` (their logos of clients, partners and associations). Each
+`ServicesSection`, `FaqSection`, `ContactSection`, and for the proof
+`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`. Each
 renders nothing while its note is empty, so a page can include them before
 the facts exist. Compose around them; do not retype a fact into markup.
 `npm run parts` prints the components, their props and the facts there are.
@@ -139,6 +123,5 @@ Worker for dynamic routes) and deploys it.
 
 ## Git
 
-The app is the owner's repository. Commit at milestones with plain
-messages; never commit `dist/`, `build/`, `node_modules/`, `static/site.css`,
-or any credential. Pushing to GitHub is the owner's call.
+The app is the owner's repository (AGENTS.md: The loop); pushing to GitHub
+is the owner's call.

@@ -56,15 +56,10 @@ tt-crawl check https://theirdomain.com
                 client_visible=False)
    ```
 
-   `tt-crawl audit` crawls the production site and reports broken internal links
-   and images, broken external links, redirect chains, pages missing a
-   title, description, or single h1, duplicate titles, images without alt
-   text, canonical tags pointing elsewhere, noindex pages, sitemap drift,
-   JSON-LD that does not parse, and oversized pages. Run it by hand any
-   time (`tt-crawl audit URL`, with `--no-register` for a local run so it
-   does not become the site's latest); for the two weeks after launch run
-   it with `--inventory raw/site/<host>/_index/inventory.json` too, which
-   adds the old URLs the way `check` does.
+   `tt-crawl audit` crawls production for broken links, missing titles and
+   h1s, redirect chains, sitemap drift and the like. Run it by hand any time
+   (`--no-register` for a local run); for two weeks after launch add
+   `--inventory raw/site/<host>/_index/inventory.json` to cover the old URLs.
 
 ## What the report means
 

@@ -7,6 +7,11 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  console.log("usage: npm run parts\n\nWhat a page is built from: the components and their props, the classes, the page shape, the facts and proof the notes hold.");
+  process.exit(0);
+}
+
 const read = (f) => (existsSync(f) ? readFileSync(f, "utf8") : "");
 const out = [];
 
@@ -15,8 +20,8 @@ out.push("Components (import from \"../components\" and \"../components/facts\")
 for (const file of ["src/components/index.tsx", "src/components/facts.tsx"]) {
   const src = read(file);
   // a doc comment on one line or several (each continued with " * ")
-  for (const m of src.matchAll(/\/\*\*((?:(?!\*\/)[\s\S])*)\*\/\s*export function (\w+)\(\{([^}]*)\}/g)) {
-    const props = m[3].split(",").map((p) => p.trim().split(/[=\s:]/)[0]).filter(Boolean).join(", ");
+  for (const m of src.matchAll(/\/\*\*((?:(?!\*\/)[\s\S])*)\*\/\s*export function (\w+)\((?:\{([^}]*)\})?/g)) {
+    const props = (m[3] || "").split(",").map((p) => p.trim().split(/[=\s:]/)[0]).filter(Boolean).join(", ");
     const doc = m[1].replace(/^\s*\*\s?/gm, " ").replace(/\s+/g, " ").trim();
     out.push(`  <${m[2]}${props ? ` ${props}` : ""}>  ${doc}`);
   }
@@ -44,7 +49,8 @@ try {
     "",
     "Facts (content.facts, from public/):",
     `  business: ${[b.name, b.telephone, b.email].filter(Boolean).join(" · ") || "empty"}`,
-    `  offerings: ${facts.offerings.length}, faq: ${facts.faq.length}, proof: ${facts.proof.length}, locations: ${facts.locations.length}`,
+    `  offerings: ${facts.offerings.length}, faq: ${facts.faq.length}, locations: ${facts.locations.length}`,
+    `  proof: ${["reviews", "ratings", "logos", "people", "numbers", "posts"].map((k) => `${k} ${facts[k].length}`).join(", ")}`,
   );
 } catch {
   out.push("", "Facts: run npm run content to see them (a note in public/ did not parse)");

@@ -18,6 +18,11 @@ import { DESIGN, FONTS, RECORD, THEME, designMd, fontsTs, problems, readRecord, 
 import { walk } from "./files.mjs";
 import { TEXT_PAIRS, isHex, ratio, readTheme } from "./theme.mjs";
 
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  console.log("usage: npm run check\n\nThe project's own checks: the brand notes, the design record and its contrast, page paths, the site map, the business facts, the Cloudflare rule.");
+  process.exit(0);
+}
+
 const findings = [];
 const { source: theme, colour } = readTheme();
 

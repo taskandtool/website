@@ -1,0 +1,337 @@
+# Open: the open invitation. For places and events whose action is "join us" (a park, a venue, a
+# festival, a launch, a community): the first screen is the brand's own landscape video, full
+# screen, with a short headline; at the fold, a clean white band that is the signup itself, one
+# oversized field and a button. Below, mostly white, with what's on as dated rows in big numerals
+# and one bright accent. Bricolage Grotesque, friendly and loud in the heads. Built 2026-09-24 on
+# The Bay Sarasota.
+id: open
+title: Open
+summary: >
+  An invitation system: a full-screen landscape video with a short headline, then a white band at
+  the fold that is the signup itself (one oversized email field and a button), then a bright,
+  mostly white page of what's on, with dates set in big numerals and one vivid accent.
+tokens:
+  colors:
+    primary: "#FF6A3D"
+    primary-deep: "#E5501F"
+    ink: "#121417"
+    muted: "#4D535C"
+    white: "#FFFFFF"
+    cloud: "#F3F4F2"
+    line: "#DCDFE3"
+    fog: "#B7BCC4"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.cloud}"
+    night: "{colors.ink}"
+    ink-2: "{colors.muted}"
+    ink-3: "{colors.muted}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.fog}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.ink}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.muted}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: 96px
+      fontWeight: 800
+      lineHeight: 0.95
+      letterSpacing: -2.5px
+    section:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: 64px
+      fontWeight: 800
+      lineHeight: 1.0
+      letterSpacing: -1.5px
+    display-md:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: 48px
+      fontWeight: 800
+      lineHeight: 1.02
+      letterSpacing: -1px
+    heading-lg:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: 48px
+      fontWeight: 700
+      lineHeight: 1.05
+      letterSpacing: -1px
+    title:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: 28px
+      fontWeight: 700
+      lineHeight: 1.15
+      letterSpacing: -0.4px
+    date:
+      fontFamily: "Bricolage Grotesque"
+      fontSize: 72px
+      fontWeight: 800
+      lineHeight: 0.9
+      letterSpacing: -2px
+      fontFeature: tnum
+    field:
+      fontFamily: "DM Sans"
+      fontSize: 24px
+      fontWeight: 500
+      lineHeight: 1.3
+      letterSpacing: 0px
+    lede:
+      fontFamily: "DM Sans"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    copy:
+      fontFamily: "DM Sans"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    label:
+      fontFamily: "DM Sans"
+      fontSize: 16px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: 0.1px
+    caption:
+      fontFamily: "DM Sans"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+  rounded:
+    none: 0px
+    card: 20px
+    field: 9999px
+    # the website's roles: control (pressed or typed) and card (containers)
+    control: "{rounded.field}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 112px
+    step-xxl: 160px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1200px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Open is an invitation. The first screen is the place in motion: the brand's own landscape
+    video, muted and looping, full screen, with a short headline centred low in {colors.white} on
+    a soft dark foot. At the fold the page turns {colors.white} and asks one thing: an oversized
+    email field and a {colors.primary} button on one line, with the promise beside it. Below, a
+    light page: what's on as dated rows with the day in {typography.date}, photographs of people
+    there, {colors.cloud} bands for relief, one {colors.primary} band where the page repeats its
+    ask. {colors.ink} closes the page in the footer.
+  colors: >
+    {colors.white} is the ground and {colors.cloud} the alternate band (cool, not beige).
+    {colors.ink} is all text, with {colors.muted} for secondary lines (7.8:1). {colors.primary},
+    a vivid coral, is the brand's slot: the button and the one accent band; it carries {colors.ink} text (6.5:1), never white. {colors.line} outlines the signup
+    field. {colors.ink} with {colors.fog} is the footer. Text is neutral on every ground.
+
+    With the brand's own colour: the brand's colour fills the button and the accent band; it must carry {colors.ink} text at 4.5:1, so a bright or light brand colour works (a teal, a coral, a yellow); a dark brand colour keeps the coral and is used nowhere.
+  typography: >
+    Bricolage Grotesque carries every head and every date: {typography.display} at 96px on the
+    video (two lines, three at most), {typography.heading-lg} at 48px for band heads,
+    {typography.title} for card and event titles, {typography.date} at 72px for the day of an
+    event. DM Sans carries the reading at 18px, leads at 21px, labels at 16px, captions at 15px,
+    and the signup field at 24px so it reads as the page's question. Sentence case.
+  layout: >
+    Twelve columns in a 1200px container with 32px gutters; the head's video and the accent band
+    run to the viewport edge. The head is the full first screen (100vh, at least 640px). The
+    signup band sits directly beneath it. Bands carry {spacing.step-xl} top and bottom.
+  elevation_and_depth: >
+    Flat. The video and the white band at the fold do the drama; cards are white on
+    {colors.cloud} with no shadow.
+  components: >
+    {rounded.field} (a pill) for the signup field and every button: the ask is soft and
+    friendly. {rounded.card} (20px) for photographs and cards inside a band. The head's video
+    meets the edges square.
+
+    Signup: one line, an oversized {colors.white} field at {rounded.field} with a 2px
+    {colors.line} outline that turns {colors.ink} on focus, 72px tall, the email in
+    {typography.field}; the {colors.primary} pill button beside it, same height; a visible label;
+    what they'll get in {typography.copy} {colors.muted} beside or under it. Event row: the
+    day in {typography.date}, the month in {typography.label} {colors.ink} above it, the
+    event name in {typography.title} and its time and place in {typography.copy}
+    {colors.muted}, on a 1px {colors.line} top rule.
+  dos_and_donts:
+    do:
+      - rule: "Open on the place in motion: a muted, looping landscape video at 720p or better, full screen, with no text burned into it."
+        why: "An invitation works when the reader sees the place full of people; titles burned into the video fight the headline."
+      - rule: "Put the signup at the fold as its own white band, with what the reader gets beside it: one field and one button when the brief gives the form and where it sends, otherwise the button alone to the brand's own signup page."
+        why: "Asking right where the video ends catches the reader at their most curious, and a single field is a yes that costs nothing."
+      - rule: "Set event dates as the page's numerals, the day in {typography.date}."
+        why: "The dates are the reason to come back; set large, they make the page read as alive."
+    dont:
+      - rule: "Don't put the form over the video, or frost it."
+        why: "That is crest's and vesper's move; here the video stays clear and the page turns white to ask."
+      - rule: "Don't set white text on {colors.primary}."
+        why: "It fails contrast (2.85:1); the accent carries {colors.ink}."
+      - rule: "Don't use a beige or cream ground."
+        why: "The page is white and cool grey; warm off-white is the generated default."
+  responsive_behavior: >
+    Below 768px the head stays full screen with the headline in {typography.display-md}; the video
+    plays muted and inline, and shows its poster under reduced motion. The signup stacks: the
+    field full width, the button full width beneath it, both 64px tall. Event rows keep the big
+    date at 56px to the left of the name. Bands go to one column with 20px margins; section
+    padding {spacing.step-xl} → {spacing.step-lg}.
+  known_gaps: >
+    A brand with no clean landscape video uses its widest sharp photograph (1600px+) the same
+    way; with neither, open is the wrong system. The signup needs its real fields and where it
+    sends; without them it is a button to the brand's own signup page. No icon set.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.muted}"
+    typography: "{typography.copy}"
+  band-cloud:
+    backgroundColor: "{colors.cloud}"
+    textColor: "{colors.ink}"
+  band-cloud-muted:
+    backgroundColor: "{colors.cloud}"
+    textColor: "{colors.muted}"
+  band-accent:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.ink}"
+    typography: "{typography.section}"
+  signup-field:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.field}"
+    rounded: "{rounded.field}"
+  field-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.ink}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.field}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.field}"
+  date:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.date}"
+  card:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.card}"
+  footer:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.fog}"
+    typography: "{typography.caption}"
+  footer-strong:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.white}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The head is a full-screen landscape video (else the widest photograph), text-free, with the headline centred low; the ask is its own white band at the fold (the field only when the brief gives it and where it sends)."
+    - "White and {colors.cloud} grounds; {colors.primary} only on the button and one accent band; {colors.ink} text on it."
+    - "Bricolage Grotesque for heads and dates; DM Sans for everything read."
+  accessible:
+    - "{colors.ink} on {colors.white} is 18.5:1; {colors.muted} on {colors.white} 7.8:1; {colors.ink} on {colors.primary} 6.5:1."
+    - "The head's words sit only on the held 75% {colors.ink} foot (the lowest 35%); the video has a pause button and a poster, and stops under reduced motion."
+    - "The signup field has a visible label; field and button 64px or taller."
+
+x_imagery:
+  role: >
+    The place in motion leads; after it, photographs of people there, as proof the invitation is
+    real.
+  density: "the head's video always; a photograph beside most bands; a strip of three or four people-photographs somewhere on the page"
+  treatment: >
+    Head: a landscape video at 720p or better with no burned-in text, muted, looping, inline,
+    full screen, object-cover, with its poster and a pause button at the bottom right, under a
+    {colors.ink} gradient rising from the bottom (75% held across the lowest 35%, transparent by 60% of the
+    height). Inside bands: photographs at {rounded.card}, 4/3 or 3/2, object-cover, no overlay.
+  aspect_ratios: ["16/9", "4/3", "3/2", "1/1", "4/5"]
+  caption: >
+    Optional, {typography.caption} {colors.muted}, {spacing.step-sm} under a photograph: the event and
+    the day, in the brief's words.
+  forbidden:
+    - "a video with burned-in titles as the head"
+    - "a form over the video"
+    - "a photograph enlarged past its own pixel width"
+  no_assets_supplied: >
+    No video: the widest sharp photograph fills the head the same way. Neither: open is the wrong
+    system.
+
+x_emphasis:
+  device: "the next date on the calendar, the day in `text-date` `text-ink` with its month in `text-label` `text-ink` above, beside the event name in `text-heading-lg`"
+  applies_to: "the one upcoming event the page leads with, once"
+  why: "A date is the most concrete invitation there is: come on this day."
+
+x_motion:
+  principle: "The video moves; the page mostly doesn't."
+  entrance: "On load the headline rises 20px and fades in over 900ms, 300ms after the video's first frame; at the fold the signup field and button rise 16px as they enter, once."
+  signature: "The head video loops, muted; the signup field's outline turns {colors.ink} on focus and the button nudges 2px on hover."
+  scroll: "Event rows fade in 60ms apart as the band enters; nothing else animates on scroll."
+  reduced: "Under prefers-reduced-motion the video shows its poster, nothing moves, nothing is hidden; with script off the page is complete."
+  mechanism: "Tailwind transition, duration, ease, opacity and translate utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; the pause button toggles the video and its label; no <style> block, no keyframes."
+
+x_layout:
+  measure:
+    reading: "55–65ch in {typography.copy}"
+    caption: "one line at the width of its photograph"
+  grid:
+    columns: 12
+    container: "1200px, 48px side margins → 20px below 768px; the head and the accent band run to the viewport edge"
+    gutter: "32px"
+    text_columns: "1–7 beside a photograph on 8–12, or centred 3–10"
+    media_columns: "full viewport for the head; 5–6 columns beside words; 4 columns in a row of three"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "surface — after the head and the white signup band, bands alternate {colors.white} and {colors.cloud}; the one {colors.primary} band repeats the ask near the end; the footer is {colors.ink}; never a rule between bands"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body, {typography.date} dates", rhythm: "as rhythm" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows, {typography.date} dates", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for (the calendar, the facts) starts on the first screen" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column of 7 on 3–9; photographs between sections at full container width" }
+  head:
+    statement: "The full first screen (100vh, at least 640px): the brand's landscape video, 720p or better, with no text burned into it and people in it, muted, looping, inline, object-cover, square to the edges, with its poster and a small pause button at the bottom right. A {colors.ink} gradient rises from the bottom, held at 75% across the lowest 35% of the height (under all the words) and fading to transparent by 60%, so white words hold at least 7:1 over any picture. The video needs its people and action in the upper two-thirds, with the foot of the frame calmer (ground, a floor, water). Centred in the lower third: the headline in {typography.display} {colors.white}, two lines and three at most, and one {typography.lede} {colors.white} line under it. Nothing else on the video: no form, no card, no button. Directly beneath, the signup band on {colors.white} at {spacing.step-lg} padding: on 1–5 the ask in {typography.title} with what they'll get in {typography.copy} {colors.muted}; on 6–12 the oversized field and the {colors.primary} pill on one line (stacked below 768px). The field is built only when the brief gives it and where it sends; otherwise the pill goes to the brand's own signup page. No video: the widest sharp photograph the same way."
+    plain: "A {colors.white} band: the title in {typography.section} {colors.ink} on 1–8 and one {typography.lede} {colors.muted} line under it; the first band starts {spacing.step-lg} below."
+  hosted_player: "When the brand's head video is a hosted player (Vimeo or YouTube, embeddable, landscape), use it the way the brand does, never downloaded: an iframe of the recorded embed URL (background mode: muted, looping, no controls) with a title, in the head's frame (the frame carries the utility `media-frame`) with the utility `media-cover` (it fills the frame like object-cover), over its thumbnail as the poster image; the pause button drives it through the provider's player API (https://player.vimeo.com/api/player.js for Vimeo); under reduced motion the iframe is not added and the poster stays."
+  close: "The one {colors.primary} band, full width: the ask again in {typography.section} {colors.ink} on 1–7 and the signup (field and pill, or the pill alone) on 8–12, {spacing.step-xl} padding; then the {colors.ink} footer."
+  shapes:
+    items: { as: "grid", look: "with photographs: each a photograph at {rounded.card} 4/3, the name in {typography.title}, one line in {typography.copy} {colors.muted}; without: names in {typography.title} with a line each on 1px {colors.line} rules", counts: "2: 6 + 6. 3: across 12. 4: 2 × 2. 5–6: rows of 3. 7+: names only, two columns." }
+    table: { as: "stack of rows", look: "each row name left in {typography.copy} and value right with tabular figures on a 1px {colors.line} rule; group heads in {typography.title}", counts: "≤ 12: one table on 1–8. 13+: grouped, two across from 1024px." }
+    facts: { as: "stack", look: "key in {typography.label} {colors.muted}, value in {typography.lede} {colors.ink}; addresses and phones as links", counts: "1–3: one column beside a photograph. 4–8: two columns. Hours: a table of seven rows." }
+    qa: { as: "stack", look: "question in {typography.title}, answer in {typography.copy} {colors.muted}, a 1px {colors.line} rule above each", counts: "≤ 8: one column on 1–8. 9+: two columns from 1024px." }
+    people: { as: "grid", look: "photograph at {rounded.card} 4/5, name in {typography.title}, role in {typography.copy} {colors.muted}", counts: "1: beside the words at 5/7. 2–3: across. 4: 2 × 2. 5+: rows of 3." }
+    sequence: { as: "stack", look: "dated entries (events): the event row, the day in {typography.date} {colors.ink} with its month in {typography.label} {colors.ink} above, the name in {typography.title} and its time and place in {typography.copy} {colors.muted}, on a 1px {colors.line} top rule; a photograph at 4/3 on the right of a row only when the brief gives one. Ordered steps without dates: the step's number in {typography.heading-lg} {colors.ink}, its name in {typography.title}, its line in {typography.copy} {colors.muted}, on the same rules", counts: "dated, 1: the emphasis (see x_emphasis). Steps: 2–4 across 12, 5+ one column. 2–8: one column on 1–10. 9+: grouped by month under {typography.heading-lg} month heads." }
+    media_text: { as: "sidebar", look: "the photograph at {rounded.card} 4/3 on 7–12 (or 1–6), the heading in {typography.heading-lg} and a passage on the other side", counts: "one per band; alternate sides when two follow each other" }
+    gallery: { as: "grid", look: "photographs at {rounded.card}, a mix of 4/5 and 4/3 in a row of three or four, captions optional", counts: "3: across 12. 4: across 12 at 3 each. 5–6: a row of 3 then 2–3. 7+: rows of 4." }
+    quote: { as: "grid", look: "on {colors.cloud}: each a {colors.white} card at {rounded.card}, the platform's square mark and stars when the source gives them, the quote in {typography.lede}, the name in {typography.caption} {colors.muted}", counts: "1: one card on 3–10. 2: 6 + 6. 3: across. 4+: rows of 3." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading", counts: "—" }
+    form: { as: "band", look: "the signup: an oversized field at {rounded.field}, 72px, 2px {colors.line} outline turning {colors.ink} on focus, the {colors.primary} pill beside it; more fields stack as a column of 64px fields on 6–12 with labels above", counts: "1 field: one line. 2–4: a column on 6–12. 5+: two columns." }
+    index: { as: "grid", look: "each entry a photograph at {rounded.card} 3/2 with its title in {typography.title} and one line", counts: "2–3 across; 4: 2 × 2; 5+: rows of 3." }
+  focal: "The video leads the first screen and the signup leads the second. In each band after, one thing leads: the date, the photograph, or the heading. The {colors.primary} button is the only strong colour on a white band."
+  never:
+    - "a form, card or frosted panel over the head's video"
+    - "a video with burned-in titles as the head"
+    - "white text on {colors.primary}"
+    - "a beige or cream ground"

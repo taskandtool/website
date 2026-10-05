@@ -12,6 +12,11 @@ import { basename, join } from "node:path";
 import YAML from "yaml";
 import { marked } from "marked";
 
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  console.log("usage: npm run content\n\nCompiles public/, posts/ and legal/ into src/generated/content.json for the pages.");
+  process.exit(0);
+}
+
 function readNote(file) {
   const raw = readFileSync(file, "utf8");
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -31,7 +36,7 @@ const slug = (file) => basename(file, ".md");
 
 // public/: the facts. One note per topic; the frontmatter `type` says how
 // the build reads it (see FACTS.md).
-const facts = { business: null, locations: [], offerings: [], faq: [], proof: [], marks: [] };
+const facts = { business: null, locations: [], offerings: [], faq: [], reviews: [], ratings: [], logos: [], people: [], numbers: [], posts: [] };
 for (const f of notes("public")) {
   const { data, body } = readNote(join("public", f));
   const type = data.type;
@@ -63,9 +68,9 @@ for (const f of notes("public")) {
       if (q && filled(a)) facts.faq.push({ question: q, answer: a, answerHtml: marked.parse(a), _file: f });
     }
   } else if (type === "proof") {
-    for (const item of data.items ?? []) if (item && item.quote) facts.proof.push({ ...item, _file: f });
-    // a mark shows once it has a file; its name is the image's alt text
-    for (const mark of data.marks ?? []) if (mark && mark.file) facts.marks.push({ ...mark, _file: f });
+    // what others say: each kind as written, kept once it holds what it shows
+    const kinds = { reviews: (r) => r.quote, ratings: (r) => r.value, logos: (r) => r.file, people: (r) => r.name, numbers: (r) => r.figure, posts: (r) => r.text };
+    for (const [kind, shows] of Object.entries(kinds)) for (const item of data[kind] ?? []) if (item && shows(item)) facts[kind].push({ ...item, _file: f });
   }
 }
 // A business note still full of "to fill" is not a fact yet.

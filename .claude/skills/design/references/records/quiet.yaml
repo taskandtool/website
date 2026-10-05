@@ -1,0 +1,418 @@
+# quiet — the minimal arm. Everything the other systems add, this one
+# leaves out: no second colour, no second typeface, no rules, no surfaces, no
+# shadows, no radii, no motion. One weight change. The photograph is the page;
+# the type is its caption.
+id: quiet
+title: Quiet
+summary: >
+  A monochrome minimal system: white ground, one graphite ink, one grotesk at a
+  single weight with one medium exception, and vertical space measured in
+  hundreds of pixels. There are no rules, cards, shadows or radii. Photographs
+  are set full-bleed and the type sits small beside them, like a caption.
+tokens:
+  colors:
+    primary: "#2A2A2A"
+    paper: "#FFFFFF"
+    mist: "#F2F2F2"
+    line: "#D9D9D9"
+    ink: "#2A2A2A"
+    ink-quiet: "#666666"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.paper}"
+    surface: "{colors.paper}"
+    panel: "{colors.mist}"
+    night: "{colors.ink}"
+    ink-2: "{colors.ink-quiet}"
+    ink-3: "{colors.ink-quiet}"
+    night-ink: "{colors.paper}"
+    night-ink-2: "{colors.mist}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.paper}"
+    accent-hover: "{colors.ink-quiet}"
+    line-strong: "{colors.ink-quiet}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 48px
+      fontWeight: 400
+      lineHeight: 1.2
+      letterSpacing: -0.5px
+    section:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 28px
+      fontWeight: 400
+      lineHeight: 1.3
+      letterSpacing: -0.3px
+    lede:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 22px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: -0.1px
+    copy:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.7
+      letterSpacing: 0px
+    caption:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    label:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 15px
+      fontWeight: 500
+      lineHeight: 1.4
+      letterSpacing: 0px
+    figure:
+      fontFamily: "Hanken Grotesk"
+      fontSize: 112px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -3px
+      fontFeature: tnum
+    # title: the website's role, set the same as section in this system
+    title:
+      fontFamily: Hanken Grotesk
+      fontSize: 28px
+      fontWeight: 400
+      lineHeight: 1.3
+      letterSpacing: -0.3px
+  rounded:
+    none: 0px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.none}"
+    control: "{rounded.none}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 128px
+    step-xxl: 224px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xxl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Quiet is a white page with photographs on it. The ground is {colors.paper}
+    and it never changes: there are no bands, no alternate surfaces, no dark
+    footer. Text is {colors.ink}, a graphite chosen to be visibly grey rather
+    than black, and secondary text is {colors.ink-quiet}. One grotesk, Hanken
+    Grotesk, at 400 throughout, with a single medium-weight style
+    ({typography.label}) reserved for names and the primary action. Headlines
+    are small: {typography.display} is 48px and nothing on the page is set
+    larger except the one permitted figure. Photographs are the largest
+    elements by a wide margin, and text is placed beside or beneath them in
+    the manner of a gallery label, never over them. Sections are separated by
+    {spacing.step-xxl} of empty ground and by nothing else.
+  colors: >
+    Six tokens, four of them grey. {colors.paper} is the only ground.
+    {colors.ink} is body text, headings, links and the fill of the single
+    primary button ({colors.primary} is the same value, named for the action).
+    {colors.ink-quiet} carries captions, footer text and input hints, and is
+    the lightest text permitted anywhere: it measures 5.74:1 on {colors.paper}
+    and 5.13:1 on {colors.mist}. {colors.mist} is the one low surface, used for
+    form inputs only. {colors.line} is a one-pixel underline beneath an input,
+    and is the only rule the system draws. There is no accent. If a second
+    colour is needed, the answer is a different photograph.
+
+    With the brand's own colour: a brand colour replaces the graphite {colors.primary} on the one filled button only, so it must hold {colors.paper} text at 4.5:1; text, links, the figure and {colors.ink} stay graphite, the hover stays {colors.ink-quiet}, and a light brand colour is refused.
+  typography: >
+    Hanken Grotesk at weight 400 for every size, with one exception:
+    {typography.label} at 500 for a name, a wordmark, a button. That is the
+    one weight change and it is the whole of the system's emphasis vocabulary
+    beyond size. The scale is 13 / 15 / 17 / 22 / 28 / 40 with a single
+    outlier, {typography.figure} at 112px, for at most one number per page. Display
+    sizes take slight negative tracking; body takes none. Body measure sits
+    between 50 and 62 characters, narrower than usual, so a paragraph reads as
+    a short column beside a photograph. Line-height is 1.7 at body size.
+    Nothing is set in capitals. Nothing is italic.
+  layout: >
+    A twelve-column grid at 1280px with 32px gutters, but the grid is used
+    asymmetrically: text occupies columns 1 to 5 or 7 to 11, never the
+    centre, and never the full width. Photographs occupy either the full
+    viewport width or columns 6 to 12. When the page opens on a photograph the
+    h1 sits below it, never on it; either way it is left-aligned to the first
+    column. Vertical rhythm is the
+    layout: sections are separated by {spacing.step-xxl} at desktop, groups within
+    a section by {spacing.step-lg}, and a caption sits {spacing.step-sm} beneath its
+    image. The ratio between those three distances is what lets a reader see
+    the structure without a single rule being drawn.
+  elevation_and_depth: >
+    None. No shadow, no border, no surface change, no blur. The page is one
+    plane. A photograph is not raised above it, framed within it, or faded
+    into it; it is simply a rectangle of the page that happens to be a
+    photograph. Depth, where it exists, is inside the photographs.
+  components: >
+    One radius, {rounded.none}. Every image, button, input and surface has
+    square corners. There are no pills, no circles, no chips, no avatars.
+
+    The primary button is a {colors.primary} rectangle with {colors.paper}
+    text in {typography.label}, padded generously and at least 48px tall; on
+    hover the fill moves to {colors.ink-quiet}. There is one filled button
+    per page; repeats of the action are plain underlined links. Links are {colors.ink} with a one-pixel underline offset by
+    4px; they do not change colour. Inputs are {colors.mist} with a
+    {colors.line} underline on the bottom edge only and a visible label above
+    in {typography.caption}. Quotes are set in {typography.lede} in plain
+    quotation marks with no decorative mark, no rule and no card, attributed in {typography.caption} beneath.
+    There is no card component; a group of related items is a list with
+    space between rows.
+  dos_and_donts:
+    do:
+      - rule: "Set every photograph at the full width of its column or the full width of the viewport, with its caption, when it has one, in {typography.caption} beneath it."
+        why: "The photograph is the largest thing in its section and caption-scale text is all that sits against it; anything smaller than its column reads as a thumbnail and the system collapses into a brochure."
+      - rule: "Separate sections with {spacing.step-xxl} of empty {colors.paper} and nothing else."
+        why: "Distance is the only structural device; a rule or a band would introduce a second one and the page would stop reading as a single sheet."
+      - rule: "Keep {typography.display} to 48px and place the h1 left-aligned, beside or below the opening photograph when the page has one."
+        why: "The moment type competes with the picture in size the system has changed its mind about what matters."
+      - rule: "Use {typography.figure} for at most one number per page and set it in weight 400."
+        why: "One large light figure is a fact stated plainly; a bold one is a sales claim, and two of them are a dashboard."
+      - rule: "Use {typography.label} at 500 only for names, the wordmark and the primary action."
+        why: "It is the single weight change; spent on subheadings it becomes ordinary bold and the page loses its one form of emphasis."
+    dont:
+      - rule: "Don't draw a rule, border or divider anywhere except the one-pixel {colors.line} beneath an input."
+        why: "The system has no lines. A single hairline between sections restores the newspaper structure that every other system uses and quiet exists to do without."
+      - rule: "Don't place text on a photograph, and don't apply a scrim, gradient, tint or filter to one."
+        why: "The photograph is shown as taken; a scrim admits the picture cannot carry the page alone, which is the system's whole premise."
+      - rule: "Don't introduce a second colour, including a tinted grey; a brand colour, when one is given, replaces {colors.primary} on the one filled button and goes nowhere else."
+        why: "An accent would become the emphasis device and the figure, the label weight and the whitespace would all stop working."
+      - rule: "Don't centre the h1 or stack headline, subhead and button in a centred column."
+        why: "Centring is symmetric and quiet is asymmetric; the offset column is what distinguishes a gallery label from a generic hero."
+      - rule: "Don't set text lighter than {colors.ink-quiet}, and never place it on {colors.line}."
+        why: "Light grey on white is how minimal pages fail accessibility; {colors.ink-quiet} is the lowest value that clears 4.5:1 on both grounds, and it measures 3.83:1 on {colors.line}."
+      - rule: "Don't animate anything, including hover on images."
+        why: "Motion is a form of emphasis and this system has given that role to stillness; a fade-in says the page is performing."
+      - rule: "Don't add an icon, glyph or arrow to a link or button."
+        why: "Every element must justify its existence; an arrow beside a button's words adds nothing the words did not say."
+  responsive_behavior: >
+    Below 768px the grid collapses to a single column with {spacing.step-sm} side
+    margins, and asymmetric text columns become full width. Photographs run
+    full width. Type sizes do not change: {typography.display} at 48px holds
+    on a phone, and {typography.figure}
+    at 112px fits a 360px viewport with room. Only spacing scales: section
+    spacing goes from {spacing.step-xxl} to {spacing.step-xl} and the ratio between
+    section space, group space and caption space is preserved. Tap targets
+    never below 44px; the primary button holds 48px.
+  known_gaps: >
+    No dark theme is defined and none should be invented; the system's
+    identity is the white sheet. No data-visualisation palette exists: a
+    chart, if unavoidable, is drawn in {colors.ink} and {colors.line} only.
+    No icon set is defined because the system uses no icons. Hanken Grotesk
+    is on Google Fonts; the fallback is system-ui. Motion is defined as
+    absent, not as unspecified.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  nav:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+  caption:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink-quiet}"
+    typography: "{typography.caption}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.paper}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+  button-primary-hover:
+    backgroundColor: "{colors.ink-quiet}"
+    textColor: "{colors.paper}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+  link:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  input:
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.none}"
+  input-hint:
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.ink-quiet}"
+    typography: "{typography.caption}"
+  input-underline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.ink}"
+  figure:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.figure}"
+  quote:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.lede}"
+  footer:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink-quiet}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "One ground, {colors.paper}. No bands, no alternate surface, no dark footer."
+    - "No rules, borders, shadows or radii, with the single exception of the {colors.line} underline beneath an input."
+    - "One typeface at 400; {typography.label} at 500 is the only other weight and is limited to names, the wordmark and the primary action."
+    - "Text is never placed on a photograph and a photograph is never tinted, cropped round or framed."
+    - "Nothing is set in capitals; no icons, glyphs or arrows."
+  accessible:
+    - "Text never lighter than {colors.ink-quiet}: 5.74:1 on {colors.paper}, 5.13:1 on {colors.mist}."
+    - "{colors.ink-quiet} never on {colors.line} (3.83:1)."
+    - "Every input has a visible label; every image has alt text describing what is in the frame."
+    - "Tap targets >= 44x44px at every breakpoint; the primary button is 48px tall."
+
+x_imagery:
+  role: >
+    The photograph is the largest element in a section; text sits beside or
+    below it at caption scale, never on it.
+  density: "one photograph per section where supplied, plus a full-width opening photograph on a page in the persuasion register when one is supplied; never two adjacent without text between them"
+  treatment: >
+    Full-bleed to the viewport only when the photograph is at least 2000px wide;
+    a narrower one runs at the container width, or at its own pixel width if that
+    is less, centred, and is never enlarged past it. Or columns 6 to 12. Square corners, no
+    border, no shadow, no overlay, no scrim, no filter, no hover state.
+    Rendered at intrinsic aspect ratio with width and height attributes.
+    Never cropped to a shape. Never placed behind text.
+  aspect_ratios: ["16/9", "3/2", "1/1"]
+  caption: >
+    A caption sits in {typography.caption} and {colors.ink-quiet},
+    {spacing.step-sm} beneath the photograph, left-aligned to the image's left
+    edge, one line, rarely two. Its words come from the brand folder (see
+    standards/copy.md).
+  forbidden:
+    - "text, a heading, a logo or a button over a photograph"
+    - "scrim, gradient, duotone, tint or filter"
+    - "rounded corners, borders, shadows or hover zoom"
+    - "a photograph smaller than half its column"
+    - "two photographs side by side at equal size"
+    - "a photograph enlarged past its own pixel width: under about 2000px it never runs full-bleed"
+  no_assets_supplied: >
+    If the brief supplies no images, do NOT invent placeholder <img> paths and
+    do NOT substitute an illustration or a colour block. Keep the layout and
+    the spacing: the photograph's columns stay as empty {colors.paper}, and
+    the text columns and the figure, when there is one, hold their positions.
+    An empty column may carry the pipeline's NEED placeholder; never invented
+    text.
+
+# Quiet has no accent colour and no surface, so emphasis is carried by size:
+# one figure at 112px, weight 400.
+x_emphasis:
+  device: "the fact as one short sentence in `text-display` `text-ink`, weight 400, the number as a numeral inside it (\"5 years running.\"), never alone, with its detail (the years, the source) in `text-caption` `text-ink-quiet` beneath; `text-figure` is for a number with no short sentence to carry it (a price, a percentage, a year), and then beside a photograph"
+  applies_to: "at most one statistic per page"
+  why: "There is no colour and no surface to spend; size is the only currency, and a large light sentence is spent on the fact itself, where a lone numeral reads as a statistic."
+
+# Layout for every band of every page, in quiet's own terms. Distance is the only
+# structural device, the grid is used asymmetrically, and a photograph leads only
+# where the page is persuading. Look only: no page type, no content.
+x_motion:
+  principle: "still: motion is a form of emphasis and this system has given that role to stillness; a fade-in says the page is performing. The photograph and the words are simply there, and the button's fill changes to {colors.ink-quiet} on hover without a transition."
+  reduced: "nothing moves in any case"
+
+x_layout:
+  measure:
+    reading: "50–62ch in {typography.copy} — five columns of the grid, never wider"
+    caption: "one line, rarely two, at the width of the image above it, in {typography.caption}"
+  grid:
+    columns: 12
+    container: "1280px, 32px side margins ({spacing.step-md}) → {spacing.step-sm} below 768px; a photograph at least 2000px wide may leave it for the full viewport width"
+    gutter: "{spacing.step-md}"
+    text_columns: "1–5 or 7/8–11/12, never centred, never the full width; a quotation may sit at 4–9"
+    media_columns: "the full viewport, the full container, or 6/7–12 (1–5/6 when the text is on the right)"
+  rhythm:
+    section: "{spacing.step-xxl} → {spacing.step-xl}"
+    group: "{spacing.step-lg}"
+    item: "{spacing.step-md} between items; {spacing.step-sm} between paragraphs"
+    element: "{spacing.step-sm} image to caption; {spacing.step-xs} label to input"
+    separator: "space — empty {colors.paper} is the only divider; no rule, band or surface ever separates two bands"
+  registers:
+    persuasion:
+      head: statement
+      type: "{typography.display} h1, {typography.section} per band, {typography.copy} passages, {typography.lede} for quotations; {typography.figure} at most once"
+      rhythm: "{spacing.step-xxl} between bands; one photograph per band where supplied, alternating sides band to band"
+    retrieval:
+      head: plain
+      type: "{typography.display} h1, {typography.section} per band, values in {typography.copy}, keys and hints in {typography.caption} {colors.ink-quiet}"
+      rhythm: "one step denser: {spacing.step-xl} between bands, {spacing.step-md} between groups; the first band starts {spacing.step-lg} under the head, so it is on the first screen; a photograph comes after the words it belongs to, never before them"
+    reading:
+      head: plain
+      type: "{typography.display} h1, {typography.copy} running text, {typography.section} subheads, {typography.caption} captions"
+      rhythm: "one column at measure.reading in columns 1–5; photographs sit in 7–12 beside the paragraph they belong to, or full container width between paragraphs, {spacing.step-lg} above and below"
+  head:
+    statement: "the brand's single best photograph (sharp, one clear subject, uncluttered, nothing written on it; any orientation, since nothing sits on it) at full viewport width if it is at least 2000px wide, otherwise at the container width and never past its own pixel width, its caption {spacing.step-sm} beneath; then, {spacing.step-lg} → {spacing.step-xl} lower, the h1 in {typography.display} in columns 1–6 and a short passage plus the one filled button in columns 8–12; with no photograph the h1 and passage hold the same columns on bare {colors.paper}"
+    plain: "no photograph. The h1 in {typography.display} {colors.ink}, left, columns 1–6, {spacing.step-xl} → {spacing.step-lg} below the nav; one lead line in {typography.copy} in columns 8–12 on the h1's baseline (stacked beneath it below 768px); nothing else before the first band"
+  shapes:
+    items:
+      as: "stack"
+      look: "each name in {typography.label} {colors.ink}, its line or two in {typography.copy} {colors.ink} {spacing.step-xs} beneath; no bullets, no icons, no cards"
+      counts: "1–6: one stack in columns 1–5 (or 8–12 opposite a photograph). 7–14: two stacks, 1–5 and 7–11, filled down the first column first; odd n puts the extra item in the first column. 15+: set as the table shape (name, one line) instead of adding a third column"
+    table:
+      as: "a plain table across the container"
+      look: "no rules, no zebra, no fills; header row in {typography.caption} {colors.ink-quiet}, row names in {typography.label}, cells in {typography.copy}; rows {spacing.step-xs} top and bottom, columns {spacing.step-md} apart, left-aligned, numerals tabular"
+      counts: "≤3 rows: set as facts instead. 4–25 rows: one table, columns 1–12. 26+ rows: split into groups of related rows, each under a {typography.section} with {spacing.step-lg} between groups. 2–5 columns fit; 6+ columns scroll horizontally below 1024px rather than wrap or collapse into cards"
+    facts:
+      as: "stack of key/value pairs"
+      look: "key in {typography.caption} {colors.ink-quiet}, value in {typography.copy} {colors.ink} {spacing.step-xs} beneath; an address, number or email is an underlined link; the one value the reader acts on may be set in {typography.section}, never in {typography.figure}"
+      counts: "1–4 pairs: one stack in columns 1–5, {spacing.step-md} apart. 5–8: two stacks, 1–5 and 7–11, the most-used pairs first in the left stack. 9+: set as the table shape with two columns. In the retrieval register the facts sit directly under the plain head, with no photograph above them"
+    qa:
+      as: "stack"
+      look: "question in {typography.lede} {colors.ink}, answer in {typography.copy} {spacing.step-sm} beneath, left in columns 1–6; always open, never an accordion, because a disclosure needs a glyph and the system has none"
+      counts: "1–8 pairs: one stack, {spacing.step-lg} between pairs. 9+: grouped under {typography.section} group heads, {spacing.step-xl} between groups, same stack inside each"
+    people:
+      as: "stack of sidebars"
+      look: "portrait at the full width of columns 7–12 (or 1–6), square corners, 1/1 or 3/2; name in {typography.label}, role in {typography.caption} {colors.ink-quiet} beside it in the opposite five columns"
+      counts: "1–3 with portraits: one row each, portrait sides alternating, {spacing.step-xl} between rows. 4+: names and roles as the items shape in two stacks, and at most one photograph, full container width, above them (a group portrait when supplied). Portraits are never set in a grid of equal tiles. Without portraits: the items shape"
+    sequence:
+      as: "stack"
+      look: "an ordered list in columns 1–6; the step number or date in {typography.caption} {colors.ink-quiet} on its own line above the entry, the entry in {typography.copy}; no connecting lines, no circles"
+      counts: "2–8: one stack, {spacing.step-md} between entries. 9+: grouped by phase or year under {typography.section}, {spacing.step-lg} between groups. Never a horizontal timeline"
+    media_text:
+      as: "sidebar"
+      look: "the photograph at full width of 6/7–12 with its caption {spacing.step-sm} beneath; the passage in 1–5 opposite, top-aligned to the image; a 1/1 photograph takes 1–5 with text in 8–12"
+      counts: "one photograph per band; consecutive media_text bands alternate sides; in retrieval the text column comes first in source order and on a phone"
+    gallery:
+      as: "stack"
+      look: "each photograph at full container width (or full viewport width for the first, when it is at least 2000px wide), square corners, caption {spacing.step-sm} beneath in {typography.caption} {colors.ink-quiet}; {spacing.step-lg} between one caption and the next photograph. Two photographs are never side by side"
+      counts: "1–4: a stack of full-width captioned photographs. 5+: the stack alternates between columns 1–8 and 5–12, still one photograph per row, so it reads as a sequence and not a grid. A portrait-format image takes columns 1–6 or 7–12 alone on its row, never paired"
+    quote:
+      as: "stack"
+      look: "the words in {typography.lede} {colors.ink}, in plain quotation marks (the copy standard requires them) and no decorative mark, no rule, no card, columns 4–9; attribution {spacing.step-sm} beneath in {typography.caption} {colors.ink-quiet}"
+      counts: "1–3: stacked, {spacing.step-lg} → {spacing.step-xl} apart. 4+: in {typography.copy} rather than {typography.lede}, in columns 1–6, {spacing.step-md} apart, so the band is not a wall of large type"
+    prose:
+      as: "stack"
+      look: "{typography.copy} {colors.ink} at measure.reading in columns 1–5 (8–12 opposite a photograph); paragraphs {spacing.step-sm} apart; subheads in {typography.section} {spacing.step-lg} above their paragraph"
+      counts: "1–3 paragraphs: beside a photograph when the band has one. 4+: one column, with any supplied photographs placed in 7–12 beside the paragraph they belong to"
+    form:
+      as: "stack"
+      look: "label in {typography.caption} {colors.ink-quiet} above; input {colors.mist} with a {colors.line} underline only, 48px tall, square; {spacing.step-md} between fields; the one filled button in {typography.label} {colors.primary}"
+      counts: "1–4 fields: one stack in columns 7–11 opposite the band's heading (1–5 when the band has no text of its own). 5+: still one stack; two short fields may share a row as a switcher. Never a multi-column form"
+    index:
+      as: "stack"
+      look: "each entry's title in {typography.section} {colors.ink} as an underlined link, its one line in {typography.copy} {spacing.step-xs} beneath, a date or kind in {typography.caption} {colors.ink-quiet}"
+      counts: "1–6: one stack in columns 1–7, {spacing.step-lg} apart. 7+: two stacks, 1–5 and 7–11. Only the first entry may carry its photograph (as media_text); the rest are words, because equal thumbnails are forbidden"
+  close: "No band: the same {colors.paper}, {spacing.step-xxl} → {spacing.step-xl} of empty space above it and below it. The words take columns 7–11 (stacked full width below 768px): the heading in {typography.section} {colors.ink}, one {typography.copy} {colors.ink} line {spacing.step-sm} below, the phone number {spacing.step-md} lower as an underlined {typography.section} {colors.ink} link, and the action {spacing.step-sm} beneath it as an underlined {typography.copy} link. Then the footer, on {colors.paper} with no rule."
+  focal: "In persuasion a band is led by its photograph and the words step down beside it at caption scale; in retrieval and reading the words lead and the photograph follows. Size is the only ladder: {typography.figure} once, then {typography.display}, {typography.section}, {typography.lede}, {typography.copy}, {typography.caption}"
+  never:
+    - "a photograph above the plain head — the reader of a retrieval page came for the words, and a picture first pushes them off the first screen"
+    - "the same photograph-then-band skeleton on every page — the statement head is for persuasion only"
+    - "text in the centre columns or across the full width — the offset column is the identity"
+    - "a rule, tint or surface to separate bands — distance is the only divider"
+    - "two photographs side by side at equal size, or a thumbnail grid — the photograph is the largest thing in its row"
+    - "a contact value or name set in {typography.figure} — the figure is for one statistic"

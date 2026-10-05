@@ -1,0 +1,340 @@
+# Civic: the front desk. For public bodies (cities, counties, school districts, libraries, public
+# utilities, universities' public faces): most visitors come to do one task, so the first screen is
+# a wide photograph of the place with a white service counter laid over its lower edge, holding the
+# headline and the top tasks as big verb-first links. Navy header and footer, white and cool mist
+# bands, a marigold notice tag for dated notices, Source Serif 4 heads over Public Sans. Distinct
+# from crest (dark fade, words on the picture) and open (video, white signup band under it). Built
+# 2026-09-25 on the City of Sarasota.
+id: civic
+title: Civic
+summary: >
+  A public-body system: a wide photograph of the place with a white service counter laid over its
+  lower edge (the headline and the top tasks as big verb-first links), navy header and footer,
+  white and cool mist bands, dated notices with a marigold tag, Source Serif 4 over Public Sans.
+tokens:
+  colors:
+    primary: "#16365F"
+    primary-deep: "#0F2744"
+    navy: "#0F2744"
+    ink: "#15191F"
+    ink-soft: "#4A5361"
+    white: "#FFFFFF"
+    mist: "#EEF2F6"
+    marigold: "#F2B632"
+    line: "#7D8896"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.mist}"
+    night: "{colors.navy}"
+    ink-2: "{colors.ink-soft}"
+    ink-3: "{colors.ink-soft}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.mist}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.white}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.line}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Source Serif 4"
+      fontSize: 60px
+      fontWeight: 600
+      lineHeight: 1.05
+      letterSpacing: -1px
+    section:
+      fontFamily: "Source Serif 4"
+      fontSize: 46px
+      fontWeight: 600
+      lineHeight: 1.1
+      letterSpacing: -0.6px
+    heading-lg:
+      fontFamily: "Source Serif 4"
+      fontSize: 40px
+      fontWeight: 600
+      lineHeight: 1.15
+      letterSpacing: -0.4px
+    title:
+      fontFamily: "Source Serif 4"
+      fontSize: 26px
+      fontWeight: 600
+      lineHeight: 1.25
+      letterSpacing: -0.1px
+    task:
+      fontFamily: "Public Sans"
+      fontSize: 21px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: 0px
+    lede:
+      fontFamily: "Public Sans"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Public Sans"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    label:
+      fontFamily: "Public Sans"
+      fontSize: 16px
+      fontWeight: 700
+      lineHeight: 1.3
+      letterSpacing: 0.2px
+    caption:
+      fontFamily: "Public Sans"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+  rounded:
+    none: 0px
+    soft: 4px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.soft}"
+    control: "{rounded.soft}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 104px
+    step-xxl: 160px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1240px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Civic is a front desk. Under a {colors.navy} header, a wide photograph of the place runs full
+    width, and a {colors.white} counter panel is laid over its lower edge: the headline in
+    {typography.display} Source Serif and, beneath it, the top tasks as large links in
+    {typography.task}, each starting with a verb and ending in an arrow. The words sit on the
+    counter, never on the photograph. After it, bands alternate {colors.white} and {colors.mist};
+    news, meetings and events are dated rows; a notice carries a {colors.marigold} tag; the page
+    closes on a {colors.navy} band with the phone number and the building's address.
+  colors: >
+    {colors.white} and {colors.mist} (a cool pale grey-blue, never beige) are the grounds.
+    {colors.ink} is all text (17.6:1 on white, 15.7:1 on mist), {colors.ink-soft} secondary (7.8:1,
+    6.9:1). {colors.navy} is the header, the footer and the close, carrying {colors.white} text only
+    (15.1:1); nothing tinted. {colors.primary} is the links, the task arrows and the button (12.2:1
+    on white). {colors.marigold} is a fill for a notice tag with {colors.ink} text (9.7:1), never
+    text itself. {colors.line} (3.6:1 on white) outlines inputs and divides rows of dated data.
+
+    With the brand's own colour: the body's own colour (usually from its seal) goes in the links, task arrows and button; it must carry {colors.white} text at 4.5:1 and read on {colors.white} at 4.5:1, so a deep blue, green or maroon works; a light one keeps the navy.
+  typography: >
+    Source Serif 4 at 600 for heads: {typography.display} (60px) for the counter's headline, eight
+    words or fewer; {typography.heading-lg} (40px) for band heads; {typography.title} (26px) for
+    row titles and names. Public Sans carries everything a visitor acts on: {typography.task} (21px,
+    600) for task links, {typography.copy} (18px) for reading, {typography.lede} for leads,
+    {typography.label} for dates, tags and buttons, {typography.caption} for small print. Dates are
+    set in full ("September 23, 2026"), with tabular figures. Sentence case everywhere.
+  layout: >
+    Twelve columns in a 1240px container with 32px gutters. The header is a {colors.navy} bar 72px
+    tall. The photograph runs full bleed at 21/9 (no taller than 620px). The counter sits on columns
+    2–11, pulled up over the photograph's lower edge by 200px. Bands carry {spacing.step-xl} top and
+    bottom.
+  elevation_and_depth: >
+    Flat: no shadows (the stylesheet has none). The counter reads as in front of the photograph
+    because it is white, overlaps the photograph's edge and carries a 1px {colors.line} border.
+    Everything else is flat.
+  components: >
+    Corners are {rounded.soft} (4px) on the counter, buttons, inputs, tags and photographs. No pills,
+    no circles except avatars.
+
+    Task link: {typography.task} {colors.primary} with an arrow after it, a 64px tall target, a
+    {colors.line} rule under each in the counter's grid; on hover the arrow moves 4px right and the
+    text underlines. Notice tag: {typography.label} {colors.ink} on {colors.marigold}, 4px corners,
+    reading "Notice" or the brief's word for it. Button: {colors.primary} with {colors.white} text,
+    52px tall, 4px corners, hovering to {colors.primary-deep}. Inputs: 52px, visible labels above,
+    a 1px {colors.line} border.
+  dos_and_donts:
+    do:
+      - rule: "Open with the counter: a {colors.white} panel on columns 2–11, pulled up 200px over the photograph's lower edge, holding the headline and the top tasks."
+        why: "People come to a public site to do something; the counter puts the tasks on the first screen, in front of the place they belong to."
+      - rule: "Write every task link as a verb-first phrase in {typography.task} {colors.primary} with an arrow, on a 64px target."
+        why: "The verb says what happens on the click, a column of verbs scans faster than nouns, and a 64px target works for every visitor on any device."
+      - rule: "Date every news item, meeting and event in full (\"September 23, 2026\") with tabular figures."
+        why: "A public body is judged on being current, and a full date cannot be misread by a visitor from another country or a screen reader."
+      - rule: "Set dated items as rows divided by 1px {colors.line} rules, the date before the title."
+        why: "Rows make a list scannable by date; because rows of data are the only place rules appear, a rule means 'this is a list'."
+      - rule: "Close the page on the {colors.navy} band with the phone number in {typography.section} and the building's address and hours."
+        why: "Many visitors end up needing a person; the number and the door are the public body's last and most useful answer."
+    dont:
+      - rule: "Don't set words on the photograph or lay a scrim over it."
+        why: "The words sit on the white counter, so they stay readable over any photograph and any clear picture of the place works."
+      - rule: "Don't use a carousel or slider of banners."
+        why: "A slider of flyers is the default public-site hero and hides most of its slides; one clear photograph says where you are."
+      - rule: "Don't use a flyer, banner or graphic with words in it as a photograph."
+        why: "Words inside an image cannot be read aloud, translated or resized, and the picture's job is to show the place, not to announce."
+      - rule: "Don't use {colors.marigold} for anything but a notice tag, and never as text."
+        why: "Marigold means a notice; seen anywhere else it is a false alarm, and as text on white it fails contrast."
+      - rule: "Don't tint the text or add a colour for decoration."
+        why: "Navy is the institution's frame and the blue marks what you can click; text stays {colors.ink} or {colors.white} so it reads the same on every ground."
+      - rule: "Don't give the counter or anything else a shadow."
+        why: "The counter reads as in front because it is white, overlaps the photograph and carries a 1px border; a shadow would turn the front desk into a floating card."
+  responsive_behavior: >
+    Below 768px the photograph is 4/3 and the counter no longer overlaps: it follows the photograph
+    as a {colors.white} band full width with 20px margins, the headline at {typography.section},
+    the tasks in one column. Dated rows keep the date above the title. Section padding {spacing.step-xl}
+    → {spacing.step-lg}.
+  known_gaps: >
+    A body with no photograph of its place falls back to the counter alone on {colors.mist}. No icon
+    set: task links carry an arrow only. Seals and logos appear in the header as the brand supplies
+    them, never redrawn.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.copy}"
+  band-mist:
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.ink}"
+  band-mist-muted:
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.ink-soft}"
+  header:
+    backgroundColor: "{colors.navy}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+  counter:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.task}"
+    rounded: "{rounded.soft}"
+  task-link:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.primary}"
+    typography: "{typography.task}"
+  notice-tag:
+    backgroundColor: "{colors.marigold}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.soft}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.soft}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.soft}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.soft}"
+  input-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.ink}"
+  footer:
+    backgroundColor: "{colors.navy}"
+    textColor: "{colors.white}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The counter: a {colors.white} panel on columns 2–11 over the photograph's lower edge, holding the headline and the top tasks; no words on the photograph."
+    - "{colors.navy} header, footer and close; {colors.white} and {colors.mist} bands; {colors.marigold} only as a notice tag."
+    - "Every news item, meeting and event is dated in full, as a row."
+  accessible:
+    - "{colors.ink} on {colors.white} 17.6:1, on {colors.mist} 15.7:1; {colors.white} on {colors.navy} 15.1:1; {colors.primary} on {colors.white} 12.2:1."
+    - "Task links are 64px targets; every control 48px or more; input borders 3:1."
+    - "No text on a photograph anywhere."
+
+x_imagery:
+  role: >
+    The photograph shows the place the institution serves: its skyline, waterfront, main street,
+    campus or building. It is the one picture on the first screen and says where you are.
+    Photographs inside the page go with news items and parks or facilities, as small frames.
+  density: "the head's photograph always; a small frame beside some dated rows and index entries"
+  treatment: >
+    Head: a landscape photograph 1440px wide or more, sharp, of the place (not a person, not an
+    event flyer), with its subject in the upper two thirds, since the lower 200px sits under the
+    counter. Full bleed at 21/9, object-cover, no filter or overlay. Inside: 3/2 frames at 4px
+    corners beside rows or above index entries, never a graphic with words on it.
+  aspect_ratios: ["21/9", "3/2", "4/3", "1/1"]
+  caption: >
+    Optional, {typography.caption} {colors.ink-soft}, {spacing.step-xs} under a photograph.
+  forbidden:
+    - "words on a photograph, or a scrim"
+    - "a flyer, banner or graphic with text used as a photograph"
+    - "a carousel"
+  no_assets_supplied: >
+    With no photograph of the place, the counter stands alone on a {colors.mist} band under the
+    header, and inside photographs are left out.
+
+x_emphasis:
+  device: "a {colors.marigold} notice tag in `text-label` before one dated line in `text-title` `text-ink`, on a `bg-mist` strip directly under the counter"
+  applies_to: "the one current notice the page must carry (a closure, an emergency, a deadline), once"
+  why: "A public notice is the one thing a public body must not let a visitor miss, and one tag in one colour says so without alarm."
+
+x_motion:
+  principle: "Steady; nothing moves that a visitor would have to wait for."
+  entrance: "On load the counter rises 16px and fades in over 400ms; the photograph and everything else are already there."
+  signature: "On hover or focus a task link's arrow moves 4px right over 150ms."
+  scroll: "Nothing arrives on scroll."
+  reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; with script off the page is complete."
+  mechanism: "Tailwind transition, duration, opacity and translate utilities toggled by a short script with data-motion attributes, and group-hover/group-focus-visible translate on the arrow; no <style> block, no keyframes."
+
+x_layout:
+  measure:
+    reading: "60–70ch in {typography.copy}"
+    caption: "one or two lines at the width of its photograph"
+  grid:
+    columns: 12
+    container: "1240px, 48px side margins → 20px below 768px"
+    gutter: "32px"
+    text_columns: "1–8 for reading, with 9–12 for a sidebar of links or facts"
+    media_columns: "the head's photograph full bleed; frames at 3–4 columns beside rows"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "surface: bands alternate {colors.white} and {colors.mist}, the close is {colors.navy}; rows of dated data are divided by 1px {colors.line} rules, and nothing else is"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} headline, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the rows or the answer start on the first screen" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading on 1–8, {typography.title} subheads", rhythm: "one column on 1–8 with a sidebar on 10–12 for related links and contact" }
+  head:
+    statement: "The {colors.navy} header bar, 72px: left, the body's logo if it is light or white, otherwise its name in {typography.title} Source Serif {colors.white} (a dark logo would vanish on navy); right, four to six links in {typography.label} {colors.white} (the site's own top navigation when the brief names none) and one {colors.white} outline button for the main online service. Beneath it, a landscape photograph of the place, full bleed at 21/9 (no taller than 620px): 1440px wide or more, sharp, the place itself (skyline, waterfront, main street, campus), its subject and horizon in the upper two thirds, since the lower 200px will sit under the counter; no person posed at camera, no flyer. Then the counter: a {colors.white} panel on columns 2–11 with 4px corners and a 1px {colors.line} border (no shadow), pulled up 200px over the photograph's lower edge, padded {spacing.step-lg}. In it: the headline in {typography.display} {colors.ink} on 1–8 of the panel (eight words or fewer), one {typography.lede} {colors.ink-soft} line, then the top tasks (6–8) as a grid of task links, three across from 1024px, two from 768px, each a verb-first phrase in {typography.task} {colors.primary} with an arrow, a {colors.line} rule under each. The words stay on the white counter, so the photograph needs no scrim. With no photograph: the counter alone on {colors.mist}, not overlapping."
+    plain: "The {colors.navy} header bar, then a {colors.mist} band: a breadcrumb in {typography.caption}, the title in {typography.section} {colors.ink} on 1–8, one {typography.lede} {colors.ink-soft} line; the first band starts {spacing.step-lg} below."
+  close: "A {colors.navy} band: the ask in {typography.heading-lg} {colors.white} on 1–7 (how to reach the body), the phone number in {typography.section} {colors.white} beneath it, and on 8–12 the building's address and hours as facts in {colors.white}; one {colors.white} outline button for email or the page where the brief says contact goes. {spacing.step-xl} padding; the {colors.navy} footer follows, divided from it by a 1px {colors.line} rule."
+  shapes:
+    items: { as: "grid", look: "each item's name in {typography.title} {colors.ink} as a link, a line in {typography.copy} {colors.ink-soft} beneath, no cards and no icons", counts: "2–3: across. 4: two by two. 5–6: rows of 3. 7+: an A–Z list in three columns, names only." }
+    table: { as: "table", look: "a real <table>: header row in {typography.label} {colors.ink-soft}, rows in {typography.copy} divided by 1px {colors.line} rules, figures tabular and right-aligned", counts: "≤ 20 rows: one table on 1–12. More: grouped by heading." }
+    facts: { as: "stack", look: "key in {typography.label} {colors.ink-soft}, value in {typography.lede} {colors.ink}; on {colors.navy} both in {colors.white}", counts: "1–4: one column. 5+: two columns." }
+    qa: { as: "stack", look: "each question a <details> summary in {typography.title} with a plus that turns to minus, the answer in {typography.copy}; 1px {colors.line} rules between", counts: "any: one column on 1–8." }
+    people: { as: "grid", look: "square portrait at 4px corners, the name in {typography.title}, the role in {typography.copy} {colors.ink-soft}, phone and email as links", counts: "1–3: across. 4+: rows of 4. With no portraits: names and roles in a two-column list." }
+    sequence: { as: "stack of rows", look: "dated rows: the date in {typography.label} {colors.ink-soft} on 1–3 (the month and day, the year beside it), the title in {typography.title} {colors.ink} as a link on 4–12 with one line under it, 1px {colors.line} rules between; a row may carry a 3/2 frame on 10–12", counts: "≤ 6: one list. 7+: the first 6 with a 'View more' link." }
+    media_text: { as: "sidebar", look: "a 3/2 photograph on 1–6 (or 7–12), the heading in {typography.heading-lg} and a passage on the other side", counts: "one per band; alternate sides when two follow each other" }
+    gallery: { as: "grid", look: "3/2 frames at 4px corners, captions beneath in {typography.caption}", counts: "2: pair. 3: across. 4: two by two. 5+: rows of 3." }
+    quote: { as: "stack", look: "the words in {typography.title} {colors.ink} on 1–8, the name and role in {typography.label} {colors.ink-soft}", counts: "1: alone. 2–3: across." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading on 1–8", counts: "—" }
+    form: { as: "stack", look: "labels above inputs in {typography.label}, inputs 52px with a 1px {colors.line} border at 4px, the button beneath", counts: "≤ 6 fields in one column on 1–6. More: two columns on 1–8." }
+    index: { as: "grid", look: "each entry a 3/2 frame (when the brief gives one), the title in {typography.title} as a link, one line beneath", counts: "2–3: across. 4: two by two. 5+: rows of 3." }
+  focal: "The counter's tasks lead the page: what a visitor came to do is the first thing they can click. In each band after, the dated row or the named link leads; the photograph is where, not what."
+  never:
+    - "words on a photograph, or a scrim"
+    - "a carousel or slider of banners"
+    - "a beige or cream ground, or tinted text"
+    - "marigold used as anything but a notice tag"

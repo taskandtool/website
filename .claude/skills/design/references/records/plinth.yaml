@@ -1,0 +1,468 @@
+# Plinth is the still, light, classical arm of the library: where vesper is
+# nocturnal and layered, plinth is ivory, flat and symmetrical. The whole
+# argument is restraint — a museum object label, a title page, an engraved
+# plate. Nothing floats, nothing glows, nothing is rounded except a seal.
+id: plinth
+title: Plinth
+summary: >
+  A neo-classical system: an ivory ground, one refined serif in a display cut
+  and a text cut, hairline gold rules, and a centred, symmetrical composition.
+  Every photograph is a plate in a frame; every label is an inscription.
+tokens:
+  colors:
+    primary: "#6F5217"
+    ivory: "#F8F4EA"
+    stone: "#ECE5D3"
+    marble: "#FFFDF7"
+    ink: "#1F1B15"
+    ink-soft: "#4B443A"
+    ink-faint: "#6A6256"
+    gold: "#C6A65A"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.ivory}"
+    surface: "{colors.marble}"
+    panel: "{colors.stone}"
+    night: "{colors.ink}"
+    ink-2: "{colors.ink-soft}"
+    ink-3: "{colors.ink-faint}"
+    night-ink: "{colors.ivory}"
+    night-ink-2: "{colors.stone}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.ivory}"
+    accent-hover: "{colors.ink}"
+    line: "{colors.gold}"
+    line-strong: "{colors.gold}"
+    line-on-night: "{colors.gold}"
+  typography:
+    display:
+      fontFamily: "Cormorant Garamond"
+      fontSize: 76px
+      fontWeight: 400
+      lineHeight: 1.05
+      letterSpacing: 0px
+    section:
+      fontFamily: "Cormorant Garamond"
+      fontSize: 50px
+      fontWeight: 400
+      lineHeight: 1.1
+      letterSpacing: 0px
+    title:
+      fontFamily: "Cormorant Garamond"
+      fontSize: 32px
+      fontWeight: 500
+      lineHeight: 1.2
+      letterSpacing: 0px
+    lede:
+      fontFamily: "EB Garamond"
+      fontSize: 20px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    copy:
+      fontFamily: "EB Garamond"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.65
+      letterSpacing: 0px
+    display-phone:
+      fontFamily: "Cormorant Garamond"
+      fontSize: 44px
+      fontWeight: 400
+      lineHeight: 1.1
+      letterSpacing: 0px
+    figure-phone:
+      fontFamily: "Cormorant Garamond"
+      fontSize: 64px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -1px
+      fontFeature: lnum
+    figure:
+      fontFamily: "Cormorant Garamond"
+      fontSize: 96px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -1px
+      fontFeature: lnum
+    caption:
+      fontFamily: "EB Garamond"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0.2px
+    label:
+      fontFamily: "EB Garamond"
+      fontSize: 12px
+      fontWeight: 500
+      lineHeight: 1.4
+      letterSpacing: 2.4px
+  rounded:
+    square: 0px
+    round: 9999px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.square}"
+    control: "{rounded.round}"
+  spacing:
+    step-xs: 4px
+    step-sm: 8px
+    step-md: 16px
+    step-lg: 32px
+    step-xl: 64px
+    step-xxl: 128px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xxl}"
+    block: "{spacing.step-xl}"
+  containers:
+    content: 1120px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Plinth reads as a printed catalogue laid open on a table. The ground is
+    {colors.ivory}; a second ground, {colors.stone}, marks a band in a changed
+    register and the footer, the way a catalogue changes paper stock for
+    its plates. Everything is centred on one axis. Sections are separated by a
+    gold hairline in {colors.gold} with a small lozenge at its midpoint, never
+    by whitespace alone and never by a card. Type is one Garamond model in two
+    cuts: Cormorant Garamond for display and figures, EB Garamond for prose and
+    labels. Photographs are plates: each sits inside a {colors.gold} hairline
+    frame with an ivory mat and carries a numbered caption in
+    {typography.caption}. Gold is never a text colour. Text-safe gold is the
+    bronze {colors.primary}, and it is spent on links and the one primary
+    action. Nothing casts a shadow, nothing blurs, nothing is rounded except
+    the circular seal.
+  colors: >
+    Three light grounds and one ink. {colors.ivory} is the page.
+    {colors.stone} is the alternate ground for a change of register, table
+    headers and the footer. {colors.marble} is whiter than the page and is used only for
+    input fields, so a field reads as a recessed panel of a paler stone.
+    {colors.ink} is the universal text colour, a warm sepia-black rather than
+    a tinted grey; {colors.ink-soft} carries secondary prose and inscriptions;
+    {colors.ink-faint} carries captions and table headers and is the lightest
+    text permitted anywhere (5.47:1 on ivory, 4.78:1 on stone).
+    {colors.gold} is a hairline and a seal fill, at 2.12:1 on ivory it can
+    never be text. {colors.primary} is the bronze that answers the gold-on-
+    ivory trap: it is gold darkened until it clears 6.6:1, and it fills the
+    primary button and colours links.
+
+    With the brand's own colour: a brand colour replaces the bronze on links and the one button, so it must clear 4.5:1 as text on {colors.ivory} and {colors.stone} and hold {colors.ivory} text; {colors.gold} stays the hairline and seal, and the hover stays {colors.ink}.
+  typography: >
+    One Garamond model, two optical cuts, no sans anywhere. Cormorant Garamond
+    at 400 sets {typography.display}, {typography.section} and
+    {typography.figure}; at 500 it sets {typography.title}. EB Garamond
+    at 400 sets {typography.lede}, {typography.copy} and
+    {typography.caption}; at 500 with 2.4px tracking it sets
+    {typography.label}, which is always rendered in capitals and is the only
+    letterspaced style. Display sizes take no negative tracking: a classical
+    title page is set open, and tight display tracking is the surest way to
+    make this read as contemporary. Prose measure stays between 55 and 70
+    characters. Italic is permitted for a single emphasised phrase or a quote,
+    never for whole paragraphs.
+  layout: >
+    One centred column of at most 1120px with 24px side margins, inside which
+    a twelve-column grid places plates symmetrically: a plate is 12 columns
+    wide, or 8 columns starting at column 3, or two plates of 6, never off-
+    centre. Headings, subheads, figures and buttons are centred on the page
+    axis. Prose sits in a centred column of 640px and is left-aligned inside
+    it. Sections are separated by the lozenge rule: a hairline in
+    {colors.gold} broken at its midpoint by a rotated 8px square. The page
+    alternates {colors.ivory} and {colors.stone} grounds only where the content
+    changes register, not on every section. The hero is a centred title-page
+    stack on the page axis. When the brief gives a short line to stand above
+    the headline, it is set as the inscription line in {typography.label}
+    capitals; otherwise the stack has none.
+  elevation_and_depth: >
+    There is none. No box-shadow, no backdrop blur, no gradient, no overlay on
+    a photograph. Depth is expressed by exactly one device: the frame. An
+    element that needs to read as an object gets a {colors.gold} hairline
+    border and an ivory mat, the way a plate does. A second ground in
+    {colors.stone} marks a change of register, not a change of height.
+  components: >
+    Two radii only. {rounded.square} (0px) for every surface, button, input,
+    table and image. {rounded.round} (9999px) for the seal alone, which is the
+    only circular object in the system and appears at most once per page.
+    Lozenges are squares rotated 45 degrees, not diamonds drawn as shapes.
+
+    Buttons are square-cornered rectangles set in {typography.label} capitals
+    with generous horizontal padding. Primary is a {colors.primary} fill with
+    {colors.ivory} text; on hover it deepens to {colors.ink}, so the change
+    reads as a press rather than a glow. Secondary is {colors.ivory} with a one-
+    pixel {colors.ink} border and {colors.ink} text. Links are
+    {colors.primary} with a one-pixel {colors.gold} underline offset 4px.
+    Inputs are {colors.marble} with a one-pixel {colors.gold} border on all
+    sides and a visible label in {typography.label} above. Tables are
+    catalogue tables: a {colors.stone} header row in {typography.label},
+    {colors.gold} hairlines between rows, no vertical rules, no zebra
+    striping. Quotes sit on {colors.stone} in {typography.lede} italic,
+    centred, with the attribution in {typography.label} below. The seal is a
+    64px {colors.gold} circle carrying {typography.label} in {colors.ink}.
+  dos_and_donts:
+    do:
+      - rule: "Centre every heading, figure and action on the page axis, and place every plate symmetrically within the twelve-column grid."
+        why: "Symmetry is the identity. One off-centre element makes the whole page read as an editorial layout that happens to use a serif."
+      - rule: "Frame every photograph with a {colors.gold} hairline and an ivory mat, and number it beneath as a plate."
+        why: "The frame is the only depth device the system has; an unframed image reads as a web hero, a framed one reads as a catalogue plate."
+      - rule: "Separate sections with the lozenge rule in {colors.gold}, and change to {colors.stone} only where the register changes."
+        why: "The rule is the structure. Whitespace alone lets the page read as a generic stack; a stone band on every section turns the grounds into stripes."
+      - rule: "Set every label, button, table header and attribution in {typography.label} capitals."
+        why: "Letterspaced capitals are the inscription: they are how a plinth names the object it carries. Keeping them small and rare is what keeps them classical."
+      - rule: "Use {colors.primary} for links and the primary button, and {colors.gold} only for hairlines and the seal."
+        why: "Gold at 2.12:1 fails as text on ivory; bronze is gold made legible. Splitting the two by role keeps the page both gold and readable."
+    dont:
+      - rule: "Don't set text in {colors.gold}, at any size."
+        why: "It measures 2.12:1 on ivory and 1.86:1 on stone. Gold text is the obvious luxury move and the obvious accessibility failure; the bronze exists so it never has to happen."
+      - rule: "Don't apply a box-shadow, a backdrop blur, a gradient or a scrim anywhere."
+        why: "Each is a third surface the system does not have. Plinth is flat by construction; one shadow turns a catalogue page into a card layout."
+      - rule: "Don't round a corner on anything but the seal."
+        why: "A 4px radius on a button is the default every generated page reaches for. Square corners are what make the button read as a printed rule rather than a UI control."
+      - rule: "Don't track display type negatively or set headings in capitals."
+        why: "Tight tracking is the contemporary tell; capitals at display size shout. A classical title is set in upper-and-lower case at its natural spacing."
+      - rule: "Don't introduce a sans-serif, a third weight of either cut, or a second accent colour."
+        why: "The restraint is the message. Every addition is a variable the reader must resolve, and the system's calm comes from having almost none."
+      - rule: "Don't put text over a photograph, or crop a plate to a shape."
+        why: "A plate is looked at, not read through. Overlaid text turns it into a web hero and breaks the frame that gives the image its status."
+  responsive_behavior: >
+    Below 768px the twelve-column grid collapses to one column and every plate
+    becomes full width, keeping its frame and mat at half the padding.
+    {typography.display} drops to {typography.display-phone} (44px) and
+    {typography.figure} to {typography.figure-phone} (64px);
+    tracking stays at zero. Section spacing goes from {spacing.step-xxl} to
+    {spacing.step-xl}. The lozenge rule and the centred axis are retained: they are
+    the structure. Tables keep their columns and scroll horizontally rather
+    than collapsing into cards. Tap targets are never below 44px.
+  known_gaps: >
+    No dark theme is defined and none should be invented; the system's
+    identity is its light ground. No chart or data-visualisation palette is
+    defined beyond {colors.ink} and {colors.gold}. Small capitals are
+    approximated with tracked full capitals in {typography.label} because
+    Google Fonts serves neither cut with a small-cap feature. Cormorant
+    Garamond and EB Garamond are both on Google Fonts; no fallback is specified
+    beyond a generic serif. Motion is undefined apart from the button hover,
+    which is a colour change at 180ms.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  nav:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+  body:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.ivory}"
+    typography: "{typography.label}"
+    rounded: "{rounded.square}"
+  button-primary-hover:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.ivory}"
+    rounded: "{rounded.square}"
+  button-secondary:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.square}"
+  link:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.primary}"
+  input:
+    backgroundColor: "{colors.marble}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.square}"
+  plate-caption:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.ink-faint}"
+    typography: "{typography.caption}"
+  inscription:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.label}"
+  figure-on-plinth:
+    backgroundColor: "{colors.ivory}"
+    textColor: "{colors.ink}"
+    typography: "{typography.figure}"
+  section-stone:
+    backgroundColor: "{colors.stone}"
+    textColor: "{colors.ink}"
+  quote:
+    backgroundColor: "{colors.stone}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.lede}"
+  table-head:
+    backgroundColor: "{colors.stone}"
+    textColor: "{colors.ink-faint}"
+    typography: "{typography.label}"
+  seal:
+    backgroundColor: "{colors.gold}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.round}"
+  hairline-rule:
+    backgroundColor: "{colors.gold}"
+    textColor: "{colors.ink}"
+  footer:
+    backgroundColor: "{colors.stone}"
+    textColor: "{colors.ink-soft}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares:
+  - eyebrow
+x_declares_reasons:
+  eyebrow: >
+    A plinth names the object it carries in letterspaced capitals cut into the stone, and a title
+    page carries its imprint line above the title in the same voice; the inscription is the system's
+    one typographic device, not a template label. So it is confined to {typography.label} at 12px,
+    on labels, buttons, table headers and attributions, and never applied to a heading: kept small
+    and rare, it reads as an inscription, not a shout.
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "No box-shadow, backdrop blur, gradient or image scrim anywhere."
+    - "Every photograph is framed by a {colors.gold} hairline with an ivory mat and carries its plate number beneath."
+    - "One serif model in two cuts; no sans-serif appears."
+    - "Headings, figures and actions are centred on the page axis; plates are placed symmetrically in the grid."
+    - "Radii are square everywhere except the seal, which is round and appears at most once per page."
+  accessible:
+    - "{colors.gold} is never a text colour (2.12:1 on ivory)."
+    - "Text never lighter than {colors.ink-faint} on {colors.ivory} (5.47:1) or on {colors.stone} (4.78:1)."
+    - "Every input has a visible label; focus is a 2px {colors.primary} outline offset 2px (gold would be 2.12:1 on ivory, under the 3:1 a focus ring needs)."
+    - "Tap targets >= 44x44px at every breakpoint."
+
+# The DESIGN.md spec has no imagery section and no imagery tokens, so this is
+# ours. Without it a design system says nothing about pictures and the model
+# defaults to none.
+x_imagery:
+  role: >
+    Documentary, presented as plates. A photograph is an object on display:
+    framed, matted and numbered, and never cropped to a shape, tinted or
+    written over.
+  density: "one plate per content section where supplied, placed symmetrically; a pair of plates may share a row"
+  treatment: >
+    Every image sits inside a one-pixel {colors.gold} frame with an ivory mat
+    of {spacing.step-sm} on all sides, square-cornered, at its natural aspect or
+    3/2. No overlay, no scrim, no gradient, no text on top, no filter. Plates
+    are placed on the page axis: 12 columns wide, 8 columns centred, or two of
+    6 side by side. A square plate is 4 or 6 columns wide and centred.
+  aspect_ratios: ["16/9", "3/2", "1/1"]
+  caption: >
+    Centred beneath the plate in {typography.caption}, opening with the plate
+    number in roman numerals (Plate I, Plate II ...), numbered in page order.
+    When the brand folder records a caption it follows the number; its words
+    come from the brand folder (see standards/copy.md).
+  forbidden:
+    - "text or headings overlaid on a photograph"
+    - "an unframed image, or a frame in any colour but gold"
+    - "rounded corners, shadows, duotone, colour wash or filter"
+    - "an off-centre plate, or a plate used to fill space"
+  no_assets_supplied: >
+    If the brief supplies no images, do NOT invent placeholder <img> paths.
+    With no photographs there are no plates: compose the page from the
+    lozenge rules, the catalogue table and, when the page has one, the figure
+    on its plinth. No empty frame is drawn.
+
+# How this system emphasises ONE figure. The renderer reads this; it must never
+# hardcode a token name, because tokens are per-system.
+x_emphasis:
+  device: "the figure on its plinth — `text-figure` in `text-ink`, centred, standing on a `border-t border-b border-gold` pair of hairlines"
+  applies_to: "at most one statistic per page"
+  why: "A plinth carries one object. The rules above and below are the plinth; a second figure on the page would need a second plinth, and the room has one."
+
+# Layout for every band of every page, in plinth's own terms: one centred axis,
+# plates placed symmetrically, bands divided by the lozenge rule, the catalogue
+# table for anything with rows. Look only: no page type, no content.
+x_motion:
+  principle: "still: a plate is an object set on display, and a museum room holds still around it, so nothing rises, fades or turns. The one change on the page is the {colors.primary} button deepening to {colors.ink} on hover, a 180ms colour transition and not a movement."
+  reduced: "nothing moves in any case; the hover colour change is the only transition, and nothing is hidden at any time"
+
+x_layout:
+  measure:
+    reading: "55–70ch in {typography.copy} or {typography.lede} — a centred 640px column, text left-aligned inside it"
+    caption: "centred beneath the plate, at the plate's width, in {typography.caption} {colors.ink-faint}, opening with its plate number"
+  grid:
+    columns: 12
+    container: "1120px, 24px side margins"
+    gutter: "{spacing.step-lg}"
+    text_columns: "the centred 640px column for running text; headings, figures, labels and actions centred on the page axis at any width up to 8 columns"
+    media_columns: "12, 8 centred (3–10), two of 6, or a 1/1 plate of 4 (5–8) or 6 (4–9) centred — never off the axis"
+  rhythm:
+    section: "{spacing.step-xxl} → {spacing.step-xl}, with the lozenge rule midway"
+    group: "{spacing.step-xl} → {spacing.step-lg}"
+    item: "{spacing.step-md} between rows and entries"
+    element: "{spacing.step-sm} label to value and plate to caption; {spacing.step-md} inscription to heading"
+    separator: "rule — the {colors.gold} lozenge rule between bands; {colors.gold} hairlines between rows; a band on {colors.stone} only where the register changes"
+  registers:
+    persuasion:
+      head: statement
+      type: "{typography.display} h1, {typography.section} band heads, {typography.lede} {colors.ink-soft} lead, {typography.copy} text, one {typography.figure} on its plinth"
+      rhythm: "{spacing.step-xxl} between bands; a plate in most bands where supplied"
+    retrieval:
+      head: plain
+      type: "{typography.section} h1, {typography.title} band and group heads, {typography.copy} values, {typography.label} capitals for keys and table heads"
+      rhythm: "one step denser: {spacing.step-xl} between bands, {spacing.step-lg} between groups; the first band starts {spacing.step-xl} under the head so it is on the first screen; plates follow the rows they belong to, never precede them"
+    reading:
+      head: plain
+      type: "{typography.section} h1, {typography.lede} running text, {typography.title} subheads centred, {typography.caption} plate captions"
+      rhythm: "one centred column at measure.reading; plates at 8 columns centred between paragraphs, {spacing.step-xl} above and below"
+  head:
+    statement: "the title-page stack, centred: an inscription in {typography.label} capitals when the brief gives one, the h1 in {typography.display} (44px on a phone), a line of {typography.lede} {colors.ink-soft} in a 576px column, the one {colors.primary} button, then the first plate at 12 columns, {spacing.step-xl} lower: the brand's finest single object or room (sharp, 1600px or wider, landscape at 3/2 or 16/9, 1600px or wider (2000px when the brand has it), subject centred, since the plate is framed and symmetric; nothing sits on it, and the words stand above it on {colors.ivory}, never on the photograph). With no photograph the stack stands alone above a lozenge rule"
+    plain: "centred: the h1 in {typography.section}, one line of {typography.lede} {colors.ink-soft} beneath at {spacing.step-md} in the 640px column, then a {colors.gold} hairline at {spacing.step-xl}; no plate, no button above the first band"
+  shapes:
+    items:
+      as: "stack, centred"
+      look: "each name in {typography.title} {colors.ink}, its line in {typography.copy} {colors.ink-soft} {spacing.step-xs} beneath, centred; {colors.gold} hairlines between items; no cards, no icons"
+      counts: "1–6: one centred stack, 8 columns wide. 7–12: two symmetric columns of 6; an odd last item is centred across both. 13+: the table shape"
+    table:
+      as: "the catalogue table"
+      look: "a {colors.stone} header row in {typography.label} capitals {colors.ink-faint}; {colors.gold} hairlines between rows, no vertical rules, no zebra; row name in {typography.lede} {colors.ink} with any detail line in {typography.caption} {colors.ink-faint} beneath; values right-aligned in {typography.lede} with lining figures; row padding {spacing.step-md}"
+      counts: "≤3 rows: set as facts. 4–30 rows: one table, 8 columns centred for 2–3 columns, 12 columns for 4+. 31+ rows or natural groups: one table per group, each under a centred {typography.title} (with a {typography.label} inscription above when the brief gives one), groups divided by the lozenge rule; a pair of plates may sit between groups. Below 768px it scrolls horizontally, never collapses to cards"
+    facts:
+      as: "stack of key/value pairs"
+      look: "key in {typography.label} capitals {colors.ink-faint}, value in {typography.copy} {colors.ink} {spacing.step-sm} beneath; pairs divided by {colors.gold} hairlines in the 640px column; links in {colors.primary}"
+      counts: "1–5 pairs: one column, 640px, centred. 6–10: two symmetric columns of 6; an odd last pair centred beneath. 11+: the table shape"
+    qa:
+      as: "stack"
+      look: "question in {typography.title} {colors.ink}, answer in {typography.copy} {colors.ink-soft} {spacing.step-sm} beneath, both in the 640px column; {colors.gold} hairline between pairs; always open"
+      counts: "1–10: one stack, {spacing.step-lg} apart. 11+: grouped under centred {typography.title} heads, groups divided by the lozenge rule"
+    people:
+      as: "grid of plates"
+      look: "each portrait a plate: {colors.gold} hairline frame, {spacing.step-sm} mat, square corners, 1/1; name in {typography.title} and role in {typography.label} capitals centred beneath"
+      counts: "1: a 1/1 plate of 4 columns, centred. 2: two of 6. 3: two of 6, the third 6 columns centred beneath. 4: two rows of two. Odd n: pairs, the last centred alone. Never an orphan at the left. Without portraits: the items shape"
+    sequence:
+      as: "stack, centred"
+      look: "each step numbered in roman numerals in {typography.label} capitals {colors.ink-soft} above its title in {typography.title}; text in {typography.copy} in the 640px column; a date takes the numeral's place"
+      counts: "2–8: one stack, {spacing.step-lg} apart, {colors.gold} hairlines between. 9+: grouped under {typography.title} heads, groups divided by the lozenge rule. Never a horizontal timeline"
+    media_text:
+      as: "stack"
+      look: "the plate at 8 columns centred, captioned, and the passage centred beneath it in the 640px column; in the retrieval register the passage comes first and the plate follows; never text beside an image"
+      counts: "one plate per band; a second photograph makes it a gallery"
+    gallery:
+      as: "grid of plates"
+      look: "plates framed, matted and numbered in page order, captions centred beneath; {spacing.step-lg} between plates"
+      counts: "1: 12 or 8 columns centred. 2: two of 6. 3: two of 6, the third 8 columns centred beneath. 4: two pairs. n: pairs, an odd last plate 8 columns centred. Always symmetric about the axis"
+    quote:
+      as: "stack on {colors.stone}"
+      look: "a {colors.stone} band; the words in italic {typography.lede} {colors.ink-soft}, centred, max 672px; attribution in {typography.label} capitals {colors.ink-soft} {spacing.step-md} beneath"
+      counts: "1–3: stacked, {spacing.step-xl} apart, in one band. 4+: two symmetric columns of 6, an odd last quotation centred beneath"
+    prose:
+      as: "stack"
+      look: "{typography.copy} (lead paragraph in {typography.lede}) left-aligned in the centred 640px column; paragraphs {spacing.step-md} apart; subheads in {typography.title} centred {spacing.step-xl} above"
+      counts: "any length: one column; plates at 8 columns centred between paragraphs"
+    form:
+      as: "grid, centred"
+      look: "label in {typography.label} capitals above; input {colors.marble} with a one-pixel {colors.gold} border, square, 48px; the {colors.primary} button centred beneath or ending the row"
+      counts: "1–3 fields: one row, 768px centred, button ending it. 4–6: two-up, the last odd field centred across both, button centred beneath. 7+: one column, 640px"
+    index:
+      as: "stack, centred"
+      look: "each entry's title in {typography.title} as a {colors.primary} link with a {colors.gold} underline, its line in {typography.copy} {colors.ink-soft}; a date or kind in {typography.label} capitals above; {colors.gold} hairlines between"
+      counts: "1–6: one stack, 640px. 7+: two symmetric columns of 6. With photographs: plates in pairs of 6, each titled beneath like a plate caption; an odd last plate centred"
+  close: "On {colors.ivory}, after the lozenge rule: a centred stack on the page axis, the heading in {typography.section} {colors.ink}, one line of {typography.lede} {colors.ink-soft} {spacing.step-md} below in the 576px column, then {spacing.step-lg} lower the one {colors.primary} button with its {typography.label} capitals in {colors.ivory}, and the phone number {spacing.step-sm} beneath it as a {typography.lede} {colors.primary} link underlined in {colors.gold}. Bottom padding {spacing.step-xxl} → {spacing.step-xl}, then the {colors.stone} footer under a {colors.gold} hairline."
+  focal: "Everything leads from the axis: in persuasion a band's heading, then its plate; in retrieval and reading the heading, then the rows or the text. Steps down through {typography.section}, {typography.title}, {typography.lede}, {typography.copy}, {typography.label}; the one figure on its plinth outranks all but the h1"
+  never:
+    - "a plate above the plain head — the reader of a retrieval page came for the rows"
+    - "text beside an image in a sidebar, or any element off the axis — symmetry is the identity"
+    - "a plate without its frame and number, or a lone plate pushed to one side"
+    - "cards, zebra stripes or vertical rules in a table — the catalogue table is hairlines only"
+    - "{colors.stone} on alternate bands — it marks a change of register, not a stripe"

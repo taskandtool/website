@@ -89,19 +89,18 @@ proud to send the link.
   stay in HTML, never baked into an image.
 - **Motion.** One orchestrated moment, or none. Nothing waits behind it,
   and reduced motion shows the finished page.
-- **Proof.** The logos and reviews in `public/proof.md` (`MarksSection`,
-  `ProofSection`) go on the homepage and every service page: every logo,
-  under an honest label for its kind (members of, certified by, brands we
-  service, partners, clients), near the promise or the action; reviews
-  word for word where a visitor decides. Their old site's proof left off
-  is a regression. Real proof is content, never a default to refuse.
+- **Proof, front and centre.** What others say persuades more than
+  anything the business says, so use all of `public/proof.md`, on the
+  homepage and every service page, and design it as boldly as the rest:
+  the rating by the first action, walls or bands of logos, star-rated
+  reviews (`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
+  or your own from `content.facts`).
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 
 Refuse the generated-page defaults unless the brief gives a reason: a
-centred headline over a glow; a logo strip, three feature cards,
-testimonials, pricing, FAQ and a final call to action whatever the
-content; a split hero with a form; a small tracked-caps label above every
+centred headline over a glow; three feature cards, pricing, FAQ and a
+final call to action whatever the content; a split hero with a form; a small tracked-caps label above every
 heading; cream with a soft serif; Inter with Playfair; icons in coloured
 circles; gradients, blur or glass to make up for a weak idea; fake proof; a
 page that could be another business with the logo swapped.
@@ -125,18 +124,19 @@ strips are the same page at full size, top to bottom. Read them in order:
 
 1. **The overview: the page's shape.** Name the sections top to bottom. Is
    there one peak, or do they all shout? Do two neighbours share a
-   composition or a ground? Is the proof (their logos, their reviews) on
-   the page when the notes hold any?
+   composition or a ground? Is all the proof on it?
 2. **The strips: each section in turn.** For each, say what it is for and
    the worst thing you can see: text that wraps badly or runs over an
    image, a crop that cuts the subject, uneven spacing or alignment, low
    contrast, an empty or broken image, a section that could be another
-   business's. Then the first screen against their current homepage
-   (`raw/site/<host>/shots/`): is it clearly better, would the owner send
-   it to someone?
-3. **The phone strips:** the first screen holds the promise and the action;
+   business's.
+3. **Their current homepage beside it** (`raw/site/<host>/shots/`): what
+   did it do better, in layout, content or proof? Carry that over. Is the
+   new first screen clearly better, would the owner send it to someone?
+4. **The phone strips:** the first screen holds the promise and the action;
    nothing is cut off, squeezed or tiny.
-4. **Every claim** on the page is in the notes.
+5. **The words:** every claim is in the notes, and the `writing` skill's
+   cold read is in the same list.
 
 The first render always shows something the code did not. Write the
 problems as one list, section by section, fix them all in one pass (rewrite

@@ -1,6 +1,6 @@
 ---
 name: new-site
-description: "Takes a business from no website, or an old one, to a launched site like a good agency: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch when they want the whole site. Use for build me a homepage, build my site, redo my site, or a link to their business."
+description: "Takes a business from no website, or an old one, to a launched site like a good agency: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch when they want the whole site. Use for build me a homepage, build my site, or a link to their business."
 ---
 
 # New site
@@ -24,34 +24,33 @@ Read the folders and carry on from where they are:
 
 ## The homepage
 
-1. **Start from their site:** `npm run from-site -- <url>` (about 20
-   seconds). It reads their homepage, gallery and services page and does
-   the mechanical part: the business note, the logo, their photographs at
-   web size in `static/images/`, the fonts, and design tokens seeded from
-   their colours; it prints what to read next. With a name and no link,
-   find their website first (a search connection when the app has one,
-   otherwise your own web search) and say in one line who you found.
-2. **Write `public/services.md`** from the services page it names, over
-   the template already there: `updated` (today) and `sources` (that page)
-   in the frontmatter, no "to fill" left, then a `## <service>` section per
-   service in the page's own facts, cited. Nothing it does not say: no
-   guessed prices. The facts on the page come from this note, through
-   `ServicesSection` or `content`, never typed into the markup. When
-   `from-site` put logos in `public/proof.md`, look at each and give it its
-   `name` (the organisation) and `kind` (association, certification,
-   brand they service or stock, partner, client). Every one, and any
-   reviews, go on the homepage (the `design` skill's "Proof").
+1. **Start from their site:** `npm run from-site -- <url>` (about a
+   minute). It does the mechanical part: the business note, the logo,
+   their photographs at web size, the fonts, design tokens from their
+   colours, and the proof it can reach (their site's reviews and logos,
+   their Google rating and reviews). It prints what to read next. With a
+   name and no link, find their website first and say in one line who you
+   found.
+2. **Write `public/services.md`** from the services page it names: a
+   `## <service>` section each, in the page's own facts, cited, with
+   `updated` and `sources` set and no "to fill" left. The page shows them
+   through `ServicesSection` or `content`, never typed into the markup.
+3. **Proof.** Nothing persuades like what others say, so the homepage
+   leans on it. Name each logo in `public/proof.md` and give its `kind`
+   (`raw/logos.png` shows them numbered); delete any that is not a logo. Then get what `from-site` could
+   not reach: their Facebook and other review pages, sites that mention
+   them, anything the owner sent. Paste the words in as written.
 
 What a page is built from (`npm run parts`; if the list is not shown here,
 run it):
 
 !`npm run --silent parts 2>/dev/null || true`
 
-3. **Design and build it:** the `design` skill's "The homepage first", and
-   its first screen above all. The owner is deciding whether to trust you
-   with the rest of the site.
-4. **Show it,** with the one or two things that would make it better (their
-   own sharp photographs, a fact the site does not state).
+4. **Design, build and show it:** the `design` skill's "The homepage first",
+   with all the proof on it, and its first screen above all. The owner is
+   deciding whether to trust you with the rest of the site. Say the one or
+   two things that would make it better (their own sharp photographs, a
+   fact the site does not state).
 
 ## The whole site
 

@@ -1,0 +1,477 @@
+# Kinetic. One hue at full saturation flooding whole bands, numerals larger than
+# the headline, a forward lean on everything that moves, and a scoreboard
+# ticker when a band holds a list of short items. The loudest system in the roster, for gyms,
+# boxing, martial arts and sports: the hero is an action photograph cut by a diagonal flood block.
+id: velocity
+title: Velocity
+summary: >
+  A kinetic single-hue system: ultramarine flooding whole bands against white
+  and true black, condensed black-weight numerals set larger than the headline
+  and overlapping a photograph where a band has both, parallelogram actions, and a
+  scoreboard ticker for a list of short items. Dense, fast, and built to be read at a glance.
+tokens:
+  colors:
+    primary: "#2230FF"
+    primary-deep: "#0E14A8"
+    smoke: "#B9BBC9"
+    white: "#FFFFFF"
+    black: "#000000"
+    graphite: "#3B3D52"
+    line: "#D7D9E6"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.primary}"
+    night: "{colors.black}"
+    ink: "{colors.black}"
+    ink-2: "{colors.graphite}"
+    ink-3: "{colors.graphite}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.smoke}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.white}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.graphite}"
+    line-on-night: "{colors.graphite}"
+  typography:
+    figure-xl:
+      fontFamily: "Barlow Condensed"
+      fontSize: 224px
+      fontWeight: 800
+      lineHeight: 0.82
+      letterSpacing: -8px
+      fontFeature: tnum
+    figure-lg:
+      fontFamily: "Barlow Condensed"
+      fontSize: 120px
+      fontWeight: 800
+      lineHeight: 0.85
+      letterSpacing: -4px
+      fontFeature: tnum
+    display:
+      fontFamily: "Barlow Condensed"
+      fontSize: 88px
+      fontWeight: 800
+      lineHeight: 0.9
+      letterSpacing: -2.5px
+    section:
+      fontFamily: "Barlow Condensed"
+      fontSize: 52px
+      fontWeight: 800
+      lineHeight: 0.94
+      letterSpacing: -1.2px
+    title:
+      fontFamily: "Barlow Condensed"
+      fontSize: 28px
+      fontWeight: 700
+      lineHeight: 1.05
+      letterSpacing: -0.3px
+    label:
+      fontFamily: "Barlow Condensed"
+      fontSize: 16px
+      fontWeight: 600
+      lineHeight: 1.1
+      letterSpacing: 1.2px
+      fontFeature: tnum
+    action:
+      fontFamily: "Barlow Condensed"
+      fontSize: 19px
+      fontWeight: 700
+      lineHeight: 1
+      letterSpacing: 0.8px
+    lede:
+      fontFamily: "Barlow"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.45
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Barlow"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+    caption:
+      fontFamily: "Barlow"
+      fontSize: 15px
+      fontWeight: 500
+      lineHeight: 1.4
+      letterSpacing: 0.2px
+      fontFeature: tnum
+  rounded:
+    square: 0px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.square}"
+    control: "{rounded.square}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 112px
+    step-xxl: 160px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xxl}"
+    block: "{spacing.step-xl}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Velocity is a scoreboard, not a brochure. Three surfaces do everything:
+    {colors.primary} at full saturation, {colors.white}, and {colors.black}.
+    Each band of the page is one of the three, edge to edge, and the hue is
+    never rationed to a button; whole sections sit on it. When a band has a
+    figure, it is the largest thing on the screen, set in
+    {typography.figure-xl} or {typography.figure-lg}, italic; when the band
+    also has a photograph, the numeral crosses its edge. Headlines come second in size and are set in the same
+    condensed black weight. Prose is short and set in Barlow, the wide sibling
+    of the display face, so the two are visibly related and visibly different.
+    Motion is part of the identity and is bounded to two things: one staggered
+    rise per band as it enters the viewport, and a ticker that never stops,
+    used only when a band holds a list of short items.
+  colors: >
+    {colors.primary} is the ground for at least a third of the page, always
+    with {colors.white} text (7.16:1); secondary text on the hue steps down by
+    size, never by a tint of the hue. {colors.white} bands carry {colors.black} prose,
+    {colors.graphite} captions (10.63:1), and the hue itself as text for
+    numerals (7.16:1). {colors.black} bands carry {colors.white} text and
+    {colors.smoke} captions (11.0:1), a neutral grey. {colors.primary-deep} exists for the hover
+    state of a filled action only. {colors.line} is the sole hairline on white.
+    The hue is never placed as text on {colors.black} (2.93:1) and there is no
+    grey surface anywhere; a grey band would be a fourth surface and the
+    system has three.
+
+    With the brand's own colour: a brand colour becomes the flood — whole bands, the actions, and every figure on white — so it must be a saturated mid-to-dark hue that carries {colors.white} text at 4.5:1 and whose white text still clears 4.5:1; a pale, muted or near-black brand colour cannot flood and the system keeps ultramarine.
+  typography: >
+    Two families from one superfamily. Barlow Condensed at 800 for every
+    numeral and headline, at 700 for actions and small headings, and at 600
+    for labels; Barlow at 400 for prose and 500 for captions. Numerals and the
+    top-level headline are always italic: the forward lean is the system's
+    signature and it is applied only where something is being asserted.
+    Figures use tabular numerals. Labels are uppercase with +1.2px tracking
+    because they are scoreboard captions: they sit under or beside the figure
+    they name, never above a heading as decoration. Prose measure stays under
+    64 characters because the reading rhythm is short bursts, not columns.
+  layout: >
+    A twelve-column grid at 1280px with {spacing.step-md} gutters. The type is dense and
+    fast; the bands around it have room, so the loud parts land. Bands are full-bleed and alternate
+    surface: flood, white, flood, white, black. The join between two bands is
+    cut on a 3-degree slant once per page, on the exit from the hero, so the
+    page reads as moving from the first scroll. When a band has both a figure
+    and a photograph, they share a row and the numeral overlaps the
+    photograph's near edge by roughly a fifth of its width. Tables are welcome and are set
+    dense: {spacing.step-sm} row padding, hairline rows, tabular figures.
+  elevation_and_depth: >
+    None. No shadow, no blur, no translucency. Layering is expressed by
+    overlap alone: a numeral crossing a photograph, a parallelogram action
+    sitting across a band edge. If two things must read as stacked, let one
+    physically overlap the other on the grid.
+  components: >
+    One radius, {rounded.square}, on everything. The characteristic shape is
+    the parallelogram: filled actions and the ticker's markers are skewed by
+    -12 degrees on the x axis, with their text counter-skewed to stay upright,
+    and so is the head's flood block over its photograph. One band edge per
+    page is skewed on the y axis by 3 degrees, and the head's flood block is a -12 degree parallelogram. Nothing else is angled; the lean means "this moves" and loses its meaning if applied
+    everywhere.
+
+    Actions are parallelograms. On white or black, the action is
+    {colors.primary} with {colors.white} text and deepens to
+    {colors.primary-deep} on hover in 150ms. On a flood band, the action is
+    {colors.white} with {colors.primary} text and flips to {colors.black} with
+    {colors.white} text on hover. When a band holds a list of short items it may
+    run as the ticker: a {colors.black} strip in
+    {typography.label}, uppercase, items separated by a 1px {colors.white}
+    rule, scrolling continuously at about 40 pixels per second. Figures are a
+    numeral in {typography.figure-xl} or {typography.figure-lg} directly above
+    its {typography.label} caption, which carries the figure's source where it
+    has one.
+    Inputs are {colors.white} with a 2px {colors.black} border, square, and a
+    {colors.primary} border on focus. Tables are {colors.black} with
+    {colors.white} text and 1px {colors.graphite} row rules. Quotes are set
+    in {typography.section} on {colors.black}, never in italics, because
+    italics are reserved for the system's own assertions.
+  dos_and_donts:
+    do:
+      - rule: "When a band has a figure, make the numeral the largest object on the screen, larger than the headline; when the band also has a photograph, let the numeral cross its edge."
+        why: "The overlap is the identity. A number sitting politely in its own column is a stat card; a number cutting into the picture is a scoreboard over a pitch."
+      - rule: "Flood whole bands with {colors.primary}; never use it as a small accent on a white page."
+        why: "A single saturated hue only reads as a choice at scale. At button size it is every other blue button on the web."
+      - rule: "Skew every filled action by -12 degrees and counter-skew its text."
+        why: "The parallelogram is the one shape that says movement without moving; it is the system's mark and a rectangular button reads as a different product."
+      - rule: "Run exactly one staggered rise per band, 80ms apart and 500ms long. When a band holds a list of short items, it may run as the ticker, at most one per page; a page without such a list has no ticker."
+        why: "Motion is the identity, so it must be disciplined: a fixed budget of two kinds keeps it a signature rather than noise, a ticker with no list to carry is decoration, and both are switched off under prefers-reduced-motion."
+      - rule: "Set every label in {typography.label}, uppercase, under or beside the figure it names."
+        why: "Uppercase condensed captions are scoreboard grammar: they encode 'this is the unit and source of that number'. Above a heading they are decoration and the lint is right to object."
+      - rule: "Alternate band surfaces and keep every band edge-to-edge."
+        why: "Three flat surfaces stacked full-bleed are what make the page read as a poster; a contained column on a grey page is what every generated page does."
+    dont:
+      - rule: "Don't put {colors.primary} text on {colors.black}, or {colors.black} text on {colors.primary}."
+        why: "Both measure under 3:1. The hue meets black only as an adjacent block, never as type on a ground."
+      - rule: "Don't introduce a grey surface, a tint of the hue as a background, or a gradient."
+        why: "The system has three surfaces. A fourth flattens the alternation that gives the page its rhythm, and a gradient turns a flat ink into a screen effect."
+      - rule: "Don't round a corner or cast a shadow anywhere."
+        why: "Speed has corners. A radius softens the parallelogram into a pill and a shadow implies floating, and nothing here floats; it overlaps."
+      - rule: "Don't put more than one figure in a band, or three figures in a row."
+        why: "One number per band is a claim the eye can check. A stat bar is three claims at equal volume, which is the same as none."
+      - rule: "Don't italicise prose or quotes, and don't set a numeral upright."
+        why: "The lean is meaning: it marks the system's own assertions. Spread to prose it becomes styling, and an upright numeral looks like a mistake beside the leaning ones."
+      - rule: "Don't animate on hover beyond the colour change, and don't animate anything a second time."
+        why: "The motion budget is spent on the entrance and, where there is one, the ticker. Hover choreography on cards is the template tell the entrance declaration does not cover."
+  responsive_behavior: >
+    Below 1024px the numeral steps from {typography.figure-xl} to
+    {typography.figure-lg} and sits in normal flow above the photograph rather
+    than overlapping it; {typography.display} drops to 52px with -1.2px
+    tracking. Below 768px the grid is one column with {spacing.step-md} side
+    margins, band padding goes from {spacing.step-xxl} to {spacing.step-xl}, tables
+    scroll horizontally inside their band rather than wrapping, and the
+    slanted band edge is retained at 3 degrees. The ticker keeps running at the
+    same speed. Tap targets are never below 44px. Under
+    prefers-reduced-motion the ticker is static and shows its first items, and
+    every element that would rise in is simply present.
+  known_gaps: >
+    No dark theme is defined; the black bands are part of the light theme and
+    a page should not be built on black alone. No second hue exists and none
+    should be added for charts; if a graph is needed, use {colors.primary}
+    against {colors.line} and {colors.black} and ask before adding a series
+    colour. Barlow and Barlow Condensed are on Google Fonts; no self-hosted
+    fallback is specified beyond system-ui. Keyframe animation is not
+    available through utilities in this build, so the ticker and entrance are
+    driven by the Web Animations API and class toggling from a small script.
+    The band order "flood, white, flood, white, black" is a description, not a
+    rule: quotes and tables both want black, so two black bands are fine as long
+    as the three-surface invariants hold. Quotes set in {typography.section}
+    need {typography.title} below 640px or they fall to ~14 characters a
+    line.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.black}"
+    typography: "{typography.copy}"
+  ticker:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+  flood:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.lede}"
+  figure-hero:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.figure-xl}"
+  figure:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.primary}"
+    typography: "{typography.figure-lg}"
+  figure-on-black:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.figure-lg}"
+  label-on-flood:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+  label:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.graphite}"
+    typography: "{typography.label}"
+  caption:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.graphite}"
+    typography: "{typography.caption}"
+  caption-on-black:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.smoke}"
+    typography: "{typography.caption}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.action}"
+    rounded: "{rounded.square}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.white}"
+    typography: "{typography.action}"
+  button-inverse:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.primary}"
+    typography: "{typography.action}"
+    rounded: "{rounded.square}"
+  button-inverse-hover:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.action}"
+  quote:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.section}"
+  table:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.copy}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.black}"
+    typography: "{typography.copy}"
+  hairline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.black}"
+  footer:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.smoke}"
+    typography: "{typography.copy}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares:
+  - entrance-everywhere
+x_declares_reasons:
+  entrance-everywhere: >
+    Motion is this system's identity, not a flourish. Each band's contents rise in once, 80ms apart
+    over 500ms, as the band enters the viewport. It is declared because the lint rightly treats
+    entrance animation as a template default; here it is bounded (one moment per band, nothing on
+    hover, nothing repeated) and it is switched off under prefers-reduced-motion in both the CSS
+    variants and the script.
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "Three surfaces only: {colors.primary}, {colors.white}, {colors.black}. No grey, tint or gradient ground."
+    - "Every band is full-bleed and at least a third of the page sits on {colors.primary}."
+    - "When a band has a figure, it is the largest object on the screen, in the condensed 800 italic; when the band also has a photograph, the numeral overlaps it at desktop width."
+    - "Filled actions are parallelograms (-12 degrees x-skew). No radius and no shadow anywhere."
+    - "Motion budget: one staggered rise per band, plus at most one ticker when a band holds a list of short items. Nothing else moves."
+  accessible:
+    - "{colors.primary} text is never on {colors.black} and {colors.black} text is never on {colors.primary} (both under 3:1)."
+    - "Text on {colors.primary} is {colors.white} (7.16:1), stepping down by size, never by tint; secondary text on {colors.black} is {colors.smoke} (11.0:1); on {colors.white} never lighter than {colors.graphite} (10.63:1)."
+    - "Both kinds of motion are disabled under prefers-reduced-motion, in CSS variants and in the script."
+    - "Tap targets >= 44x44px at every breakpoint; focus is a 4px {colors.white} or {colors.black} outline offset from the control."
+
+x_motion:
+  principle: "One staggered rise per band and one signature, the ticker. Nothing else moves: hover is a colour change only, and nothing animates a second time."
+  entrance: "On load, the head's headline, lead, figure and action each rise 24px and fade in from transparent over 500ms on cubic-bezier(.2,.7,.2,1), 80ms apart."
+  signature: "The scoreboard ticker: when a band holds a list of short items, a {colors.black} strip of {typography.label} uppercase items split by 1px {colors.white} rules runs left at about 40px per second, forever, at most one per page (in the reference, directly under the head)."
+  scroll: "Every band's contents arrive once with the same rise, 24px over 500ms, 80ms apart in reading order, when 15% of the band enters the viewport; the ticker keeps running. Nothing else arrives on scroll."
+  reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden: no element rises in, and the ticker stands still showing its first items; with script off the page is complete."
+  mechanism: "A short script with the Web Animations API, no CSS keyframes and no <style> block: elements marked data-rise are animated with fill backwards by an IntersectionObserver on each [data-band] (threshold 0.15), unobserved after one run, so nothing is hidden before the script acts; the [data-ticker] track clones its list to fill the width and animates translateX linearly, infinitely. The script returns early under prefers-reduced-motion, and the track carries motion-reduce:transform-none. Hover colour changes use transition-colors."
+
+x_imagery:
+  role: >
+    Evidence cut hard. A photograph shares a row with its band's figure when
+    the band has one, and carries nothing on it except the overlapping
+    numeral.
+  density: "at most one photograph per band where supplied, beside that band's figure when it has one; never two adjacent images unless they are a deliberate pair at unequal sizes"
+  treatment: >
+    Hard-cropped, square-cornered, no overlay, no scrim, no filter, no border.
+    Images are cropped wide (3:1 or 16:9) or square, never 4:3, and are sized
+    to the grid so the numeral can overlap one edge by roughly a fifth of its
+    width. The overlap, and the head's solid flood block over the photograph's free side, are the only things ever placed on a photograph; the subject is never covered and never tinted.
+  aspect_ratios: ["3/1", "16/9", "1/1"]
+  caption: >
+    A caption sits below the image, never on it, in {typography.caption} in
+    {colors.graphite} on white or {colors.white} on the hue, {colors.smoke} on black. Its words
+    come from the brand folder (see standards/copy.md).
+  forbidden:
+    - "text or headings on a photograph itself: words sit on the head's solid flood block, and the numeral overlapping an edge is the one thing on the image"
+    - "rounded corners, borders or shadows on an image"
+    - "duotone, colour wash, blur or any tint of the hue over an image"
+    - "a photograph used as a full-bleed background behind prose"
+    - "a gallery grid of equal thumbnails"
+  no_assets_supplied: >
+    If the brief supplies no images, do NOT invent placeholder <img> paths. Let
+    the numerals carry the row on their own at full size, each with its label
+    caption beneath; no empty frame is drawn.
+
+# How this system emphasises ONE figure. The renderer reads this; it must never
+# hardcode a token name, because tokens are per-system.
+x_emphasis:
+  device: "a `text-figure-xl` italic numeral in `text-white` on the `bg-primary` hero band, overlapping the hero photograph's edge when there is one"
+  applies_to: "at most one statistic per page; every other figure is `text-figure-lg` in its own band"
+  why: "The hero numeral is the loudest object on the page; a second at the same size makes both a stat row."
+
+# How any band of any page is laid out. Look only: the page type picks the bands
+# and the mode, the brief fills them, this says how each shape sits on the board.
+x_layout:
+  measure:
+    reading: "56–64ch — {typography.lede} on {colors.primary} or {colors.black}, {typography.copy} on {colors.white}; running text past three paragraphs is {typography.copy} on white"
+    caption: "under 48ch, {typography.caption} ({typography.label} when it names a figure)"
+  grid:
+    columns: 12
+    container: "bands full-bleed; content 1280px inside, 48px side padding, 20px below 768px"
+    gutter: "{spacing.step-md}"
+    text_columns: "4–7 columns for text; a headline may take 8"
+    media_columns: "7, 8 or 12 columns, hard-cropped to 3/1, 16/9 or 1/1; a square takes 4 or 5"
+  rhythm:
+    section: "{spacing.step-xxl} → {spacing.step-xl} band padding"
+    group: "{spacing.step-xl} → {spacing.step-lg}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "surface — each band changes ground among {colors.primary}, {colors.white} and {colors.black}, edge to edge; inside a band, rows split on a 1px rule ({colors.line} on white, {colors.white} on flood, {colors.graphite} on black); one band edge per page is cut at 3 degrees"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} italic head, {typography.figure-xl} for the page's one figure, {typography.figure-lg} for one figure per band, {typography.section} band headings, {typography.lede}", rhythm: "{spacing.step-xxl} band padding; surfaces alternate; a figure crosses its band's photograph; the slanted edge on the exit from the head; the rise on every band" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads and row names, {typography.copy} rows, {typography.label} keys and table heads", rhythm: "one step denser: {spacing.step-xl} band padding, {spacing.step-sm} rows; fewer, longer bands — tables on black, facts on white; a figure only where a number is the answer; no overlap, no slant" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading on white, {typography.title} subheads, {typography.caption} for sources", rhythm: "one white band, one column at measure.reading from column 1; a photograph the text refers to breaks out to 8 columns; the rise on the head band only, no ticker" }
+  head:
+    statement: "Full viewport width, at least 720px tall (80vh on a phone): one action photograph, the sharpest the brand has at 1600px or wider, of a person mid-effort (a punch, a lift, a sprint) with the subject on one side of the frame and the other side free (brand/images.md gives the focal point), object-cover, square edges, no filter. Over the free side, a solid {colors.primary} block, no fade and no transparency, covering about 45% of the width and running off the edge, its inner edge a steep diagonal (a skew-x-12 parallelogram, the content inside un-skewed), so the subject is never covered. On the block: the headline in {typography.display} {colors.white} italic uppercase, four lines at most ({typography.section} below 1024px), the lead in {typography.lede} {colors.white}, then the parallelogram action in white with {colors.primary} text. The one figure (an offer's price, a count) may cross the block's diagonal onto the photograph in {typography.figure-xl} {colors.white}. A ticker band on {colors.black} runs directly under the head when the brief gives short items. With the subject centred, the block becomes a diagonal band across the lower third instead. No action photograph: a {colors.primary} band with the headline in {typography.display} {colors.white} italic uppercase on 8 columns and the lead and action on the 4 beside it, and the one figure alone at {typography.figure-xl} beside the headline, the band exiting through the 3-degree slant."
+    plain: "A {colors.primary} band at {spacing.step-xl} padding: the title in {typography.section} uppercase (italic only when it asserts), one lead line in {typography.lede} in {colors.white} across 7 columns, and at most the one inverse action; no photograph, no figure, no slant. The next band, holding what the reader came for, starts on the first screen."
+  close: "A {colors.primary} band, edge to edge, left-aligned on the 12 columns, padding {spacing.step-xxl} ({spacing.step-xl} below 1024px). Columns 1–5: the heading in {typography.section} {colors.white} uppercase, upright, a {typography.lede} {colors.white} passage {spacing.step-sm} below, the contact facts {spacing.step-md} below that as a definition grid under 1px {colors.white} rules (keys in {typography.label} uppercase, values in {typography.copy} as underlined links), then the white parallelogram action with {colors.primary} text in {typography.action} {spacing.step-md} beneath. Columns 6–12: one 16/9 photograph aligned to the band's bottom, caption below it in {typography.caption} {colors.white}. It is the last band; nothing follows it."
+  shapes:
+    items:
+      as: "stack of numbered hairline rows beside a heading (sidebar), or the ticker"
+      look: "index in {typography.label}, name in {typography.title} uppercase, its line in {typography.copy} beside or beneath; a 1px rule between rows"
+      counts: "1: fold into prose. 2–3: a switcher of 2–3 columns, each with name and line, 1px rule above. 4–10: numbered rows on 8 columns beside a 4-column heading or the band's one photograph. 11+ names without lines: a cluster of 3 columns of hairline rows at 12. 5+ items under about six words each may instead run as the ticker, single-line and unwrapped, at most one per page."
+    table:
+      as: "table on a {colors.black} band, scrolling horizontally below 768px"
+      look: "heads in {typography.label} uppercase in {colors.smoke} over a 1px {colors.white} rule; rows in {typography.copy} in {colors.white} at {spacing.step-sm} padding with 1px {colors.graphite} rules; row names in {typography.title} uppercase; figures tabular"
+      counts: "1–3 rows: facts instead. Up to 4 columns: 8 columns beside a 4-column figure, photograph or form. 5+ columns: 12. Any number of rows stays one table; never split into cards."
+    facts:
+      as: "a two-column definition grid under a 1px rule"
+      look: "key in {typography.label} uppercase ({colors.graphite} on white, {colors.white} on flood, {colors.smoke} on black), value in {typography.copy}, tabular"
+      counts: "1–4: 6 columns beside prose or the band's figure. 5–10: 12 columns as two key/value grids side by side. A run of same-shaped values (seven days, several prices) is a table on black instead."
+    qa:
+      as: "stack of hairline rows"
+      look: "question in {typography.title} uppercase, answer in {typography.copy} at measure.reading beneath at {spacing.step-sm}; 1px rule between pairs"
+      counts: "1–6: rows on 8 columns. 7–14: rows split 4/8, question left. 15+: the same, grouped under a {typography.section} subhead per group the brief names, groups on alternating white and black bands."
+    people:
+      as: "one row per person (sidebar), or a hairline list"
+      look: "portrait at 1/1 hard-cropped, name in {typography.title} uppercase, role in {typography.label}; portraits never sit side by side at equal size"
+      counts: "1–3: a row per person, the portrait on 4 or 5 columns and the name, role and passage beside it, the portrait's side alternating row to row. 4+: a hairline list of name and role in 2 or 3 columns, beside one lead portrait on 5 when the brief gives one. No portraits: the list alone."
+    sequence:
+      as: "stack of numbered hairline rows"
+      look: "the step number in {typography.label}, the step's name in {typography.title} uppercase, its line in {typography.copy}; 1px rules between"
+      counts: "2–6: rows on 8 columns. 3–4 steps of under about eight words: a switcher across 12, a 1px rule between. 7+: rows at 12, split 4/8. Dated entries with more than one fact each: a table on black."
+    media_text:
+      as: "sidebar, 7/5"
+      look: "the photograph on 7 at 16/9, caption below it; text on 5 bottom-aligned; when the band has a figure, it sits on the 5 and crosses the photograph's near edge"
+      counts: "1: 7/5. Several: the photograph flips side band to band and the surface alternates. A 1/1 photograph takes 5, with text on 7. Below 1024px the figure sits in flow above the photograph."
+    gallery:
+      as: "stack of full-width images and unequal overlapping pairs — never a grid"
+      look: "hard-cropped, no border, caption below each in {typography.caption}; in a pair, the smaller image overlaps the larger's lower corner, the only layering the system has"
+      counts: "1: 12 columns at 3/1 or 16/9. 2: an unequal pair — the first at 12 and 16/9, the second on 7 columns offset to the right and overlapping its lower edge by {spacing.step-xl}. 3: the pair, then one at 12 and 3/1. 4: two pairs, the smaller image on the right then the left. 5–8: pairs in turn, an odd last image at 12 and 3/1. 9+: the same, split across two bands of different surface. Never equal thumbnails side by side."
+    quote:
+      as: "reviews on a {colors.white} band; one pull quote may be a {colors.black} block"
+      look: "each review a {colors.white} block with a 2px {colors.black} top rule, square: the platform's square mark in colour (24px) and the review's stars as star graphics on one line, the quote in {typography.title} upright, the name and date in {typography.caption} {colors.graphite}. A single pull quote (the club's own words) may sit in a {colors.black} block in {typography.section} uppercase, attribution in {colors.smoke}"
+      counts: "1: one block across the container. 2–3: blocks on 8 columns, staggered left then right, {spacing.step-lg} apart. 4+: the longest at {typography.section}, the rest at {typography.title} in a 6/6 stack. Any quote over about 50 words sets at {typography.title}."
+    prose:
+      as: "sidebar or a single column at measure.reading"
+      look: "{typography.lede} on flood or black, {typography.copy} on white, never italic; paragraphs {spacing.step-md} apart"
+      counts: "1–2 paragraphs: 7 columns beside a 5-column heading. 3+: a white band, one column at measure.reading."
+    form:
+      as: "stack of fields"
+      look: "labels in {typography.label} uppercase, inputs {colors.white} with a 2px {colors.black} border, {rounded.square}, min 44px, a {colors.primary} border on focus; the submit is the parallelogram action"
+      counts: "1–3 fields: a 4-column stack beside an 8-column table or photograph. 4–8: 6 columns, short fields two-up. 9+: 8 columns, fields two-up, long text at full width."
+    index:
+      as: "stack of hairline rows, each one link"
+      look: "title in {typography.title} uppercase, its line in {typography.copy}, the whole row the hit area with a colour change only on hover; a date in {typography.label}"
+      counts: "1–6: rows on 8 columns. 7+: rows at 12 in two columns split at the midpoint. With images: each row a 1/1 image on 3 columns beside its text, images stacked down the page, never side by side."
+  focal: "A band with a figure leads with it, larger than its headline; without one the headline leads in {typography.section}; then the photograph, then prose, then labels. One lead per band, and at most one figure."
+  never:
+    - "Sit a figure politely in its own column when its band has a photograph — it crosses the photograph's edge."
+    - "Run a ticker because the system has one — only a list of short items runs as a ticker, and its items never wrap to two lines."
+    - "Put two photographs side by side at equal size, or a grid of equal thumbnails."
+    - "Contain a band as a box on a grey or tinted page — every band is full-bleed."
+    - "Cut more than one band edge on the slant."
+    - "Put a figure or a photograph in a plain head."
+    - "Keep the overlap below 1024px — the figure drops into flow above the photograph."

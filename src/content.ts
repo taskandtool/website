@@ -11,8 +11,12 @@ export const content = generated as {
     locations: Record<string, any>[];
     offerings: Record<string, any>[];
     faq: { question: string; answer: string; answerHtml: string }[];
-    proof: Record<string, any>[];
-    marks: { name: string; file: string; kind?: string; source?: string }[];
+    reviews: { quote: string; name?: string; role?: string; company?: string; platform?: string; date?: string; stars?: number; url?: string }[];
+    ratings: { platform: string; value: number; count?: number; url?: string }[];
+    logos: { name: string; file: string; kind?: string }[];
+    people: { name: string; role?: string; photo?: string }[];
+    numbers: { figure: string; says: string }[];
+    posts: { platform?: string; text?: string; url?: string; date?: string }[];
   };
   posts: { path: string; title: string; date: string; description: string; author: string; tags: string[]; html: string }[];
   legal: { path: string; title: string; updated: string; html: string }[];

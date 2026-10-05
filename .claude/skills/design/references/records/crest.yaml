@@ -1,0 +1,374 @@
+# Crest: premium services. The work, seen large. A service business sells what it does to a place,
+# and the best proof is a picture of it: so the page opens on the work at full width (a muted
+# looping video when the brand has a good landscape one, otherwise its widest photograph), with a
+# dark fade from the left that carries white words, and a white quote card on the right. Below,
+# deep graphite bands alternate with light ones, and wide photographs run edge to edge between
+# them. One strong grotesk, Archivo, set large and short. Built to the
+# 2026-09-24 direction: full-bleed visuals, darker grounds where possible, lighter bands for
+# contrast, a form beside the promise.
+id: crest
+title: Crest
+summary: >
+  A premium-services system: the hero is the work at full width (a looping video or the widest
+  photograph) under a dark fade from the left that carries white words, with a white quote card
+  on the right; deep graphite bands alternate with light ones, and wide photographs run edge to
+  edge between them. One strong grotesk, set large and short.
+tokens:
+  colors:
+    primary: "#E9B949"
+    primary-deep: "#D4A12F"
+    graphite: "#0F1412"
+    graphite-2: "#18201D"
+    paper: "#F3F5F4"
+    white: "#FFFFFF"
+    stone: "#A9B2AE"
+    slate: "#4B5551"
+    line: "#D6DCD9"
+    line-dark: "#2A3430"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.paper}"
+    surface: "{colors.white}"
+    panel: "{colors.paper}"
+    night: "{colors.graphite}"
+    ink: "{colors.graphite}"
+    ink-2: "{colors.slate}"
+    ink-3: "{colors.slate}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.stone}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.graphite}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.slate}"
+    line-on-night: "{colors.line-dark}"
+  typography:
+    display:
+      fontFamily: "Archivo"
+      fontSize: 88px
+      fontWeight: 800
+      lineHeight: 0.98
+      letterSpacing: -2px
+    section:
+      fontFamily: "Archivo"
+      fontSize: 64px
+      fontWeight: 800
+      lineHeight: 1.02
+      letterSpacing: -1.5px
+    display-md:
+      fontFamily: "Archivo"
+      fontSize: 44px
+      fontWeight: 800
+      lineHeight: 1.05
+      letterSpacing: -1px
+    heading-lg:
+      fontFamily: "Archivo"
+      fontSize: 48px
+      fontWeight: 700
+      lineHeight: 1.06
+      letterSpacing: -1px
+    title:
+      fontFamily: "Archivo"
+      fontSize: 28px
+      fontWeight: 700
+      lineHeight: 1.2
+      letterSpacing: -0.3px
+    figure:
+      fontFamily: "Archivo"
+      fontSize: 120px
+      fontWeight: 800
+      lineHeight: 0.9
+      letterSpacing: -3px
+      fontFeature: tnum
+    lede:
+      fontFamily: "Archivo"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Archivo"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    label:
+      fontFamily: "Archivo"
+      fontSize: 16px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: 0.1px
+    caption:
+      fontFamily: "Archivo"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+  rounded:
+    none: 0px
+    card: 16px
+    control: 10px
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 112px
+    step-xxl: 160px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Crest shows the work first and large. The head is the work at full viewport width: a muted
+    looping landscape video when the brand has a good one, otherwise its widest sharp
+    photograph. A dark fade rises from the left edge ({colors.graphite} at 90% held flat across the words' columns, about 50% of the width,
+    then to transparent by about 70%), and on it the headline and lead sit in {colors.white} and
+    {colors.stone}. The right of the frame stays clear for a {colors.white} quote card holding
+    the form or the action. Below, bands alternate {colors.graphite} and {colors.paper}, with wide
+    photographs running edge to edge between them as breaks. Archivo carries everything, heavy
+    and short in the heads. The brand's colour ({colors.primary}) fills the action and the
+    checks, and nothing else is coloured, so the pictures carry the page.
+  colors: >
+    Two grounds and a card. {colors.graphite} is the dark ground: the head's fade, most bands, the
+    footer. {colors.graphite-2} is a second dark band where two dark bands meet. {colors.paper} is the
+    light relief band, a cool grey, never beige: it takes the bands that are read closely
+    (reviews, facts, questions). {colors.white} is the quote card, inputs and cards on
+    {colors.paper}. Text is neutral against its ground: {colors.paper} on dark with
+    {colors.stone} for secondary lines, {colors.graphite} on light with {colors.slate}. Secondary
+    text steps down by size and that one neutral step, never by tint. {colors.primary} fills
+    the primary button under {colors.graphite} text and colours the check marks; it is the brand's
+    slot. {colors.line} and {colors.line-dark} are hairlines inside a band only.
+
+    With the brand's own colour: the brand's colour fills the action and the check marks; it must carry {colors.graphite} text at 4.5:1, so a light or bright brand colour works directly, and a dark one (a deep green, a navy) cannot fill the button. For a dark brand colour, keep the amber action and use the brand colour nowhere, or pick tally.
+  typography: >
+    Archivo throughout. {typography.display} at 88px for the head, stepping to
+    {typography.section} at 64px between 768px and 1279px and {typography.display-md} at 44px
+    below, set in two or three lines; {typography.heading-lg} at 48px for band heads; {typography.title} for card
+    and feature titles; {typography.lede} for leads, {typography.copy} at 18px for reading,
+    {typography.label} for buttons, nav, checks and form labels, {typography.caption} for
+    captions and attributions. Headlines stay under about eight words. Sentence case everywhere.
+  layout: >
+    Twelve columns in a 1280px container with 32px gutters; media runs to the viewport edge.
+    The head is a full-viewport-width band at least 760px tall on desktop: words on columns 1–7
+    over the fade, the quote card on columns 8–12. A band that pairs words with a card or a
+    photograph is a 7/5 or 6/6 split. Photo breaks run full width at 16/9 or 21/9, no text on
+    them. Bands carry {spacing.step-xl} top and bottom.
+  elevation_and_depth: >
+    Flat. The quote card is solid {colors.white} at {rounded.card} over the media, and its
+    contrast with the picture is enough to lift it; no shadows anywhere. Depth comes from the
+    media and from the dark and light bands.
+  components: >
+    {rounded.card} (16px) for the quote card, cards and photographs inside a band;
+    {rounded.control} (10px) for buttons and inputs; {rounded.none} for full-bleed media, which
+    always meets the viewport edge square.
+
+    Primary button: {colors.primary} with {colors.graphite} text in {typography.label}, 56px tall,
+    hovering to {colors.primary-deep}. Secondary: {colors.graphite} with {colors.white} text, or a
+    1px {colors.paper} outline on dark. Quote card: {colors.white}, {rounded.card}, {spacing.step-md}
+    padding, its heading in {typography.title}, labelled inputs at 52px, the primary button
+    full width, and what happens next in {typography.caption} {colors.slate} beneath. A check:
+    a {colors.primary} tick beside {typography.label}, gloss beneath in the band's secondary
+    colour. Review card: {colors.white} on {colors.paper}, the platform's mark in colour and the
+    stars on one line, the quote, the name.
+  dos_and_donts:
+    do:
+      - rule: "Open on the work at full viewport width: a muted, looping landscape video when the brand has one at 720p or better, otherwise its widest sharp photograph (at least 1600px wide)."
+        why: "A premium service sells a result you can see; the first screen is the proof, and moving work reads as a firm that is busy and real."
+      - rule: "Use the split head (words left, quote card right) on purpose: a premium service's reader decides and asks for a quote on the first screen, so the form belongs beside the promise; everything else about the head (the full-bleed work, the fade, the white card) is what makes it this system."
+        why: "The split hero is a generated-page default when it is automatic; here it is declared because the landing guide puts the form beside the promise."
+      - rule: "Carry the head's words on a dark fade from the left edge, white on {colors.graphite}, and keep the right of the frame clear for the quote card."
+        why: "The fade makes the words readable over any picture without darkening the whole frame, so the work stays bright where the card sits."
+      - rule: "Break the page with wide photographs edge to edge between bands, with no text on them."
+        why: "The pictures are the page's evidence; a break every two or three bands keeps it visual without a gallery grid."
+      - rule: "Alternate {colors.graphite} and {colors.paper} bands, and put the closely read bands (reviews, facts, questions) on {colors.paper}."
+        why: "Dark reads premium but tires the eye; the light bands are relief, and platform marks and review text read best on light."
+    dont:
+      - rule: "Don't frost the quote card or put the whole frame under a scrim."
+        why: "Frosted glass is vesper's device and the generated-page default; a full scrim greys the work the page exists to show."
+      - rule: "Don't run a portrait or captioned social clip as the head video, or a photograph under about 1600px wide full-bleed."
+        why: "A letterboxed or soft head is the first thing the reader sees and says the opposite of premium."
+      - rule: "Don't use a beige or cream ground."
+        why: "Warm off-white is the most crowded ground and the generated default; crest's light band is a cool grey."
+  responsive_behavior: >
+    Below 768px the head keeps the media full width at about 70vh with the fade rising from the
+    bottom instead of the left; the words sit on it in {typography.display-md}, and the quote
+    card follows directly beneath the media on {colors.graphite}, full width. Bands go to one column
+    with 20px margins; section padding {spacing.step-xl} → {spacing.step-lg}. Photo breaks keep full width
+    at 4/3. A head video still plays on a phone, muted and inline; under reduced motion it shows
+    its poster frame.
+  known_gaps: >
+    A brand with no landscape video and no photograph at least 1600px wide cannot carry crest's
+    head; use tally. Autoplaying video needs a visible pause control (WCAG 2.2.2), a poster
+    frame, and a file under about 10MB. No icon set: checks are the one glyph.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.paper}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.stone}"
+    typography: "{typography.copy}"
+  band-graphite-2:
+    backgroundColor: "{colors.graphite-2}"
+    textColor: "{colors.paper}"
+  band-light:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.graphite}"
+    typography: "{typography.copy}"
+  band-light-muted:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.slate}"
+  quote-card:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.graphite}"
+    rounded: "{rounded.card}"
+  quote-card-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.slate}"
+    typography: "{typography.caption}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.graphite}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.control}"
+  input-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.graphite}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.graphite}"
+    typography: "{typography.label}"
+    rounded: "{rounded.control}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.graphite}"
+    typography: "{typography.label}"
+    rounded: "{rounded.control}"
+  button-secondary:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.control}"
+  rule-dark:
+    backgroundColor: "{colors.line-dark}"
+    textColor: "{colors.paper}"
+  nav:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.paper}"
+    typography: "{typography.label}"
+  figure:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.paper}"
+    typography: "{typography.figure}"
+  caption:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.slate}"
+    typography: "{typography.caption}"
+  footer:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.stone}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The head is full-viewport-width media (video preferred, else the widest sharp photograph) under a dark fade from the left, words in {colors.white}, and a {colors.white} quote card on the right."
+    - "Bands alternate {colors.graphite} and {colors.paper}; wide photographs break the page edge to edge between them."
+    - "Archivo only; {colors.primary} only on the action and the checks."
+  accessible:
+    - "{colors.paper} on {colors.graphite} is 17.0:1; {colors.stone} on {colors.graphite} is 8.6:1; {colors.slate} on {colors.paper} is 7.1:1; {colors.graphite} on {colors.primary} is 10.2:1."
+    - "Head text sits only where the fade is held at 90% {colors.graphite} (the left half); a head video has a visible pause button, a poster, and stops under prefers-reduced-motion."
+    - "Inputs 52px tall with visible labels; every interactive element 48px or more."
+
+x_imagery:
+  role: >
+    The pictures are the page. The head is the work at full viewport width, and wide photographs
+    break the page between bands. Crest wants many photographs and fewer words.
+  density: "a head video or photograph always; a full-width photo break every two or three bands; a photograph per item wherever the brief gives one"
+  treatment: >
+    Head: a landscape video at 720p or better, muted, looping, inline, with its poster frame and
+    a small pause button at the bottom right; otherwise the widest photograph at least 1600px
+    wide, object-cover, full viewport width, square to the edges. A fade over it:
+    {colors.graphite} at 90% held flat from the left edge to about 50% of the width, then to transparent by about 70% (from the
+    bottom on a phone). Photo breaks: full width, 16/9 or 21/9, square edges, object-cover, no
+    text, no fade. Inside a band: photographs at {rounded.card}, 4/3 or 3/2. Never a photograph
+    enlarged past its own pixel width.
+  aspect_ratios: ["16/9", "21/9", "4/3", "3/2", "1/1"]
+  caption: >
+    Optional, {typography.caption}, {spacing.step-sm} under a photograph inside a band: the job and
+    the place in the brief's words. Photo breaks and the head carry no caption.
+  forbidden:
+    - "a portrait or letterboxed social clip as the head video"
+    - "a scrim over the whole frame, or a frosted card"
+    - "a photograph under about 1600px wide set full-bleed"
+    - "text on a photo break"
+  no_assets_supplied: >
+    With no landscape video and no photograph wide enough for the head, crest is the wrong
+    system; the page should use tally. Inside bands, items without photographs are set as
+    checked rows.
+
+x_emphasis:
+  device: "the one figure in `text-figure` `text-paper` on a `bg-graphite` band, its label in `text-label` `text-stone` beneath and its source in `text-caption`, set beside a wide photograph at 7/5"
+  applies_to: "the one figure the page leads on, once per page"
+  why: "A big number beside a big photograph reads as a fact about the work, not a statistic."
+
+x_motion:
+  principle: "The media moves; the page mostly doesn't. One entrance, and the head video is the signature."
+  entrance: "On load the head's media fades in from {colors.graphite} over 900ms; the headline and lead rise 20px and fade in, 0 and 150ms after; the quote card rises 32px and fades in 300ms after."
+  signature: "The head video loops, muted. A photo break settles as it enters: from 1.06 scale to 1.00 over 1400ms ease-out, once."
+  scroll: "Only photo breaks animate on scroll; bands of words do not."
+  reduced: "Under prefers-reduced-motion the video shows its poster and does not play, nothing scales, nothing is hidden; with script off the page is complete."
+  mechanism: "Tailwind transition, duration, ease, opacity, translate and scale utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; the video's pause button toggles play and its label; no <style> block, no keyframes."
+
+x_layout:
+  measure:
+    reading: "55–65ch in {typography.copy}, never wider than 7 columns"
+    caption: "one line at the width of its photograph"
+  grid:
+    columns: 12
+    container: "1280px, 48px side margins → 20px below 768px; media runs to the viewport edge"
+    gutter: "32px"
+    text_columns: "1–6 or 1–7 beside a card or photograph on the right; centred 3–10 for a closing head"
+    media_columns: "full viewport width for the head and photo breaks; 5–6 columns beside words; 4 columns in a row of three"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "surface — bands alternate {colors.graphite} and {colors.paper}, with a full-width photo break (no text) every two or three bands; two dark bands in a row are split by the photo break or take {colors.graphite-2}; never a rule between bands"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; a photo break every two or three bands" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for starts on the first screen, on {colors.paper}; no photo breaks before it" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column of 7 on 3–9, on {colors.paper}; a wide photograph between sections at full container width" }
+  head:
+    statement: "Full viewport width, at least 760px tall on desktop (about 70vh on a phone): the media (a muted looping landscape video with its poster and a pause button at the bottom right, or the widest photograph) object-cover, square to the edges, under a fade of {colors.graphite} at 90% held flat from the left edge to about 50% of the width (under all the words), then to transparent by about 70%. The media needs its subject on the right half (its focal point on the right in brand/images.md, or a wide scene), since the left half goes under the fade; 1600px wide or more, or a landscape video at 720p or better. On it, columns 1–7: the headline in {typography.display} {colors.white} (two or three lines); a headline over about eight words steps down to {typography.section} so it holds to four or five lines (a longer headline is a copy problem for the brief, not a layout one), a {typography.lede} {colors.stone} lead {spacing.step-md} below, then up to three checks in {typography.label} {colors.white} with {colors.primary} ticks. Columns 8–12: the {colors.white} quote card at {rounded.card}, vertically centred on the headline block (not dropped to the band's foot), holding the form (or the action and the phone). Below 768px the fade rises from the bottom, the words sit on the media, and the card follows beneath on {colors.graphite}. With no landscape video and no photograph 1600px wide, nothing smaller is stretched to fill the frame: the band is solid {colors.graphite} at the same height with no fade, the words on columns 1–7 and the quote card on 8–12 exactly as above, and the widest photograph the brief has (1000px or more) runs at full container width in the band beneath, as a photo break; with none at all the band beneath is the first {colors.paper} band. That is the head's fallback for one page; a brand with no wide media anywhere belongs in tally."
+    plain: "A {colors.graphite} band: the title in {typography.section} {colors.paper} on columns 1–8, one {typography.lede} {colors.stone} line under it; a wide photograph beneath at full container width when the brief gives one; the first band starts {spacing.step-lg} below."
+  hosted_player: "When the brand's head video is a hosted player (Vimeo or YouTube, embeddable, landscape), use it the way the brand does, never downloaded: an iframe of the recorded embed URL (background mode: muted, looping, no controls) with a title, in the head's frame (the frame carries the utility `media-frame`) with the utility `media-cover` (it fills the frame like object-cover), over its thumbnail as the poster image; the pause button drives it through the provider's player API (https://player.vimeo.com/api/player.js for Vimeo); under reduced motion the iframe is not added and the poster stays."
+  close: "A {colors.graphite} band: a 7/5 split, the heading in {typography.heading-lg} {colors.paper} and one {typography.lede} {colors.stone} line on the left, and on the right the {colors.white} quote card again, the form itself, never a button back to the top. The footer follows on {colors.graphite}."
+  shapes:
+    items: { as: "grid", look: "with photographs: each item a photograph at {rounded.card} 4/3, the title in {typography.title} {spacing.step-sm} below, then its benefits as checks ({colors.primary} ticks, {typography.label}); without photographs: checked rows, the title in {typography.label} and one line beneath, each row on a 1px hairline", counts: "with photographs: 2 at 6 + 6, 3 across 12, 4 as 2 × 2, 5 as 3 then 2, 6 as 3 × 2, 7+ in rows of 3. When only some items have photographs, those are cards and the rest follow as checked rows beneath. Without photographs: 1–5 one column on 1–7 beside a photograph or card; 6–12 two columns; short names past 12 as a wrapping list in {typography.label}." }
+    table: { as: "stack of rows", look: "on {colors.paper}: each row the name in {typography.copy} and the value right-aligned with tabular figures, on a 1px {colors.line} hairline; group heads in {typography.title}", counts: "≤ 12 rows: one table on 1–7 beside a photograph. 13+: grouped, two groups across from 1024px." }
+    facts: { as: "stack", look: "key in {typography.label} in the band's secondary colour, value in {typography.lede}; a phone or email as a link", counts: "1–3: one column beside the words. 4–8: two columns. Hours: a table of seven rows." }
+    qa: { as: "stack", look: "on {colors.paper}: question in {typography.title}, answer in {typography.copy} {colors.slate} beneath, {spacing.step-md} between pairs, a 1px {colors.line} hairline above each; no accordion", counts: "≤ 8: one column on 1–7. 9+: two columns from 1024px." }
+    people: { as: "grid", look: "photograph at {rounded.card} 4/5 or a group photograph at 3/2, name in {typography.title}, role in {typography.copy} in the secondary colour", counts: "1 or a group photo: media_text at 7/5. 2–3: across 12. 4: 2 × 2. 5+: rows of 3." }
+    sequence: { as: "grid", look: "each step's number in {typography.heading-lg} in the band's text colour, its name in {typography.title}, its line in {typography.copy} in the secondary colour; no connecting lines", counts: "2–4: across 12. 5–6: 3 across, two rows. 7+: one column on 1–7." }
+    media_text: { as: "sidebar", look: "the photograph at {rounded.card} 4/3 or 3/2 on 7–12 (or 1–6), the heading in {typography.heading-lg} and a passage or checks on the other side, top-aligned", counts: "one per band; alternate sides when two follow each other" }
+    gallery: { as: "grid", look: "photographs at {rounded.card}, 4/3, each captioned with the job and the place in {typography.caption}; on {colors.graphite} or {colors.paper}", counts: "2: 6 + 6. 3: across 12. 4: 2 × 2. 5: 3 then 2. 6: 3 × 2. 7+: rows of 3, the last row closing on 2 when one would be left alone." }
+    quote: { as: "grid", look: "on {colors.paper}: each review a {colors.white} card at {rounded.card}, {spacing.step-md} padding, the platform's square mark in colour (24px) and the review's stars as star graphics (/images/platforms/star.svg, 18px each) on one line, the quote in {typography.copy} {colors.graphite}, the name and date in {typography.caption} {colors.slate}; a customer's photograph at the top of its card, 4/3, when the review has one", counts: "1: one card on 3–10. 2: 6 + 6. 3: across 12. 4: 2 × 2. 5+: rows of 3." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading on {colors.paper}, the first paragraph in {typography.lede} when it is the lead", counts: "—" }
+    form: { as: "card", look: "the {colors.white} quote card at {rounded.card}, {spacing.step-md} padding: heading in {typography.title}, labelled inputs at 52px with a 1px {colors.line} border at {rounded.control}, the primary button full width, what happens next in {typography.caption} {colors.slate}", counts: "≤ 5 fields in one column; more in two columns inside the card." }
+    index: { as: "grid", look: "each entry a photograph at {rounded.card} 3/2 with its title in {typography.title} and one line beneath; without photographs, titles in {typography.title} as links with a line each", counts: "2–3 across 12; 4 as 2 × 2; 5+ rows of 3." }
+  focal: "The head's media leads the page. In each band one thing leads: the photograph, or the heading when there is none. The {colors.primary} button is the only strong colour on screen besides the pictures."
+  never:
+    - "a beige or cream ground: the light band is a cool grey"
+    - "text on a photo break, or a scrim over the whole head"
+    - "a frosted or glass card"
+    - "more than two dark bands in a row without a photo break or a light band"

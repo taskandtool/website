@@ -21,7 +21,7 @@
     {
       "id": "rebuild-my-current-site",
       "label": "Rebuild my current site page for page",
-      "prompt": "Rebuild my current site page for page with the migrate-site skill: ask me the two questions first (keep the URLs? faithful rebuild or redesign?), then crawl it with tt-crawl into raw/site with styles and screenshots, fetch the documents it links to, detect WordPress, and report what you found: pages, forms, embeds, tracking IDs, and whether you hit the page limit. My site is ",
+      "prompt": "Rebuild my current site page for page with the migrate-site skill. My site is ",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -63,7 +63,7 @@
     {
       "id": "build-the-next-page",
       "label": "Build the next page",
-      "prompt": "Build the next planned page in site-map.md with the pages skill: its brief in design/briefs/ from the notes in public/ and brand/ (with the old page's raw markdown open for what it said and which links it carried, keeping the words in a faithful rebuild), then the page in the site's design system. Follow seo.md, mark the row built, show me the working copy, and stop for my review.",
+      "prompt": "Build the planned pages in site-map.md with the pages skill, then show them to me together.",
       "when": [
         {
           "path": "site-map.md",
@@ -91,7 +91,7 @@
     {
       "id": "check-the-launch",
       "label": "Check the launch",
-      "prompt": "Run the launch-check skill against the working copy: npm run verify, then tt-crawl check against localhost:3000 with raw/site/<host>/_index/inventory.json. Fix what it finds, re-run until clean, and show me the report as a table with what changed.",
+      "prompt": "Run the launch-check skill against dev, fix everything it finds in one pass, and show me the report as a table with what changed.",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -108,7 +108,7 @@
     {
       "id": "fix-the-site-audit-findings",
       "label": "Fix the site audit findings",
-      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, then deploy to production with npm run deploy, and re-run tt-crawl audit to confirm.",
+      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, and offer to deploy the fix to production.",
       "when": [
         {
           "path": "raw/audit/_latest.json",
@@ -125,7 +125,7 @@
     {
       "id": "add-a-blog-post",
       "label": "Add a blog post",
-      "prompt": "Add a blog post to posts/ following the website skill's posts.md: frontmatter with title, date, description, and a path if it replaces an old URL; the body through the writing skill's voice card; a real photo if I have one. The post is about "
+      "prompt": "Add a blog post to posts/ following the website skill's posts.md: frontmatter with title, date, description, and a path if it replaces an old URL; the body in the voice of brand/voice.md (the writing skill); a real photo if I have one. The post is about "
     },
     {
       "id": "add-a-contact-form",

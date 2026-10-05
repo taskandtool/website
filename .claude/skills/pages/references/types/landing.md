@@ -71,9 +71,9 @@ against the material. Each line says what the band holds, then when it earns its
   hero          core      The promise, kept: headline, subtext, a few checks, the action. Who the
                           company is and where it works are visible here.
   proof strip   core      Front and centre, directly under the hero: the ratings the brand holds,
-                          each with its platform's own mark (Google,
+                          each with its platform's own icon (Google,
                           Facebook) and the count, then the certification, manufacturer and
-                          membership marks as the marks themselves. When there are no ratings,
+                          membership logos as the logos themselves. When there are no ratings,
                           the band is a NEED, not filler.
   what you get  core      The features, each titled as what the reader gets, with its benefits
                           beneath as checks. Prefer one photograph per feature, showing that
@@ -90,7 +90,7 @@ against the material. Each line says what the band holds, then when it earns its
                           a photograph of the item or the step where the brand has one.
                           When: the decision is costly, or "what exactly do I get" is the doubt.
   reviews       core      Several named, on-audience reviews together. Each carries its source's
-                          square mark (Google's G, Facebook's f) and its star rating as star
+                          square icon (Google's G, Facebook's f) and its star rating as star
                           graphics, and a review that came with the customer's own photograph is
                           shown with it. Without review photographs, photographs of finished
                           jobs sit in the same band, beside or alternating with the reviews.
@@ -102,7 +102,7 @@ against the material. Each line says what the band holds, then when it earns its
   objections    optional  Money, insurance, disruption, trust, timing: whichever this reader holds,
                           answered from the company's own text. When: the decision is costly.
   credentials   optional  What a certification or programme means for the reader (a manufacturer
-                          warranty tier, factory-trained crews), beyond the marks already in the
+                          warranty tier, factory-trained crews), beyond the logos already in the
                           proof strip. When: the brand says what it means.
   team          optional  The actual people, with a photograph of them.
                           When: the brand has the photograph. Never names over stock.
@@ -155,13 +155,13 @@ and cost information: removing those costs trust and ad quality, not just exits.
   - Each feature and each included item is proven by a photograph where the brand has one that
     shows it: one photograph per feature is the aim, and the brief names which.
   - Customers' own photographs from reviews and the Google profile, named where the review is.
-  - Every review shows its source's square mark and its rating as star graphics, one per star,
-    taken from the review itself (the pages skill, "Reviews, on any page"); a rating nobody
-    recorded is not assumed. The marks and gold stars are the colour in a proof band, so reviews sit on white or
+  - Every review shows its source's square icon and its rating as star graphics, one per star,
+    taken from the review itself (the pages skill, "Proof, on every page"); a rating nobody
+    recorded is not assumed. The platform icons and gold stars are the colour in a proof band, so reviews sit on white or
     white cards, where both read as drawn.
   - Finished jobs, captioned by job and place; before and after only as real pairs of one job.
-  - Ratings are prominent, each with its platform's own mark beside it, so the reader sees whose
-    stars they are. Certification and manufacturer marks appear as the marks, near the top.
+  - Ratings are prominent, each with its platform's own icon beside it, so the reader sees whose
+    stars they are. Certification and manufacturer logos appear as the logos, near the top.
   - Licence numbers appear as text in the footer, on every page of a licensed trade.
 </show>
 

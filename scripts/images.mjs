@@ -72,6 +72,10 @@ if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
     if (written.has(name)) name = basename(file).replace(/\./g, "-");
     written.add(name);
     const dest = join("static/images", `${name}.jpg`);
+    if (existsSync(dest) && statSync(dest).mtimeMs >= statSync(file).mtimeMs) {
+      console.log(`  /images/${basename(dest)}  already done`);
+      continue;
+    }
     const out = webSize(file, dest);
     if (out) console.log(`  /images/${basename(dest)}  ${out.width ? `${out.width}x${out.height}` : "size unknown (no Pillow)"}  ${out.kb} KB`);
     else {
@@ -79,5 +83,6 @@ if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
       failed++;
     }
   }
+  if (!failed) console.log("Next: use them by path (/images/<name>.jpg), at no more than the width printed.");
   process.exit(failed ? 1 : 0);
 }

@@ -14,6 +14,7 @@
     "check": "node scripts/check.mjs",
     "system": "node scripts/system.mjs",
     "lint": "node scripts/lint.mjs",
+    "proof": "node scripts/proof.mjs",
     "verify": "node scripts/verify.mjs",
     "shots": "node scripts/shots.mjs",
     "show": "node scripts/show.mjs",

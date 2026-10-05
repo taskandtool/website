@@ -2,7 +2,7 @@
 # lit plates on the table, and the white cloth is the relief between rooms. One committed
 # colour (claret) with one bright note (blush), a high-contrast display serif set large and
 # short, and one signature move: food is shown as a round plate (a circle), never a
-# rectangle. Built from research/34: not beige, no
+# rectangle. Not beige, no
 # numbered sections or eyebrow labels, body at 18px and section heads at 48px.
 id: claret
 title: Claret
@@ -12,47 +12,7 @@ summary: >
   white, one blush accent, a high-contrast display serif set large with
   short lines, and photographs of food shown as round plates. Nothing is beige and
   nothing is small.
-description: >
-  Claret is built around one room and one object. The room is the page: a single deep
-  claret ground, darker for the footer, broken by white cloth bands so the red reads as a
-  choice and not a wall, with a single blush colour block where the page makes its one
-  statement. The object is the plate. Food photography is
-  cropped to a circle and set large, often crossing the edge of a band, so dishes read as
-  things on a table rather than pictures in boxes. Headlines are short and very large in
-  Gloock; everything else is Albert Sans at a generous size. There are no rules between
-  sections, no numbered labels and no captions under every figure: the colour change is
-  the section break, and the page stays sparse so each photograph is lit. Suited to
-  restaurants, wine bars, hotels at night, supper clubs, theatres and anything with a
-  dining room, and to any brand whose best photographs are of one object at a time.
-
-facets:
-  kind: style
-  vertical: [restaurant, bar, hospitality, evening]
-  style_family: dark-colour-field
-  mood: [rich, warm, confident]
-  density: airy
-  color_story: claret-cloth-blush
-  motion_level: considered
-  theme: [dark]
-  complexity: 2
-
-provenance:
-  author: gavin
-  license: MIT
-  derived_from: null
-  inspiration_note: >
-    Original. Art direction drawn from lit-object-on-a-dark-stage product photography and
-    single-colour-field templates (research/34 looked at Lovable's Soil & Spirit, Life
-    Coach and Groundwork Coffee demos for the principle, not the look); reproduces no
-    brand's identity.
-
-# ── DESIGN.md frontmatter (exported verbatim) ──────────────────────
 tokens:
-  version: alpha
-  name: Claret
-  description: >
-    Dark colour-field system. Claret ground relieved by white cloth bands, one blush
-    accent, a large display serif, food shown as round plates.
   colors:
     primary: "#F5B3C1"
     primary-deep: "#E98FA5"
@@ -62,14 +22,29 @@ tokens:
     cream: "#F8EEE6"
     cloth: "#FFFFFF"
     line: "#6E2B3A"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.cloth}"
+    surface: "{colors.cloth}"
+    panel: "{colors.primary}"
+    night: "{colors.claret}"
+    ink: "{colors.claret}"
+    ink-2: "{colors.claret}"
+    ink-3: "{colors.wine}"
+    night-ink: "{colors.cream}"
+    night-ink-2: "{colors.cream}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.claret}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.line}"
+    line-on-night: "{colors.line}"
   typography:
-    display-xl:
+    display:
       fontFamily: "Gloock"
       fontSize: 120px
       fontWeight: 400
       lineHeight: 0.95
       letterSpacing: -2.5px
-    display-lg:
+    section:
       fontFamily: "Gloock"
       fontSize: 80px
       fontWeight: 400
@@ -87,7 +62,7 @@ tokens:
       fontWeight: 400
       lineHeight: 1.04
       letterSpacing: -0.8px
-    heading-md:
+    title:
       fontFamily: "Gloock"
       fontSize: 32px
       fontWeight: 400
@@ -100,13 +75,13 @@ tokens:
       lineHeight: 0.85
       letterSpacing: -6px
       fontFeature: lnum
-    body-lg:
+    lede:
       fontFamily: "Albert Sans"
       fontSize: 22px
       fontWeight: 400
       lineHeight: 1.5
       letterSpacing: 0px
-    body-md:
+    copy:
       fontFamily: "Albert Sans"
       fontSize: 18px
       fontWeight: 400
@@ -128,85 +103,22 @@ tokens:
     none: 0px
     soft: 24px
     round: 9999px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.soft}"
+    control: "{rounded.round}"
   spacing:
-    xs: 8px
-    sm: 16px
-    md: 32px
-    lg: 64px
-    xl: 112px
-    xxl: 176px
-  components:
-    body:
-      backgroundColor: "{colors.claret}"
-      textColor: "{colors.cream}"
-      typography: "{typography.body-md}"
-    band-cloth:
-      backgroundColor: "{colors.cloth}"
-      textColor: "{colors.claret}"
-      typography: "{typography.body-md}"
-    button-on-cloth:
-      backgroundColor: "{colors.claret}"
-      textColor: "{colors.cloth}"
-      typography: "{typography.label}"
-      rounded: "{rounded.round}"
-    band-deep:
-      backgroundColor: "{colors.claret-deep}"
-      textColor: "{colors.cream}"
-    band-blush:
-      backgroundColor: "{colors.primary}"
-      textColor: "{colors.claret}"
-    panel:
-      backgroundColor: "{colors.wine}"
-      textColor: "{colors.cream}"
-      rounded: "{rounded.soft}"
-    nav:
-      backgroundColor: "{colors.claret}"
-      textColor: "{colors.cream}"
-      typography: "{typography.label}"
-    button-primary:
-      backgroundColor: "{colors.primary}"
-      textColor: "{colors.claret}"
-      typography: "{typography.label}"
-      rounded: "{rounded.round}"
-    button-primary-hover:
-      backgroundColor: "{colors.primary-deep}"
-      textColor: "{colors.claret}"
-      typography: "{typography.label}"
-      rounded: "{rounded.round}"
-    button-secondary:
-      backgroundColor: "{colors.claret}"
-      textColor: "{colors.cream}"
-      typography: "{typography.label}"
-      rounded: "{rounded.round}"
-    link:
-      backgroundColor: "{colors.claret}"
-      textColor: "{colors.cream}"
-    plate:
-      backgroundColor: "{colors.wine}"
-      textColor: "{colors.cream}"
-      rounded: "{rounded.round}"
-    input:
-      backgroundColor: "{colors.wine}"
-      textColor: "{colors.cream}"
-      typography: "{typography.body-md}"
-      rounded: "{rounded.soft}"
-    input-outline:
-      backgroundColor: "{colors.line}"
-      textColor: "{colors.cream}"
-    caption:
-      backgroundColor: "{colors.cloth}"
-      textColor: "{colors.claret}"
-      typography: "{typography.caption}"
-    figure:
-      backgroundColor: "{colors.primary}"
-      textColor: "{colors.claret}"
-      typography: "{typography.figure}"
-    footer:
-      backgroundColor: "{colors.claret-deep}"
-      textColor: "{colors.cream}"
-      typography: "{typography.body-md}"
-
-# ── DESIGN.md prose sections (exported verbatim) ───────────────────
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 112px
+    step-xxl: 176px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
 sections:
   overview: >
     Claret is one room lit for the evening. The head and about half the bands sit on
@@ -233,17 +145,19 @@ sections:
     Secondary text steps down by size, never by tint, so no pink-grey or blush text on the
     red. {colors.line} is a rare hairline around inputs only, never text. Nothing is
     beige.
+
+    With the brand's own colour: a brand colour replaces the blush in the button and the one colour-block band; it must carry claret text at 4.5:1, so it has to be light or bright. The claret room and the white cloth stay; a brand that needs a different room needs a different system.
   typography: >
-    Gloock carries every heading and the one figure: {typography.display-xl} at 120px for
+    Gloock carries every heading and the one figure: {typography.display} at 120px for
     the head (56px from {typography.display-md} on a phone, where 80px leaves one word to a line), {typography.heading-lg} at
-    52px for section heads, {typography.heading-md} at 32px for item names. Albert Sans
-    carries the reading: {typography.body-lg} 22px for leads, {typography.body-md} 18px
+    52px for section heads, {typography.title} at 32px for item names. Albert Sans
+    carries the reading: {typography.lede} 22px for leads, {typography.copy} 18px
     for body, {typography.label} 16px semibold for buttons and navigation in sentence
     case, {typography.caption} 15px for captions. Headlines stay under about eight words
     so they sit in two or three lines at display size. Nothing is set in tracked capitals.
   layout: >
     A 12-column grid in a 1280px container with 32px gutters, bands running full width.
-    Section bands carry {spacing.xl} top and bottom (112px), the head more. Text columns
+    Section bands carry {spacing.step-xl} top and bottom (112px), the head more. Text columns
     sit on 1–6 or 7–12; a plate takes 5–6 columns. Bands alternate between the dark room
     ({colors.claret}) and the white cloth ({colors.cloth}), starting dark in the head and
     ending dark in the closing action and footer; the one blush band sits where the
@@ -252,29 +166,29 @@ sections:
   elevation_and_depth: >
     Flat. No shadows, no blur, no gradients. Depth comes from the plate crossing a band's
     edge and from the change between the dark room, the white cloth and the blush band.
-  shapes: >
+  components: >
     Three shapes. The circle ({rounded.round}) for plates, portraits and every button. A
     soft rectangle ({rounded.soft}) for panels, inputs and a non-food photograph such as
     a building or a room. Square corners ({rounded.none}) nowhere visible.
-  components: >
+
     The primary button is a blush pill with claret text in {typography.label}, 56px tall,
     hovering to {colors.primary-deep}; on cloth the action is a claret pill with white
     text. The secondary button is a cream-outlined pill on claret, or a claret-outlined
     pill on cloth. Links are the band's text colour with a 1px underline. A plate is an img in an aspect-square,
     rounded-full frame on {colors.wine}, object-cover and centred on the food. A caption
-    sits {spacing.sm} under its image in {typography.caption}, in the band's text colour. The
+    sits {spacing.step-sm} under its image in {typography.caption}, in the band's text colour. The
     figure is one number in {typography.figure} on the blush band. Inputs are wine
     panels with a cream label above.
   dos_and_donts:
     do:
       - rule: "Show a photograph of food as a plate: aspect-square, rounded-full, object-cover, at 5 or 6 columns in the head and 4 columns in a row."
         why: "The plate is round; a circle crop makes the photograph read as a dish on a table, and it is the one move no other system in the library makes."
-      - rule: "Keep a headline to about eight words so it sets in two or three lines of {typography.display-xl}."
+      - rule: "Keep a headline to about eight words so it sets in two or three lines of {typography.display}."
         why: "Large type only reads as confident when it is short; a sentence at 120px becomes a wall."
       - rule: "Spend {colors.primary} on at most one full-width band per page, where the page has a statement or a figure, and on the primary button, nowhere else."
         why: "One committed colour block is the page's statement; blush scattered in small pieces becomes decoration."
-      - rule: "Set body text at {typography.body-md} (18px) or larger, and section heads at {typography.heading-lg} (52px)."
-        why: "Small grey text and small section heads under a huge headline are what made the earlier library read as generated (research/34)."
+      - rule: "Set body text at {typography.copy} (18px) or larger, and section heads at {typography.heading-lg} (52px)."
+        why: "Small grey text and small section heads under a huge headline are what made the earlier designs read as generated."
     dont:
       - rule: "Don't put a thin rule, a number or a tracked-capital label above a heading."
         why: "The colour change already separates bands; rule-number-label chrome is the most common tell of generated pages."
@@ -283,16 +197,16 @@ sections:
       - rule: "Don't run more than two dark bands in a row, and don't set pink, blush or pink-grey text on the red."
         why: "A page that is all red with red-tinted type reads heavy and muddy; the white cloth bands and neutral text are what let the claret read as a committed choice."
       - rule: "Don't use a beige or cream ground."
-        why: "The light room is plain white like a tablecloth; beige is the generated default this library is leaving (research/34)."
+        why: "The light room is plain white like a tablecloth; beige is the generated default."
       - rule: "Don't crop a building, a room or a person to a circle, except a single portrait."
         why: "The circle means a plate; spent on everything it means nothing."
   responsive_behavior: >
-    Below 768px the grid is one column with 20px side margins. {typography.display-xl}
+    Below 768px the grid is one column with 20px side margins. {typography.display}
     steps to {typography.display-md} (56px, so eight words set in three or four lines with
     no short word stranded) and {typography.heading-lg} to
-    {typography.heading-md}; body stays 18px. Band padding goes from {spacing.xl} to
-    {spacing.lg}. The head's plate moves under the words, full width minus margins, and
-    keeps crossing the band's lower edge by {spacing.lg}. Buttons are full width and 56px
+    {typography.title}; body stays 18px. Band padding goes from {spacing.step-xl} to
+    {spacing.step-lg}. The head's plate moves under the words, full width minus margins, and
+    keeps crossing the band's lower edge by {spacing.step-lg}. Buttons are full width and 56px
     tall. Rows of plates become two across, then one below 480px.
   known_gaps: >
     No all-light theme exists; the white cloth is a band, never the whole page. Photography supplied below about
@@ -300,7 +214,82 @@ sections:
     at up to 6 columns instead. Gloock has one weight, so emphasis inside a heading comes
     from size, never bold. No icon set; a phone number is written out, not iconised.
 
-# ── Extensions (ours) ──────────────────────────────────────────────
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.claret}"
+    textColor: "{colors.cream}"
+    typography: "{typography.copy}"
+  band-cloth:
+    backgroundColor: "{colors.cloth}"
+    textColor: "{colors.claret}"
+    typography: "{typography.copy}"
+  button-on-cloth:
+    backgroundColor: "{colors.claret}"
+    textColor: "{colors.cloth}"
+    typography: "{typography.label}"
+    rounded: "{rounded.round}"
+  band-deep:
+    backgroundColor: "{colors.claret-deep}"
+    textColor: "{colors.cream}"
+  band-blush:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.claret}"
+  panel:
+    backgroundColor: "{colors.wine}"
+    textColor: "{colors.cream}"
+    rounded: "{rounded.soft}"
+  nav:
+    backgroundColor: "{colors.claret}"
+    textColor: "{colors.cream}"
+    typography: "{typography.label}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.claret}"
+    typography: "{typography.label}"
+    rounded: "{rounded.round}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.claret}"
+    typography: "{typography.label}"
+    rounded: "{rounded.round}"
+  button-secondary:
+    backgroundColor: "{colors.claret}"
+    textColor: "{colors.cream}"
+    typography: "{typography.label}"
+    rounded: "{rounded.round}"
+  link:
+    backgroundColor: "{colors.claret}"
+    textColor: "{colors.cream}"
+  plate:
+    backgroundColor: "{colors.wine}"
+    textColor: "{colors.cream}"
+    rounded: "{rounded.round}"
+  input:
+    backgroundColor: "{colors.wine}"
+    textColor: "{colors.cream}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.soft}"
+  input-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.cream}"
+  caption:
+    backgroundColor: "{colors.cloth}"
+    textColor: "{colors.claret}"
+    typography: "{typography.caption}"
+  figure:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.claret}"
+    typography: "{typography.figure}"
+  footer:
+    backgroundColor: "{colors.claret-deep}"
+    textColor: "{colors.cream}"
+    typography: "{typography.copy}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
 x_invariants:
   style:
     - "The head and the closing action are {colors.claret}; the bands between alternate with {colors.cloth}; one {colors.primary} colour-block band per page."
@@ -313,8 +302,6 @@ x_invariants:
     - "Focus is a 3px {colors.primary} outline offset 3px on every interactive element."
     - "Tap targets at least 48px tall; every input has a visible label."
 
-x_declares: []
-
 x_imagery:
   role: >
     The photographs are the lit objects in a dark room: one per band at most, set large.
@@ -323,13 +310,13 @@ x_imagery:
   density: "one photograph per band at most, except a row of plates (three or four); the head always carries one"
   treatment: >
     Plates: aspect-square, rounded-full, object-cover, object-center, on a {colors.wine}
-    frame, at 5–6 columns in the head (crossing the band's lower edge by {spacing.lg}) and
+    frame, at 5–6 columns in the head (crossing the band's lower edge by {spacing.step-lg}) and
     4 columns in a row. Other photographs: {rounded.soft} corners, object-cover, at their
     own ratio, at up to 7 columns. No overlay, no scrim, no filter, no border, no shadow.
     Never stretch a photograph under about 1000px wide across the full viewport.
   aspect_ratios: ["1/1", "4/3", "3/2"]
   caption: >
-    Optional, {typography.caption} in the band's text colour, {spacing.sm} beneath the image,
+    Optional, {typography.caption} in the band's text colour, {spacing.step-sm} beneath the image,
     one line saying what is on the plate or in the frame, in the brief's words.
   forbidden:
     - "a photograph used as a full-bleed background behind text"
@@ -339,11 +326,11 @@ x_imagery:
   no_assets_supplied: >
     With no photographs the page is set in type on the colour fields: the head's plate
     position is taken by the headline running wider (cols 1–11), and rows of plates become
-    rows of dish names in {typography.heading-md}. Never an empty circle. The white cloth
+    rows of dish names in {typography.title}. Never an empty circle. The white cloth
     bands still alternate.
 
 x_emphasis:
-  device: "on the full-width `bg-primary` band, the count shown as the things counted: one `rounded-round` `bg-claret` disc per unit (a year, an award, a course), its label in `text-label` → `text-heading-md` `text-primary`, in one row across columns 1–12 beneath the heading, which says the number in words, with one line in `text-body-lg` saying who says so. A figure that is not a count of up to eight things (a price, a percentage, 40 years) is one numeral in `text-figure` `text-claret` above that line, never alone in a side column"
+  device: "on the full-width `bg-primary` band, the count shown as the things counted: one `rounded-round` `bg-claret` disc per unit (a year, an award, a course), its label in `text-label` → `text-title` `text-primary`, in one row across columns 1–12 beneath the heading, which says the number in words, with one line in `text-lede` saying who says so. A figure that is not a count of up to eight things (a price, a percentage, 40 years) is one numeral in `text-figure` `text-claret` above that line, never alone in a side column"
   applies_to: "the one figure the page leads on, once per page, when the page has one; a page with no figure and no statement (a contact page, a menu) has no blush band"
   why: "One colour block is the statement; five plates in a row are five awards counted at a glance, in the shape the whole system serves on. The source is said once, not under every figure on the page."
 
@@ -357,7 +344,7 @@ x_motion:
 
 x_layout:
   measure:
-    reading: "55–65ch in {typography.body-md} — never wider than 6 columns"
+    reading: "55–65ch in {typography.copy} — never wider than 6 columns"
     caption: "one line at the width of its image, in {typography.caption}"
   grid:
     columns: 12
@@ -366,32 +353,32 @@ x_layout:
     text_columns: "1–6 or 7–12; a lead may take 1–7"
     media_columns: "a plate takes 5–6 columns in the head and 4 in a row; a rectangle up to 7"
   rhythm:
-    section: "{spacing.xl} → {spacing.lg}"
-    group: "{spacing.lg} → {spacing.md}"
-    item: "{spacing.md}"
-    element: "{spacing.sm}"
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
     separator: "surface — dark ({colors.claret}) and white cloth ({colors.cloth}) alternate: head dark, then cloth, then dark, and so on; the closing action dark and the footer {colors.claret-deep}; the one {colors.primary} band sits where the statement is and counts as neither; never a rule"
   registers:
-    persuasion: { head: statement, type: "{typography.display-xl} head, {typography.heading-lg} section heads, {typography.body-lg} leads, {typography.body-md} body", rhythm: "as rhythm; one idea and at most one photograph per band" }
-    retrieval: { head: plain, type: "{typography.display-lg} title, {typography.heading-md} group heads, {typography.body-md} rows", rhythm: "one step denser: section {spacing.lg}; what the reader came for starts on the first screen; photographs follow the rows they belong to" }
-    reading: { head: plain, type: "{typography.display-lg} title, {typography.body-md} at measure.reading, {typography.heading-md} subheads", rhythm: "one column of 6 on 4–9; plates or photographs between sections at 6 columns" }
+    persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} section heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; one idea and at most one photograph per band" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for starts on the first screen; photographs follow the rows they belong to" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column of 6 on 4–9; plates or photographs between sections at 6 columns" }
   head:
-    statement: "A {colors.claret} band at least 760px tall. Left, columns 1–8 (about 780px at 1440): the headline in {typography.display-xl} {colors.cream}, in two or three lines, never a short word (four letters or fewer) stranded alone on a line; a long closing word alone is fine, a {typography.body-lg} {colors.cream} lead of one or two lines {spacing.md} below, then the primary blush pill and the phone number as a cream link on one row {spacing.lg} below. Right, columns 8–12: the words and the plate share column 8, so both sit on the first grid row and overlap there; the plate hangs from the band's bottom, so it clears the headline. It is one plate, about 480px, aspect-square rounded-full, whose bottom crosses into the next band by {spacing.lg}. The plate's source is one photograph of a single plated dish: landscape or square, at least 1024px wide and 680px on its shorter side (1000px or more is better, since the circle shows a square of the shorter side), shot from about 30–60 degrees above the table, the dish centred so the centre square crop holds it whole and fills about two-thirds of that square, on a plain dark or white plate and a quiet ground (table, cloth or slate); a fork or a glass may cross the edge, but no hands, faces, text or second dish; the circle is cropped object-center from it. With no food photograph the right holds the building or room as a {rounded.soft} rectangle, not crossing."
-    plain: "A {colors.claret} band: the title in {typography.display-lg} {colors.cream} on columns 1–8, one {typography.body-lg} {colors.cream} line under it, no photograph; the first band starts {spacing.lg} below."
+    statement: "A {colors.claret} band at least 760px tall. Left, columns 1–8 (about 780px at 1440): the headline in {typography.display} {colors.cream}, in two or three lines, never a short word (four letters or fewer) stranded alone on a line; a long closing word alone is fine, a {typography.lede} {colors.cream} lead of one or two lines {spacing.step-md} below, then the primary blush pill and the phone number as a cream link on one row {spacing.step-lg} below. Right, columns 8–12: the words and the plate share column 8, so both sit on the first grid row and overlap there; the plate hangs from the band's bottom, so it clears the headline. It is one plate, about 480px, aspect-square rounded-full, whose bottom crosses into the next band by {spacing.step-lg}. The plate's source is one photograph of a single plated dish: landscape or square, at least 1024px wide and 680px on its shorter side (1000px or more is better, since the circle shows a square of the shorter side), shot from about 30–60 degrees above the table, the dish centred so the centre square crop holds it whole and fills about two-thirds of that square, on a plain dark or white plate and a quiet ground (table, cloth or slate); a fork or a glass may cross the edge, but no hands, faces, text or second dish; the circle is cropped object-center from it. With no food photograph the right holds the building or room as a {rounded.soft} rectangle, not crossing."
+    plain: "A {colors.claret} band: the title in {typography.section} {colors.cream} on columns 1–8, one {typography.lede} {colors.cream} line under it, no photograph; the first band starts {spacing.step-lg} below."
   shapes:
-    items: { as: "grid", look: "each item a plate (4 columns, circle) when the brief gives its photograph, with its name in {typography.heading-md} {spacing.sm} below and one line in {typography.body-md} in the band's text colour; without photographs, names in {typography.heading-md} in two columns with their lines beneath", counts: "1: a plate beside its words (media_text). 2: two plates on 2–5 and 8–11. 3: three plates across 12. 4: two and two. 5–6: three and three (5: three then two, left-aligned). 7+ names alone (no line each): a run-in list, like a wine list, in {typography.heading-md}, each name followed by a middle dot, wrapping across columns 1–11; one name per line and no dots below 768px. With a list of names and a row of plates in one band, the names come first." }
-    table: { as: "stack of rows", look: "a {colors.wine} {rounded.soft} panel; each row the name in {typography.body-md} {colors.cream} left and the value right in {typography.body-md} with tabular figures; {spacing.sm} between rows, no rules; group heads in {typography.heading-md} above each group", counts: "≤ 12 rows: one panel on 1–7. 13–40 rows: grouped, one panel per group, two across from 1024px. Never a grid of equal cells." }
-    facts: { as: "stack", look: "key in {typography.label} in the band's text colour, value beneath in {typography.body-lg} {colors.cream}; a phone number or email as a cream link", counts: "1–3: one column on 7–12 beside the head's words. 4–8: two columns of facts. Hours of the week: a table shape with seven rows." }
-    qa: { as: "stack", look: "question in {typography.heading-md}, answer in {typography.body-md} in the band's text colour {spacing.sm} below; {spacing.md} between pairs; no accordion", counts: "≤ 8: one column on 1–7. 9+: two columns from 1024px." }
-    people: { as: "grid", look: "one portrait may be a circle (rounded-full) at 4 columns; groups of people as {rounded.soft} rectangles at 3/4; name in {typography.heading-md}, role in {typography.body-md} in the band's text colour", counts: "1: media_text with the portrait. 2–3: across 12. 4: two and two. 5+: names and roles only in two columns." }
-    sequence: { as: "stack", look: "each step a {typography.heading-md} line with its detail in {typography.body-md} beneath; no numbers unless the order is the point, and then the numeral in {typography.heading-lg}", counts: "2–5: one column on 1–7. 6+: two columns." }
+    items: { as: "grid", look: "each item a plate (4 columns, circle) when the brief gives its photograph, with its name in {typography.title} {spacing.step-sm} below and one line in {typography.copy} in the band's text colour; without photographs, names in {typography.title} in two columns with their lines beneath", counts: "1: a plate beside its words (media_text). 2: two plates on 2–5 and 8–11. 3: three plates across 12. 4: two and two. 5–6: three and three (5: three then two, left-aligned). 7+ names alone (no line each): a run-in list, like a wine list, in {typography.title}, each name followed by a middle dot, wrapping across columns 1–11; one name per line and no dots below 768px. With a list of names and a row of plates in one band, the names come first." }
+    table: { as: "stack of rows", look: "a {colors.wine} {rounded.soft} panel; each row the name in {typography.copy} {colors.cream} left and the value right in {typography.copy} with tabular figures; {spacing.step-sm} between rows, no rules; group heads in {typography.title} above each group", counts: "≤ 12 rows: one panel on 1–7. 13–40 rows: grouped, one panel per group, two across from 1024px. Never a grid of equal cells." }
+    facts: { as: "stack", look: "key in {typography.label} in the band's text colour, value beneath in {typography.lede} {colors.cream}; a phone number or email as a cream link", counts: "1–3: one column on 7–12 beside the head's words. 4–8: two columns of facts. Hours of the week: a table shape with seven rows." }
+    qa: { as: "stack", look: "question in {typography.title}, answer in {typography.copy} in the band's text colour {spacing.step-sm} below; {spacing.step-md} between pairs; no accordion", counts: "≤ 8: one column on 1–7. 9+: two columns from 1024px." }
+    people: { as: "grid", look: "one portrait may be a circle (rounded-full) at 4 columns; groups of people as {rounded.soft} rectangles at 3/4; name in {typography.title}, role in {typography.copy} in the band's text colour", counts: "1: media_text with the portrait. 2–3: across 12. 4: two and two. 5+: names and roles only in two columns." }
+    sequence: { as: "stack", look: "each step a {typography.title} line with its detail in {typography.copy} beneath; no numbers unless the order is the point, and then the numeral in {typography.heading-lg}", counts: "2–5: one column on 1–7. 6+: two columns." }
     media_text: { as: "sidebar", look: "the photograph (plate if food, {rounded.soft} rectangle otherwise) on 1–6 or 7–12 and the words on the other side, top-aligned to the image, heading in {typography.heading-lg}", counts: "one per band; alternate sides only when two such bands follow each other" }
     gallery: { as: "grid", look: "plates in a row of equal circles for food; rectangles in a 7/5 pair for places and rooms", counts: "2: a pair. 3: three plates across, or a 7/5 pair plus one below at 7 for rectangles. 4: two and two. 5+: rows of three plates, the last row left-aligned." }
-    quote: { as: "stack", look: "reviews on a {colors.cloth} band: each the source's square mark in colour (24px) and its stars as star graphics on one line, the words in {typography.heading-md} {colors.claret} in quotation marks, the name and date in {typography.label} {colors.claret} beneath; the brand's own words (a chef's line) may stand alone on {colors.claret-deep} in {colors.cream}", counts: "1: alone on 2–10. 2–3: across 12 in equal columns. 4+: two columns." }
-    prose: { as: "center", look: "{typography.body-md} at measure.reading, {typography.body-lg} for the first paragraph when it is the lead", counts: "—" }
+    quote: { as: "stack", look: "reviews on a {colors.cloth} band: each the source's square mark in colour (24px) and its stars as star graphics on one line, the words in {typography.title} {colors.claret} in quotation marks, the name and date in {typography.label} {colors.claret} beneath; the brand's own words (a chef's line) may stand alone on {colors.claret-deep} in {colors.cream}", counts: "1: alone on 2–10. 2–3: across 12 in equal columns. 4+: two columns." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading, {typography.lede} for the first paragraph when it is the lead", counts: "—" }
     form: { as: "stack", look: "{colors.wine} inputs at {rounded.soft} with cream labels above, the blush pill to submit, on a {colors.claret-deep} band", counts: "≤ 5 fields in one column on 1–6; more in two columns." }
-    index: { as: "stack", look: "each entry its title in {typography.heading-md} as a cream link with one line beneath in {typography.body-md} in the band's text colour", counts: "any, one column on 1–7; a plate beside an entry only when all entries have one" }
-  close: "A {colors.claret} band, centred: the heading in {typography.display-lg} {colors.cream}, one {typography.body-lg} line {spacing.md} below, then the blush pill with the phone number as a {typography.heading-md} cream link {spacing.md} beneath it. Section padding {spacing.xl}, then the {colors.claret-deep} footer."
+    index: { as: "stack", look: "each entry its title in {typography.title} as a cream link with one line beneath in {typography.copy} in the band's text colour", counts: "any, one column on 1–7; a plate beside an entry only when all entries have one" }
+  close: "A {colors.claret} band, centred: the heading in {typography.section} {colors.cream}, one {typography.lede} line {spacing.step-md} below, then the blush pill with the phone number as a {typography.title} cream link {spacing.step-md} beneath it. Section padding {spacing.step-xl}, then the {colors.claret-deep} footer."
   focal: "In each band one thing leads: the plate, or the heading when there is no plate. The one blush band is the page's loudest moment and holds only the figure or the statement."
   never:
     - "a beige or cream ground — the light room is plain white cloth"
@@ -399,16 +386,3 @@ x_layout:
     - "rules, numbered sections or tracked-capital labels as decoration"
     - "a source line under every figure — say it once, beside the one figure"
     - "more than one photograph per band, outside a row of plates"
-
-# The reference is a real brand whose material fits the system (research/34), built blind from its
-# brief by a fresh page-builder; two blind builds in a row came out as the same design (§7).
-x_reference:
-  page: sites/sage-claret/pages/home/index.html
-  request: sites/sage-claret/pages/home/request.yaml
-
-x_brand:
-  slot: primary
-  text_on: dark
-  follows: [primary-deep]
-  accepts: "A brand colour replaces the blush in the button and the one colour-block band; it must carry claret text at 4.5:1, so it has to be light or bright. The claret room and the white cloth stay; a brand that needs a different room needs a different system."
-x_status: proven

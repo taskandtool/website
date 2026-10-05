@@ -56,8 +56,8 @@ if [ -f package.json ]; then
   fi
 fi
 
-# 3. tt-crawl (github.com/taskandtool/crawler), the site reader the migrate-site
-# skill captures with, and the browsers it drives.
+# 3. tt-crawl (github.com/taskandtool/crawler), the site reader from-site,
+# shots and the skills use, and the browsers it drives.
 CRAWLER_REF="${CRAWLER_REF:-main}"
 CRAWLER="git+https://github.com/taskandtool/crawler@$CRAWLER_REF"
 echo "== tt-crawl $CRAWLER_REF"
@@ -90,4 +90,4 @@ if command -v sprite-env >/dev/null 2>&1 && [ -f package.json ]; then
   fi
 fi
 
-echo "== website starter app setup done"
+echo "== website starter app setup done. Next: dev answers at localhost:3000; for a first homepage, npm run from-site -- <their site>"

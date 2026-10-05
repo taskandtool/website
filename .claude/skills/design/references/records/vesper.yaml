@@ -1,0 +1,404 @@
+# Vesper: the chair after dark. Midnight, warm gold and one frosted booking bar, for places people
+# go after work: barbershops, grooming, tattoo studios, cocktail bars. Reworked 2026-09-24 from a
+# generic "luxury travel" glass system: glass is now the booking bar and the nav only, cool light
+# bands relieve the midnight, and the hero is the shop's own moody photograph (APX Barber Co).
+id: vesper
+title: Vesper
+summary: >
+  A midnight system for places people go after dark: a moody full-bleed photograph under an
+  even midnight wash, a centred high-contrast serif, one frosted booking bar, warm gold reserved
+  for the action, and cool light bands for reviews and prices.
+tokens:
+  colors:
+    primary: "#D8A857"
+    midnight: "#0B1020"
+    abyss: "#060A16"
+    veil: "#1A2136"
+    veil-high: "#252E47"
+    pearl: "#F4F1E8"
+    pearl-dim: "#C3C7D4"
+    pearl-faint: "#9AA1B4"
+    mist: "#EEF1F6"
+    slate: "#4A5168"
+    primary-deep: "#8A6520"
+    ember: "#E0714A"
+    sage: "#7FA893"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.midnight}"
+    surface: "{colors.veil}"
+    panel: "{colors.veil}"
+    night: "{colors.abyss}"
+    ink: "{colors.pearl}"
+    ink-2: "{colors.pearl-dim}"
+    ink-3: "{colors.pearl-faint}"
+    night-ink: "{colors.pearl}"
+    night-ink-2: "{colors.pearl-dim}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.midnight}"
+    accent-hover: "{colors.primary-deep}"
+    line: "rgb(244 241 232 / 0.16)"
+    line-strong: "rgb(244 241 232 / 0.32)"
+    line-on-night: "rgb(244 241 232 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Playfair Display"
+      fontSize: 84px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -2.2px
+    section:
+      fontFamily: "Playfair Display"
+      fontSize: 52px
+      fontWeight: 400
+      lineHeight: 1.1
+      letterSpacing: -1.2px
+    title:
+      fontFamily: "Playfair Display"
+      fontSize: 30px
+      fontWeight: 400
+      lineHeight: 1.25
+      letterSpacing: -0.3px
+    lede:
+      fontFamily: "Inter"
+      fontSize: 18px
+      fontWeight: 300
+      lineHeight: 1.7
+      letterSpacing: 0.1px
+    copy:
+      fontFamily: "Inter"
+      fontSize: 18px
+      fontWeight: 300
+      lineHeight: 1.7
+      letterSpacing: 0.1px
+    figure:
+      fontFamily: "Playfair Display"
+      fontSize: 44px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -0.6px
+      fontFeature: tnum
+    caption:
+      fontFamily: "Inter"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0.4px
+    # label: the website's role, set the same as caption in this system
+    label:
+      fontFamily: Inter
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0.4px
+  rounded:
+    panel: 24px
+    pill: 9999px
+    soft: 12px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.panel}"
+    control: "{rounded.pill}"
+  spacing:
+    step-xs: 6px
+    step-sm: 12px
+    step-md: 24px
+    step-lg: 48px
+    step-xl: 88px
+    step-xxl: 144px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xxl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1200px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Vesper is a room after dark with the lights low. The head is the shop's own photograph under
+    an even {colors.midnight} wash; the ground is {colors.midnight}, and cards on it are solid
+    {colors.veil} panels at 24px with a one-pixel lit top edge. Frosted glass (a backdrop blur) is
+    kept for two things only: the booking bar in the head and the floating nav. Cool
+    {colors.mist} bands relieve the dark and carry what is read closely: reviews, prices, facts. Type pairs a
+    high-contrast display serif with a light-weight sans; the serif carries all
+    headings and every number, the sans carries all prose. {colors.primary}
+    (gold) is the warm colour and appears once per band, on that band's
+    action; where a band sets several options side by side as cards, once per
+    card. Numbers are set in the serif in {colors.pearl} on dark or {colors.midnight} on light,
+    never gold. {colors.sage} may mark a trust badge; {colors.ember} marks only a date that
+    expires (an offer's end), and never as text.
+  colors: >
+    Three depths of dark do the structural work: {colors.abyss} for the footer,
+    {colors.midnight} for the page ground, {colors.veil} and {colors.veil-high} for panels. On
+    dark, text runs {colors.pearl} for headings, {colors.pearl-dim} for prose, {colors.pearl-faint}
+    for captions. {colors.mist} is the light band, cool and never beige, with {colors.midnight}
+    text (16.7:1) and {colors.slate} for secondary lines (7.0:1); dark and light bands alternate,
+    and no more than two dark bands run together. Gold is an action colour, never a text colour at body size, with
+    the single exception of a standalone figure.
+
+    With the brand's own colour: a brand colour light enough to carry {colors.midnight} text at 4.5:1 (and to show at 3:1 as a focus ring on {colors.veil}) takes the action, with {colors.primary-deep} following as the hover under {colors.pearl} text; a mid or dark brand colour fails here (the green #2F804F gives 3.9:1 under {colors.midnight}), so use a lighter tint the brand notes record, or take no accent.
+  typography: >
+    Playfair Display at 400 for every heading and every number; Inter at 300
+    for prose and at 400 for captions. Display sizes take heavy negative
+    tracking (-2.2px at 84px). Captions take positive tracking (+0.4px) — the
+    only place letter-spacing opens up. Prose measure stays under 68 characters.
+  layout: >
+    A centred 1200px column. Bands alternate {colors.midnight} and {colors.mist} full width,
+    separated by generous vertical space ({spacing.step-xxl} at desktop) and the change of ground,
+    never by rules. On dark bands, content cards are solid panels; headings sit on the ground.
+    The hero is full-bleed with the nav floating over it on a frosted panel.
+  elevation_and_depth: >
+    Depth comes from the photograph and from three dark steps. Panels on dark are solid with a
+    one-pixel top edge in {colors.pearl} at 12% opacity to read as a lit rim; only the head's
+    booking bar and the nav carry a backdrop blur (about 72% opacity), because they sit over the
+    photograph. Shadows are large,
+    soft and very dark — never grey. Three depth steps only: ground, panel,
+    raised panel.
+  components: >
+    Generous and consistent: {rounded.panel} (24px) for every panel and card,
+    {rounded.soft} (12px) for inline chips and inputs, {rounded.pill} for
+    buttons and badges. The full-bleed hero and the bands meet the viewport edge square; everything inside a band is rounded.
+
+    Buttons are pills. Primary is a {colors.primary} fill with
+    {colors.midnight} text; on hover it deepens to {colors.primary-deep} with
+    {colors.pearl} text. Secondary is {colors.veil-high} with no border. Cards
+    on dark are solid {colors.veil} panels; on {colors.mist} they sit straight on the band, split by space. Inputs are {colors.veil} at {rounded.soft} with no visible
+    border until focus, which brings a {colors.primary} ring.
+  dos_and_donts:
+    do:
+      - rule: "Use {colors.primary} once per band, on that band's action; where a band sets options side by side as cards, once per card, on each card's action."
+        why: "Gold is the system's only warm note; two gold things in one panel halve the value of both, while one per card still reads as one instruction per choice."
+      - rule: "Keep frosted glass to the head's booking bar and the nav; set cards on dark as solid panels with a lit top edge, and put reviews, prices and facts on {colors.mist} bands."
+        why: "Glass everywhere is the generated-page default and costs contrast; one frosted bar over the photograph is the signature, and the light bands let marks, stars and prices read."
+      - rule: "Set every number in {typography.figure} or {typography.section}, in the serif."
+        why: "The serif numerals are what make the system read as considered rather than technical."
+      - rule: "Orchestrate one entrance sequence on page load, staggered by 120ms."
+        why: "A single arrival reads as choreography; the same effect on every section reads as a template."
+    dont:
+      - rule: "Don't use a grey shadow. Shadows are {colors.abyss} at low opacity."
+        why: "Grey shadows on a dark ground read as haze and flatten the layering the system depends on."
+      - rule: "Don't set body prose in the display serif, or headings in the sans."
+        why: "The split is absolute; blurring it removes the only typographic signal the system has."
+      - rule: "Don't introduce a fourth depth step."
+        why: "Ground, panel, raised. A fourth makes the stack unreadable because the blur already costs contrast."
+      - rule: "Don't use {colors.primary} for body text, or for more than one element in a band or card."
+        why: "It is an instruction, not a decoration."
+      - rule: "Don't square off a corner anywhere."
+        why: "A single square element reads as a mistake against 24px panels, not as contrast."
+  responsive_behavior: >
+    Below 768px the column is full width with {spacing.step-md} side margins,
+    {typography.display} drops to 46px with -1.2px tracking, and section
+    spacing goes from {spacing.step-xxl} to {spacing.step-lg}. Panels keep their radius. The booking bar's blur drops to 12px to protect scroll performance,
+    and on a phone the bar sits under the photograph, full width.
+    Tap targets never below 44px.
+  known_gaps: >
+    Panel colours are declared as opaque. The booking bar and the nav are the two frosted
+    elements, rendered at about 72% opacity with a backdrop blur over the photograph; their
+    declared {colors.veil} is the composited equivalent for contrast checking. There is no all-light theme; {colors.mist} is a band, never the whole page. No
+    data-visualisation palette is defined. Playfair Display and Inter are both
+    on Google Fonts.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  band-light:
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.midnight}"
+    typography: "{typography.copy}"
+  band-light-muted:
+    backgroundColor: "{colors.mist}"
+    textColor: "{colors.slate}"
+  nav:
+    backgroundColor: "{colors.midnight}"
+    textColor: "{colors.pearl}"
+  glass-panel:
+    backgroundColor: "{colors.veil}"
+    textColor: "{colors.pearl}"
+    rounded: "{rounded.panel}"
+  glass-panel-raised:
+    backgroundColor: "{colors.veil-high}"
+    textColor: "{colors.pearl}"
+    rounded: "{rounded.panel}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.midnight}"
+    rounded: "{rounded.pill}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.pearl}"
+    rounded: "{rounded.pill}"
+  button-secondary:
+    backgroundColor: "{colors.veil-high}"
+    textColor: "{colors.pearl}"
+    rounded: "{rounded.pill}"
+  body:
+    backgroundColor: "{colors.midnight}"
+    textColor: "{colors.pearl-dim}"
+  caption:
+    backgroundColor: "{colors.veil}"
+    textColor: "{colors.pearl-faint}"
+    typography: "{typography.caption}"
+  footer:
+    backgroundColor: "{colors.abyss}"
+    textColor: "{colors.pearl-dim}"
+  badge-trust:
+    backgroundColor: "{colors.sage}"
+    textColor: "{colors.midnight}"
+    rounded: "{rounded.pill}"
+  accent-ember:
+    backgroundColor: "{colors.ember}"
+    textColor: "{colors.midnight}"
+    rounded: "{rounded.soft}"
+  figure:
+    backgroundColor: "{colors.veil}"
+    textColor: "{colors.pearl}"
+    typography: "{typography.figure}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+x_invariants:
+  style:
+    - "Frosted glass only on the head's booking bar and the nav; bands alternate {colors.midnight} and {colors.mist}."
+    - "{colors.primary} appears at most once per band, or once per card where a band sets options as cards."
+    - "Playfair Display for headings and numbers; Inter for prose. Never crossed."
+    - "No square corners anywhere."
+  accessible:
+    - "Body text never lighter than {colors.pearl-faint} on {colors.midnight} (7.33:1)."
+    - "Blur must not drop any text below 4.5:1 against its composited background."
+    - "Tap targets >= 44x44px at every breakpoint."
+
+# The DESIGN.md spec has no imagery section and no imagery tokens, so this is
+# ours. Without it a design system says nothing about pictures and the model
+# defaults to none — which is exactly what happened on the first run.
+x_imagery:
+  role: >
+    Atmospheric and structural. Imagery carries the hour and the weather; it is
+    the reason the palette is dark. The hero is an image, not a colour field.
+  density: "one image per content section, plus a full-bleed hero"
+  treatment: >
+    The hero's photograph is full-bleed under an even {colors.midnight} wash (55%, 70% in the
+    lower third) so its words hold 7:1. Inside bands, photographs sit in solid panels or on the
+    ground at {rounded.panel}, object-cover, with no scrim.
+  aspect_ratios: ["16/9", "3/2", "1/1", "4/5"]
+  caption: >
+    Captions are optional and, when present, sit in {typography.caption} on the
+    panel below the image — never overlaid. Its words come from the brand
+    folder (see standards/copy.md).
+  forbidden:
+    - "a square-cornered image inside a band (the hero alone meets the edges square)"
+    - "overlaid text without a scrim behind it"
+    - "an image at less than 4/5 aspect (no letterbox slivers)"
+    - "more than one full-bleed image per page"
+    - "gold text: gold is only the action's fill"
+  no_assets_supplied: >
+    If the brief supplies no images, do NOT invent placeholder <img> paths.
+    Build the hero on the {colors.midnight} ground with the centred words and the booking bar
+    alone; vesper is at its best with the room's own photograph, and a brand without one
+    likely suits another system.
+
+# How this system emphasises ONE figure. The renderer reads this; it must never
+# hardcode a token name, because tokens are per-system. Vesper has no brass and
+# gold is locked to the action, so emphasis is carried by depth.
+x_emphasis:
+  device: "the raised depth step — `bg-veil-high` panel at `text-section`"
+  applies_to: "at most one statistic per page"
+  why: "Gold is reserved for the action, so emphasis must come from layering, not colour."
+
+x_motion:
+  principle: "One orchestrated entrance on the head and one signature: the booking bar set down last. Nothing else moves; no band below the head animates, on load or on scroll."
+  entrance: "On load, the head's headline, lead and booking bar each rise 12px and fade in from transparent over 700ms ease-out, staggered 0, 120 and 240ms."
+  signature: "The frosted booking bar arrives last, settling under the words 240ms after the headline, so the first screen comes to rest on the choice it asks for. Hover never moves anything: the gold pill only deepens to {colors.primary-deep} with {colors.pearl} text."
+  scroll: "Nothing arrives on scroll; every band below the head is still."
+  reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; the head is at rest from the first frame, and with script off the page is complete."
+  mechanism: "CSS only, no script: Tailwind's starting: variant (@starting-style) sets the start (starting:opacity-0 starting:translate-y-3) and transition, duration-700, ease-out and delay-120 / delay-240 utilities run it; motion-reduce:transition-none switches it off. No data-motion attributes, no IntersectionObserver, no <style> block, no keyframes."
+
+# How any band of any page is laid out in this system.
+# Look only: never a page type, never what content goes where. The layout and
+# components prose above is short; the table, quote and form treatments live here.
+x_layout:
+  measure:
+    reading: "56–68ch, never over 68 — {typography.lede} at weight 300 on {colors.veil}; {typography.copy} only for short lines"
+    caption: "the width of the image's panel; {typography.caption} {colors.pearl-faint}, {spacing.step-md} in from the panel edge"
+  grid:
+    columns: 12
+    container: "1200px, centred; {spacing.step-md} side margins below 768px"
+    gutter: "{spacing.step-lg} between panels ({spacing.step-md} below 768px)"
+    text_columns: "text sits on a panel of 4–8 columns; long text on one panel of 8, never a 12-column line"
+    media_columns: "an image fills a panel of 4, 5, 7 or 8 columns at {rounded.panel}; only the head's image runs full-bleed"
+  rhythm:
+    section: "{spacing.step-xxl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md} between panels in a group; {spacing.step-sm} between rows inside a panel"
+    element: "{spacing.step-xs} label to value; {spacing.step-md} heading to first line"
+    separator: "surface — bands alternate {colors.midnight} and {colors.mist} (reviews, prices and facts on {colors.mist}; people and work on {colors.midnight}); never more than two dark bands together; never a rule between bands"
+  registers:
+    persuasion:
+      head: statement
+      type: "{typography.display} title, {typography.section} band heads, {typography.title} panel heads and quotations, {typography.lede} prose, {typography.figure} for numbers"
+      rhythm: "as rhythm; content panels in unequal pairs (7/5, 4/8, 8/4); a caption sits under its image inside the same panel, which is only as tall as its content; one staggered entrance sequence on the head, 120ms apart"
+    retrieval:
+      head: plain
+      type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows, {typography.caption} labels in {colors.pearl-faint}"
+      rhythm: "one step denser: section {spacing.step-xl} → {spacing.step-lg}; fewer, wider panels (8 or 12 columns) and no overlaps, so the rows the reader came for start on the first screen; no entrance sequence below the head"
+    reading:
+      head: plain
+      type: "{typography.section} title, {typography.lede} text, {typography.title} subheads, {typography.caption} captions"
+      rhythm: "one {colors.veil} panel of 8 columns, centred, with the text at measure.reading and {spacing.step-lg} padding ({spacing.step-md} on a phone); images inside it at the panel's width, subheads spaced {spacing.step-lg} above; no side-by-side panels"
+  head:
+    statement: "Full viewport width, at least 760px tall (about 85vh on a phone): the brand's own photograph of the room at work (a barber mid-cut, a bartender at the bar), landscape, 1440px wide or more, with the people in the upper two-thirds and the lower third calmer (a counter, a floor, the dark of the room) for the words (a focal point high in the frame in brand/images.md), low-lit and warm, object-cover, under an even {colors.midnight} wash at 55% across the whole frame (70% in the lower third, where the words sit) so contrast under the text is at least 7:1. Centred, in the lower half: the headline in {typography.display} {colors.pearl} (two lines, three at most), a {typography.lede} {colors.pearl-dim} lead of one line beneath, then the booking bar: one frosted {colors.veil} bar at {rounded.pill}, about 720px wide, with a backdrop blur and a lit top rim, holding the choice the reader makes (a barber, a service, a table) and the gold pill action. The nav floats above on its own frosted panel. Below 768px the words stay on the photograph and the bar sits beneath it on {colors.midnight}, full width. The bar holds the choice and links (a barber's or a table's booking page) only when the brief gives them; otherwise it is the gold pill alone to the brand's booking page. No photograph of the room: the {colors.midnight} ground with the words and the bar centred at the same sizes, 560px tall."
+    plain: "No image: a {colors.veil} panel of 8 columns starting {spacing.step-xxl} ({spacing.step-xl} on a phone) below the floating nav, the title in {typography.section} {colors.pearl} and one lead line in {typography.lede} {colors.pearl-dim}. What the reader came for starts on the next panel, {spacing.step-md} below."
+  close: "A {colors.midnight} band, left-aligned on the 12 columns, section padding {spacing.step-xxl} ({spacing.step-lg} below 768px). Columns 1–7: the heading straight on the ground in {typography.section} {colors.pearl} ({typography.title} below 768px), a {typography.lede} {colors.pearl-dim} passage {spacing.step-md} below, then the band's one {colors.primary} pill with {colors.midnight} text {spacing.step-lg} beneath it. Columns 8–12: a solid {colors.veil} panel at {rounded.panel} with the lit top rim and {spacing.step-lg} padding, dropped {spacing.step-lg} below the heading, holding the visit's terms as facts ({typography.caption} {colors.pearl-faint} key over {typography.copy} {colors.pearl} value, {spacing.step-md} apart). Then the {colors.abyss} footer."
+  shapes:
+    items:
+      as: "a grid inside one panel"
+      look: "each name in {typography.title} {colors.pearl} (the serif), its line in {typography.copy} {colors.pearl-dim}; no rules and no inner boxes — the panel is the container; a card per item only when each item carries its own action or image"
+      counts: "1–2: prose on the panel. 3–4: two columns inside an 8-column panel, beside an image panel of 4. 5–6: two columns inside the panel beside the image, the odd one left alone at the end of the left column. 7–12: three columns inside a 12-column panel. 13+: names only, three columns of {typography.copy} {colors.pearl} lines. Items with their own action: one {colors.veil} card each at {rounded.panel} — 2 at 6 + 6, 3 at 4 + 4 + 4, 4 as 6 + 6 twice, 5 as 4 + 4 + 4 then 6 + 6 — each card its own gold action."
+    table:
+      as: "table on a {colors.mist} band"
+      look: "on {colors.mist}: column heads in {typography.caption} {colors.slate} with its open tracking; rows split by 1px {colors.midnight} at 12%; row heads (a service, a drink) in the serif at {typography.lede} {colors.midnight}; prices and numbers in the serif with tabular numerals, right-aligned; no row fills"
+      counts: "2–8 rows: one panel of 8 columns. 9–30 rows: one panel of 12. 30+: one panel per group, each headed in {typography.title}. 4+ columns below 768px: each row becomes a block — row head, then caption label/value pairs two across — never a sideways scroll."
+    facts:
+      as: "definition list in a grid, on a {colors.mist} band (a short pair beside a dark card may sit in that card)"
+      look: "on {colors.mist}: key in {typography.caption} {colors.slate} above the value in {typography.copy} {colors.midnight}; inside a dark panel: {colors.pearl-faint} over {colors.pearl}; numbers in the serif; no rules"
+      counts: "1–4: two columns in one panel of 5–8 columns. 5–8: two columns, or four across a 12-column panel. 9+: panels of 4–6 pairs each, 6 + 6, each headed in {typography.title}."
+    qa:
+      as: "stack inside one panel"
+      look: "the question in the serif at {typography.title} {colors.pearl}, the answer in {typography.copy} {colors.pearl-dim} at measure.reading; {spacing.step-lg} between pairs; every answer open"
+      counts: "1–5: one panel of 8 columns. 6–12: two panels of 6, split evenly; an odd n puts the extra pair on the left. 13+: one panel per group of up to 6, each with its own heading, stacked 8 wide."
+    people:
+      as: "grid of portrait panels on the 12 columns"
+      look: "the portrait at 4/5 fills the top of a {colors.veil} panel at {rounded.panel}; the name in {typography.title} {colors.pearl} and the role in {typography.caption} {colors.pearl-faint} beneath, on the panel; without portraits, names and roles as facts in one panel"
+      counts: "1: media_text. 2: 6 + 6, the second dropped {spacing.step-lg}. 3: 4 + 4 + 4, the middle dropped {spacing.step-lg}. 4: 3 + 3 + 3 + 3 from 1024px, 6 + 6 twice below. 5: 4 + 4 + 4, then 6 + 6. 6: 4 + 4 + 4 twice. 7+: rows of 4 at 3 columns each; a short last row sits left, never stretched."
+    sequence:
+      as: "a grid of steps inside one panel"
+      look: "the step number in {typography.figure} {colors.pearl} (the serif), the step name in {typography.title}, its line in {typography.copy} {colors.pearl-dim}; no connecting lines, no icons"
+      counts: "2–4: one row across a 12-column panel. 5–6: three across, two rows. 7+ or dated entries: one column in an 8-column panel, number or date on the left in {typography.figure}, words on the right."
+    media_text:
+      as: "sidebar: two panels, unequal"
+      look: "an image panel (image edge to edge at the top of the panel, caption beneath on the panel) beside a text panel; the smaller panel may be pulled up {spacing.step-lg} across the seam"
+      counts: "1: image 7 and text 5, or text 5 and image 7. 2+ in one band: the pairs mirror (7/5 then 5/7), each pair {spacing.step-md} apart, a third panel overlapping the seam between them."
+    gallery:
+      as: "grid of panels at unequal spans on the 12 columns, the smaller one dropped"
+      look: "each image in its own panel at {rounded.panel}, aspect 3/2, 1/1 or 4/5 (never letterboxed), caption on the panel beneath; never a hard edge"
+      counts: "1: one panel of 8. 2: 7 + 5, the smaller dropped {spacing.step-lg}. 3: 7 + 5, then one of 8 pulled up {spacing.step-lg} across the seam. 4: 7 + 5, then 5 + 7. 5–8: continue the mirrored 7/5 rows; an odd n ends on a single panel of 8. 9+: rows of three 4-column panels in 1/1 or 4/5, the middle column dropped {spacing.step-lg}."
+    quote:
+      as: "grid of panels; for many, a switcher of two stacks of panels"
+      look: "the quotation in the serif — {typography.title} {colors.pearl} for one to three sentences, {typography.lede} {colors.pearl-dim} for longer — attribution beneath in {typography.caption} {colors.pearl-faint}; on {colors.veil}, the lit rim above; no quote-mark ornament"
+      counts: "1: a panel of 5 beside an image of 7, or alone at 8. 2: 7 + 5, the second dropped {spacing.step-lg}. 3: a panel of 7 (with the band's image at its top if there is one) beside two stacked panels of 5. 4: 7 + 5, then 5 + 7. 5–9: two columns of stacked panels, 6 + 6, longer quotations on the left. 10+: the same two columns, shorter quotations in {typography.copy}."
+    prose:
+      as: "stack on one panel"
+      look: "{typography.lede} {colors.pearl-dim} at measure.reading, weight 300; headings in the serif; numbers lifted out into {typography.figure}"
+      counts: "1–3 paragraphs: one panel of 5–8 beside an image or figure panel. Longer: registers.reading — one panel of 8, centred."
+    form:
+      as: "stack of labelled inputs on a raised panel"
+      look: "a {colors.veil-high} panel at {rounded.panel}, heading in {typography.title}; labels in {typography.caption} {colors.pearl-faint} above; inputs {colors.veil} at {rounded.soft} with no border until focus, which brings a {colors.primary} ring; text in {typography.copy} {colors.pearl}; the submit is the {colors.primary} pill, full width of the panel, the panel's one gold thing"
+      counts: "1–3 fields: a panel of 4 beside a text panel of 8. 4–8: a panel of 6–8, fields that pair (name and email) two to a row from 768px. 9+: a panel of 8 with fieldsets, each opened by a {typography.title} legend, {spacing.step-lg} apart. A choice of 2–5 is a row of {colors.veil} pills that fill {colors.veil-high} with {colors.pearl} text when chosen; 6+ is a select."
+    index:
+      as: "grid of panels, one per entry"
+      look: "each entry a {colors.veil} panel at {rounded.panel}: an image at the top when there is one, the title in {typography.title} {colors.pearl} as the link, one line in {typography.copy} {colors.pearl-dim}, a date in {typography.caption}"
+      counts: "1: one panel of 8. 2: 7 + 5. 3: 4 + 4 + 4. 4: 6 + 6 twice. 5–6: rows of three. 7+: rows of three, and past twelve a plain list of titles on one panel beneath the first six."
+  focal: "Each band leads with its heading in the serif, set straight on the band's ground (never boxed in a panel of its own); panels hold content: cards, a figure, a form. The next step down is the raised {colors.veil-high} panel when the band has a figure to lift, then images, then the quieter panels. The only warm thing on a band is its one {colors.primary} action."
+  never:
+    - "a band heading boxed in a panel of its own, or a panel taller than its content: panels hold cards, a figure, a form; headings sit on the ground"
+    - "a rule between bands — space and depth separate things here; a line flattens the stack"
+    - "two {colors.primary} things in one band or card — gold is an instruction and a second one halves it"
+    - "a square corner or a letterboxed image — against 24px panels it reads as a mistake"
+    - "more than one full-bleed image on a page — the head owns it"
+    - "a grey shadow, or a fourth depth step beyond ground, panel and raised panel"

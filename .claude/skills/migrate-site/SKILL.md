@@ -19,24 +19,16 @@ re-plans both). Write both answers at the top of `site-map.md`.
 
 ## 1. Inventory
 
-One crawl reads the site into `raw/site/<host>/`: `pages/` as markdown,
-`images/`, `shots/`, and in `_index/` `common.md`, `manifest.json`, and
-the migration ledger, `inventory.json` (one record per URL: title,
-description, h1, canonical, inbound links counted sitewide and in-body,
-forms, embeds, tracking IDs, noindex, sitemap membership),
-`furniture.json` (the header nav tree, footer groups, call to action,
-social and legal links), `media.json` (every picture, its real size and
-kind, which pages use it with the heading above and the words beside it),
-`facts.json` (phones, emails, addresses, hours, social, action links,
-each with where it was found), and `structured/` (JSON-LD, Open Graph,
-microdata per page). `raw/site/_sites.json` lists the sites crawled.
+One crawl reads the site into `raw/site/<host>/`; its ledger is
+`_index/inventory.json`, one record per URL (the crawler's README lists
+every file it writes).
 
 The crawler carries the recipes; print the one you need rather than
 guessing flags:
 
 ```bash
 tt-crawl playbook rebuild     # the whole site for a rebuild: every page and picture
-tt-crawl playbook survey      # a big site first: every URL by template, two read of each
+tt-crawl playbook survey      # a big site first: every URL by template, two read from each
 tt-crawl playbook import      # WordPress, RSS or Shopify collections, with dates, authors and prices
 tt-crawl playbook launch      # the launch check
 ```

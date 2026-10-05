@@ -29,7 +29,8 @@ DESIGN.md        the design system to read, compiled from the record: identity, 
 static/          static files, served as-is
 scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle)
                  · system.mjs (the record → theme.css, DESIGN.md, src/fonts.ts) · check.mjs · lint.mjs · test.mjs
-                 · verify.mjs (all of them) · from-site.mjs · parts.mjs · images.mjs · shots.mjs · show.mjs
+                 · proof.mjs (all the proof on the homepage) · verify.mjs (all of them) · from-site.mjs
+                 · parts.mjs · images.mjs · shots.mjs · show.mjs
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 AGENTS.md        what the AI reads first; CLAUDE.md imports it
 ```
@@ -46,7 +47,8 @@ Beside the site, the two conventions Task & Tool reads:
                  /admin, a booking page, reports, and the database handle they share
   design/        the look: the homepage first, the first screen, the system record as the site
                  grows, the review gate; the design library's 14 systems as references
-  writing/       the words in the owner's voice, the editing passes, slop to refuse
+  writing/       the words in the owner's voice, the editing passes, the cold read
+  tropes/        the tells of generated copy, checked by lint (shared from the skills repo)
   migrate-site/  replace an existing site page for page: inventory, facts, brand, look, page map, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
@@ -119,7 +121,8 @@ state (`starter-app.json`'s `when` conditions).
   [Obscura](https://github.com/h4ckf0r0day/obscura) (Apache-2.0, a small
   Rust headless browser, the fallback).
 - npm packages, MIT: `hono`, `@hono/node-server`, `@neondatabase/serverless`,
-  `tailwindcss` + `@tailwindcss/cli`, `esbuild`, `tsx`, `typescript`.
+  `marked`, `yaml`, `tailwindcss` + `@tailwindcss/cli`, `esbuild`, `tsx`,
+  `typescript`, `node-html-parser`, `pg`.
 
 ## Developing this Starter App
 

@@ -3,13 +3,14 @@
 // It is `tt-crawl shoot`, which prints where each image is and what to read first.
 import { spawnSync } from "node:child_process";
 
-const USAGE = `usage: npm run shots [-- /path] [--first-screen] [--width N ...]
+const USAGE = `usage: npm run shots [-- /path ...] [--first-screen] [--width N ...]
 
 The page at desktop (1280) and phone (390) width: uploads/<page>-<width>/
 overview.png (the whole page in one image, for its shape, when it is
 longer than one image), then 01.png,
 02.png … (the page at full size, read in order), and page.png (the whole
-page at full size, what npm run show sends). /path defaults to /.
+page at full size, what npm run show sends). /path defaults to /; give
+several to shoot several pages.
   --first-screen   only what shows before scrolling, one image per width
   --width N        a width in pixels; repeat for more`;
 
@@ -19,7 +20,7 @@ if (args.includes("--help") || args.includes("-h")) {
   process.exit(0);
 }
 const flags = [];
-let path = "/";
+const paths = [];
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--width") {
     if (!/^\d+$/.test(args[i + 1] || "")) {
@@ -29,11 +30,16 @@ for (let i = 0; i < args.length; i++) {
     flags.push(args[i], args[++i]);
   }
   else if (args[i].startsWith("--")) flags.push(args[i]);
-  else path = args[i].startsWith("/") ? args[i] : `/${args[i]}`;
+  else paths.push(args[i].startsWith("/") ? args[i] : `/${args[i]}`);
 }
-const run = spawnSync("tt-crawl", ["shoot", `http://localhost:3000${path}`, "--out", "uploads", ...flags], { stdio: "inherit" });
-if (run.error) {
-  console.error("shots: tt-crawl is not installed here. Try: bash ~/app/.taskandtool/setup.sh");
-  process.exit(1);
+if (!paths.length) paths.push("/");
+let status = 0;
+for (const path of paths) {
+  const run = spawnSync("tt-crawl", ["shoot", `http://localhost:3000${path}`, "--out", "uploads", ...flags], { stdio: "inherit" });
+  if (run.error) {
+    console.error("shots: tt-crawl is not installed here. Try: bash ~/app/.taskandtool/setup.sh");
+    process.exit(1);
+  }
+  status ||= run.status ?? 1;
 }
-process.exit(run.status ?? 1);
+process.exit(status);

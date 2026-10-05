@@ -54,8 +54,8 @@ reviews and places the crawl found).
     named in the brief. The design system decides how it is emphasised; with no such number,
     nothing is emphasised.
   - Reviews: several sit together in their own band; one may also sit beside the claim it
-    proves. The design system decides how either looks. Each carries its platform's mark and
-    its stars in the brief (SKILL.md, "Reviews, on any page").
+    proves. The design system decides how either looks. Each carries its platform's icon and
+    its stars in the brief (SKILL.md, "Proof, on every page").
 </select>
 
 <sections>
@@ -67,11 +67,8 @@ band holds, then when it earns its place.
 
   hero        core      What they do, for whom, where; the primary action; the best line. A real
                         photograph of the work when the business's photographs have one that can hold a hero.
-  trust       core      The few facts that prove it is real, as marks and numbers: their logos
-                        of clients, partners, associations and certifications (public/proof.md
-                        marks), rating with platform and count, licence number, years trading.
-                        When: the notes hold any, always; their old site's proof is the floor.
-                        Omit rather than state them vaguely.
+  trust       core      Everything in public/proof.md that is not a review: every logo,
+                        ratings with platform and count, people, numbers. All of it, boldly.
   offerings   core      Each service, product line or menu by its search name, with a real example
                         and a link to its page. For a restaurant this is the menu's route: what they
                         cook, a few named dishes, and the link.

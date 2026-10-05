@@ -24,8 +24,7 @@ service across several pages; gather from all of them.
   price       prices, ranges, or prices for typical jobs
   options     types, materials, tiers the customer chooses between
   proof       reviews about this service, photographs of this work (being done and finished),
-              certifications relevant to it, logos of clients, partners and associations
-              (public/proof.md marks)
+              certifications relevant to it, every logo in public/proof.md
   objections  cost, insurance, timing, disruption, repair versus replace
   area        where this service is offered, and any local proof per place
 </inventory>
@@ -43,7 +42,7 @@ service across several pages; gather from all of them.
     nothing is emphasised.
   - Reviews: several sit together in their own band; one may also sit beside the claim it
     proves. The design system decides how either looks. Each carries its platform's mark and
-    its stars in the brief (SKILL.md, "Reviews, on any page").
+    its stars in the brief (SKILL.md, "Proof, on every page").
 </select>
 
 <sections>
@@ -52,10 +51,9 @@ against the material. Each line says what the band holds, then when it earns its
 
   hero        core      The service by its search name, the problem it fixes, where, the action.
   included    core      What the customer gets, as named items.
-  proof       core      A review about this service, a job photograph, or a result, and their
-                        logos of clients, partners and associations whenever public/proof.md
-                        holds any. The strongest one sits beside the claim it proves. When
-                        there is none, a NEED.
+  proof       core      Reviews about this service, job photographs, results, and every logo in
+                        public/proof.md. The strongest sits beside the claim it proves. None:
+                        a NEED.
   price       optional  Prices, ranges or typical-job prices, with units.
                         When: the brand has them.
   work        optional  Photographs of this service being done and finished; before-and-after pairs.

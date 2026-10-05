@@ -8,8 +8,8 @@
 // a page of proof (testimonials, reviews, clients, partners), all at once
 // (tt-crawl add). Then it does by script what needs no judgement: the
 // business note's facts (cited to the crawl), the logo into brand/logo/,
-// their photographs at web size into static/images/, the proof (others'
-// logos into static/images/marks/, reviews word for word) into
+// their photographs at web size into static/images/, the proof (their
+// reviews and ratings, Google's too, and every logo of others) into
 // public/proof.md, the logo in
 // src/site.ts, and design tokens in design/system.yaml seeded from the site's
 // own colours and fonts, written only when every text pair npm run check
@@ -164,37 +164,95 @@ const shown = photos.flatMap((it) => {
 });
 if (shown.length) wrote.push(`static/images/: ${shown.length} photographs at web size`);
 
-// ── the proof: others' logos and reviews ──────────────────────────────────
-// Every mark the crawl kept (an association, a certification, a partner, a
-// client) goes in static/images/marks/ as it is, and every review word for
-// word, into public/proof.md while it holds none. Naming each mark is the
-// AI's: it looks at the logo.
-const marks = media.filter((it) => it.kind === "mark" && it.file && existsSync(fileOf(it)));
-const reviews = read("_index/reviews.json", []).filter((r) => r.quote && r.name);
+// ── the proof: what others say ────────────────────────────────────────────
+// Everything the crawl and their Google listing hold goes into
+// public/proof.md while it holds nothing: reviews word for word, ratings,
+// and every logo of others, copied as it is into static/images/logos/ with
+// one numbered sheet of them all (raw/logos.png) so naming them is one look.
+const logoItems = media.filter((it) => it.kind === "mark" && it.file && existsSync(fileOf(it)));
+const siteReviews = read("_index/reviews.json", []).filter((r) => r.quote);
+const siteRatings = (facts.ratings || []).filter((r) => r.value);
 const proofFile = "public/proof.md";
 const proofNote = existsSync(proofFile) ? readFileSync(proofFile, "utf8") : "";
 const [, proofFront = "title: Proof\ntype: proof\nstatus: current", proofBody = ""] = proofNote.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/) || [];
 const proof = YAML.parseDocument(proofFront);
-const proofEmpty = !proof.get("items")?.items?.length && !proof.get("marks")?.items?.length;
-// copied as they are: a logo keeps its transparency, and a second run finds the same file
-const markRows = [];
-if ((marks.length || reviews.length) && proofEmpty) {
-  if (marks.length) mkdirSync("static/images/marks", { recursive: true });
-  for (const it of marks) {
-    const dest = join("static/images/marks", it.file);
-    if (!existsSync(dest)) copyFileSync(fileOf(it), dest);
-    const where = it.pages?.[0]?.beside || it.pages?.[0]?.heading || "";
-    markRows.push({ file: `/images/marks/${it.file}`, alt: realAlt(it.alts?.[0]), where: where.slice(0, 60) });
+const PROOF_KINDS = ["reviews", "ratings", "logos", "people", "numbers", "posts"];
+const proofEmpty = PROOF_KINDS.every((k) => !proof.get(k)?.items?.length);
+
+// their Google listing, through a key or the Google Places Connection
+function google() {
+  const filled = business.toJSON() || {};
+  const name = markup.name || filled.name;
+  const where = [filled.address?.locality, filled.address?.region].filter(Boolean).join(", ") || first("address");
+  if (!name || /to fill/i.test(name)) return null;
+  try {
+    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    const answer = JSON.parse(out.trim().split("\n").pop());
+    const d = JSON.parse(readFileSync(join("raw/places", `${answer.place_id}.json`), "utf8"));
+    const src = `raw/places/${answer.place_id}.json`;
+    // only their own listing: its website is the site we crawled
+    const listed = (() => { try { return new URL(d.websiteUri).hostname.replace(/^www\./, ""); } catch { return ""; } })();
+    if (listed !== host) {
+      notes.push(`the Google listing found for "${name}, ${where}" is ${d.displayName?.text || "another place"} (${listed || "no website"}), not ${host}: left out; find theirs with tt-crawl places --place-id`);
+      return null;
+    }
+    return {
+      rating: d.rating ? { platform: "Google", value: d.rating, count: d.userRatingCount || null, url: d.googleMapsUri || "", source: src } : null,
+      reviews: (d.reviews || []).map((r) => ({
+        quote: (r.text?.text || r.originalText?.text || "").trim(), name: r.authorAttribution?.displayName || "",
+        platform: "Google", date: (r.publishTime || "").slice(0, 10), stars: r.rating || null, url: r.authorAttribution?.uri || "", source: src,
+      })).filter((r) => r.quote),
+    };
+  } catch (e) {
+    const why = String(e.stdout || e.stderr || e.message);
+    notes.push(/no Google Places access|unknown_connection|not granted/.test(why)
+      ? "no Google listing read: add the Google Places Connection (or another review source) for their rating and reviews"
+      : `their Google listing could not be read: ${why.trim().split("\n").pop().slice(0, 160)}`);
+    return null;
   }
-  proof.set("updated", new Date().toISOString().slice(0, 10));
-  proof.set("items", reviews.map((r) => ({ quote: r.quote, who: r.name, platform: r.platform || "", date: r.date || "", ...(r.stars ? { stars: r.stars } : {}), source: `${dir}/_index/reviews.json (${r.url})` })));
-  proof.set("marks", markRows.map((m) => ({ name: m.alt, file: m.file, kind: "", source: `${dir}/_index/media.json` })));
-  proof.set("sources", [`${dir}/_index/reviews.json`, `${dir}/_index/media.json`]);
-  const body = proofBody.trim() || "Real testimonials, and the logos of clients, partners, associations,\ncertifications, awards and press (`marks`), each with its source.";
-  writeFileSync(proofFile, `---\n${proof.toString().trimEnd()}\n---\n\n${body}\n`);
-  wrote.push(`${proofFile}: ${reviews.length} review${reviews.length === 1 ? "" : "s"} word for word, ${markRows.length} logo${markRows.length === 1 ? "" : "s"} of others in static/images/marks/`);
-  if (markRows.some((m) => !m.alt)) notes.push(`name each logo in ${proofFile} (marks: name and kind): look at the image`);
-} else if (marks.length || reviews.length) kept.push(`${proofFile} (already holds proof)`);
+}
+
+const logoRows = [];
+let reviewRows = [];
+let ratingRows = [];
+let sheet = "";
+if (proofEmpty) {
+  const g = google();
+  reviewRows = [
+    ...siteReviews.map((r) => ({ quote: r.quote, name: r.name || "", platform: r.platform || "", date: r.date || "", ...(r.stars ? { stars: r.stars } : {}), source: `${dir}/_index/reviews.json (${r.url})` })),
+    ...(g?.reviews || []),
+  ];
+  ratingRows = [
+    // out of 5 whatever scale the site used, once each
+    ...siteRatings.map((r) => {
+      const best = Number(r.best) || 5;
+      return { platform: r.platform || "", value: Math.round((Number(r.value) * 5 / best) * 10) / 10, count: Number(String(r.count ?? "").replace(/\D/g, "")) || null, url: r.url || "", source: `${dir}/_index/facts.json` };
+    }).filter((r, i, all) => r.value && all.findIndex((x) => x.value === r.value && x.count === r.count) === i),
+    ...(g?.rating ? [g.rating] : []),
+  ];
+  if (logoItems.length) mkdirSync("static/images/logos", { recursive: true });
+  for (const it of logoItems) {
+    const dest = join("static/images/logos", it.file);
+    if (!existsSync(dest)) copyFileSync(fileOf(it), dest);
+    logoRows.push({ name: realAlt(it.alts?.[0]), file: `/images/logos/${it.file}`, kind: "", source: `${dir}/_index/media.json` });
+  }
+  if (logoRows.length) {
+    try {
+      execFileSync("tt-crawl", ["sheet", ...logoItems.map((it) => join("static/images/logos", it.file)), "--out", "raw/logos.png"], { stdio: "ignore" });
+      sheet = "raw/logos.png";
+    } catch {}
+  }
+  if (reviewRows.length || ratingRows.length || logoRows.length) {
+    proof.set("updated", new Date().toISOString().slice(0, 10));
+    proof.set("reviews", reviewRows);
+    proof.set("ratings", ratingRows);
+    proof.set("logos", logoRows);
+    proof.set("sources", [...new Set([...reviewRows, ...ratingRows, ...logoRows].map((r) => r.source.split(" (")[0]))]);
+    writeFileSync(proofFile, `---\n${proof.toString().trimEnd()}\n---\n\n${proofBody.trim()}\n`);
+    wrote.push(`${proofFile}: ${reviewRows.length} reviews, ${ratingRows.length} ratings, ${logoRows.length} logos (static/images/logos/)`);
+    if (logoRows.some((l) => !l.name)) notes.push(`name each logo and give its kind in ${proofFile}: ${sheet ? `${sheet} shows them numbered in the note's order` : "look at each"}`);
+  }
+} else kept.push(`${proofFile} (already holds proof)`);
 
 // ── the logo in src/site.ts, while it has none ────────────────────────────
 const siteTs = readFileSync("src/site.ts", "utf8");
@@ -323,12 +381,12 @@ const summary = {
   colours_by_use: palette.slice(0, 8),
   fonts,
   photographs: shown,
-  proof: { logos: markRows.map((m) => `${m.file}${m.alt ? `  "${m.alt}"` : ""}${m.where ? `  beside "${m.where}"` : ""}`), reviews: reviews.length },
+  proof: { reviews: reviewRows.length, ratings: ratingRows.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`), logos: logoRows.length, sheet },
   rest_of_site_later: `tt-crawl brand ${manifest().start || url} --resume`,
   next: [
     services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
-    ...(markRows.some((m) => !m.alt) ? [`name the logos in public/proof.md`] : []),
-    "design and build the homepage, with the proof on it: the design skill's \"The homepage first\"",
+    "find the rest of the proof (the new-site skill's Proof step)",
+    "design and build the homepage with all the proof on it: the design skill's \"The homepage first\"",
   ],
 };
 if (asJson) {
@@ -343,8 +401,7 @@ Colours by use:          ${summary.colours_by_use.join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
 Photographs (in static/images/; "full width" ones can run edge to edge):
 ${shown.map((s) => `  ${s}`).join("\n") || "  none 800px or wider"}
-Proof (public/proof.md): ${reviews.length} review${reviews.length === 1 ? "" : "s"}, ${markRows.length} logo${markRows.length === 1 ? "" : "s"} of others${markRows.length ? " (static/images/marks/):" : ""}
-${summary.proof.logos.map((l) => `  ${l}`).join("\n")}
+Proof (public/proof.md): ${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${summary.proof.ratings.join("; ") || "none yet"}
 
 Next: ${summary.next.join("; then ")}.
 Later, the rest of their site: ${summary.rest_of_site_later}`);

@@ -1,6 +1,6 @@
 ---
 name: writing
-description: "Writes the words for this site in the owner's voice: headlines, sections and calls to action, and the editing passes that strip what generated text falls into. Use whenever copy is written or rewritten, with the design skill before laying out a page."
+description: "Writes the words for this site in the owner's voice: headlines, sections and calls to action, the editing passes and the cold read. Use whenever copy is written or rewritten, with the design skill before laying out a page."
 ---
 
 # Writing
@@ -31,51 +31,39 @@ Write for the reader's questions, not a template's sections: what is this,
 is it for me, what do I get, why trust it, what does it cost, what next.
 Use the ones the page needs, each once.
 
-- **Headlines** name the offer, the result or the audience. A defensible
-  promise beats an inflated one; a poetic line needs a concrete one beside
-  it.
-- **Body copy:** a real number, place, step or example beats an adjective.
-  Cut sentences that exist only to sound complete.
+- **Each section answers its question in its first line.** The commonest
+  failure in generated copy is answering the question next to it.
+- **The headline:** a stranger can repeat the offer after reading it alone.
+  It says what the business does, not how to get in touch.
+- **Every line:** would a person say it aloud, can the reader picture it,
+  could it be proven false, could only this business say it? A real number,
+  place, step or name beats an adjective.
 - **Actions** say what happens next ("Book a workshop visit", never "Learn
-  more"). One verb for one action, one noun for one thing, everywhere.
+  more"). One verb for one action, everywhere.
+- **Lead with the thing, not the pronoun:** no run of lines starting "We".
+- **Others' words** stay exactly as written, in a `<blockquote>` (lint
+  leaves them alone), shortened only with "…", credited as the source gives
+  them, never used as a heading.
 - **Interface text:** errors are a diagnosis and a recovery; an empty state
   says what belongs there and the next step.
 
-## Slop to refuse
+## Tropes
 
-Most tells are sentence shapes, not words; word lists rot as models change.
-Mark the strongest first and rewrite the passage, never one phrase at a
-time. Before cutting, ask whether you would flatten a sentence the owner
-actually wrote. Never add a fact to fill the gap a cut leaves.
+`npm run lint` runs the `tropes` skill's checker on every built page,
+section by section: the sentence shapes generated text falls into, weak
+actions, a line that repeats its heading, a phrase repeated across
+sections. Its catalogue (`tropes/references/copy.md`) says how to fix
+each. Rewrite the passage, never one phrase at a time, and never flatten a
+sentence the owner actually wrote.
 
-- the negation pivot: "It's not X. It's Y.", "not just X, but Y", stacked;
-- the staccato tricolon: "No fluff. No filler. No stress.";
-- significance inflation: "stands as a testament", "pivotal", "evolving
-  landscape";
-- promotional adjectives with nothing behind them: "boasts", "vibrant",
-  "nestled", "in the heart of", "renowned";
-- "-ing" riders that restate the sentence: "ensuring", "fostering",
-  "showcasing";
-- "serves as", "features", "offers" where "is" and "has" would do;
-- openers and closers: "In today's fast-paced world", "Welcome to our
-  website", "Look no further", "In summary";
-- small-business clichés: "We're passionate about", "We pride ourselves",
-  "solutions" for what the business sells;
-- em dashes (a comma, a colon or a new sentence instead), title-case
-  headings, emoji as bullets;
-- uniform sentence length: people write four-word sentences and fifty-word
-  ones.
+## The cold read
 
-Three checks no word list can do, on every page:
-
-1. In any ten sentences, the longest is more than fifteen words longer than
-   the shortest.
-2. Every section carries a particular from the owner's material: a name, a
-   number, a place, a date.
-3. At most one triad on the page.
-
-`npm run lint` catches em dashes and the commonest stock phrases in the
-rendered pages (legal pages are exempt); the rest are yours to catch.
+When a page is built, give a fresh sub-agent only the rendered words
+(`dist/<page>.html`), `public/` and `brand/voice.md`, and ask for every line
+to change as `| line, exactly | replacement, or CUT | why |`: a claim the
+notes don't hold, a line no person would say, a vague line, a tell the
+checker missed. Apply the table in one pass. Without a sub-agent, read the
+page yourself as a stranger and say so.
 
 ## Editing passes
 

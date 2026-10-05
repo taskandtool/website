@@ -1,0 +1,337 @@
+# Bloom: soft light. For wellness studios (yoga, pilates, barre, spas, breathwork), where the page
+# should feel like the first deep breath of a class. The first screen is the studio's own class,
+# a landscape video or photograph, under a half-transparent blush gradient that rises from the left
+# and carries the words in deep plum; on the right, a white class card: the next classes and the
+# way to book one. Below, white and petal-pink bands, a soft italic serif for the heads, rounded
+# photographs. Light and airy where claret is a dark room. Built 2026-09-24 on Siesta Key Pilates
+#.
+id: bloom
+title: Bloom
+summary: >
+  A wellness system: the studio's own class under a half-transparent blush gradient that carries
+  the words in deep plum, a white class card beside it (the next classes and how to book), then
+  white and petal-pink bands, a soft italic serif, rounded photographs. Light, calm, airy.
+tokens:
+  colors:
+    primary: "#7A2E52"
+    primary-deep: "#5E2140"
+    plum: "#3A1C2C"
+    plum-soft: "#6B4458"
+    white: "#FFFFFF"
+    petal: "#FBF0F2"
+    rose: "#F4B9C8"
+    blush-veil: "#F7D3DC"
+    line: "#EBD9DE"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.petal}"
+    night: "{colors.plum}"
+    ink: "{colors.plum}"
+    ink-2: "{colors.plum-soft}"
+    ink-3: "{colors.plum-soft}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.petal}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.white}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.plum-soft}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Instrument Serif"
+      fontSize: 92px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -1.5px
+    section:
+      fontFamily: "Instrument Serif"
+      fontSize: 64px
+      fontWeight: 400
+      lineHeight: 1.04
+      letterSpacing: -1px
+    display-md:
+      fontFamily: "Instrument Serif"
+      fontSize: 52px
+      fontWeight: 400
+      lineHeight: 1.05
+      letterSpacing: -0.8px
+    heading-lg:
+      fontFamily: "Instrument Serif"
+      fontSize: 48px
+      fontWeight: 400
+      lineHeight: 1.08
+      letterSpacing: -0.6px
+    title:
+      fontFamily: "Instrument Serif"
+      fontSize: 30px
+      fontWeight: 400
+      lineHeight: 1.2
+      letterSpacing: -0.2px
+    figure:
+      fontFamily: "Instrument Serif"
+      fontSize: 96px
+      fontWeight: 400
+      lineHeight: 0.95
+      letterSpacing: -2px
+    lede:
+      fontFamily: "Plus Jakarta Sans"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Plus Jakarta Sans"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.65
+      letterSpacing: 0px
+    label:
+      fontFamily: "Plus Jakarta Sans"
+      fontSize: 16px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: 0.2px
+    caption:
+      fontFamily: "Plus Jakarta Sans"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+  rounded:
+    none: 0px
+    card: 28px
+    soft: 16px
+    pill: 9999px
+    # the website's roles: control (pressed or typed) and card (containers)
+    control: "{rounded.pill}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 120px
+    step-xxl: 168px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1200px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Bloom is soft light. The first screen is a real class, video or photograph, under a
+    half-transparent {colors.blush-veil} gradient rising from the left edge and fading out past
+    the middle; the headline sits on the pink in {colors.plum}, never in white. On the right, a
+    {colors.white} class card at {rounded.card}: the next classes and the way to book. Below, the
+    page alternates {colors.white} and {colors.petal}, with photographs at {rounded.card}, one
+    {colors.rose} band where the page repeats its ask, and a {colors.plum} footer. Instrument
+    Serif, an airy italic-leaning serif, carries the heads; Plus Jakarta Sans the rest.
+  colors: >
+    {colors.white} and {colors.petal} are the grounds (petal is a pale pink, never beige).
+    {colors.plum} is all text (15.2:1 on white), {colors.plum-soft} secondary (8.1:1). The hero's
+    gradient is {colors.blush-veil} at 88% held flat from the left edge to about 45% of the width
+    (under all the words), then to transparent by about 62%; text sits only on the held part, where {colors.plum} holds 11:1,
+    and all of it is {colors.plum}: the lead steps down by size, and {colors.plum-soft} stays on {colors.white} and {colors.petal}.
+    {colors.primary}, a deep rose, is the brand's slot: buttons, with {colors.white} text (9.0:1).
+    {colors.rose} is the one accent band. Text is never pink on pink and never white on blush.
+
+    With the brand's own colour: the brand's colour fills the buttons; it must carry {colors.white} text at 4.5:1, so a deep brand colour (a plum, a teal, a forest green) works directly; a light brand colour keeps the rose and is used nowhere.
+  typography: >
+    Instrument Serif for every head: {typography.display} at 92px on the hero (two or three
+    lines), {typography.heading-lg} at 48px for band heads, {typography.title} for class and
+    card titles, {typography.figure} for the one number. Plus Jakarta Sans for reading at 18px,
+    leads at 21px, labels at 16px, captions at 15px. Sentence case; the serif's italic may set one
+    word of a headline, never a whole line.
+  layout: >
+    Twelve columns in a 1200px container with 32px gutters; the hero runs to the viewport edge.
+    The hero is at least 720px tall: words on 1–6 on the veil, the class card on 8–12. Bands carry
+    {spacing.step-xl} top and bottom; generous air is part of the calm.
+  elevation_and_depth: >
+    Flat. The class card is solid {colors.white} at {rounded.card} over the moving picture, and
+    that contrast lifts it; no shadows anywhere.
+  components: >
+    {rounded.card} (28px) for photographs, the class card and cards; {rounded.soft} for inputs;
+    {rounded.pill} for buttons and chips. The hero meets the edges square.
+
+    Class card: {colors.white} at {rounded.card}, {spacing.step-md} padding; its title in
+    {typography.title}; the next classes as rows (day and time in {typography.label}, the
+    class name in {typography.copy}, the teacher in {typography.caption} {colors.plum-soft});
+    the {colors.primary} pill to book; labelled inputs at {rounded.soft} only when the brief gives
+    the form and where it sends. Primary button: {colors.primary} with {colors.white} text, a
+    pill, 52px tall, hovering to {colors.primary-deep}.
+  dos_and_donts:
+    do:
+      - rule: "Open on a real class: the studio's own landscape video (720p+, no burned-in text) or its widest sharp photograph (1600px+), people moving, the right half clear."
+        why: "A wellness page sells how a class feels; the studio's own people in motion show it, and the right half stays clear for the card."
+      - rule: "Carry the hero's words in {colors.plum} on a half-transparent {colors.blush-veil} gradient from the left, never white on pink."
+        why: "The gradient is the system's softness; dark plum on blush holds contrast (11:1) where white would wash out."
+      - rule: "Put the next classes and the way to book in the white card beside the hero."
+        why: "A new student's first question is when, and the card answers it before they scroll."
+    dont:
+      - rule: "Don't tint the whole photograph pink, or run the gradient across the people moving."
+        why: "The veil lifts the words; the class stays itself on the right."
+      - rule: "Don't use a beige or cream ground."
+        why: "The light grounds are white and a pale petal pink; warm off-white is the generated default."
+      - rule: "Don't build a booking form without its real fields and where it sends."
+        why: "A form that submits nowhere loses the student; without them the card's button goes to the studio's own booking page."
+  responsive_behavior: >
+    Below 768px the hero is about 75vh with the veil rising from the bottom instead of the left;
+    the words sit on it in {typography.display-md}, and the class card follows beneath on
+    {colors.petal}, full width. Bands go to one column with 20px margins; section padding
+    {spacing.step-xl} → {spacing.step-lg}. The video plays muted and inline; under reduced motion it shows
+    its poster.
+  known_gaps: >
+    No studio photograph or video with people in it: bloom is the wrong system. Class times change;
+    the brief carries them only as the studio's own schedule states them, with their dates, or
+    links to the schedule instead.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.plum}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.plum-soft}"
+    typography: "{typography.copy}"
+  band-petal:
+    backgroundColor: "{colors.petal}"
+    textColor: "{colors.plum}"
+  band-petal-muted:
+    backgroundColor: "{colors.petal}"
+    textColor: "{colors.plum-soft}"
+  veil:
+    backgroundColor: "{colors.blush-veil}"
+    textColor: "{colors.plum}"
+    typography: "{typography.display}"
+  veil-muted:
+    backgroundColor: "{colors.blush-veil}"
+    textColor: "{colors.plum}"
+    typography: "{typography.lede}"
+  class-card:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.plum}"
+    rounded: "{rounded.card}"
+  rose-band:
+    backgroundColor: "{colors.rose}"
+    textColor: "{colors.plum}"
+    typography: "{typography.section}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.plum}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.soft}"
+  input-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.plum}"
+  footer:
+    backgroundColor: "{colors.plum}"
+    textColor: "{colors.white}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The hero is the studio's own class under a half-transparent {colors.blush-veil} gradient from the left, words in {colors.plum}, a {colors.white} class card on the right."
+    - "Grounds are {colors.white} and {colors.petal}; one {colors.rose} band; {colors.plum} footer."
+    - "Instrument Serif for heads; Plus Jakarta Sans for reading."
+  accessible:
+    - "{colors.plum} on {colors.white} 15.2:1, on {colors.petal} 13.6:1, on {colors.blush-veil} 11.1:1; {colors.white} on {colors.primary} 9.0:1."
+    - "Hero text sits only on the held 88% part of the veil (the left 45%); a hero video has a pause button and a poster and stops under reduced motion."
+    - "Inputs 52px with visible labels; every control 48px or more."
+
+x_imagery:
+  role: >
+    Real classes, real people, soft light. The hero shows a class in motion; bands below show the
+    room, the teachers, the practice up close.
+  density: "the hero always; a photograph beside most bands; the teachers as portraits"
+  treatment: >
+    Hero: a landscape video (720p+, muted, looping, inline, poster, pause button at the bottom
+    right, no burned-in text) or the widest sharp photograph (1600px+), object-cover, full width,
+    under a {colors.blush-veil} gradient at 88% held flat from the left edge to about 45% of
+    the width, then to transparent by about 62% (from the bottom on a phone). A hosted player (Vimeo or YouTube)
+    runs in the same frame with the utility `media-cover`, its thumbnail as the poster, paused
+    through the provider's player API. Inside bands: photographs at {rounded.card}, 4/5 or 4/3,
+    object-cover, no filter, no overlay.
+  aspect_ratios: ["16/9", "4/5", "4/3", "1/1"]
+  caption: >
+    Optional, {typography.caption} {colors.plum-soft}, {spacing.step-sm} under a photograph: the class
+    or the teacher, in the brief's words.
+  forbidden:
+    - "a pink tint over the whole photograph, or over the people moving"
+    - "white text on the blush veil"
+    - "a photograph enlarged past its own pixel width"
+  no_assets_supplied: >
+    With no class photograph or video, bloom is the wrong system.
+
+x_emphasis:
+  device: "the one figure in `text-figure` `text-plum` on a `bg-petal` band, its label in `text-label` `text-plum-soft` beneath, beside a photograph at 7/5"
+  applies_to: "the one number the page leads with (years teaching, class size, a first-class offer), once"
+  why: "One calm number reads as confidence; the serif keeps it soft."
+
+x_motion:
+  principle: "Everything moves as if breathing: slow, once, and never on its own."
+  entrance: "On load the veil fades in over 1200ms, then the headline rises 16px and fades in 200ms later, then the class card rises 24px 400ms later, all ease-out."
+  signature: "The hero video loops, muted; photographs in bands ease from 1.03 to 1.00 scale over 1600ms as they enter, once."
+  scroll: "Only photographs settle as they enter; words do not animate on scroll."
+  reduced: "Under prefers-reduced-motion the video shows its poster, nothing scales, nothing is hidden; with script off the page is complete."
+  mechanism: "Tailwind transition, duration, ease, opacity, translate and scale utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; the pause button toggles the video; no <style> block, no keyframes."
+
+x_layout:
+  measure:
+    reading: "55–65ch in {typography.copy}"
+    caption: "one line at the width of its photograph"
+  grid:
+    columns: 12
+    container: "1200px, 48px side margins → 20px below 768px; the hero runs to the viewport edge"
+    gutter: "32px"
+    text_columns: "1–6 beside the card or a photograph; centred 3–10 for a closing ask"
+    media_columns: "full viewport for the hero; 5–6 columns beside words; 4 in a row of three"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "surface — bands alternate {colors.white} and {colors.petal}; the one {colors.rose} band repeats the ask near the end; the footer is {colors.plum}; never a rule between bands"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; generous air" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the schedule or prices start on the first screen" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column of 7 on 3–9; photographs between sections at {rounded.card}" }
+  head:
+    statement: "Full viewport width, at least 720px tall (about 75vh on a phone): the studio's own class, a landscape video (720p+, no burned-in text, muted, looping, inline, poster, pause button bottom right) or its widest sharp photograph (1600px+), object-cover, with the people moving on the right half and the left half calmer (sand, sky, the room). Over it a {colors.blush-veil} gradient held at 88% from the left edge to about 45% of the width (under all the words on 1–6), then to transparent by about 62%, so {colors.plum} holds 11:1. On 1–6: the headline in {typography.display} {colors.plum} (two or three lines; the serif's italic may set one word), a {typography.lede} {colors.plum} lead beneath (the veil's secondary text steps down from the headline by size, never to {colors.plum-soft}, which is a mid tint of the veil's own hue there). On 8–12, vertically centred: the {colors.white} class card at {rounded.card} with the next classes as rows (day and time, class, teacher) when the brief gives them with dates, and the {colors.primary} pill to book; a form inside only when the brief gives its fields and where it sends. Below 768px the veil rises from the bottom and the card follows the media on {colors.petal}. No class video or photograph: bloom is the wrong system."
+    plain: "A {colors.petal} band: the title in {typography.section} {colors.plum} on 1–8 and one {typography.lede} {colors.plum-soft} line; the first band starts {spacing.step-lg} below."
+  hosted_player: "When the hero's video is a hosted player (Vimeo or YouTube, embeddable, landscape), use it the way the studio does, never downloaded: an iframe of the recorded embed URL with a title, in the hero's frame (the frame carries the utility `media-frame`) with the utility `media-cover`, over its thumbnail as the poster; the pause button drives it through the provider's player API; under reduced motion the iframe is not added."
+  close: "The one {colors.rose} band: the ask again in {typography.section} {colors.plum} centred on 3–10, the {colors.primary} pill beneath, {spacing.step-xl} padding; then the {colors.plum} footer."
+  shapes:
+    items: { as: "grid", look: "with photographs: each a photograph at {rounded.card} 4/5, the name in {typography.title}, a line in {typography.copy} {colors.plum-soft}; without: names in {typography.title} with a line each, {spacing.step-md} apart, no rules", counts: "2: 6 + 6. 3: across. 4: 2 × 2. 5–6: rows of 3. 7+: names only, two columns." }
+    table: { as: "stack of rows", look: "on {colors.petal}: the class or service in {typography.copy} left, the time or price right with tabular figures, a 1px {colors.line} rule between; group heads (the day) in {typography.title}", counts: "≤ 12: one table on 1–8. 13+: grouped by day, two across from 1024px." }
+    facts: { as: "stack", look: "key in {typography.label} {colors.plum-soft}, value in {typography.lede} {colors.plum}", counts: "1–3: one column beside a photograph. 4–8: two columns." }
+    qa: { as: "stack", look: "question in {typography.title}, answer in {typography.copy} {colors.plum-soft} beneath, {spacing.step-md} between pairs", counts: "≤ 8: one column on 1–8. 9+: two columns." }
+    people: { as: "grid", look: "portrait at {rounded.card} 4/5, the name in {typography.title}, what they teach in {typography.copy} {colors.plum-soft}", counts: "1: beside the words at 5/7. 2–3: across. 4: 2 × 2. 5+: rows of 3." }
+    sequence: { as: "stack", look: "each step's number in {typography.heading-lg} {colors.primary}, its name in {typography.title}, its line in {typography.copy} {colors.plum-soft}", counts: "2–4: across 12. 5+: one column on 1–8." }
+    media_text: { as: "sidebar", look: "the photograph at {rounded.card} 4/5 on 7–12 (or 1–6), the heading in {typography.heading-lg} and a passage on the other side", counts: "one per band; alternate sides when two follow each other" }
+    gallery: { as: "grid", look: "photographs at {rounded.card} in a soft stagger (4/5 and 4/3 mixed), captions optional", counts: "3: across. 4: 2 × 2 staggered. 5–6: 3 + 2–3. 7+: rows of 3." }
+    quote: { as: "grid", look: "on {colors.petal}: each a {colors.white} card at {rounded.card}, the platform's square mark and stars when the source gives them, the quote in {typography.title}, the name in {typography.caption} {colors.plum-soft}", counts: "1: one card on 3–10. 2: 6 + 6. 3: across. 4+: rows of 3." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading", counts: "—" }
+    form: { as: "card", look: "the class card: {colors.white} at {rounded.card}, labelled inputs at {rounded.soft} 52px with a 1px {colors.line} border, the {colors.primary} pill full width", counts: "≤ 4 fields in one column; more in two columns inside the card." }
+    index: { as: "grid", look: "each entry a photograph at {rounded.card} 4/5 with its title in {typography.title} and one line", counts: "2–3 across; 4: 2 × 2; 5+: rows of 3." }
+  focal: "The class leads the hero and the card answers it. In each band after, one thing leads: the photograph or the heading. The {colors.primary} pill is the one strong colour on screen."
+  never:
+    - "white text on the blush veil, or a pink tint over the whole photograph"
+    - "a beige or cream ground"
+    - "a booking form without its real fields and where it sends"

@@ -1,0 +1,484 @@
+# Dark developer system. The ground is unlit CRT glass, not black; the accent is
+# P3 amber phosphor, not acid green; every number is set in the monospace and
+# every sentence in the sans; the statement head is a panel beside the statement
+# rather than a headline over a photograph.
+id: terminal
+title: Terminal
+summary: >
+  A phosphor-screen system: dark green-grey glass for the ground, a lit raster
+  panel for content, amber phosphor reserved for the action and the on state,
+  and a matched sans/mono pair where the mono carries every number.
+tokens:
+  colors:
+    primary: "#F5A524"
+    glass: "#161E1C"
+    raster: "#202B28"
+    scanline: "#2E3B37"
+    ash: "#E7EEEB"
+    ash-dim: "#A9B7B2"
+    ash-faint: "#8A9994"
+    manpage-ink-soft: "#3C4A46"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.glass}"
+    surface: "{colors.raster}"
+    panel: "{colors.raster}"
+    night: "{colors.glass}"
+    ink: "{colors.ash}"
+    ink-2: "{colors.ash-dim}"
+    ink-3: "{colors.ash-faint}"
+    night-ink: "{colors.ash}"
+    night-ink-2: "{colors.ash-dim}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.glass}"
+    accent-hover: "{colors.ash}"
+    line: "{colors.scanline}"
+    line-strong: "{colors.scanline}"
+    line-on-night: "{colors.scanline}"
+  typography:
+    display:
+      fontFamily: "Spline Sans"
+      fontSize: 60px
+      fontWeight: 500
+      lineHeight: 1.04
+      letterSpacing: -1.5px
+    section:
+      fontFamily: "Spline Sans"
+      fontSize: 40px
+      fontWeight: 500
+      lineHeight: 1.1
+      letterSpacing: -0.8px
+    title:
+      fontFamily: "Spline Sans"
+      fontSize: 24px
+      fontWeight: 500
+      lineHeight: 1.25
+      letterSpacing: -0.3px
+    lede:
+      fontFamily: "Spline Sans"
+      fontSize: 20px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Spline Sans"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    figure:
+      fontFamily: "Spline Sans Mono"
+      fontSize: 44px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -1px
+      fontFeature: tnum
+    data:
+      fontFamily: "Spline Sans Mono"
+      fontSize: 14px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+      fontFeature: tnum
+    caption:
+      fontFamily: "Spline Sans Mono"
+      fontSize: 12px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0.2px
+      fontFeature: tnum
+    # label: the website's role, set the same as caption in this system
+    label:
+      fontFamily: Spline Sans Mono
+      fontSize: 12px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0.2px
+      fontFeature: tnum
+  rounded:
+    cell: 3px
+    square: 0px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.square}"
+    control: "{rounded.cell}"
+  spacing:
+    step-xs: 4px
+    step-sm: 8px
+    step-md: 16px
+    step-lg: 32px
+    step-xl: 56px
+    step-xxl: 96px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xxl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Terminal reads as an instrument, not a brochure. The ground is
+    {colors.glass}, the green-grey of an unlit cathode-ray screen; it is not
+    black and must not be darkened towards black. Content sits on panels in
+    {colors.raster}, the lit area of the screen, and a panel opens with a
+    one-line status bar in {typography.data} carrying its heading from the
+    brief, or a fact the brief states; with neither, the bar is omitted. That
+    status bar is the system's heading device, which is why the tracked-out
+    eyebrow label does not exist here. Two typefaces from one drawing: Spline
+    Sans for every sentence, Spline Sans Mono for every number, date, name,
+    reading and control label. {colors.primary}, an amber phosphor, appears on
+    the single primary action, on state cells marked on, and on
+    at most one emphasised figure per page. Nothing else glows.
+  colors: >
+    Eight colours. {colors.glass} is the page ground and the fill of inputs and
+    secondary buttons. {colors.raster} is the lit panel and the only surface
+    step on the dark; there is no third depth. Once per page a man-page band
+    turns the lights on: {colors.ash} ground, {colors.glass} text,
+    {colors.manpage-ink-soft} for its secondary lines. {colors.scanline} draws every hairline,
+    table rule and border, and fills state cells marked off — it is never a
+    text colour. {colors.ash} is the text colour for headings, table rows and
+    controls; {colors.ash-dim} carries prose and status bars; {colors.ash-faint}
+    carries captions and table heads and is the lightest text permitted on
+    {colors.raster} (4.91:1). {colors.primary} is the only chromatic colour and
+    always carries {colors.glass} text when it is a fill (8.32:1). Hover is
+    reverse video: a {colors.primary} fill swaps to {colors.ash} with
+    {colors.glass} text. No colour is ever set at reduced opacity.
+
+    With the brand's own colour: a brand colour replaces the amber phosphor on the one action, state cells marked on and the one emphasised figure; it must be a light chromatic colour that carries {colors.glass} text at 4.5:1 and reads at 4.5:1 as text on {colors.raster}, and by invariant it may not be green, cyan or red — a brand whose colour is any of those, or too dark to glow, keeps amber. Hover is reverse video to {colors.ash}, so nothing is derived from it.
+  typography: >
+    Spline Sans at 400 and 500 for prose and headings; Spline Sans Mono at 400
+    for everything measured or named. Display sizes take negative tracking
+    (-1.5px at 60px); {typography.figure} is the mono at 44px with -1px so a
+    large reading holds together. {typography.data} at 14px is the working
+    size of the system: table rows, status bars, button labels, key/value
+    pairs. {typography.caption} at 12px carries image captions and table
+    heads with +0.2px tracking, the only place tracking opens. Prose measure
+    stays under 68 characters; mono runs stay under 80. Nothing is set in
+    capitals.
+  layout: >
+    A twelve-column grid at 1280px with 32px gutters, dropping to one column
+    with 16px margins below 768px. A band may split 7/5, text on the seven
+    and a panel on the five. Sections are separated by a full-width
+    hairline in {colors.scanline}, never by whitespace alone. Comparable
+    things go in a table, with a head row and hairline rules between rows;
+    they never go in a card grid. Photographs sit inside panels as captures,
+    each with its caption row beneath when it has one. Panels may sit edge to edge with a single
+    hairline between them; they never overlap.
+  elevation_and_depth: >
+    Two tones and a hairline. {colors.glass} is the ground, {colors.raster} is
+    the panel, {colors.scanline} is the edge. No box-shadow, no backdrop blur,
+    no gradient, no translucent fill. If something must come forward, it gets
+    a {colors.scanline} border and sits on {colors.raster}; if it must recede,
+    it sits on {colors.glass}. There is no third step and none should be
+    invented.
+  components: >
+    Two radii: {rounded.cell} (3px) on buttons, inputs, badges and grid cells —
+    the softening of a character cell, no more — and {rounded.square} (0px) on
+    every panel, table, image and section. No pill exists in this system. A
+    rounded panel or a rounded photograph is a mistake, not a variant.
+
+    Buttons are {rounded.cell} rectangles with a {typography.data} label, so
+    they read as commands. Primary is a {colors.primary} fill with
+    {colors.glass} text; on hover it inverts to {colors.ash} with
+    {colors.glass} text over 150ms. Secondary is {colors.glass} with a
+    {colors.scanline} border and {colors.ash} text; it inverts the same way.
+    Inputs and selects are {colors.glass} with a {colors.scanline} border and a
+    {colors.primary} outline on focus. Tables have a {colors.raster} head row
+    in {typography.caption} and {colors.glass} body rows in {typography.data}
+    separated by {colors.scanline} rules. A state cell is a {rounded.cell}
+    cell marked on or off: {colors.primary} with {colors.glass} text when on,
+    {colors.scanline} with {colors.ash-dim} text when off, the state also
+    written in the cell so colour never carries it alone. Quotes sit on a {colors.raster} panel in
+    {typography.lede} with the attribution in {typography.data} beneath.
+    A short attestation (a licence, a membership, a rating's platform) is a {typography.caption}
+    badge on {colors.raster} with a {colors.scanline} border, carrying the words the brief gives it.
+  dos_and_donts:
+    do:
+      - rule: "Open a panel with a status bar in {typography.data} carrying its heading from the brief, or a fact the brief states; where the brief gives neither, omit the bar."
+        why: "The status bar is the system's heading device and what makes an eyebrow label unnecessary; its words are the brief's, so the device never needs text of its own."
+      - rule: "Set every number, date, time, measurement, proper name of a unit or a place, and every control label in Spline Sans Mono."
+        why: "The mono/sans split is how a reader tells data from prose without reading it; a figure set in the sans is invisible."
+      - rule: "Spend {colors.primary} on the primary action, on state cells marked on, and on at most one emphasised figure per page. Nothing else."
+        why: "A phosphor that glows everywhere is a colour scheme; one that glows in three defined places is an instrument."
+      - rule: "Put comparable things in a table with a head row and hairline rules."
+        why: "A table encodes the comparison; a row of cards decorates it and makes every item the same importance."
+      - rule: "Make hover reverse video: swap the fill to {colors.ash} and the text to {colors.glass}."
+        why: "Inversion is the display's own idiom for selection; a lighten or a glow reads as a web default the system did not choose."
+    dont:
+      - rule: "Don't darken {colors.glass} towards black, or introduce #000 or a neutral near-black anywhere."
+        why: "The green-grey ground is the one thing separating this from the generic near-black developer page; a neutral black under it flattens the whole system to that default."
+      - rule: "Don't use any green, cyan or vermilion accent, or a second chromatic colour."
+        why: "Near-black with acid green is the named default for this family; amber is the deliberate alternative, and a second hue would turn a single instrument reading into a colour scheme."
+      - rule: "Don't apply a box-shadow, backdrop blur, gradient or translucent fill."
+        why: "Depth here is two tones and a hairline; any of these adds a third depth cue the system does not have and makes the panels read as cards."
+      - rule: "Don't set a heading, label or button in capitals, and don't prefix a heading with a tracked-out label."
+        why: "The status bar already does that job with real information; a capitalised label above it is decoration and the commonest generated-page tell."
+      - rule: "Don't add a blinking cursor, a shell prompt glyph, or ASCII box-drawing as decoration."
+        why: "These are the hacker-film costume of a terminal; the system is built on the display's physical properties, and the costume announces a theme rather than a product."
+      - rule: "Don't use a pill or any radius other than {rounded.cell} and {rounded.square}."
+        why: "A 3px cell is the only softening a character grid allows; a pill or an 8px card corner imports the SaaS kit wholesale."
+  responsive_behavior: >
+    Below 768px the grid collapses to one column with {spacing.step-md} margins;
+    a panel beside a statement moves below it and keeps its status bar. {typography.display} drops to 40px with -1px tracking.
+    Tables wider than the viewport scroll horizontally inside their panel
+    rather than reflowing into cards. Grids of state cells reduce from twelve
+    columns to six. Section spacing goes from {spacing.step-xxl} to {spacing.step-xl}.
+    Tap targets are never below 44px. The hover inversion is retained on
+    focus-visible.
+  known_gaps: >
+    No light theme exists and none should be invented — the system's identity
+    is the lit-screen tone pair. No chart palette is defined beyond
+    {colors.primary} against {colors.scanline}; a single-series chart may use
+    them, a multi-series chart should ask. Spline Sans and Spline Sans Mono
+    are on Google Fonts; the fallback stacks are system-ui and ui-monospace
+    respectively and are not tuned. Motion is deliberately limited to the
+    150ms hover inversion; no entrance animation is defined.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  nav:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash}"
+    typography: "{typography.copy}"
+  status-bar:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.ash-dim}"
+    typography: "{typography.data}"
+    rounded: "{rounded.square}"
+  panel:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.ash}"
+    rounded: "{rounded.square}"
+  body:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash-dim}"
+    typography: "{typography.copy}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.glass}"
+    typography: "{typography.data}"
+    rounded: "{rounded.cell}"
+  button-primary-hover:
+    backgroundColor: "{colors.ash}"
+    textColor: "{colors.glass}"
+    typography: "{typography.data}"
+    rounded: "{rounded.cell}"
+  button-secondary:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash}"
+    typography: "{typography.data}"
+    rounded: "{rounded.cell}"
+  link:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash}"
+  input:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash}"
+    typography: "{typography.data}"
+    rounded: "{rounded.cell}"
+  table-head:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.ash-faint}"
+    typography: "{typography.caption}"
+  table-row:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash}"
+    typography: "{typography.data}"
+  cell-on:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.glass}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.cell}"
+  cell-off:
+    backgroundColor: "{colors.scanline}"
+    textColor: "{colors.ash-dim}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.cell}"
+  figure:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash}"
+    typography: "{typography.figure}"
+  figure-emphasis:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.primary}"
+    typography: "{typography.figure}"
+  caption:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.ash-faint}"
+    typography: "{typography.caption}"
+  quote:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.ash}"
+    typography: "{typography.lede}"
+  badge-trust:
+    backgroundColor: "{colors.raster}"
+    textColor: "{colors.ash-dim}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.cell}"
+  hairline-rule:
+    backgroundColor: "{colors.scanline}"
+    textColor: "{colors.ash}"
+  band-manpage:
+    backgroundColor: "{colors.ash}"
+    textColor: "{colors.glass}"
+  band-manpage-muted:
+    backgroundColor: "{colors.ash}"
+    textColor: "{colors.manpage-ink-soft}"
+  footer:
+    backgroundColor: "{colors.glass}"
+    textColor: "{colors.ash-faint}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares:
+  - light-on-dark
+x_declares_reasons:
+  light-on-dark: The room is unlit glass by design, so most bands are dark; the one man-page band on
+    {colors.ash} is the relief, and the lit panels inside each band carry the contrast.
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The ground is {colors.glass}. No #000, no neutral near-black, no darkening."
+    - "One chromatic colour: {colors.primary}. No green, cyan or red anywhere."
+    - "Every number and control label is in Spline Sans Mono; every sentence is in Spline Sans."
+    - "No box-shadow, backdrop blur, gradient or translucent fill."
+    - "Radii are cell (3px) or square (0px) only. No pill."
+    - "A status bar carries only the brief's words, a heading or a stated fact; with neither, it is omitted."
+  accessible:
+    - "Text on {colors.raster} never lighter than {colors.ash-faint} (4.91:1)."
+    - "{colors.scanline} is never a text colour."
+    - "{colors.primary} fills always carry {colors.glass} text (8.32:1)."
+    - "Focus is a visible {colors.primary} outline at 2px; hover states are duplicated on focus-visible."
+    - "Tap targets >= 44x44px at every breakpoint."
+
+# The DESIGN.md spec has no imagery section, so this is ours.
+x_imagery:
+  role: >
+    Evidential. The product's own screen recordings and captures are the imagery: a terminal session,
+    an interface, a mascot or icon the company draws for each tool. A recording or photograph sits in a
+    panel like a readout, edge to edge, with its caption row beneath. It never carries a headline. Only
+    the head's recording plays; any other recording on the page shows its first frame and plays on
+    hover or focus, with a control, so a page of ten tools is not ten moving screens.
+  density: "one image per content section where supplied; a statement head pairs its image with a panel rather than putting text on it"
+  treatment: >
+    Square corners, no rounding, no border radius, no overlay, no scrim, no
+    tint, no text on top. An image fills its panel edge to edge and, when it
+    has a caption, is followed by a caption row in {typography.caption} on
+    {colors.raster}. Images
+    are separated from other panels by the same {colors.scanline} hairline.
+  aspect_ratios: ["16/9", "3/2", "1/1"]
+  caption: >
+    A caption row beneath the image on {colors.raster}, in
+    {typography.caption} in {colors.ash-faint}, when the brand folder records
+    one. Its words come from the brand folder (see standards/copy.md).
+  accepts: [screenshot]   # a capture of the product's own interface is this system's material, not a defect
+  forbidden:
+    - "text or headings overlaid on a photograph"
+    - "a scrim, gradient, tint, duotone or filter"
+    - "rounded corners, shadows or drop-borders on an image"
+    - "a photograph used as a section background"
+  no_assets_supplied: >
+    If the brief supplies no images, do NOT invent placeholder <img> paths.
+    Let the panels, tables and figures carry the visual weight; no empty
+    capture panel is drawn.
+
+# How this system emphasises ONE figure. The renderer reads this; it must never
+# hardcode a token name, because tokens are per-system.
+x_emphasis:
+  device: "a `bg-raster` panel with the figure in `text-primary` at `text-figure`"
+  applies_to: "at most one statistic per page, and only the one the brief names as its lead figure; a number already said in a line of copy is not set again as a figure (Charm's 25,000 appeared twice)"
+  why: "The phosphor is spent on the action and the on state; the one place it appears as a number is the page's loudest reading."
+
+# How any band of any page is laid out. Look only: the page type picks the bands
+# and the mode, the brief fills them, this says how each shape sits on the screen.
+x_layout:
+  measure:
+    reading: "60–68ch, {typography.copy} in Spline Sans; runs of {typography.data} stay under 80ch"
+    caption: "under 80ch, {typography.caption} in {colors.ash-faint} on {colors.raster}"
+  grid:
+    columns: 12
+    container: "1280px, {spacing.step-lg} side padding; {spacing.step-md} below 768px"
+    gutter: "{spacing.step-lg} → {spacing.step-md} below 768px; panels that touch meet at one {colors.scanline} hairline instead"
+    text_columns: "7, 5 or 12-column spans; running text held to measure.reading inside the span"
+    media_columns: "5, 7 or 12 columns, the image edge to edge inside a {colors.raster} panel with a {colors.scanline} border"
+  rhythm:
+    section: "{spacing.step-xxl} → {spacing.step-xl}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-sm} row padding inside a panel, {spacing.step-md} between panels"
+    element: "{spacing.step-xs} → {spacing.step-sm}"
+    separator: "rule — a full-width {colors.scanline} hairline closes each band and a status bar on {colors.raster} opens the next; rows inside a panel split on the same hairline. Once per page, the relief: a man-page band on {colors.ash} with {colors.glass} text (14.4:1) and {colors.manpage-ink-soft} secondary text (7.9:1), set like printed documentation (the install command, a quick start, the facts), so the dark room has a lit page in it"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} head, {typography.section} band headings, {typography.lede} lead, {typography.figure} in {colors.primary} for the one emphasised figure", rhythm: "{spacing.step-xxl} band padding; 7/5 splits with the working panel on the five; one capture per band" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.data} for rows, keys, values and controls", rhythm: "one step denser: {spacing.step-xl} band padding, {spacing.step-sm} rows; tables and key/value panels at 7 or 12 columns; the status bar carries each group's heading; captures only where the brief gives one to a group" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads, {typography.data} for any figure or name in the text", rhythm: "one column at measure.reading from column 1; a table, figure or capture the text refers to breaks out to 7 columns as a panel; paragraphs {spacing.step-md} apart" }
+  head:
+    statement: "A 7/5 split at {spacing.step-xxl} top padding: on the seven, the statement in {typography.display} ({typography.section} below 768px), the lead in {typography.lede} at {spacing.step-lg} beneath, then the primary and secondary buttons; on the five, a {colors.raster} panel opening with a status bar that names the program the way a terminal title does (`crush — ~/src`), holding the product running. Best: the company's own screen recording of the product at work (a terminal session or its interface, 16/9, 1200px wide or more, muted, looped, inline, its first frame as the poster, a pause control in the status bar), edge to edge under the status bar with no border radius; a promo cut that mixes title cards with the product is fine here, because the statement sits beside it, never on it. Then a still capture of the interface at the same size; then the working thing the brief gives (a form, a key/value readout, state cells). The statement is short (eight words or fewer), so a 7/5 split holds it in three lines at {typography.display}. Below 768px the panel follows the statement. With nothing for the panel, the statement takes 8 columns and the lead photograph follows at 12 as a capture."
+    plain: "A status bar row carrying the title's subject or a stated fact (omitted with neither), then the title in {typography.section} and one lead line in {typography.lede} across 7 columns at {spacing.step-xl} top padding; no panel, no image, no figure. The first table, facts panel or form starts {spacing.step-lg} beneath, on the first screen."
+  close: "A {colors.raster} panel across 12 columns: its status bar, the ask in {typography.section} {colors.ash} on 7, one {typography.lede} {colors.ash-dim} line, and on 5 the {colors.primary} button above the install command in a {colors.glass} well in {typography.data} with a copy control; {spacing.step-xl} padding; the footer follows on {colors.glass} below a {colors.scanline} hairline."
+  shapes:
+    items:
+      as: "table, or a stack of hairline rows inside a panel"
+      look: "name in {typography.data} at {colors.ash}, its line in {typography.copy} at {colors.ash-dim}; rows at {spacing.step-sm} padding split by {colors.scanline}"
+      counts: "1: fold into prose. 2–4: hairline rows in a 5-column panel beside 7 columns of text. 5–12: a two-column table (name, line) at 7 columns beside a capture, or at 12 with none. 13+: one table at 12, or two 6/6 panels split at the midpoint, the odd item on the left. Never a card grid at any n."
+    table:
+      as: "table inside a bordered panel that scrolls horizontally"
+      look: "head row on {colors.raster} in {typography.caption} at {colors.ash-faint}; body rows on {colors.glass} in {typography.data} at {colors.ash}, secondary cells at {colors.ash-dim}; {colors.scanline} hairlines between rows; figures tabular"
+      counts: "1–2 rows: facts instead. 2–4 columns: 7 columns beside a 5-column capture or note panel. 5+ columns: 12. Any number of rows stays one table; below 768px it scrolls inside its panel, never reflows to cards."
+    facts:
+      as: "key/value rows in a bordered panel (a readout)"
+      look: "key in {typography.data} at {colors.ash-dim} left, value at {colors.ash} right and unbroken; a closing source row on {colors.raster} in {typography.caption} at {colors.ash-faint}. A value that is on or off per slot sets as a row of state cells: {rounded.cell}, min 44px, {typography.caption}, on in {colors.primary} with {colors.glass} text, off in {colors.scanline} with {colors.ash-dim} text, the state written in the cell"
+      counts: "1–4: a 5-column panel beside prose or inside the statement head's panel. 5–10: a 7-column panel. 11+: two 6/6 panels. State cells: up to 12 across at desktop, 6 below 768px; 7 slots sit 7 across at their natural width, not stretched to 12."
+    qa:
+      as: "stack of hairline rows"
+      look: "question in {typography.lede} at {colors.ash}, answer in {typography.copy} at {colors.ash-dim} at measure.reading; {spacing.step-md} row padding, {colors.scanline} between pairs"
+      counts: "1–5: one pair a row at 7 columns. 6–15: rows at 12, question on 5 and answer on 7. 16+: the same rows under a status bar per group the brief names. Answers are never hidden."
+    people:
+      as: "grid of capture panels"
+      look: "portrait at 1/1 edge to edge in a {colors.raster} panel, a caption row beneath with the name in {typography.data} at {colors.ash} and the role in {typography.caption} at {colors.ash-faint}"
+      counts: "1: 5/7, portrait panel and passage. 2: two 5-column panels, the last 2 columns empty glass. 3: 4/4/4. 4: 3/3/3/3 at 1280px, 6/6 twice below 1024px. 5: 4/4/4 then 4/4 left-aligned. 6: two rows of three. 7+: rows of four, the short last row left-aligned. No portraits: a table of name and role."
+    sequence:
+      as: "table, or an ordered stack of hairline rows in a panel"
+      look: "step number or date in {typography.data} at {colors.ash-faint} in a narrow first column, the step in {typography.copy} at {colors.ash}; the number is never {colors.primary}"
+      counts: "2–6: ordered rows in a 7-column panel. 7+: a table at 12 with the number or date as its first column. Dated entries with more than one fact each are always a table."
+    media_text:
+      as: "sidebar, 7/5"
+      look: "the photograph as a capture panel with its caption row, beside text on {colors.glass} that opens with its heading in {typography.section}"
+      counts: "1: the capture on the seven. Several: the capture flips side band to band. A 1/1 photograph takes the five, never the seven. Below 768px the capture follows the text."
+    gallery:
+      as: "grid of capture panels in 7/5 rows"
+      look: "each image edge to edge in a bordered {colors.raster} panel with its caption row; {spacing.step-md} between panels; ratios 16/9, 3/2 and 1/1"
+      counts: "1: 12 columns at 16/9. 2: 7/5, the five at 1/1. 3: 7 beside a stack of two on the 5. 4: 7/5 then 5/7. 5+: rows alternating 7/5 and 5/7, an odd last image at 12 and 16/9. Never a grid of equal square thumbnails."
+    quote:
+      as: "a {colors.raster} panel"
+      look: "{typography.lede} at {colors.ash} at measure.reading, attribution in {typography.data} at {colors.ash-faint} beneath at {spacing.step-sm}; a {colors.scanline} border; no quote glyph"
+      counts: "1: 7 columns, beside the band's heading or a capture on 5. 2: stacked on the seven, {spacing.step-md} apart. 3–4: 6/6 rows, balanced by length rather than by count. 5+: two 6-column stacks, the longest first in each."
+    prose:
+      as: "stack at measure.reading"
+      look: "{typography.copy} at {colors.ash-dim}, paragraphs {spacing.step-md} apart, figures and names inline in {typography.data}"
+      counts: "1–3 paragraphs: 7 columns beside a 5-column panel or capture. 4+: one column from column 1 at measure.reading, the other columns empty glass."
+    form:
+      as: "a {colors.raster} panel with a status bar"
+      look: "labels in {typography.caption} at {colors.ash-faint}, inputs on {colors.glass} with a {colors.scanline} border and {rounded.cell}, values in {typography.data}, min 44px; the submit is button-primary at full panel width"
+      counts: "1–3 fields: a 5-column panel beside 7 columns of text. 4–8: a 7-column panel, short fields two-up. 9+: a 12-column panel with groups under inner status bars."
+    index:
+      as: "table of links, or a stack of hairline rows"
+      look: "title in {typography.title} at {colors.ash} with a {colors.scanline} underline that turns {colors.primary} on hover, its line in {typography.copy} at {colors.ash-dim}, a date in {typography.data}"
+      counts: "1–6: hairline rows at 7 columns. 7+: a table at 12 (title, line, date). With images: 5/7 rows, the capture at 3/2 on the five."
+  focal: "Each band leads with its status bar and its heading in {typography.section}; the working panel — table, readout, form — is the largest object after it; {colors.primary} marks at most the one action and the one figure, so the eye's second stop is amber and its third is data."
+  never:
+    - "Put a statement over a photograph, or open a band on a full-width image with text on it."
+    - "Leave the five of a 7/5 split as an empty panel — with nothing for it, the text takes 8 and the band runs single-column."
+    - "Reflow a table into cards on a narrow screen — it scrolls inside its panel."
+    - "Set a gallery as a grid of equal square thumbnails."
+    - "Stack two status bars with nothing between them — a bar heads a panel's contents, not another bar."
+    - "Show on and off by colour alone — every state cell writes its state."
+    - "Separate bands by whitespace alone — each ends on a {colors.scanline} hairline."
+    - "Run the whole page dark — one man-page band on {colors.ash} is the relief a dark room needs."
+    - "Autoplay more than the head's one recording."
+
+x_motion:
+  principle: "A screen that is on: the head's recording plays; everything else waits to be touched."
+  entrance: "None beyond the recording: the page is there when it loads."
+  signature: "The status bar's block cursor blinks at 1s in {colors.primary} beside the program name, and stops when the recording is paused; a capture's own recording plays while it is hovered or focused."
+  scroll: "Nothing arrives on scroll."
+  reduced: "Under prefers-reduced-motion no recording autoplays (the poster shows, with a play control) and the cursor is still."
+  mechanism: "HTML video with muted, loop, playsinline and a poster; a short script for the play/pause controls, hover play and the cursor blink (a data attribute toggled every 500ms, stopped with the recording); no <style> block, no keyframes."

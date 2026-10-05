@@ -1,6 +1,6 @@
 ---
 name: writing
-description: "Writes the words for this site in the owner's voice: headlines, sections and calls to action, and the editing passes that strip what generated text falls into. Use whenever copy is written or rewritten, with the design skill before laying out a page."
+description: "Writes the words for this site in the owner's voice: headlines, sections and calls to action, the editing passes and the cold read. Use whenever copy is written or rewritten, with the design skill before laying out a page."
 ---
 
 # Writing

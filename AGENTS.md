@@ -13,7 +13,7 @@ Which skill to read, by what the owner asks:
 - "build me a homepage", "build my site", a link to their business: `new-site`
 - "change the look", "it looks generic", colours, fonts: `design`
 - a new page, the page plan, what a page should say: `pages`
-- words and headlines: `writing`
+- words and headlines: `writing`; the tells generated text falls into: `tropes`
 - notes about the business, a crawl, a document, photos: `brand`
 - "migrate", "rebuild", "redesign" a site they have: `migrate-site`; the
   cutover and the weekly audit: `launch-check`
@@ -31,13 +31,14 @@ The work is in these scripts; run them rather than doing the same by hand.
 Each prints what it did and what to read next.
 
 ```bash
-npm run from-site -- <url>   # a first homepage's start, ~20s: reads their homepage, gallery and services page;
+npm run from-site -- <url>   # a first homepage's start, about a minute: reads their homepage, gallery and services page;
                              # writes the business note, the logo, their photos at web size, design tokens
                              # from their colours and fonts; prints what it wrote, kept, and what to read next
 npm run parts                # what a page is built from: components and props, the classes, the page shape,
                              # the facts the notes hold, the photos and their sizes
 npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
-npm run verify               # content, check, typecheck, test, build, lint in one call; stops at the first failure
+npm run verify               # content, check, typecheck, test, build, proof, lint in one call; stops at the first failure
+npm run proof                # is every logo, rating and some reviews from public/proof.md on the homepage
 npm run shots [-- /path]     # the page at 1280 and 390 wide: uploads/<page>-<width>/overview.png (all of it, when
                              # longer than one image), then 01.png, 02.png … at full size;
                              # --first-screen, --width N

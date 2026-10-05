@@ -1,0 +1,338 @@
+# Folio: the weekend edition. For publishers (city and regional magazines, newspapers, newsletters,
+# any brand whose front page is a list of stories): a front page, not a feature. The nameplate runs
+# the width of the page over a dateline strip; the lead story's photograph sits large with its
+# headline set big BENEATH it, a "just published" rail beside it; below, stories in columns divided by
+# thin vertical rules, every section opened by a thick rule and a small-capitals label, kickers in one
+# newsroom red. Newsreader for every headline and paragraph, IBM Plex Sans Condensed for kickers,
+# datelines and bylines. Pure white, never warm paper. Reworked 2026-09-25 on Sarasota Magazine
+#.
+id: folio
+title: Folio
+summary: >
+  A publication system: a full-width nameplate over a dateline strip, a lead story with its big serif
+  headline set beneath its photograph and a just-published rail beside it, stories in columns split by
+  thin vertical rules, sections opened by a thick rule, red kickers; Newsreader and Plex Sans Condensed
+  on pure white.
+tokens:
+  colors:
+    primary: "#C4121F"
+    primary-deep: "#9E0E18"
+    red: "#C4121F"
+    ink: "#111111"
+    ink-soft: "#4D4D4D"
+    white: "#FFFFFF"
+    newsprint: "#F2F2F0"
+    black: "#0B0B0B"
+    rule: "#767676"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.newsprint}"
+    night: "{colors.black}"
+    ink-2: "{colors.ink-soft}"
+    ink-3: "{colors.ink-soft}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.newsprint}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.white}"
+    accent-hover: "{colors.primary-deep}"
+    line: "{colors.rule}"
+    line-strong: "{colors.ink}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    nameplate:
+      fontFamily: "Newsreader"
+      fontSize: 88px
+      fontWeight: 700
+      lineHeight: 1.0
+      letterSpacing: -2px
+    display:
+      fontFamily: "Newsreader"
+      fontSize: 60px
+      fontWeight: 600
+      lineHeight: 1.04
+      letterSpacing: -1.2px
+    section:
+      fontFamily: "Newsreader"
+      fontSize: 44px
+      fontWeight: 600
+      lineHeight: 1.08
+      letterSpacing: -0.6px
+    heading-lg:
+      fontFamily: "Newsreader"
+      fontSize: 30px
+      fontWeight: 600
+      lineHeight: 1.15
+      letterSpacing: -0.3px
+    title:
+      fontFamily: "Newsreader"
+      fontSize: 22px
+      fontWeight: 600
+      lineHeight: 1.22
+      letterSpacing: -0.1px
+    lede:
+      fontFamily: "Newsreader"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Newsreader"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    kicker:
+      fontFamily: "IBM Plex Sans Condensed"
+      fontSize: 15px
+      fontWeight: 600
+      lineHeight: 1.2
+      letterSpacing: 1.2px
+    label:
+      fontFamily: "IBM Plex Sans Condensed"
+      fontSize: 16px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: 0.4px
+    caption:
+      fontFamily: "IBM Plex Sans Condensed"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.45
+      letterSpacing: 0.2px
+  rounded:
+    none: 0px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.none}"
+    control: "{rounded.none}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 24px
+    step-lg: 48px
+    step-xl: 80px
+    step-xxl: 128px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Folio is a front page. The nameplate (the publication's own logo, or its name in
+    {typography.nameplate}) runs the width of the page over a dateline strip between two rules. The
+    lead story's photograph sits large on columns 1–8 with its kicker, headline, standfirst and
+    byline set beneath it; a rail of the latest stories runs down columns 9–12. After that, each
+    section opens with a 3px {colors.ink} rule and a small-capitals label, and its stories run in
+    columns divided by 1px {colors.rule} vertical rules. Kickers are {colors.red} capitals; everything
+    else is black on pure white. A {colors.black} band closes the page with the subscription.
+  colors: >
+    {colors.white} is the page, pure and never warm. {colors.ink} is all text (18.9:1),
+    {colors.ink-soft} datelines and bylines (8.5:1). {colors.red} is the one spot colour: kicker text
+    (6.1:1 on white, 5.4:1 on newsprint) and the one button; nothing else is red. {colors.newsprint}
+    (a cool pale grey) is one relief band, such as the most-read list. {colors.black} is the close
+    and the footer, with {colors.white} text only (19.7:1). {colors.rule} (4.5:1) draws the column
+    rules and outlines inputs.
+
+    With the brand's own colour: the publication's own colour replaces the red (kickers and the button) when it reads at 4.5:1 on {colors.white} and carries {colors.white} text at 4.5:1: a deep red, blue or green; a light one keeps the red.
+  typography: >
+    Newsreader, a serif drawn for news, carries every headline and paragraph: {typography.display}
+    (60px) for the lead headline, {typography.heading-lg} (30px) for a section's first story,
+    {typography.title} (22px) for the rest, {typography.lede} for standfirsts,
+    {typography.copy} for reading. IBM Plex Sans Condensed carries the newsroom's small type:
+    {typography.kicker} (15px capitals, tracked) above each headline, {typography.caption} for
+    datelines, bylines and captions, {typography.label} for the section labels and the button.
+    Headlines in sentence or title case as the publication writes them, never all capitals; only
+    kickers and section labels are capitals.
+  layout: >
+    Twelve columns in a 1280px container with 24px gutters, and a 1px {colors.rule} vertical rule
+    in the middle of each gutter between story columns. Bands carry {spacing.step-xl} top and bottom; the
+    front is dense on purpose.
+  elevation_and_depth: >
+    Flat, like paper. No shadows, no cards, no rounded corners: stories are separated by rules and
+    space, never boxed.
+  components: >
+    Everything is square-cornered, photographs included.
+
+    Story: kicker ({typography.kicker} {colors.red}), headline (Newsreader, linked, underlined on
+    hover), optional standfirst ({typography.copy} {colors.ink-soft}), then the dateline and
+    byline ({typography.caption} {colors.ink-soft}: "September 22, 2026 · By Name"). Section head: a
+    3px {colors.ink} rule, then the label in {typography.label} capitals and a "More ›" link at the
+    right end. Button: {colors.primary}, {colors.white} {typography.label}, square, 48px tall.
+  dos_and_donts:
+    do:
+      - rule: "Lead with the most important story: its photograph large on columns 1–8 and its headline in {typography.display} set beneath it."
+        why: "A front page's first job is to say what matters now; one story set larger than all the rest answers it before anything is read."
+      - rule: "Run a rail of the latest stories on columns 9–12 beside the lead, each a kicker, a {typography.title} headline and a time."
+        why: "A reader's second question is what's new; the rail answers it on the same screen without competing with the lead's size."
+      - rule: "Give every story its date and byline in {typography.caption} {colors.ink-soft}."
+        why: "The date says whether it is still news and the byline says who stands behind it; together they are the publication's credibility."
+      - rule: "Divide story columns with 1px {colors.rule} vertical rules down the middle of the gutters."
+        why: "Column rules are how a front page stays dense and orderly without boxing each story; the line does the separating that a card would."
+      - rule: "Open every section with a 3px {colors.ink} rule and its label in {typography.label} capitals."
+        why: "The thick rule is the section break on a page that never changes ground colour; it tells the reader a new department starts here."
+      - rule: "Put a {typography.kicker} {colors.red} kicker above every headline."
+        why: "The kickers are the only red on the page, so the eye steps kicker to headline, story by story, the way it scans a printed front."
+    dont:
+      - rule: "Don't set a headline or any text on a photograph."
+        why: "News photography is shown as taken; with the headline beneath the picture it stays readable over any photograph, so any clear news picture works."
+      - rule: "Don't box stories in cards or give anything a shadow."
+        why: "Cards are the generated default, and a front page is flat paper: stories are separated by rules and space, and a box adds a surface the paper does not have."
+      - rule: "Don't round a corner, photographs included."
+        why: "Print is cut square; a rounded corner turns a news picture into an app tile."
+      - rule: "Don't use warm cream paper."
+        why: "Cream is the generated 'editorial' default and the old folio's mistake; this is newsprint-white."
+      - rule: "Don't add a second accent colour or spend {colors.red} on anything but kickers and the one button."
+        why: "Red is how a reader finds the next story; any other red or a second colour competes with the kickers and the page loses its scanning order."
+      - rule: "Don't set headlines in all capitals."
+        why: "Capitals belong to kickers and section labels; a capital headline erases the difference between the label and the story."
+      - rule: "Don't print a date the brief does not give."
+        why: "A static page's date goes stale, and a front page with an old date reads as abandoned."
+  responsive_behavior: >
+    Below 1024px the rail drops under the lead story; below 768px every column stacks, the vertical
+    rules become 1px horizontal rules between stories, the lead headline is {typography.section},
+    and the nameplate scales to fit the width. Section padding {spacing.step-xl} → {spacing.step-lg}.
+  known_gaps: >
+    A publication with no photographs sets the lead as type alone at {typography.display}. No
+    icon set. The nameplate is the publication's own logo when it supplies one that reads on white.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.caption}"
+  kicker:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.red}"
+    typography: "{typography.kicker}"
+  band-newsprint:
+    backgroundColor: "{colors.newsprint}"
+    textColor: "{colors.ink}"
+  band-newsprint-muted:
+    backgroundColor: "{colors.newsprint}"
+    textColor: "{colors.ink-soft}"
+  band-black:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.section}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.none}"
+  input-outline:
+    backgroundColor: "{colors.rule}"
+    textColor: "{colors.white}"
+  footer:
+    backgroundColor: "{colors.black}"
+    textColor: "{colors.white}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The front: nameplate and dateline strip, then the lead story (photograph 1–8, headline beneath it) with a latest-stories rail on 9–12."
+    - "Stories in columns divided by 1px {colors.rule} vertical rules; each section opened by a 3px {colors.ink} rule and a capitals label."
+    - "Pure {colors.white}; {colors.red} only for kickers and the one button; no cards, shadows or rounded corners."
+  accessible:
+    - "{colors.ink} on {colors.white} 18.9:1; {colors.red} on {colors.white} 6.1:1; {colors.white} on {colors.black} 19.7:1."
+    - "Every headline is a real link with a visible focus ring; controls 48px or more."
+    - "No text on a photograph."
+
+x_imagery:
+  role: >
+    News photography: each story's own picture, cropped to the frame the column gives it. The lead's
+    photograph is the page's largest image and says what the lead story is about.
+  density: "the lead always; a photograph on the first story of each section; the rest as type"
+  treatment: >
+    Lead: a landscape photograph 1080px wide or more (the lead runs about 850px wide), sharp, of the story's subject (a place, a
+    person, a scene), set at 16/9 on columns 1–8, square-cornered, object-cover, no overlay. Section
+    lead stories: 3/2 above the headline. Smaller stories: a 1/1 thumbnail at 96px beside the
+    headline, or none. Captions and photo credits in {typography.caption} under the picture.
+  aspect_ratios: ["3/2", "16/9", "4/3", "1/1"]
+  caption: >
+    Optional, {typography.caption} {colors.ink-soft}, with the photographer's credit when the
+    publication gives one.
+  forbidden:
+    - "a headline or any text on a photograph"
+    - "an AI-generated illustration or a screenshot standing in for news photography"
+    - "rounded corners or a card shadow on a photograph"
+  no_assets_supplied: >
+    With no photographs, the lead is type: kicker, the headline at {typography.display} across
+    columns 1–8, the standfirst beneath, and the rail beside it as before.
+
+x_emphasis:
+  device: "the lead story's headline in `text-display` beneath its photograph, with its kicker in `text-kicker` `text-red` above"
+  applies_to: "the page's one lead story, once"
+  why: "On a front page the lead is the emphasis: one story set larger than all the rest."
+
+x_motion:
+  principle: "Print doesn't move. Nothing animates."
+  entrance: "None: the page is there when it loads."
+  signature: "On hover or focus a headline underlines and its photograph, if any, darkens 5%."
+  scroll: "Nothing arrives on scroll."
+  reduced: "Nothing moves in any case; hover changes remain."
+  mechanism: "Tailwind hover and focus-visible utilities only; no script, no <style> block."
+
+x_layout:
+  measure:
+    reading: "62–70ch in {typography.copy}"
+    caption: "the width of its photograph"
+  grid:
+    columns: 12
+    container: "1280px, 40px side margins → 20px below 768px"
+    gutter: "24px, with a 1px {colors.rule} vertical rule down its middle between story columns"
+    text_columns: "stories in 3, 4, 6 or 8 columns; reading at measure on 3–10"
+    media_columns: "the lead on 1–8; section leads over their story column"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-xs}"
+    separator: "rule: every section opens with a 3px {colors.ink} rule and a capitals label; story columns are divided by 1px {colors.rule} vertical rules; stories in one column by 1px horizontal rules; one {colors.newsprint} band for relief; the {colors.black} close and footer"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} lead headline, {typography.heading-lg} section leads, {typography.title} stories, {typography.lede} standfirsts", rhythm: "as rhythm; dense" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} rows, {typography.caption} datelines", rhythm: "one step denser: section {spacing.step-lg}; the list starts on the first screen" }
+    reading: { head: plain, type: "the headline in {typography.display} on 2–11, the standfirst in {typography.lede}, the dateline and byline, the lead photograph at 16/9 across 1–12, then {typography.copy} at measure.reading on 3–10 with a drop of {spacing.step-lg} between sections", rhythm: "one column; pull quotes in {typography.heading-lg} italic between the 3px rules" }
+  head:
+    statement: "The nameplate: the publication's own logo (dark, reading on white) centred, 56–72px tall with {spacing.step-md} above and below, or its name in {typography.nameplate} {colors.ink}; beneath it the dateline strip between two 1px {colors.ink} rules, one row 56px tall: the section names as links in {typography.label} capitals, spaced {spacing.step-md}, across the middle, and the subscribe button right. With more sections than fit one row, the date goes and the sections scroll sideways on narrow screens rather than wrap. No date is printed unless the brief gives one: a static page's date goes stale. Then the lead: on columns 1–8 a landscape news photograph (1080px wide or more, sharp, the story's own subject: a place seen from above, a person at work, a scene; no illustration, no screenshot) at 16/9, square-cornered, so the lead headline sits on the first screen at 1440×900; beneath it, {spacing.step-sm} below, the kicker in {typography.kicker} {colors.red}, the headline in {typography.display} {colors.ink} as a link, the standfirst in {typography.lede} {colors.ink-soft}, the dateline and byline in {typography.caption}. On columns 9–12, after a 1px vertical rule: the rail, its label ('Just published' or the publication's word) in {typography.label} capitals under a 3px rule, then four to six stories, each a kicker, a {typography.title} headline and a date or time, divided by 1px rules. No text on the photograph, so any clear news picture works. With no photograph: the lead is type alone on columns 1–8, opened by a 3px {colors.ink} rule {spacing.step-md} under the dateline strip: the kicker, the headline in {typography.display} {colors.ink} as a link, the standfirst in {typography.lede} {colors.ink-soft} and the dateline and byline, with the rail on 9–12 as before; no placeholder picture, no illustration, no tinted panel standing in for one."
+    plain: "The nameplate and dateline strip, then a 3px {colors.ink} rule, the title in {typography.section} on 1–8 and one {typography.lede} {colors.ink-soft} line; the list starts {spacing.step-lg} below."
+  close: "A {colors.black} band: the ask (subscribe, the newsletter) in {typography.section} {colors.white} on 1–7, one {typography.copy} {colors.white} line beneath, and on 9–12 the {colors.primary} button, or a labelled email field with the button when the brief gives where it sends; {spacing.step-xl} padding; the {colors.black} footer follows below a 1px {colors.rule} rule."
+  shapes:
+    items: { as: "grid", look: "stories in columns divided by 1px vertical rules: the first with a 3/2 photograph and a {typography.heading-lg} headline, the rest {typography.title} with kicker and dateline", counts: "2: halves. 3: thirds, the first led by its photograph. 4: the first on 1–6 with its photograph, three stacked on 7–12. 5–8: a lead on 1–6, the rest two columns on 7–12. 9+: four columns of stacked stories." }
+    table: { as: "table", look: "a real <table>: header row in {typography.label} capitals over a 3px rule, rows in {typography.copy} divided by 1px {colors.rule} rules, figures tabular", counts: "any: one table; grouped by a capitals label when long." }
+    facts: { as: "stack", look: "key in {typography.label} capitals {colors.ink-soft}, value in {typography.title}, rows divided by 1px rules", counts: "1–6: one column. 7+: two columns with a vertical rule between." }
+    qa: { as: "stack", look: "question in {typography.title}, answer in {typography.copy}, 1px rules between", counts: "any: one column on 3–10." }
+    people: { as: "grid", look: "square portrait at 1/1, the name in {typography.title}, the beat or role in {typography.caption} capitals, a link to their stories", counts: "1–4: across with vertical rules. 5+: rows of 4." }
+    sequence: { as: "stack", look: "dated rows: date in {typography.caption} capitals on 1–2, headline in {typography.title} on 3–10, 1px rules between", counts: "≤ 10: one list. 11+: the first 10 and a 'More ›' link." }
+    media_text: { as: "sidebar", look: "a 3/2 photograph on 1–7, the kicker, a {typography.heading-lg} headline and the standfirst on 8–12 after a vertical rule", counts: "one per band" }
+    gallery: { as: "grid", look: "square-cornered photographs with captions and credits in {typography.caption}; a 16/9 lead picture over a row of three", counts: "2: halves. 3: thirds. 4: a lead over three. 5+: a lead over rows of four." }
+    quote: { as: "stack", look: "a pull quote in {typography.heading-lg} italic {colors.ink} between two 3px rules on 2–11, the speaker in {typography.caption} capitals", counts: "1: alone. 2–3: columns with vertical rules." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading on 3–10", counts: "—" }
+    form: { as: "stack", look: "labels in {typography.label} capitals above square inputs 48px tall with a 1px {colors.rule} border, the square red button beside or beneath", counts: "1–2 fields: one row. 3+: one column on 3–8." }
+    index: { as: "grid", look: "the sections as a row: each a capitals label over a 3px rule, its latest headline and a 'More ›' link, columns divided by vertical rules", counts: "3–6: across. 7+: two rows." }
+  focal: "The lead story leads the page; the rail is second; each section's first story leads its section. Red appears only on kickers, so the eye moves kicker to headline, story by story."
+  never:
+    - "a headline or any text on a photograph"
+    - "cards, shadows or rounded corners"
+    - "cream or warm paper, or a second accent colour"
+    - "a story with no date"

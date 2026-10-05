@@ -1,0 +1,345 @@
+# Keystone: the product keynote. For enterprises (industrial technology, B2B manufacturers, software
+# and services companies, public companies with investors to speak to): serious, bright and
+# orderly, like a big technology company's own site. The head is a stage: the headline and two
+# actions on white at the left, the product in a large rounded tile on a pale blue stage at the
+# right. Below: accolade marks in a quiet row, rounded image tiles with "Learn more ›" chevron
+# links, a graphite band of big figures, and dated news cards. Figtree throughout. Distinct from
+# civic (serif, navy bars, a counter over a photograph) and quiet (monochrome, no tiles). Built
+# 2026-09-25 on Helios Technologies, Sarasota.
+id: keystone
+title: Keystone
+summary: >
+  An enterprise system: a split stage head (headline and two actions left on white, the product in
+  a 24px-rounded tile on a pale blue stage right), a quiet row of accolade marks, rounded image
+  tiles with chevron links, a graphite band of big figures, dated news cards; Figtree, one blue.
+tokens:
+  colors:
+    primary: "#0B57D0"
+    primary-deep: "#0842A0"
+    ink: "#111418"
+    ink-soft: "#4A5160"
+    white: "#FFFFFF"
+    stage: "#EAF1FB"
+    cloud: "#F4F5F7"
+    graphite: "#1A1D22"
+    line: "#5F6673"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.cloud}"
+    night: "{colors.graphite}"
+    ink-2: "{colors.ink-soft}"
+    ink-3: "{colors.ink-soft}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.cloud}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.white}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.line}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Figtree"
+      fontSize: 64px
+      fontWeight: 600
+      lineHeight: 1.05
+      letterSpacing: -1.6px
+    section:
+      fontFamily: "Figtree"
+      fontSize: 48px
+      fontWeight: 600
+      lineHeight: 1.1
+      letterSpacing: -1px
+    figure:
+      fontFamily: "Figtree"
+      fontSize: 72px
+      fontWeight: 600
+      lineHeight: 1.0
+      letterSpacing: -2px
+    heading-lg:
+      fontFamily: "Figtree"
+      fontSize: 44px
+      fontWeight: 600
+      lineHeight: 1.12
+      letterSpacing: -0.8px
+    title:
+      fontFamily: "Figtree"
+      fontSize: 24px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: -0.2px
+    lede:
+      fontFamily: "Figtree"
+      fontSize: 21px
+      fontWeight: 400
+      lineHeight: 1.55
+      letterSpacing: 0px
+    copy:
+      fontFamily: "Figtree"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.6
+      letterSpacing: 0px
+    label:
+      fontFamily: "Figtree"
+      fontSize: 16px
+      fontWeight: 600
+      lineHeight: 1.3
+      letterSpacing: 0px
+    caption:
+      fontFamily: "Figtree"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0px
+  rounded:
+    none: 0px
+    button: 6px
+    tile: 24px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.tile}"
+    control: "{rounded.button}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 64px
+    step-xl: 112px
+    step-xxl: 160px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1280px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Keystone is a keynote. The first screen is a stage: on {colors.white} at the left, the
+    headline in {typography.display}, one {typography.lede} line and two actions (a
+    {colors.primary} button and a "Learn more ›" chevron link); at the right, the product
+    photographed close, in a tile with {rounded.tile} corners on a {colors.stage} ground. After
+    it: a quiet row of accolade marks, rounded image tiles that each end in a chevron link, one
+    {colors.graphite} band where the company's figures are set in {typography.figure}, dated news
+    cards, and a {colors.cloud} footer. Everything is sans, orderly and bright.
+  colors: >
+    {colors.white} is the page. {colors.stage} (a pale blue) is the head's stage and the closing band, nothing else;
+    {colors.cloud} is the tiles' fill, the relief bands and the footer. {colors.graphite} is the one
+    dark band (the figures), carrying {colors.white} text only (16.9:1). {colors.ink} is all text
+    (18.5:1 on white, 16.3:1 on stage), {colors.ink-soft} secondary (8.0:1, 7.0:1 on stage, 7.3:1
+    on cloud). {colors.primary} is the button, the chevron links and focus (6.4:1 on white, 5.6:1 on
+    stage), never a ground for a band. {colors.line} (5.8:1) outlines inputs only. Nothing tinted.
+
+    With the brand's own colour: the company's own colour goes in the button and the chevron links; it must read at 4.5:1 on {colors.white} and carry {colors.white} text at 4.5:1, so a mid or deep blue, green, red or purple works; a light one keeps the blue.
+  typography: >
+    Figtree throughout, one family like a product company's system face. {typography.display}
+    (64px, 600) for the head's headline, eight words or fewer; {typography.heading-lg} (44px) for
+    band heads; {typography.title} (24px) for tile and card titles; {typography.figure} (72px)
+    for the figures on graphite, each with a {typography.copy} label under it;
+    {typography.copy} (18px) for reading, {typography.lede} for leads, {typography.label}
+    for buttons, chevron links and dates, {typography.caption} for small print. Sentence case.
+  layout: >
+    Twelve columns in a 1280px container with 32px gutters. The head is at least 640px tall: text
+    on columns 1–6, vertically centred; the stage tile on 7–12. Bands carry {spacing.step-xl} top and
+    bottom.
+  elevation_and_depth: >
+    Flat: no shadows. Depth is the stage's pale blue behind the product and the tiles' rounded
+    {colors.cloud} fills.
+  components: >
+    Media and tiles at {rounded.tile} (24px), buttons and inputs at {rounded.button} (6px). No
+    circles and no pills.
+
+    Primary button: {colors.primary} with {colors.white} {typography.label}, 52px tall, 6px corners,
+    hovering to {colors.primary-deep}. Chevron link: {typography.label} {colors.primary} ending in
+    "›" (a text character), underlined on hover; it is how every tile and card ends. Tile: a rounded
+    photograph (16/9) above a title in {typography.title}, one line in {typography.copy}
+    {colors.ink-soft}, and a chevron link; the whole tile is one link target. Accolade mark: the
+    brand's own award or ranking mark, 64px tall, in its own colours, with a {typography.caption}
+    line naming it and its year.
+  dos_and_donts:
+    do:
+      - rule: "Put the product on the stage: the company's product loop or a close, sharp photograph of what it makes, filling the {rounded.tile} tile on {colors.stage} on columns 7–12."
+        why: "An enterprise sells something real; showing the thing, lit like a keynote, says more than any abstract image."
+      - rule: "Set the headline, one line and two actions on {colors.white} on columns 1–6: the {colors.primary} button and a 'Learn more ›' chevron link."
+        why: "Enterprise buyers rarely decide on the first screen; one action for those ready and one for those still reading serves both without a third choice."
+      - rule: "End every tile and card with a chevron link, and make the whole tile one link target."
+        why: "Enterprise readers scan and click through; the chevron says where each tile leads, and a whole-tile target means no dead area to miss."
+      - rule: "Set the company's figures in {typography.figure} on the one {colors.graphite} band."
+        why: "A keynote's one dark slide is where the numbers land; a single band of weight on a bright page is what makes it serious."
+      - rule: "Show accolades as one quiet row of the brand's own marks, 64px tall, each with its name and year in {typography.caption}."
+        why: "A named, dated mark is proof a reader can check; held to one height in one row it reads as evidence, not a logo wall."
+      - rule: "Use {rounded.tile} for media and tiles and {rounded.button} for buttons and inputs, and no other radius."
+        why: "The big soft corner marks what you look at and the small one what you operate; a third radius blurs that difference."
+    dont:
+      - rule: "Don't use stock photographs of handshakes, laptops or skylines."
+        why: "They are the generated enterprise default and say nothing about this company; the stage and tiles show what it makes and where it is used."
+      - rule: "Don't set text on a photograph or lay a scrim over one."
+        why: "Words sit on white or graphite here, which lets the product fill its tile edge to edge with nothing dimming it."
+      - rule: "Don't add gradients or glass."
+        why: "They are the generated technology-site default; the stage is a flat pale blue, and that flatness is what lights the product."
+      - rule: "Don't add a second accent colour or use {colors.primary} as a band ground."
+        why: "One blue means 'you can click this'; a blue band or a second colour would make the page louder and the links harder to find."
+      - rule: "Don't use shadows."
+        why: "Depth comes from the stage's pale blue and the tiles' {colors.cloud} fills; a shadow adds a third surface the system does not have."
+      - rule: "Don't use pills or circles."
+        why: "The rounded rectangle is keystone's one shape, the tile; a pill or circle reads as a consumer app, not a keynote."
+  responsive_behavior: >
+    Below 1024px the head stacks: text first, then the stage tile full width at 4/3. Tiles go two
+    across, then one below 640px. Figures go two across, then one. Section padding {spacing.step-xl} →
+    {spacing.step-lg}.
+  known_gaps: >
+    A company with no photograph of its product or work fills the stage with its best photograph of
+    people at work, still in the rounded tile; with neither, keystone is the wrong system. No icon
+    set.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.copy}"
+  stage:
+    backgroundColor: "{colors.stage}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.tile}"
+  stage-muted:
+    backgroundColor: "{colors.stage}"
+    textColor: "{colors.ink-soft}"
+  band-cloud:
+    backgroundColor: "{colors.cloud}"
+    textColor: "{colors.ink}"
+  band-cloud-muted:
+    backgroundColor: "{colors.cloud}"
+    textColor: "{colors.ink-soft}"
+  band-graphite:
+    backgroundColor: "{colors.graphite}"
+    textColor: "{colors.white}"
+    typography: "{typography.figure}"
+  chevron-link:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.primary}"
+    typography: "{typography.label}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.button}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.button}"
+  tile:
+    backgroundColor: "{colors.cloud}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.tile}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.button}"
+  input-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.white}"
+  footer:
+    backgroundColor: "{colors.cloud}"
+    textColor: "{colors.ink-soft}"
+    typography: "{typography.caption}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The stage head: text on 1–6 on {colors.white}, the product in a {rounded.tile} tile on {colors.stage} on 7–12."
+    - "Tiles and cards end in a {colors.primary} chevron link; figures are set in {typography.figure} on the one {colors.graphite} band."
+    - "One family (Figtree), one accent ({colors.primary}), no shadows, no gradients, no words on photographs."
+  accessible:
+    - "{colors.ink} on {colors.white} 18.5:1; {colors.primary} on {colors.white} 6.4:1; {colors.white} on {colors.graphite} 16.9:1; {colors.ink-soft} on {colors.cloud} 7.3:1."
+    - "Every control 48px or more; a whole tile is one link with a visible focus ring."
+    - "No text on a photograph anywhere."
+
+x_imagery:
+  role: >
+    The product leads: the stage shows what the company makes, close and sharp. The tiles show
+    where it is used (markets, applications) or the companies it owns. People appear in a band about
+    the company's people, not as decoration.
+  density: "the stage always; a photograph in each tile; none in the figures band"
+  treatment: >
+    Stage: the company's own short product loop (a studio render, muted, looped, with its poster and
+    a pause button), or a landscape or square photograph of the product, 1400px wide or more, sharp,
+    the product filling most of the frame, cropped to fill the tile (object-cover) at 4/3 or 1/1; no
+    people, no text, no filter. Tiles: 16/9 photographs at {rounded.tile} corners, object-cover. Marks: the
+    brand's own award marks at 64px tall on {colors.white}, or on {colors.graphite} when the brand
+    supplies a mark only in white.
+  aspect_ratios: ["4/3", "1/1", "16/9", "3/2"]
+  caption: >
+    Optional, {typography.caption} {colors.ink-soft}, {spacing.step-xs} under a photograph.
+  forbidden:
+    - "words on a photograph, or a scrim"
+    - "a stock handshake, laptop or skyline standing for the company"
+    - "a gradient or glass effect"
+  no_assets_supplied: >
+    With no product photograph, the stage carries the best photograph of people at work; with no
+    photographs at all, keystone is the wrong system.
+
+x_emphasis:
+  device: "the figures set in `text-figure` `text-white` on the `bg-graphite` band, each with a `text-copy` `text-white` label"
+  applies_to: "the company's three or four stated figures (markets, countries, years, a record), once"
+  why: "A keynote's one dark slide is where the numbers land; one band of weight on a bright page is what makes it serious."
+
+x_motion:
+  principle: "Composed and quick; nothing waits for animation."
+  entrance: "On load the stage tile fades in and scales from 0.98 to 1 over 500ms; the text is already there."
+  signature: "On hover or focus a tile's photograph scales to 1.03 inside its rounded frame over 300ms and its chevron moves 4px right."
+  scroll: "Nothing arrives on scroll."
+  reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; with script off the page is complete."
+  mechanism: "Tailwind transition, duration, opacity, scale and translate utilities with group-hover/group-focus-visible on tiles and a short script with data-motion for the stage; no <style> block, no keyframes."
+
+x_layout:
+  measure:
+    reading: "60–72ch in {typography.copy}"
+    caption: "one or two lines at the width of its photograph"
+  grid:
+    columns: 12
+    container: "1280px, 48px side margins → 20px below 768px"
+    gutter: "32px"
+    text_columns: "1–6 beside media, or 1–8 for reading"
+    media_columns: "the stage on 7–12; tiles in thirds or quarters"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "surface: {colors.white} bands with {colors.cloud} relief bands between, the one {colors.graphite} figures band after the tiles, the {colors.cloud} footer; never a rule between bands"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} headline, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the rows or documents start on the first screen" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading on 1–8, {typography.title} subheads", rhythm: "one column on 1–8, related links on 10–12" }
+  head:
+    statement: "At least 640px tall on {colors.white}, under a {colors.white} header (the logo left, four to six links in {typography.label} {colors.ink}, one {colors.primary} button right; below 1024px the links move into a menu, a <details> element whose summary reads 'Menu' beside the button, so no link is lost on a phone). Columns 1–6, vertically centred: the headline in {typography.display} {colors.ink} (eight words or fewer; when it is two short sentences, each starts its own line, as a block span, so no line splices the end of one sentence to the start of the next), one {typography.lede} {colors.ink-soft} line, then the two actions side by side, {spacing.step-md} below: the {colors.primary} button (the page's action) and a chevron link (a second destination, such as the company's story). Columns 7–12: the stage, a {colors.stage} tile with {rounded.tile} corners, 560px tall or more, holding the product at object-cover so it fills the tile edge to edge (the media itself at {rounded.tile}). Best: the company's own short product loop (a studio render of the product assembling or turning, square or landscape, 1080px or more, on a plain light ground, silent or muted), playing muted, looped and inline with its own first frame as the poster and a pause button in the tile's corner; then a close, sharp product photograph, 1400px wide or more, no people, no words, its subject filling most of the frame. When the media's own ground is white, the tile is {colors.white} with a 1px {colors.cloud} edge instead of {colors.stage}, so no pale-blue seam shows around a white frame. The words never touch the photograph. Directly under the head, {spacing.step-lg} below: the accolade marks in one row (64px tall, {spacing.step-lg} apart), each with its name and year in {typography.caption} {colors.ink-soft}. A mark the brand supplies only in white goes on the {colors.graphite} figures band instead, beside the figures, with its name, year and any disclaimer the brand prints with it in {typography.caption} {colors.white}; with no dark mark left, there is no row under the head. With no product photograph: the best photograph of the company's people at work, in the same tile."
+    plain: "A {colors.white} band: the title in {typography.section} {colors.ink} on 1–8, one {typography.lede} {colors.ink-soft} line; the first band starts {spacing.step-lg} below."
+  close: "A {colors.stage} band at {rounded.tile} corners inside the container: the ask in {typography.heading-lg} {colors.ink} on 1–7, one {typography.lede} {colors.ink-soft} line, and on 9–12 the {colors.primary} button with a chevron link beneath it; {spacing.step-lg} padding; then the {colors.cloud} footer."
+  shapes:
+    items: { as: "grid", look: "tiles: a 16/9 photograph at {rounded.tile}, the name in {typography.title}, one line in {typography.copy} {colors.ink-soft}, a chevron link; with no photographs, the same on a {colors.cloud} tile at {rounded.tile} with {spacing.step-md} padding", counts: "2: halves. 3: thirds. 4: quarters from 1280px, halves below. 5–6: thirds. 7–8: quarters. 9+: thirds, titles and chevron links only." }
+    table: { as: "table", look: "a real <table>: header row in {typography.label} {colors.ink-soft}, rows in {typography.copy}, divided by 1px {colors.cloud}-on-white rows (alternate rows filled {colors.cloud}); figures tabular and right-aligned", counts: "≤ 20 rows: one table. More: grouped by heading." }
+    facts: { as: "grid", look: "on {colors.graphite}: each value in {typography.figure} {colors.white} on one line (never wrapped: a value too long for its column at 72px, such as \"8 million+\" in a third of eight columns, sets the whole row at {typography.section}), its label in {typography.copy} {colors.white} under it; on {colors.white}: value in {typography.title}, label in {typography.label} {colors.ink-soft}", counts: "2–4: across. 5–8: rows of 4." }
+    qa: { as: "stack", look: "each question a <details> summary in {typography.title} with a chevron that turns, the answer in {typography.copy}; {colors.cloud} tiles at {rounded.button} with {spacing.step-sm} between", counts: "any: one column on 1–8." }
+    people: { as: "grid", look: "portrait at 1/1 with {rounded.tile} corners, the name in {typography.title}, the role in {typography.copy} {colors.ink-soft}", counts: "1–4: across. 5+: rows of 4." }
+    sequence: { as: "grid", look: "dated cards: a {colors.cloud} tile at {rounded.tile} with {spacing.step-md} padding, the date in {typography.label} {colors.ink-soft}, the title in {typography.title} as a link, a chevron link", counts: "3: thirds. 4: quarters. 5+: the first 4 and a 'View all ›' link." }
+    media_text: { as: "sidebar", look: "a 4/3 photograph at {rounded.tile} on 7–12 (or 1–6), the heading in {typography.heading-lg}, a passage and a chevron link on the other side, vertically centred", counts: "one per band; alternate sides when two follow each other" }
+    gallery: { as: "grid", look: "16/9 photographs at {rounded.tile}, captions beneath in {typography.caption}", counts: "2: halves. 3: thirds. 4: quarters. 5+: thirds." }
+    quote: { as: "stack", look: "the words in {typography.heading-lg} {colors.ink} on 1–9, the name and role in {typography.label} {colors.ink-soft}; on a {colors.cloud} band", counts: "1: alone. 2–3: thirds as {colors.white} tiles at {rounded.tile} on the {colors.cloud} band. 4: two by two, the same tiles. 5–6: thirds, two rows." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading on 1–8", counts: "—" }
+    form: { as: "stack", look: "labels above inputs in {typography.label}, inputs 52px with a 1px {colors.line} border at {rounded.button}, the button beneath", counts: "≤ 6 fields in one column on 1–6. More: two columns on 1–8." }
+    index: { as: "grid", look: "logos or names of child companies or pages on {colors.cloud} tiles at {rounded.tile}, each with one line and a chevron link", counts: "2–4: across. 5–8: rows of 4. 9+: rows of 4, names only." }
+  focal: "The stage's product leads the page. In each band after, the tile's photograph leads and the chevron link finishes it; the graphite figures band is the one moment of weight."
+  never:
+    - "words on a photograph, or a scrim"
+    - "a gradient, glass or shadow"
+    - "a second accent colour, or {colors.primary} as a band ground"
+    - "a stock handshake, laptop or skyline standing for the company"

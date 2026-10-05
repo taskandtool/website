@@ -1,0 +1,315 @@
+# Vow: the album. For weddings (venues, photographers, planners, florists): the page opens like an
+# album cover, one tall portrait photograph front and centre on pure white, with a huge italic
+# high-contrast serif headline split around it, one line above and one below. Below, tall
+# photographs in staggered pairs, a cool sage relief band, deep olive ink, no rules and no gold.
+# Distinct from plinth (ivory, gold hairlines, framed plates) and bloom (pink). Built 2026-09-25 on
+# Hunter Ryan Photo.
+id: vow
+title: Vow
+summary: >
+  A wedding system: an album-cover hero (one tall portrait photograph centred on pure white, a huge
+  italic Bodoni headline split above and below it), tall photographs in staggered pairs, a cool sage
+  relief band, deep olive ink, no rules, no gold.
+tokens:
+  colors:
+    primary: "#3E4C34"
+    primary-deep: "#2C3627"
+    olive: "#2C3627"
+    olive-soft: "#596451"
+    white: "#FFFFFF"
+    sage: "#EDF1EA"
+    line: "#DCE2D8"
+    # the website's colour roles (styles/input.css, the layout and the shared components read these)
+    canvas: "{colors.white}"
+    surface: "{colors.white}"
+    panel: "{colors.sage}"
+    night: "{colors.olive}"
+    ink: "{colors.olive}"
+    ink-2: "{colors.olive-soft}"
+    ink-3: "{colors.olive-soft}"
+    night-ink: "{colors.white}"
+    night-ink-2: "{colors.sage}"
+    accent: "{colors.primary}"
+    accent-ink: "{colors.white}"
+    accent-hover: "{colors.primary-deep}"
+    line-strong: "{colors.olive-soft}"
+    line-on-night: "rgb(255 255 255 / 0.16)"
+  typography:
+    display:
+      fontFamily: "Bodoni Moda"
+      fontSize: 132px
+      fontWeight: 400
+      lineHeight: 0.92
+      letterSpacing: -3px
+    section:
+      fontFamily: "Bodoni Moda"
+      fontSize: 80px
+      fontWeight: 400
+      lineHeight: 0.98
+      letterSpacing: -1.5px
+    display-md:
+      fontFamily: "Bodoni Moda"
+      fontSize: 56px
+      fontWeight: 400
+      lineHeight: 1.0
+      letterSpacing: -1px
+    heading-lg:
+      fontFamily: "Bodoni Moda"
+      fontSize: 48px
+      fontWeight: 400
+      lineHeight: 1.08
+      letterSpacing: -0.6px
+    title:
+      fontFamily: "Bodoni Moda"
+      fontSize: 30px
+      fontWeight: 400
+      lineHeight: 1.2
+      letterSpacing: -0.2px
+    lede:
+      fontFamily: "Jost"
+      fontSize: 21px
+      fontWeight: 300
+      lineHeight: 1.65
+      letterSpacing: 0.1px
+    copy:
+      fontFamily: "Jost"
+      fontSize: 18px
+      fontWeight: 400
+      lineHeight: 1.7
+      letterSpacing: 0.1px
+    label:
+      fontFamily: "Jost"
+      fontSize: 16px
+      fontWeight: 500
+      lineHeight: 1.3
+      letterSpacing: 0.4px
+    caption:
+      fontFamily: "Jost"
+      fontSize: 15px
+      fontWeight: 400
+      lineHeight: 1.5
+      letterSpacing: 0.2px
+  rounded:
+    none: 0px
+    soft: 4px
+    pill: 9999px
+    # the website's roles: control (pressed or typed) and card (containers)
+    card: "{rounded.soft}"
+    control: "{rounded.pill}"
+  spacing:
+    step-xs: 8px
+    step-sm: 16px
+    step-md: 32px
+    step-lg: 72px
+    step-xl: 128px
+    step-xxl: 184px
+    # the website's roles: between bands, and between groups inside a band
+    section: "{spacing.step-xl}"
+    block: "{spacing.step-lg}"
+  containers:
+    content: 1200px
+    wide: "{containers.content}"
+sections:
+  overview: >
+    Vow is an album. The first screen is its cover: one tall portrait photograph centred on
+    {colors.white}, the headline split around it in {typography.display} italic Bodoni, its first
+    line above the picture and its second below, so the words frame the photograph and never sit
+    on it. Inside, photographs come in tall staggered pairs like facing pages; text is
+    {colors.olive} on {colors.white} with generous air; one {colors.sage} band gives relief; the
+    footer is {colors.olive}. No rules, no gold, no frames: the photographs carry the romance.
+  colors: >
+    {colors.white} is the page and {colors.sage} the relief band (a cool pale green, never beige).
+    {colors.olive} is all text (12.6:1 on white), {colors.olive-soft} secondary (6.2:1). The brand's
+    slot is {colors.primary}, a deep olive, for the one button, with {colors.white} text (9.2:1).
+    {colors.line} outlines inputs only. Text is neutral on every ground; nothing is tinted.
+
+    With the brand's own colour: the brand's colour fills the one button; it must carry {colors.white} text at 4.5:1, so a deep brand colour (a navy, a burgundy, a forest green) works directly; a light one keeps the olive and is used nowhere.
+  typography: >
+    Bodoni Moda, a high-contrast serif, for every head: {typography.display} at 132px in italic
+    for the cover's split headline when its longer line has 14 characters or fewer, else {typography.section} for both lines, {typography.heading-lg} at
+    48px for band heads, {typography.title} for names and captions of note. Jost carries the
+    reading at 18px, leads at 21px light, labels at 16px, captions at 15px. Sentence case; the
+    italic is kept for the cover and for one word of a band head at most.
+  layout: >
+    Twelve columns in a 1200px container with 32px gutters. The cover is at least one screen tall:
+    the photograph centred on columns 4–9, the headline's two lines centred across the full width.
+    Bands carry {spacing.step-xl} top and bottom; air is part of the calm.
+  elevation_and_depth: >
+    Flat. Depth comes from the photographs' own light and the stagger of the pairs.
+  components: >
+    Photographs are square-cornered or at {rounded.soft} (4px), never rounded further; buttons are
+    pills; inputs are at {rounded.soft}.
+
+    Primary button: {colors.primary} with {colors.white} text in {typography.label}, a pill, 52px
+    tall, hovering to {colors.primary-deep}; used once per band at most. A text link is
+    {colors.olive} with a 1px underline. Inquiry form: labelled inputs at 52px with a 1px
+    {colors.line} border, the button beneath; only when the brief gives the fields and where the
+    form sends.
+  dos_and_donts:
+    do:
+      - rule: "Open on the brand's single best portrait photograph, centred and tall on columns 4–9, with the headline split above and below it."
+        why: "A wedding page sells a feeling the photograph already holds; framing it with the words, like a cover, keeps it untouched and makes it the first thing seen."
+      - rule: "Size the headline's two lines together by the longer one: {typography.display} when it has 14 characters or fewer, otherwise both at {typography.section}, each one line."
+        why: "The split reads as one sentence around the picture only when both halves match; a line that wraps or shrinks alone breaks the cover's symmetry."
+      - rule: "Set photographs in tall staggered pairs on 1–6 and 7–12, the second dropped by {spacing.step-lg}."
+        why: "Wedding photography is mostly portrait; pairs let each frame stay tall, and the drop gives the page the rhythm of facing pages."
+      - rule: "Run a landscape photograph alone at the full container width, between pairs."
+        why: "Paired with a portrait it would be cropped tall or dwarfed; alone it reads as a spread and rests the eye between pairs."
+      - rule: "Keep the italic for the cover's headline and at most one word of a band head."
+        why: "The italic is the cover's voice; set in every heading it stops marking the cover and the page loses its one flourish."
+      - rule: "Spend {colors.primary} on the one pill per band and nowhere else."
+        why: "It is the only colour on the page that is not a photograph's, so wherever it appears is where the eye looks for the inquiry."
+    dont:
+      - rule: "Don't put words on a photograph or lay a scrim over one."
+        why: "A scrim greys the picture the couple is buying; the words framing it from outside are the cover."
+      - rule: "Don't frame a photograph with a rule, border or gold line."
+        why: "Gold hairlines and framed plates are plinth's device; here the white space around the photograph is the frame."
+      - rule: "Don't divide bands with a rule."
+        why: "Bands are separated by space and the one sage ground; a rule brings back the structure an album turns its pages without."
+      - rule: "Don't round a photograph past {rounded.soft}."
+        why: "Album prints are cut square or nearly so; a softer corner makes the photograph a social tile."
+      - rule: "Don't use a beige, cream or pink ground."
+        why: "Beige is the generated default and pink is bloom's; vow is white and cool sage."
+      - rule: "Don't enlarge a photograph past its own pixel size."
+        why: "The photography is what the page is selling; a soft cover says the work is soft."
+  responsive_behavior: >
+    Below 768px the cover keeps its order (first line, photograph, second line, action) with the
+    headline at {typography.display-md} and the photograph full width minus margins at 4/5. Pairs
+    stack, keeping their stagger as a small offset. Bands go to one column with 20px margins;
+    section padding {spacing.step-xl} → {spacing.step-lg}.
+  known_gaps: >
+    A brand with no strong portrait photograph cannot carry vow's cover; use quiet or plinth.
+    Landscape photographs sit as single wide frames between pairs. No icon set.
+
+# Component recipes, by part: not compiled into the theme; read them with sections.components.
+x_components:
+  body:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.olive}"
+    typography: "{typography.copy}"
+  body-muted:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.olive-soft}"
+    typography: "{typography.copy}"
+  band-sage:
+    backgroundColor: "{colors.sage}"
+    textColor: "{colors.olive}"
+  band-sage-muted:
+    backgroundColor: "{colors.sage}"
+    textColor: "{colors.olive-soft}"
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-deep}"
+    textColor: "{colors.white}"
+    typography: "{typography.label}"
+    rounded: "{rounded.pill}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.olive}"
+    typography: "{typography.copy}"
+    rounded: "{rounded.soft}"
+  input-outline:
+    backgroundColor: "{colors.line}"
+    textColor: "{colors.olive}"
+  footer:
+    backgroundColor: "{colors.olive}"
+    textColor: "{colors.sage}"
+    typography: "{typography.caption}"
+  footer-strong:
+    backgroundColor: "{colors.olive}"
+    textColor: "{colors.white}"
+
+# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+x_declares: []
+
+# ── Extensions ────────────────────────────────────────────────────
+x_invariants:
+  style:
+    - "The cover: one tall portrait photograph centred on {colors.white}, the italic headline split above and below it, never on it."
+    - "Photographs in staggered pairs; square or 4px corners; no rules, no frames, no gold."
+    - "{colors.white} and {colors.sage} grounds; {colors.olive} text; {colors.primary} only on the button."
+  accessible:
+    - "{colors.olive} on {colors.white} 12.6:1, on {colors.sage} 11.0:1; {colors.white} on {colors.primary} 9.2:1."
+    - "No text sits on a photograph anywhere."
+    - "Inputs 52px with visible labels; every control 48px or more."
+
+x_imagery:
+  role: >
+    The photographs are the page. The cover shows the one best portrait; inside, pairs of tall
+    frames carry the story (the couple, the place, the table, the details).
+  density: "the cover always; a pair or a single wide frame in most bands"
+  treatment: >
+    Cover: a portrait photograph (4/5 or 2/3), 1600px tall or more, sharp, one clear subject (the
+    couple, a bride), centred on columns 4–9, square-cornered, object-cover, no filter, no overlay.
+    Pairs: two tall frames (4/5 or 2/3) side by side on 1–6 and 7–12, the second dropped by
+    {spacing.step-lg}. A landscape photograph runs alone at full container width between pairs.
+  aspect_ratios: ["4/5", "2/3", "3/2", "16/9"]
+  caption: >
+    Optional, {typography.caption} {colors.olive-soft}, {spacing.step-sm} under a photograph: the place
+    or the moment, in the brief's words.
+  forbidden:
+    - "words on a photograph"
+    - "a rule, frame or gold line around a photograph"
+    - "a photograph enlarged past its own pixel size"
+  no_assets_supplied: >
+    With no portrait photograph, vow is the wrong system.
+
+x_emphasis:
+  device: "one line in `text-display-md` italic `text-olive` centred on a `bg-sage` band, its source beneath in `text-caption` `text-olive-soft`"
+  applies_to: "the one line the page leads with (a couple's words, a count of weddings), once"
+  why: "A single line set large and quiet is how an album holds a dedication."
+
+x_motion:
+  principle: "Slow and once, like turning a page."
+  entrance: "On load the photograph fades in over 1400ms; the headline's first line then the second rise 12px and fade in, 200ms and 400ms after."
+  signature: "Photograph pairs enter one after the other, 200ms apart, fading in and rising 16px, once."
+  scroll: "Only photographs enter on scroll; words do not animate."
+  reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; with script off the page is complete."
+  mechanism: "Tailwind transition, duration, ease, opacity and translate utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; no <style> block, no keyframes."
+
+x_layout:
+  measure:
+    reading: "52–62ch in {typography.copy}"
+    caption: "one line at the width of its photograph"
+  grid:
+    columns: 12
+    container: "1200px, 48px side margins → 20px below 768px"
+    gutter: "32px"
+    text_columns: "centred 4–9, or 1–5 beside a pair on 7–12"
+    media_columns: "the cover on 4–9; pairs on 1–6 and 7–12; a wide frame on 1–12"
+  rhythm:
+    section: "{spacing.step-xl} → {spacing.step-lg}"
+    group: "{spacing.step-lg} → {spacing.step-md}"
+    item: "{spacing.step-md}"
+    element: "{spacing.step-sm}"
+    separator: "space and surface — {colors.white} bands with generous space between; the one {colors.sage} band for relief (a dedication, the facts, a form); the footer {colors.olive}; never a rule"
+  registers:
+    persuasion: { head: statement, type: "{typography.display} italic cover, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; a pair or a wide frame in most bands" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the facts or prices start on the first screen" }
+    reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column centred on 4–9; a pair between sections" }
+  head:
+    statement: "At least one screen tall on {colors.white}: the headline's first line in {typography.display} italic {colors.olive} centred across the full width at the top; beneath it, {spacing.step-md} below, the brand's single best portrait photograph (4/5 or 2/3, 1600px tall or more, sharp, one clear subject such as the couple or a bride, looking natural rather than posed at camera if the brand has the choice) centred on columns 4–9, square-cornered; beneath the photograph, {spacing.step-md} below, the headline's second line in the same size; then one {typography.lede} {colors.olive-soft} line and the {colors.primary} pill (the inquiry), centred. Size the two lines together, by the longer one: {typography.display} only when it has 14 characters or fewer (132px fits about 14 in the 1200px container); longer, both lines at {typography.section}, and both stay one line each. The two lines are always the same size. No words on the photograph. With no portrait photograph: the two lines stand together, centred, over a single wide frame beneath."
+    plain: "A {colors.white} band: the title in {typography.section} {colors.olive} centred on 3–10, one {typography.lede} {colors.olive-soft} line under it; the first band starts {spacing.step-lg} below."
+  close: "The {colors.sage} band: the ask in {typography.display-md} italic {colors.olive} centred on 3–10, one line beneath, then the pill (or the inquiry form on 4–9 when the brief gives its fields and where it sends); {spacing.step-xl} padding; then the {colors.olive} footer."
+  shapes:
+    items: { as: "grid", look: "with photographs: each a tall frame (4/5) with the name in {typography.title} and a line in {typography.copy} {colors.olive-soft}; without: names in {typography.title} with a line each, {spacing.step-md} apart, no rules", counts: "2: a pair, staggered. 3: across, the middle dropped. 4: two pairs. 5–6: rows of 3. 7+: names only, two columns. Names with no photograph after a pair (2–4): a centred cluster on 3–10, not spread across the full 12 columns." }
+    table: { as: "stack of rows", look: "on {colors.sage}: the item in {typography.copy} left and the price or detail right with tabular figures, {spacing.step-sm} between rows, no rules; group heads in {typography.title}", counts: "≤ 12: one table on 3–10. 13+: grouped, two across from 1024px." }
+    facts: { as: "stack", look: "key in {typography.label} {colors.olive-soft}, value in {typography.lede} {colors.olive}", counts: "1–3: centred on 4–9. 4–8: two columns on 3–10." }
+    qa: { as: "stack", look: "question in {typography.title}, answer in {typography.copy} {colors.olive-soft} beneath, {spacing.step-md} between pairs", counts: "≤ 8: one column on 3–10. 9+: two columns." }
+    people: { as: "grid", look: "portrait at 4/5, the name in {typography.title}, the role in {typography.copy} {colors.olive-soft}", counts: "1: beside the words at 5/7. 2: a pair. 3: across. 4+: rows of 3." }
+    sequence: { as: "stack", look: "each step's number in {typography.display-md} italic {colors.olive}, its name in {typography.title}, its line in {typography.copy} {colors.olive-soft}", counts: "2–4: across 12. 5+: one column on 3–10." }
+    media_text: { as: "sidebar", look: "a tall photograph (4/5) on 7–12 (or 1–6), the heading in {typography.heading-lg} and a passage on the other side, vertically centred", counts: "one per band; alternate sides when two follow each other" }
+    gallery: { as: "grid", look: "tall pairs on 1–6 and 7–12, the second dropped by {spacing.step-lg}; a landscape frame alone at 1–12 between pairs", counts: "2: a pair. 3: a pair and a wide frame. 4: two pairs. 5+: pairs, a wide frame every third." }
+    quote: { as: "stack", look: "the words in {typography.heading-lg} italic {colors.olive} centred on 3–10 ({typography.lede} italic below 768px, so a long quote keeps a reading measure), the name in {typography.label} {colors.olive-soft}; reviews from a platform carry its square mark and star graphics above the words, on {colors.white}", counts: "1: centred alone. 2–3: one after another, {spacing.step-lg} apart. 4+: two columns." }
+    prose: { as: "center", look: "{typography.copy} at measure.reading on 3–10 with its heading in {typography.heading-lg} centred above; a text-only band never sits narrow and left-aligned between photograph bands", counts: "—" }
+    form: { as: "stack", look: "labelled inputs at 52px with a 1px {colors.line} border at {rounded.soft}, on 4–9, the pill beneath", counts: "≤ 6 fields in one column; more in two columns on 3–10." }
+    index: { as: "grid", look: "each entry a tall photograph (4/5) with its title in {typography.title} and one line", counts: "2: a pair. 3: across. 4+: rows of 3." }
+  focal: "The cover's photograph leads the page. In each band after, the photographs lead and the words follow. The {colors.primary} pill is the only colour that isn't a photograph's."
+  never:
+    - "words on a photograph, or a scrim"
+    - "rules, frames or gold around photographs"
+    - "a beige, cream or pink ground"
