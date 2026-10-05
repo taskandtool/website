@@ -40,8 +40,21 @@ for (const f of notes("public")) {
   } else if (type === "location") {
     facts.locations.push({ ...data, _file: f });
   } else if (type === "offering") {
-    const summary = body.trim().split(/\n\s*\n/)[0] ?? "";
-    if (filled(data.title) && filled(summary)) facts.offerings.push({ ...data, _file: f, summary });
+    // One offering per note, or, when the body has `## ` headings, one per
+    // section: the heading is its title and its first paragraph the summary.
+    // A note-level price belongs to no one section, so sections carry none.
+    const firstPara = (text) => text.trim().split(/\n\s*\n/)[0] ?? "";
+    const sections = [...body.matchAll(/^##\s+(.+?)\s*\n([\s\S]*?)(?=^##\s|\s*$(?![\s\S]))/gm)];
+    if (sections.length) {
+      const { price, currency, unit, ...shared } = data;
+      for (const m of sections) {
+        const summary = firstPara(m[2]);
+        if (filled(summary)) facts.offerings.push({ ...shared, title: m[1].trim(), price: null, _file: f, summary });
+      }
+    } else {
+      const summary = firstPara(body);
+      if (filled(data.title) && filled(summary)) facts.offerings.push({ ...data, _file: f, summary });
+    }
   } else if (type === "faq") {
     // Questions are `## ` headings; the answer is what follows until the next.
     for (const m of body.matchAll(/^##\s+(.+?)\s*\n([\s\S]*?)(?=^##\s|\s*$(?![\s\S]))/gm)) {

@@ -31,8 +31,12 @@ Read the folders and carry on from where they are:
    their colours; it prints what to read next. With a name and no link,
    find their website first (a search connection when the app has one,
    otherwise your own web search) and say in one line who you found.
-2. **Write `public/services.md`** from the services page it names, with the
-   `brand` skill's rules.
+2. **Write `public/services.md`** from the services page it names, over
+   the template already there: `updated` (today) and `sources` (that page)
+   in the frontmatter, no "to fill" left, then a `## <service>` section per
+   service in the page's own facts, cited. Nothing it does not say: no
+   guessed prices. The facts on the page come from this note, through
+   `ServicesSection` or `content`, never typed into the markup.
 
 What a page is built from (`npm run parts`; if the list is not shown here,
 run it):

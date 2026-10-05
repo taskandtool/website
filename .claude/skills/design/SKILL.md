@@ -37,9 +37,10 @@ Most owners judge a design by looking at it.
    tokens from their current site; change what this design needs (colours
    by role, fonts, sizes, radii), then `npm run system`. The tokens are all
    a first page needs.
-4. **Build the page** in `src/pages/home.tsx` (the `website` skill's "How a
-   page is written"; `npm run parts` lists what it is built from), then
-   `npm run verify` and fix what is a mistake. When the owner asked for something the lint flags, put
+4. **Build the page** in `src/pages/home.tsx`, written whole in one go
+   (the `website` skill's "How a page is written"; `npm run parts` lists
+   what it is built from), then `npm run verify` and fix what is a mistake.
+   When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so in one line.
 5. **Review, commit, show.** The review gate below, then commit (one plain
    line), so any version the owner has seen comes back with one `git
@@ -138,6 +139,9 @@ Read the images in order, and answer:
 4. Which element is there only to look busy? Remove it.
 5. Is every claim on the page in the notes?
 
-Fix the largest problem and look again; the first render always shows
-something the code did not. Then `npm run show -- --from-shots` sends the
+The first render always shows something the code did not. List every
+problem the images show, fix them all in one pass (rewrite the file, or one
+script for several edits; not one edit per problem), then `npm run verify`
+and `npm run shots` once more. Two looks are usually enough; a third only
+for something still broken. Then `npm run show -- --from-shots` sends the
 screenshots you looked at to the chat.
