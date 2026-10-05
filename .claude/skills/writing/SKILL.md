@@ -41,7 +41,7 @@ Use the ones the page needs, each once.
 - **Actions** say what happens next ("Book a workshop visit", never "Learn
   more"). One verb for one action, everywhere.
 - **Lead with the thing, not the pronoun:** no run of lines starting "We".
-- **Their customers' words** (in the reviews) make the best lines.
+- **The words customers use** in their reviews for the job beat trade terms.
 - **A number comes with what it counts**, never alone.
 - **Others' words** stay exactly as written, in a `<blockquote>` (lint
   leaves them alone), shortened only with "…", credited as the source gives

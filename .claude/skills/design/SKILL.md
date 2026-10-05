@@ -41,9 +41,9 @@ Most owners judge a design by looking at it.
    what it is built from), then `npm run verify` and fix what is a mistake.
    When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so in one line.
-5. **Review.** Two fresh sub-agents at once: the `writing` skill's cold
-   read, and the review gate below on the screenshots. Fix both lists in
-   one pass. No sub-agents: do both yourself and say so.
+5. **Review.** Start the `writing` skill's cold read (a sub-agent) on the
+   built page, run the review gate below meanwhile, and fix both lists in
+   one pass.
 6. **Commit and show.** Commit (one plain line), so any version the owner
    has seen comes back with one `git checkout`; then `npm run show --
    --from-shots`.

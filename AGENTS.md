@@ -76,7 +76,7 @@ page with `npm run shots`, then `npm run show -- --from-shots`.
   If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
   (it is safe to run again).
 - Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
-  any credential.
+  any credential. Pushing to GitHub is the owner's call.
 
 ## Rules
 

@@ -147,7 +147,8 @@ for (const file of pages) {
       else if (!siteCss.has(c) && !c.startsWith("js-")) report("unknown-utility", page, el, `"${c}" produced no CSS, so it does nothing; use a theme token or a utility that exists`);
     }
     const cols = Number(cls.map((c) => c.match(/^grid-cols-(\d+)$/)?.[1]).find(Boolean) || 0);
-    if (cols >= 3 && !cls.includes("hidden")) report("phone-grid", page, el, `"grid-cols-${cols}" applies at every width, so a phone gets ${cols} columns and overflows or crushes them; start at one or two and widen from a breakpoint (md:grid-cols-${cols})`);
+    // three small things (stats, logos) can sit side by side on a phone: a look; four or more overflow
+    if (cols >= 3 && !cls.includes("hidden")) report("phone-grid", page, el, `"grid-cols-${cols}" applies at every width, so a phone gets ${cols} columns${cols >= 4 ? " and overflows or crushes them" : "; fine for three small things, crushed for cards of text"}; start at one or two and widen from a breakpoint (md:grid-cols-${cols})`, cols >= 4 ? "error" : "hint");
     if (tag === "video" && el.hasAttribute("autoplay")) {
       const missing = ["muted", "playsinline", "poster"].filter((a) => !el.hasAttribute(a));
       if (missing.length) report("video-autoplay", page, el, `an autoplaying <video> without ${missing.join(", ")}; phones only autoplay a muted inline video, and the poster is what shows until it plays`);

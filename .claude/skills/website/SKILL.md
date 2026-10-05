@@ -30,8 +30,9 @@ npm run show -- --from-shots     # each page whole, one image per width, sent to
 
 Look at the screenshots yourself before `show`, so what the owner sees is
 what you checked. A small edit: fix it at its source (the note, the brief or
-the page), `npm run verify`, shots of that page, one look, show. `npm run audit` (the crawler against dev: links,
-headings, alt text, titles) once there are several pages.
+the page), `npm run verify`, shots of that page, one look, show.
+`npm run audit` (the crawler against dev: links, headings, alt text,
+titles) once there are several pages.
 
 ## The facts, the collections, and what the build generates
 

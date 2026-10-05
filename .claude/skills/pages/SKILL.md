@@ -96,8 +96,8 @@ From its brief, in the record:
    then the design skill's review gate, the writing skill's cold read and
    the website skill's `seo.md` (one h1, headings in order, descriptive
    links, real alt text):
-   one list of everything they find, fixed in one pass, then `npm run
-   verify` again.
+   one list of everything they find, fixed in one pass, then `verify` and
+   `shots` once more.
 2. Mark the rows `built` in `site-map.md`, show the pages (`npm run show --
    --from-shots /path …`), then the one line of what would make them better
    (the `NEED:`s, rolled up).
