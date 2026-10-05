@@ -35,11 +35,13 @@ Read the folders and carry on from where they are:
    `## <service>` section each, in the page's own facts, cited, with
    `updated` and `sources` set and no "to fill" left. The page shows them
    through `ServicesSection` or `content`, never typed into the markup.
+   Describe each photograph once in `brand/images.md`, from the numbered
+   `raw/photos.png`; from then on read that file, not the pictures.
 3. **Proof.** Nothing persuades like what others say, so the homepage
-   leans on it. Name each logo in `public/proof.md` and give its `kind`
-   (`raw/logos.png` shows them numbered); delete any that is not a logo. Then get what `from-site` could
-   not reach: their Facebook and other review pages, sites that mention
-   them, anything the owner sent. Paste the words in as written.
+   leans on it. Name each logo in `public/proof.md` (`raw/logos.png` shows
+   them numbered) and delete any that is not a logo. Then get what
+   `from-site` could not reach: their Facebook and other review pages, sites
+   that mention them, anything the owner sent. Paste the words in as written.
 
 What a page is built from (`npm run parts`; if the list is not shown here,
 run it):

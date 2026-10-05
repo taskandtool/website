@@ -24,9 +24,9 @@ Most owners judge a design by looking at it.
 
 1. **Look before choosing.** Their current site (`raw/site/<host>/`, its
    screenshot in `shots/`), anything they linked or said they like
-   (`tt-crawl reference <url>` captures a site's look into
-   `raw/external/<host>/`), and the design library
-   (`references/library.md`: fourteen systems with a preview each). Find
+   (`tt-crawl reference <url>` captures its look), and the design library
+   (`references/library.md`: fourteen systems with a preview each), and
+   their photographs as `brand/images.md` describes them. Find
    the one or two closest to what this business needs and take ideas from
    them, never another site's words, pictures or logo. The site's system is
    always its own.
@@ -35,16 +35,18 @@ Most owners judge a design by looking at it.
    frontmatter and the hero's lines are enough.
 3. **Set the look** in `design/system.yaml`: `npm run from-site` seeded the
    tokens from their current site; change what this design needs (colours
-   by role, fonts, sizes, radii), then `npm run system`. The tokens are all
-   a first page needs.
+   by role, fonts, sizes, radii), then `npm run system`.
 4. **Build the page** in `src/pages/home.tsx`, written whole in one go
    (the `website` skill's "How a page is written"; `npm run parts` lists
    what it is built from), then `npm run verify` and fix what is a mistake.
    When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so in one line.
-5. **Review, commit, show.** The review gate below, then commit (one plain
-   line), so any version the owner has seen comes back with one `git
-   checkout`. Then `npm run show -- --from-shots`.
+5. **Review.** Start the `writing` skill's cold read (a sub-agent) on the
+   built page, run the review gate below meanwhile, and fix both lists in
+   one pass.
+6. **Commit and show.** Commit (one plain line), so any version the owner
+   has seen comes back with one `git checkout`; then `npm run show --
+   --from-shots`.
 
 Then follow the owner. A small change is an edit to the same page. When
 they want options, or a change worth comparing, build each option as the
@@ -135,8 +137,7 @@ strips are the same page at full size, top to bottom. Read them in order:
    new first screen clearly better, would the owner send it to someone?
 4. **The phone strips:** the first screen holds the promise and the action;
    nothing is cut off, squeezed or tiny.
-5. **The words:** every claim is in the notes, and the `writing` skill's
-   cold read is in the same list.
+5. **The words:** every claim is in the notes.
 
 The first render always shows something the code did not. Write the
 problems as one list, section by section, fix them all in one pass (rewrite

@@ -13,7 +13,7 @@ export const content = generated as {
     faq: { question: string; answer: string; answerHtml: string }[];
     reviews: { quote: string; name?: string; role?: string; company?: string; platform?: string; date?: string; stars?: number; url?: string }[];
     ratings: { platform: string; value: number; count?: number; url?: string }[];
-    logos: { name: string; file: string; kind?: string }[];
+    logos: { name: string; file: string }[];
     people: { name: string; role?: string; photo?: string }[];
     numbers: { figure: string; says: string }[];
     posts: { platform?: string; text?: string; url?: string; date?: string }[];

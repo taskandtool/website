@@ -148,6 +148,7 @@ const photos = media
 mkdirSync("static/images", { recursive: true });
 // an alt worth keeping says something: not a file name, a number or "image"
 const realAlt = (alt) => (alt && /[a-z]{3,}\s+[a-z]{3,}/i.test(alt) && !/\.(jpe?g|png|webp)|^(image|photo|img)\b/i.test(alt) ? alt : "");
+const photoRows = [];
 const shown = photos.flatMap((it) => {
   const name = it.file.replace(/\.[a-z0-9]+$/i, "") + ".jpg";
   const dest = join("static/images", name);
@@ -160,9 +161,26 @@ const shown = photos.flatMap((it) => {
   const height = out.height || Math.round((it.height * width) / it.width);
   const where = it.pages?.[0]?.heading ? ` beside "${it.pages[0].heading}"` : "";
   const alt = realAlt(it.alts?.[0]);
+  photoRows.push({ file: dest, source: fileOf(it), width, height });
   return [`/images/${name}  ${width}x${height}${width >= 2000 ? "  full width" : ""}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
 });
 if (shown.length) wrote.push(`static/images/: ${shown.length} photographs at web size`);
+
+// Each photograph is looked at once: one numbered sheet (raw/photos.png) and
+// a row for each in brand/images.md, which the AI fills from the sheet; later
+// work reads the file, not the pictures.
+let photoSheet = "";
+const imagesNote = "brand/images.md";
+if (photoRows.length && existsSync(imagesNote) && /\| to fill \|/.test(readFileSync(imagesNote, "utf8"))) {
+  try {
+    execFileSync("tt-crawl", ["sheet", ...photoRows.map((r) => r.file), "--columns", "3", "--cell", "380x300", "--out", "raw/photos.png"], { stdio: "ignore" });
+    photoSheet = "raw/photos.png";
+  } catch {}
+  const rows = photoRows.map((r) => `| ${r.file} (${r.width}x${r.height}) | | | | | | ${r.source} |`).join("\n");
+  writeFileSync(imagesNote, readFileSync(imagesNote, "utf8").replace(/^\| to fill \|.*$/m, rows));
+  wrote.push(`${imagesNote}: a row for each photograph${photoSheet ? `, numbered in ${photoSheet}` : ""}`);
+  notes.push(`describe each photograph once in ${imagesNote}${photoSheet ? ` from ${photoSheet} (numbered in the table's order)` : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip)`);
+}
 
 // ── the proof: what others say ────────────────────────────────────────────
 // Everything the crawl and their Google listing hold goes into
@@ -213,6 +231,25 @@ function google() {
 }
 
 const logoRows = [];
+// a logo trimmed to its own edges, so a row of them sits at one height (Pillow, when the machine has it)
+const TRIM_PY = `import sys
+from PIL import Image, ImageChops
+p = sys.argv[1]
+im = Image.open(p); im.load()
+rgba = im.convert("RGBA")
+if rgba.getchannel("A").getextrema()[0] < 255:
+    box = rgba.getchannel("A").getbbox()
+else:
+    rgb = rgba.convert("RGB")
+    diff = ImageChops.difference(rgb, Image.new("RGB", im.size, rgb.getpixel((0, 0))))
+    box = ImageChops.add(diff, diff, 2.0, -20).getbbox()
+if box and box != (0, 0) + im.size:
+    im.crop(box).save(p, **({"quality": 95} if p.lower().endswith((".jpg", ".jpeg")) else {}))`;
+const trim = (file) => {
+  try {
+    execFileSync("python3", ["-c", TRIM_PY, file], { stdio: "ignore" });
+  } catch {}
+};
 let reviewRows = [];
 let ratingRows = [];
 let sheet = "";
@@ -233,8 +270,11 @@ if (proofEmpty) {
   if (logoItems.length) mkdirSync("static/images/logos", { recursive: true });
   for (const it of logoItems) {
     const dest = join("static/images/logos", it.file);
-    if (!existsSync(dest)) copyFileSync(fileOf(it), dest);
-    logoRows.push({ name: realAlt(it.alts?.[0]), file: `/images/logos/${it.file}`, kind: "", source: `${dir}/_index/media.json` });
+    if (!existsSync(dest)) {
+      copyFileSync(fileOf(it), dest);
+      trim(dest);
+    }
+    logoRows.push({ name: realAlt(it.alts?.[0]), file: `/images/logos/${it.file}`, source: `${dir}/_index/media.json` });
   }
   if (logoRows.length) {
     try {
@@ -250,7 +290,7 @@ if (proofEmpty) {
     proof.set("sources", [...new Set([...reviewRows, ...ratingRows, ...logoRows].map((r) => r.source.split(" (")[0]))]);
     writeFileSync(proofFile, `---\n${proof.toString().trimEnd()}\n---\n\n${proofBody.trim()}\n`);
     wrote.push(`${proofFile}: ${reviewRows.length} reviews, ${ratingRows.length} ratings, ${logoRows.length} logos (static/images/logos/)`);
-    if (logoRows.some((l) => !l.name)) notes.push(`name each logo and give its kind in ${proofFile}: ${sheet ? `${sheet} shows them numbered in the note's order` : "look at each"}`);
+    if (logoRows.some((l) => !l.name)) notes.push(`name each logo in ${proofFile}: ${sheet ? `${sheet} shows them numbered in the note's order` : "look at each"}`);
   }
 } else kept.push(`${proofFile} (already holds proof)`);
 

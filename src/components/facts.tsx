@@ -132,34 +132,20 @@ export function ReviewsSection({ id = "reviews", heading = "What customers say" 
   );
 }
 
-const LOGO_GROUPS: [string, string][] = [
-  ["customer", "Customers"], ["brand", "Brands we work on"], ["partner", "Partners"], ["supplier", "Suppliers"],
-  ["member", "Members of"], ["certification", "Certified by"], ["award", "Awards"], ["press", "As seen in"], ["", ""],
-];
-
-/** Every logo of others, grouped by kind under its label, each at one optical height in its own colours. */
-export function LogosSection({ id = "logos", heading, kinds }: { id?: string; heading?: string; kinds?: string[] }) {
-  const all = content.facts.logos.filter((l) => !kinds || kinds.includes(l.kind || ""));
-  if (!all.length) return null;
-  const known = new Set(LOGO_GROUPS.map(([k]) => k));
-  const groups = LOGO_GROUPS.map(([kind, label]) => [label, all.filter((l) => (known.has(l.kind || "") ? l.kind || "" : "") === kind)] as const).filter(([, items]) => items.length);
+/** Every logo of others as one wall, each at one optical height in its own colours. */
+export function LogosSection({ id = "logos", heading }: { id?: string; heading?: string }) {
+  const items = content.facts.logos;
+  if (!items.length) return null;
   return (
     <Section id={id} labelledBy={heading ? `${id}-title` : undefined}>
       {heading ? <h2 id={`${id}-title`} class="text-title">{heading}</h2> : null}
-      <div class="flex flex-col gap-8">
-        {groups.map(([label, items]) => (
-          <div>
-            {label && groups.length > 1 ? <p class="text-label text-ink-2" data-lint-allow="puffery">{label}</p> : null}
-            <ul class="mt-4 flex flex-wrap items-center gap-x-12 gap-y-8">
-              {items.map((l) => (
-                <li>
-                  <img src={l.file} alt={l.name} class="h-12 w-auto max-w-48 object-contain" loading="lazy" />
-                </li>
-              ))}
-            </ul>
-          </div>
+      <ul class="mt-6 flex flex-wrap items-center gap-x-12 gap-y-8">
+        {items.map((l) => (
+          <li>
+            <img src={l.file} alt={l.name} class="h-12 w-auto max-w-48 object-contain" loading="lazy" />
+          </li>
         ))}
-      </div>
+      </ul>
     </Section>
   );
 }
