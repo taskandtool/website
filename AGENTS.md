@@ -13,12 +13,12 @@ Which skill to read, by what the owner asks:
 - "build me a homepage", "build my site", "redesign my site", a link to their
   business: `new-site` (a new site, homepage first, even when they have one)
 - "change the look", "it looks generic", colours, fonts, a new logo: `design`
-- a new page, the page plan, what a page should say: `pages`
+- a new page, the page plan, what a page should say, a page's code: `pages`
 - words and headlines: `writing`; the tells generated text falls into: `tropes`
 - facts about the business (hours, phone, a new service), a crawl, a
   document, photos or logos sent in chat (`uploads/`, then `npm run images`): `brand`
-- a blog post: the website skill's `posts.md`, with `writing`
-- "help us rank for …": the website skill's `seo.md` ("Ranking for a search")
+- a blog post: the website skill's `references/posts.md`, with `writing`
+- "help us rank for …": the website skill's `references/seo.md` ("Ranking for a search")
 - "migrate", "move", "clone" or "rebuild" a site they have, keeping its pages
   and URLs: `migrate-site`; the cutover and the weekly audit: `launch-check`
 - "is it ready to go live": the website skill's checklist before each
@@ -56,7 +56,7 @@ npm run shots [-- /path]     # the page at 1280 and 390 wide: uploads/<page>-<wi
                              # --first-screen, --width N
 npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
-npm test                     # the tests under src/ (a skill's tests arrive with its code)
+npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
 npm run audit                # the crawler against dev: links, headings, alt text, titles
 node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
 npm run db:setup             # the forms, booking and payments tables (dev start and deploy run it)
@@ -64,7 +64,9 @@ npm run deploy               # production, only when the owner asks (the website
 ```
 
 The ones with options take `--help`. Before showing work: `npm run verify`, look at the
-page with `npm run shots`, then `npm run show -- --from-shots`.
+page with `npm run shots`, then `npm run show -- --from-shots`. A small
+edit: fix it at its source (the note, the brief or the page), then the same
+three for that page.
 
 ## Where things are
 
@@ -98,7 +100,7 @@ page with `npm run shots`, then `npm run show -- --from-shots`.
 
 - Code the Worker reaches from `src/worker.ts` must run on Cloudflare (no
   Node built-ins, no filesystem, no per-request state); `src/server.ts`, a
-  skill's `cli.ts` and tests are machine only (`npm run check`). Files and
+  skill's command code and tests are machine only (`npm run check`). Files and
   heavy work happen at build time, on this machine.
 - Colours and fonts live in `design/system.yaml`, set from the brand
   notes. Markup never carries a hex value or a Tailwind

@@ -1,6 +1,6 @@
 ---
 name: pages
-description: "Plans and builds this website's pages the way an agency would: which pages the business needs, a brief per page holding its words and facts, then each page built in the site's design system, linted and set up for search. Use for a new page, the site's page plan, or what a page should say. Not for the look (design) or a small edit (website)."
+description: "Plans and builds this website's pages like an agency: which pages the business needs, a brief per page with its words and facts, then each page's code in the site's design system. Use for a new page, the page plan, or what a page should say. Not for the look (design) or a small edit (website)."
 ---
 
 # Pages
@@ -81,10 +81,9 @@ From its brief, in the record:
   `x_layout.shapes.<shape>` says for that many. The page's last ask is
   `x_layout.close`. A record without `x_layout` (the starter) leaves this to
   `DESIGN.md` and the design skill.
-- **The mechanics** are the website skill's "Adding a page" and "How a page
-  is written": a module in `src/pages`, listed in `src/pages/index.ts`, facts
-  read from the content, `page.title` and `page.description` from the
-  brief.
+- **The code:** `references/page-code.md` (a module in `src/pages`, listed
+  in `src/pages/index.ts`, facts read from the content), with `page.title`
+  and `page.description` from the brief.
 - **The words are the brief's.** A line that does not fit is changed in the
   brief first, then on the page. A `NEED:` is built without, never filled
   with a placeholder sentence.
@@ -92,20 +91,11 @@ From its brief, in the record:
 
 ## 4. Check and show
 
-1. `npm run verify` and `npm run shots -- /path /path …` for every new page,
-   then the design skill's review gate, the writing skill's cold read and
-   `.claude/skills/website/seo.md` (one h1, headings in order, descriptive
-   links, real alt text):
-   one list of everything they find, fixed in one pass, then `verify` and
-   `shots` once more.
-2. Mark the rows `built` in `site-map.md`, show the pages (`npm run show --
-   --from-shots /path …`), then the one line of what would make them better
-   (the `NEED:`s, rolled up).
-
-## Proof, on every page
-
-All of `public/proof.md` wherever it helps a reader decide: the design
-skill's "Proof, front and centre".
+1. The design skill's review gate on every new page, the writing skill's
+   cold read, and `.claude/skills/website/references/seo.md`'s "By hand"
+   list: one list of everything they find, fixed in one pass.
+2. Mark the rows `built` in `site-map.md`, show the pages together, then
+   the one line of what would make them better (the `NEED:`s, rolled up).
 
 ## Changing a page later
 

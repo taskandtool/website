@@ -6,23 +6,22 @@
 // or when a logo has no name. It prints what the page shows of each kind.
 import { existsSync, readFileSync } from "node:fs";
 import YAML from "yaml";
+import { fail } from "../src/data/cli.mjs";
+import { frontmatter, start } from "./lib.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run proof\n\nChecks that dist/index.html shows every logo and rating in public/proof.md, and at least one review.");
-  process.exit(0);
-}
+start("proof", `usage: npm run proof
+
+Checks that dist/index.html shows every logo, rating, person, number and post
+in public/proof.md, and at least one of its reviews. Prints what the page
+shows of each kind; anything missing is listed on stderr and exits 1.`);
 const note = existsSync("public/proof.md") ? readFileSync("public/proof.md", "utf8") : "";
 let proof = {};
 try {
-  proof = YAML.parse(note.match(/^---\n([\s\S]*?)\n---/)?.[1] || "") || {};
+  proof = YAML.parse(frontmatter(note)?.front || "") || {};
 } catch (e) {
-  console.error(`proof: public/proof.md's frontmatter is not valid YAML: ${e.message.split("\n")[0]}`);
-  process.exit(1);
+  fail(`proof: public/proof.md's frontmatter is not valid YAML: ${e.message.split("\n")[0]}`, "npm run content, which names the line");
 }
-if (!existsSync("dist/index.html")) {
-  console.error("proof: no dist/ yet; run npm run build first");
-  process.exit(1);
-}
+if (!existsSync("dist/index.html")) fail("proof: no dist/ yet", "npm run build, then npm run proof");
 const page = readFileSync("dist/index.html", "utf8");
 // letters and digits only, so entities, quotes and "1,204" against 1204 never decide a match
 const bare = (t) => String(t).toLowerCase().replace(/&[a-z#0-9]+;/gi, "").replace(/[^a-z0-9.]+/g, "");
@@ -53,8 +52,5 @@ const rest = [["people", (r) => r.name], ["numbers", (r) => r.figure], ["posts",
   return `${kind} ${shown.length}/${items.length}`;
 });
 const counts = `logos ${logos.length - missingLogos.length}/${logos.length}, ratings ${ratings.length - missingRatings.length}/${ratings.length}, reviews ${shownReviews.length}/${reviews.length}, ${rest.join(", ")}`;
-if (findings.length) {
-  console.error(`proof: the homepage shows ${counts}\n  - ${findings.join("\n  - ")}\nPut it on the page: the design skill's "Proof, front and centre".`);
-  process.exit(1);
-}
+if (findings.length) fail(`proof: the homepage shows ${counts}\n  - ${findings.join("\n  - ")}\n  Put it on the page: the design skill's "Proof, front and centre".`, "npm run build && npm run proof");
 console.log(`proof: the homepage shows ${counts}`);

@@ -11,23 +11,23 @@
 // element can opt out with data-lint-allow="trace" (an owner's exception).
 import { existsSync, readFileSync } from "node:fs";
 import { parse } from "node-html-parser";
-import { walk } from "./files.mjs";
-
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log(`usage: npm run trace
-
-Checks that every phone, email, price, percentage, year, count and quote on
-the built pages (dist/) is in public/, brand/, design/briefs/, posts/ or legal/.
-Run npm run build first. Opt one element out with data-lint-allow="trace".`);
-  process.exit(0);
-}
-if (!existsSync("dist/index.html")) {
-  console.error("trace: no dist/ yet; run npm run build first");
-  process.exit(1);
-}
+import { fail } from "../src/data/cli.mjs";
+import { start, walk } from "./lib.mjs";
 
 // ── the notes, as one text ────────────────────────────────────────────────
 const SOURCES = ["public", "brand", "design/briefs", "posts", "legal"];
+const FOLDERS = `${SOURCES.slice(0, -1).map((d) => `${d}/`).join(", ")} or ${SOURCES.at(-1)}/`;
+
+start("trace", `usage: npm run trace
+
+Checks that every phone, email, price, percentage, year, count and quote on
+the built pages (dist/) is in the notes:
+${FOLDERS}.
+Prints how many facts it checked; each one not found is listed on stderr,
+with the words around it, and exits 1. Run npm run build first. Opt one
+element out with data-lint-allow="trace".`);
+if (!existsSync("dist/index.html")) fail("trace: no dist/ yet", "npm run build, then npm run trace");
+
 const note = (file) =>
   readFileSync(file, "utf8")
     // a frontmatter comment is a template's example, not a fact
@@ -157,7 +157,6 @@ const clip = (s, n = 70) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
 const around = (line, atom) => { const at = Math.max(0, line.indexOf(atom.split(" ")[0]) - 25); return (at ? "…" : "") + clip(line.slice(at)); };
 if (missing.length) {
   const rows = missing.map((m) => `  ${m.page}  ${m.kind}  ${clip(m.atom, 60)}${m.line && m.line.trim() !== m.atom ? `\n      in: ${around(m.line.trim(), m.atom)}` : ""}`);
-  console.error(`trace: ${missing.length} of ${checked} facts on the pages are not in public/, brand/ or the briefs\n${rows.join("\n")}\nFor each: add it to the right note with its source, or take it off the page. An owner's exception: data-lint-allow="trace" on the element.`);
-  process.exit(1);
+  fail(`trace: ${missing.length} of ${checked} facts on the pages are not in ${FOLDERS}\n${rows.join("\n")}\n  For each: add it to the right note with its source, or take it off the page. An owner's exception: data-lint-allow="trace" on the element.`, "npm run build && npm run trace");
 }
 console.log(`trace: ${checked} facts checked across ${pages.length} pages`);

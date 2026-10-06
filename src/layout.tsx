@@ -109,7 +109,7 @@ function Header({ current }: { current: string }) {
   );
 }
 
-export function Wordmark() {
+function Wordmark() {
   const logo = logoUrl();
   if (logo) {
     return <img src={logo} alt={site.logo.alt || site.name} class="h-8 w-auto" />;

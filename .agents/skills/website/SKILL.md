@@ -1,6 +1,6 @@
 ---
 name: website
-description: "Runs, changes and deploys this business website: the Hono app, its pages and components, the dev loop, the checks, screenshots, images and the checklist before each deploy. Use for a change to the site's code, editing a page's code, or deploying. A new homepage or site is new-site; the look is design."
+description: "Runs, changes and deploys this business website: the Hono app, its components, the dev loop, the checks, screenshots, images, search basics and the checklist before each deploy. Use for a small edit, a change to the site's code, or deploying. A new homepage or site is new-site; a page is pages; the look is design."
 ---
 
 # Website

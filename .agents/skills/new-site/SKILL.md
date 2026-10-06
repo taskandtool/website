@@ -1,6 +1,6 @@
 ---
 name: new-site
-description: "Builds a business a new website the way a good agency would: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch. Use for build me a homepage, build my site, redesign my site, or a link to their business. Not for moving a site page for page with its URLs (migrate-site)."
+description: "Builds a business's new website like a good agency: a striking homepage first, from their current site, then the design system, the other pages and the launch. Use for build me a homepage, build my site, redesign my site, or a link to their business. Not for a page-for-page move (migrate-site)."
 ---
 
 # New site

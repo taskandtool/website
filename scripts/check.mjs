@@ -15,13 +15,15 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { DESIGN, FONTS, RECORD, THEME, designMd, fontsTs, problems, readRecord, themeCss } from "./system.mjs";
-import { walk } from "./files.mjs";
+import { fail } from "../src/data/cli.mjs";
+import { pagePaths, start } from "./lib.mjs";
 import { TEXT_PAIRS, isHex, ratio, readTheme } from "./theme.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run check\n\nThe project's own checks: the brand notes, the design record and its contrast, page paths, the site map, the business facts, the Cloudflare rule.");
-  process.exit(0);
-}
+start("check", `usage: npm run check
+
+The project's own checks: the brand notes, the design record and its
+contrast, page paths, the site map, the business facts, the Cloudflare rule.
+Prints "check: ok", or each finding on stderr and exits 1.`);
 
 const findings = [];
 const { source: theme, colour } = readTheme();
@@ -60,44 +62,41 @@ for (const [fg, bg] of TEXT_PAIRS) {
 }
 
 // pages
-const pageFiles = walk("src/pages").filter((f) => f.endsWith(".tsx"));
+const paths = pagePaths();
 const seen = new Map();
-for (const file of pageFiles) {
-  for (const m of readFileSync(file, "utf8").matchAll(/path:\s*["']([^"']+)["']/g)) {
-    if (!m[1].startsWith("/")) findings.push(`${file}: page path ${m[1]} must start with /`);
-    if (seen.has(m[1]) && seen.get(m[1]) !== file) findings.push(`page path ${m[1]} is defined in both ${seen.get(m[1])} and ${file}`);
-    seen.set(m[1], file);
-  }
+for (const { file, path } of paths) {
+  if (!path.startsWith("/")) findings.push(`${file}: page path ${path} must start with /`);
+  if (seen.has(path) && seen.get(path) !== file) findings.push(`page path ${path} is defined in both ${seen.get(path)} and ${file}`);
+  seen.set(path, file);
 }
 
 // a page module nothing imports is never routed: it is listed in src/pages/index.ts
 const imports = ["src/pages/index.ts", "src/app.tsx"].filter(existsSync).map((f) => readFileSync(f, "utf8")).join("\n");
-for (const file of pageFiles) {
+for (const file of new Set(paths.map((p) => p.file))) {
   const name = file.replace(/^src\/pages\//, "").replace(/\.tsx$/, "");
-  if (readFileSync(file, "utf8").match(/path:\s*["']/) && !new RegExp(`from ["']\\./${name}["']|from ["']\\./pages/${name}["']`).test(imports))
+  if (!new RegExp(`from ["']\\./${name}["']|from ["']\\./pages/${name}["']`).test(imports))
     findings.push(`${file} is a page nothing lists: import it in src/pages/index.ts and add it to modules`);
 }
 
 // site-map.md: every keep or merge row resolves to a page or a redirect
 if (existsSync("site-map.md")) {
   const map = readFileSync("site-map.md", "utf8");
-  const pagePaths = new Set();
-  for (const file of walk("src/pages")) for (const m of readFileSync(file, "utf8").matchAll(/path:\s*["']([^"']+)["']/g)) pagePaths.add(m[1]);
+  const known = new Set(paths.map((p) => p.path));
   const redirectsSrc = existsSync("src/redirects.ts") ? readFileSync("src/redirects.ts", "utf8") : "";
   const redirectFroms = new Set([...redirectsSrc.matchAll(/\[\s*"([^"]+)"\s*,\s*"[^"]+"\s*\]/g)].map((m) => m[1]));
   let generated = { posts: [], legal: [] };
   try {
     generated = JSON.parse(readFileSync("src/generated/content.json", "utf8"));
   } catch {}
-  for (const p of [...generated.posts, ...generated.legal]) pagePaths.add(p.path);
-  if (generated.posts?.length) pagePaths.add("/blog");
+  for (const p of [...generated.posts, ...generated.legal]) known.add(p.path);
+  if (generated.posts?.length) known.add("/blog");
   for (const line of map.split("\n")) {
     const cells = line.split("|").map((c) => c.trim());
     if (cells.length < 7 || !cells[1].startsWith("/") || cells[1] === "old URL") continue;
     const [, oldUrl, action, target] = cells;
     const oldPath = oldUrl.replace(/^https?:\/\/[^/]+/, "") || "/";
-    if (action === "keep" && !pagePaths.has(oldPath) && !pagePaths.has(target)) findings.push(`site-map.md: ${oldUrl} is a keep but no page has path ${target || oldPath}`);
-    if ((action === "merge" || action === "drop") && target !== "-" && !redirectFroms.has(oldPath) && !pagePaths.has(oldPath)) {
+    if (action === "keep" && !known.has(oldPath) && !known.has(target)) findings.push(`site-map.md: ${oldUrl} is a keep but no page has path ${target || oldPath}`);
+    if ((action === "merge" || action === "drop") && target !== "-" && !redirectFroms.has(oldPath) && !known.has(oldPath)) {
       findings.push(`site-map.md: ${oldUrl} is a ${action} to ${target} but src/redirects.ts has no entry for ${oldPath}`);
     }
   }
@@ -153,8 +152,5 @@ while (queue.length) {
   }
 }
 
-if (findings.length) {
-  console.error("check: " + findings.length + " finding(s)\n  - " + findings.join("\n  - "));
-  process.exit(1);
-}
+if (findings.length) fail(`check: ${findings.length} finding(s)\n  - ${findings.join("\n  - ")}`, "npm run check, once each is fixed");
 console.log("check: ok");

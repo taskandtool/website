@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Designs the look of this website: the first screen, the design system record and how it grows, type, colour, imagery, layout and the rendered review. Use when the owner says change the look, it looks generic, new colours or fonts, or when the site grows past its homepage. Not for starting a site (new-site) or its words (writing)."
+description: "Designs this website's look: the first screen, the design system record and how it grows, type, colour, imagery, layout and the review gate. Use for change the look, it looks generic, new colours or fonts, or a site growing past its homepage. Not for starting a site (new-site) or its words (writing)."
 ---
 
 # Design
@@ -14,45 +14,8 @@ its rules with their reasons, and how each kind of content is laid out.
 Make the page unmistakably this business, for its customers, doing its one
 job. A new palette on a familiar landing-page template is not a design.
 When the owner asks for a faithful copy of an existing design, fidelity
-wins. Design with the real words (the `writing` skill), never around
-placeholder copy.
-
-## The homepage first
-
-Build one homepage for real and show it, rather than planning the site.
-Most owners judge a design by looking at it.
-
-1. **Look before choosing.** Their current site (`raw/site/<host>/`, its
-   screenshot in `shots/`), anything they linked or said they like
-   (`tt-crawl reference <url>` captures its look), and the design library
-   (`references/library.md`: fourteen systems with a preview each), and
-   their photographs as `brand/images.md` describes them. Find
-   the one or two closest to what this business needs and take ideas from
-   them, never another site's words, pictures or logo. The site's system is
-   always its own.
-2. **Write the brief,** `design/briefs/home.md` in the `pages` skill's
-   format (`.claude/skills/pages/references/brief.md`); for a first homepage, the
-   frontmatter and the hero's lines are enough.
-3. **Set the look** in `design/system.yaml`: `npm run from-site` seeded the
-   tokens from their current site; change what this design needs (colours
-   by role, fonts, sizes, radii), then `npm run system`.
-4. **Build the page** in `src/pages/home.tsx`, written whole in one go
-   (the `website` skill's "How a page is written"; `npm run parts` lists
-   what it is built from), then `npm run verify` and fix what is a mistake.
-   When the owner asked for something the lint flags, put
-   `data-lint-allow="<rule>"` on that element and say so in one line.
-5. **Review.** Start the `writing` skill's cold read (a sub-agent) on the
-   built page, run the review gate below meanwhile, and fix both lists in
-   one pass.
-6. **Commit and show.** Commit (one plain line), so any version the owner
-   has seen comes back with one `git checkout`; then `npm run show --
-   --from-shots`.
-
-Then follow the owner. A small change is an edit, one look at that page's
-shots, and a show; a new section or page gets the full review. When
-they want options, or a change worth comparing, build each option as the
-real page in turn, commit each, show them side by side, and keep the one
-they pick.
+wins. A first homepage's steps are the `new-site` skill's; this skill is
+what makes it good.
 
 ## The first screen
 
@@ -142,5 +105,4 @@ strips are the same page at full size, top to bottom. Read them in order:
 Write the problems as one list, section by section, fix them all in one pass (rewrite
 the file, or one script for several edits; not one edit per problem), then
 `npm run verify` and `npm run shots` once more. Two looks are usually
-enough; a third only for something still broken. Then `npm run show --
---from-shots` sends each page whole, one image per width, to the chat.
+enough; a third only for something still broken.

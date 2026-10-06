@@ -38,12 +38,12 @@ When the owner wants to see directions, pick the few that fit the business
 wide photographs is not `crest` or `open`) and show those previews as one
 group, one line each:
 
-```python
-from tools.taskandtool import create_deliverables
-create_deliverables(
-    [{"path": ".claude/skills/design/references/library/tally.webp", "title": "Tally: checked claims and proof, for trust on a phone", "status": "info"},
-     {"path": ".claude/skills/design/references/library/crest.webp", "title": "Crest: the work at full width under a dark fade", "status": "info"}],
-    "Starting points from the design library: tell me what you like in each")
+```bash
+python3 ~/tools/taskandtool.py create-deliverables --file - \
+  --message "Starting points from the design library: tell me what you like in each" <<'EOF'
+[{"path": ".claude/skills/design/references/library/tally.webp", "title": "Tally: checked claims and proof, for trust on a phone", "status": "info"},
+ {"path": ".claude/skills/design/references/library/crest.webp", "title": "Crest: the work at full width under a dark fade", "status": "info"}]
+EOF
 ```
 
 The photographs in the previews are from Pexels and its photographers.

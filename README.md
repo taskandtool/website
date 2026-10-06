@@ -29,8 +29,10 @@ DESIGN.md        the design system to read, compiled from the record: identity, 
 static/          static files, served as-is
 scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle)
                  · system.mjs (the record → theme.css, DESIGN.md, src/fonts.ts) · check.mjs · lint.mjs · test.mjs
-                 · proof.mjs (all the proof on the homepage) · verify.mjs (all of them) · from-site.mjs
-                 · parts.mjs · images.mjs · shots.mjs · show.mjs
+                 · proof.mjs (all the proof on the homepage) · trace.mjs (every fact on the pages is in the notes)
+                 · verify.mjs (all of them) · from-site.mjs · parts.mjs · images.mjs · shots.mjs · show.mjs
+                 · db.ts (the database's tables) · forms.mjs (the forms skill's command) · lib.mjs (what they share)
+test/            the scripts' own tests: --help, and misuse refused
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 AGENTS.md        what the AI reads first; CLAUDE.md imports it
 ```
@@ -40,13 +42,13 @@ Beside the site, the two conventions Task & Tool reads:
 ```
 .claude/skills/
   new-site/      the agency flow: a striking homepage first, then the system, the pages, the launch
-  pages/         the page plan, a brief per page, the 18 page-type guides, search fields
-  website/       the mechanics: the dev loop, checks, screenshots, pages, deploy; seo.md, posts.md
-  forms/ admin/ booking/ reports/ data/
+  pages/         the page plan, a brief per page, the 18 page-type guides, search fields, a page's code
+  website/       the mechanics: the dev loop, checks, screenshots, deploy; search, posts, media and data
+  forms/ admin/ booking/ payments/ reports/ data/
                  business skills from github.com/taskandtool/skills: forms, the private
-                 /admin, a booking page, reports, and the database handle they share
-  design/        the look: the homepage first, the first screen, the system record as the site
-                 grows, the review gate; the design library's 14 systems as references
+                 /admin, a booking page, Stripe payments, reports, and the database handle they share
+  design/        the look: the first screen, the system record as the site grows, the review
+                 gate; the design library's 14 systems as references
   writing/       the words in the owner's voice, the editing passes, the cold read
   tropes/        the tells of generated copy, checked by lint (shared from the skills repo)
   migrate-site/  replace an existing site page for page: inventory, facts, brand, look, page map, redirects, launch
@@ -54,7 +56,7 @@ Beside the site, the two conventions Task & Tool reads:
                  in every Starter App that carries it
   launch-check/  the old URLs against the new site, before deploying and after the cutover
 .agents/skills/  thin Codex adapters: the same descriptions, pointing at the bodies above
-.taskandtool/setup.sh  npm install, the CSS, tt-crawl, the Obscura browser, the `web` service
+.taskandtool/setup.sh  npm install, the CSS, tt-crawl and its browsers, /admin kept for the team, the `web` service
 starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an
                        empty chat offers
 ```
@@ -80,8 +82,8 @@ starter-app.json       the manifest: what the app needs, what "ready" means, and
 
 **On Task & Tool.** Pick Website when you create an app. The machine clones
 this repository into the app from its main branch and runs
-`.taskandtool/setup.sh` (`npm install`, the CSS, the Obscura browser, the
-`web` service). Nothing is sent into your chat: the manifest's suggestions are
+`.taskandtool/setup.sh` (`npm install`, the CSS, tt-crawl and its browsers,
+the `web` service). Nothing is sent into your chat: the manifest's suggestions are
 what an empty chat offers. On machine replacement the clone and the setup
 happen again, and your own work comes back from your repository or a backup.
 
@@ -127,7 +129,7 @@ state (`starter-app.json`'s `when` conditions).
 ## Developing this Starter App
 
 - **Tests:** the crawler's live in its own repo. Here:
-  `npm install && npm run verify`.
+  `npm install && npm run verify` (`npm test` alone for the tests).
   `node_modules/`, `dist/`, `build/` and `static/site.css` are ignored and
   never committed.
 - **Try the skills:** clone it as above and drive Claude Code in the clone.

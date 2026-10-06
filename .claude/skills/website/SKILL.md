@@ -1,6 +1,6 @@
 ---
 name: website
-description: "Runs, changes and deploys this business website: the Hono app, its pages and components, the dev loop, the checks, screenshots, images and the checklist before each deploy. Use for a change to the site's code, editing a page's code, or deploying. A new homepage or site is new-site; the look is design."
+description: "Runs, changes and deploys this business website: the Hono app, its components, the dev loop, the checks, screenshots, images, search basics and the checklist before each deploy. Use for a small edit, a change to the site's code, or deploying. A new homepage or site is new-site; a page is pages; the look is design."
 ---
 
 # Website
@@ -14,38 +14,24 @@ dynamic. `AGENTS.md` in the app root lists the commands and where things
 are; `DESIGN.md` and `brand/` say how it should look and sound.
 
 This skill is the mechanics. A new homepage or site is the `new-site`
-skill, the look is `design`, what pages a site needs and what each says is
-`pages`, and a site to replace page for page is `migrate-site`. Images,
-interactivity, forms and data, after launch and off the platform are in
-`references/media-data-and-hosting.md`.
+skill, the look is `design`, what pages a site needs, what each says and
+its code is `pages`, and a site to replace page for page is `migrate-site`.
+In `references/`, read when the request needs it:
 
-## Before showing work
+- `seo.md`: what the build generates, the per-page search rules, ranking
+  for a search, and launch.
+- `posts.md`: the blog collection.
+- `media-data-and-hosting.md`: an HTML page made a page here, images and
+  video, interactivity, forms and data, after launch, off the platform.
 
-```bash
-npm run verify                   # content, check, typecheck, test, build, proof, trace, lint; every failure at once
-npm run shots                    # at 1280 and 390 wide: uploads/home-1280/overview.png (a long page), then 01.png …
-                                 # (-- /services /about for other pages, --first-screen, --width N)
-npm run show -- --from-shots     # each page whole, one image per width, sent to the chat
-```
-
-Look at the screenshots yourself before `show`, so what the owner sees is
-what you checked. A small edit: fix it at its source (the note, the brief or
-the page), `npm run verify`, shots of that page, one look, show.
-`npm run audit` (the crawler against dev: links, headings, alt text,
-titles) once there are several pages.
-
-## The facts, the collections, and what the build generates
+## The facts
 
 The notes in `public/` carry typed frontmatter (`FACTS.md`); `npm run
 content` (run by every build, and by the dev loop when a note changes)
-turns them, `posts/`, and `legal/` into `src/generated/content.json`. From
-that and the route list the build generates the footer's contact details
-(`src/site.ts` reads the business note), the JSON-LD on the home page and
-per post, `sitemap.xml`, `robots.txt`, the canonical tags (set `site.url`
-to the real domain), and validates `src/redirects.ts`. `seo.md` beside
-this file is the per-page ruleset; `posts.md` the collection. A fact lives
-in a note, once; a page that shows it is listed in `site-map.md`'s notes
-column so a change points at the pages.
+turns them, `posts/` and `legal/` into `src/generated/content.json`, which
+the pages, the footer and the JSON-LD read. A fact lives in a note, once; a
+page that shows it is listed in `site-map.md`'s notes column so a change
+points at the pages.
 
 Sections that render from the notes are ready in `src/components/facts.tsx`:
 `ServicesSection`, `FaqSection`, `ContactSection`, and for the proof
@@ -60,39 +46,6 @@ Colours and fonts are set from `brand/` into `design/system.yaml` by role
 compiles the theme, `DESIGN.md` and the font link; the name, tagline and
 logo go in `src/site.ts`.
 
-## Adding a page
-
-1. Create `src/pages/<name>.tsx` in the shape of `home.tsx`: `export const
-   Name = { page, Body }`, where `page.path` starts with `/` and
-   `page.description` is a real sentence about the page.
-2. Add it to `modules` in `src/pages/index.ts`. That makes it a route here
-   and a pre-rendered `dist/<name>.html` when deployed, served at
-   `/<name>`. Add its row to `site-map.md`. Nested paths work the same way:
-   `/services/roofing` becomes `dist/services/roofing.html`.
-3. Put it in the header nav through `site.nav` in `src/site.ts` when it
-   belongs there (at most four links; more go in a menu).
-4. Build the page from `Section`, the type classes, and the tokens. The
-   Tailwind default palette, shadows, radii, blurs, and animations are
-   switched off in the theme, so only the site's tokens exist as classes;
-   `npm run lint` refuses the rest (`DESIGN.md`: Do's and Don'ts).
-
-### How a page is written
-
-Pages are Hono JSX: mostly markup, written the way the HTML will read, so
-the next turn can change them safely.
-
-- `class`, `for` and a plain-string `style` work as in HTML; never
-  `className` or `htmlFor`.
-- The layout (`src/layout.tsx`) owns the head, header and footer. A page
-  returns only what goes inside `<main>`.
-- Facts come from `content` and `site` (the notes, compiled), never typed
-  into a page.
-- Logic stays small: a `.map()` over a list, a condition around a block.
-  Anything bigger belongs in `src/content.ts`, typed, where `npm run
-  typecheck` checks it.
-- JSX escapes text by default. `raw()` is only for markup the site
-  generates itself (JSON-LD, a post's rendered markdown).
-
 ## Before each deploy
 
 The platform's `deploy` skill says what production is and when to deploy;
@@ -101,16 +54,12 @@ this is the site's part, every time:
 1. **The checks pass.** `npm run verify`, then `npm run audit` (broken
    links, headings, alt text, labels, link text, titles and descriptions,
    page weight, the sitemap). Fix what they list.
-2. **The brand holds.** Every fact on a changed page comes from `public/`:
-   no customer, number, price, award or quote that is not in the notes. The
-   copy reads in `brand/voice.md`'s voice (the `writing` skill's pass).
-   Colours, type and spacing come from the design system, never one-off
-   values (`npm run lint` flags them).
+2. **The voice holds.** The copy on a changed page reads in
+   `brand/voice.md`'s voice (the `writing` skill's pass).
 3. **You looked at it.** The changed pages in dev, at desktop and phone
    width.
-4. **Once the site has its own domain:** `site.url` in `src/site.ts` is
-   that domain (the canonical tags and the sitemap use
-   it), and a migrated site has passed the `launch-check` skill.
+4. **A migrated site** has passed the `launch-check` skill.
 
 Then `npm run deploy`: it builds the site (every page pre-rendered, a small
-Worker for dynamic routes) and deploys it.
+Worker for dynamic routes) and deploys it. Read what the build prints
+before it deploys.

@@ -1,6 +1,6 @@
 ---
 name: migrate-site
-description: "Moves an existing website here page for page: reads it into an inventory, gets the facts and brand into notes, maps every old URL to a new page, builds the pages, writes the redirects, then hands to launch-check. Use when the owner says migrate, move, clone or rebuild my site and keep its pages. Not for a new design from the homepage (new-site)."
+description: "Moves an existing website here page for page: an inventory, the facts and brand as notes, every old URL mapped to a page, the pages, the redirects, then launch-check. Use for migrate, move, clone or rebuild my site and keep its pages. Not for a new design from the homepage (new-site)."
 ---
 
 # Migrate a site
@@ -79,8 +79,8 @@ check` holds the map and the table to each other.
 A faithful rebuild keeps the old site's look: its colours and fonts are in
 the record from step 3; fill the rest of it from how the old pages are laid
 out (the `design` skill's "When the site grows"). A redesign starts with
-the `design` skill's "The homepage first", shown to the owner, then "When
-the site grows".
+the `new-site` skill's homepage (its steps 4 to 9), shown to the owner,
+then the `design` skill's "When the site grows".
 
 ## 6. Pages, one per turn
 
@@ -88,22 +88,17 @@ Each page through the `pages` skill (its brief, then the page, in the
 site's record; in a faithful rebuild the copy is the owner's and is only
 edited, never re-voiced unless asked), with the old page's raw markdown
 open for what it said and which links it carried. Title and h1
-keep their intent (`.claude/skills/website/seo.md`); photographs come from `_index/media.json`'s
+keep their intent (`.claude/skills/website/references/seo.md`); photographs come from `_index/media.json`'s
 photo entries at full size with their alt text; internal
-links point at the new map. Posts go through `.claude/skills/website/posts.md`; legal pages
+links point at the new map. Posts go through `.claude/skills/website/references/posts.md`; legal pages
 render from `legal/`. Mark the row built, show the page, and
 stop for review before the next page.
 
 ## 7. Plumbing, generated
 
-`npm run build` generates the 301s (validated), `sitemap.xml`,
-`robots.txt`, the canonical tags (set `site.url` to the real domain
-first), and the JSON-LD from the notes. Nothing to hand-write; if a
-generated thing is wrong, the note or the map is wrong.
+The build writes it (`.claude/skills/website/references/seo.md`,
+"Generated"); a wrong generated thing means the note or the map is wrong.
 
 ## 8. Launch
 
-The `launch-check` skill: every old URL answers 200 or 301 to a 200,
-titles and descriptions present, the sitemap matches, the JSON-LD parses;
-then `npm run deploy` (the `website` skill); then the owner's domain cutover
-(a CNAME; mail records are untouched, say so) and the weekly audit job.
+The `launch-check` skill.

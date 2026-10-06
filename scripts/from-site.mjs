@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // A first homepage's starting point from the business's current site:
-// `npm run from-site -- https://theirsite.com [--only-homepage] [--json]`.
+// `npm run from-site -- https://theirsite.com [--only-homepage]`.
 //
 // Reads the homepage (tt-crawl brand --max-pages 1), then, unless
 // --only-homepage, the pages it links to that hold photographs (gallery,
@@ -20,40 +20,40 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from
 import { homedir } from "node:os";
 import { basename, join } from "node:path";
 import YAML from "yaml";
-import { webSize } from "./images.mjs";
+import { fail, has, machineEnv, misused } from "../src/data/cli.mjs";
+import { MAX_WIDTH, webSize } from "./images.mjs";
+import { frontmatter, start } from "./lib.mjs";
 import { TEXT_PAIRS, chromaHue, isHex, luminance, ratio } from "./theme.mjs";
 
-const USAGE = `usage: npm run from-site -- https://theirsite.com [--only-homepage] [--json]
+const a = start("from-site", `usage: npm run from-site -- https://theirsite.com [--only-homepage]
 
 Reads their homepage (and its gallery and services page), then writes the
 business note, the logo, their photographs at web size, and design tokens
 from their colours and fonts, public/proof.md (their reviews, Google's
 rating and reviews, logos) and numbered sheets of photos and logos to name.
-Prints what it wrote, what it kept, and what to read next.
-  --only-homepage   skip the gallery and services pages
-  --json            the summary as JSON`;
-const args = process.argv.slice(2);
-if (args.includes("--help") || args.includes("-h")) {
-  console.log(USAGE);
-  process.exit(0);
-}
-const given = args.find((a) => !a.startsWith("--"));
+Prints what it wrote, what it kept, and what to read next. Safe to run
+again: a note, logo or record already filled in is kept.
+  --only-homepage   skip the gallery and services pages`, { bools: ["only-homepage"], args: true });
+if (a._.length > 1) misused(`from-site: one site at a time (given ${a._.join(" ")})`, "npm run from-site -- https://theirsite.com");
+const given = a._[0];
 // a bare domain is their site too
 const url = given && !/^https?:\/\//.test(given) && /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(given) ? `https://${given}` : given;
-const onlyHomepage = args.includes("--only-homepage");
-const asJson = args.includes("--json");
-if (!/^https?:\/\//.test(url || "")) {
-  console.error(`from-site needs the business's site as a full URL.\n  Try: npm run from-site -- https://theirsite.com\n\n${USAGE}`);
-  process.exit(2);
-}
+const onlyHomepage = has(a, "only-homepage");
+if (!/^https?:\/\//.test(url || "")) misused("from-site: it needs the business's site as a full URL", "npm run from-site -- https://theirsite.com");
 const host = new URL(url).hostname.replace(/^www\./, "");
 const dir = `raw/site/${host}`;
 const read = (f, fallback) => (existsSync(join(dir, f)) ? JSON.parse(readFileSync(join(dir, f), "utf8")) : fallback);
 const crawl = (cmd) => execFileSync("tt-crawl", cmd, { stdio: ["ignore", "ignore", "pipe"] });
-// tt-crawl prints progress first, then what went wrong unindented, its details and Try: line indented
+// tt-crawl prints progress first, then what went wrong unindented, its details and Try: line indented;
+// under --json, one {"error": …} line
 const errorLine = (e) => {
   const lines = String(e.stderr || e.message).split("\n").filter((l) => l.trim());
-  return (lines.findLast((l) => !/^\s/.test(l)) || lines.at(-1) || "").trim();
+  const last = (lines.findLast((l) => !/^\s/.test(l)) || lines.at(-1) || "").trim();
+  try {
+    return JSON.parse(last).error || last;
+  } catch {
+    return last;
+  }
 };
 const wrote = [];
 const kept = [];
@@ -63,8 +63,7 @@ const notes = [];
 try {
   if (!existsSync(join(dir, "_index/facts.json"))) crawl(["brand", url, "--max-pages", "1"]);
 } catch (e) {
-  console.error(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right? Try: curl -sI ${url}`);
-  process.exit(1);
+  fail(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
 }
 const manifest = () => read("_index/manifest.json", {});
 const inventory = read("_index/inventory.json", {}).records || [];
@@ -76,7 +75,7 @@ const isRead = (u) => (manifest().pages || []).some((p) => p.url === u);
 const unread = (onlyHomepage ? [] : [...photoPages, servicesPage, proofPage]).filter((u) => u && !isRead(u));
 if (unread.length) {
   try {
-    crawl(["add", ...unread]);
+    crawl(["add", "--out", dir, ...unread]);
   } catch (e) {
     notes.push(`could not read ${unread.join(", ")}: ${errorLine(e)}`);
   }
@@ -132,8 +131,7 @@ function addressFrom() {
 }
 
 const businessFile = "public/business.md";
-const [, front = ""] = readFileSync(businessFile, "utf8").match(/^---\n([\s\S]*?)\n---/) || [];
-const business = YAML.parseDocument(front);
+const business = YAML.parseDocument(frontmatter(readFileSync(businessFile, "utf8"))?.front || "");
 if (business.get("name") && !/to fill/i.test(business.get("name"))) kept.push(`${businessFile} (already filled)`);
 else {
   const address = addressFrom();
@@ -184,12 +182,12 @@ const photoRows = [];
 const shown = photos.flatMap((it) => {
   const name = it.file.replace(/\.[a-z0-9]+$/i, "") + ".jpg";
   const dest = join("static/images", name);
-  const out = existsSync(dest) ? { width: Math.min(it.width, 2400) } : webSize(fileOf(it), dest);
+  const out = existsSync(dest) ? { width: Math.min(it.width, MAX_WIDTH) } : webSize(fileOf(it), dest);
   if (!out) {
     notes.push(`${it.file} (${it.width}px wide) could not be resized here and was left out`);
     return [];
   }
-  const width = out.width || Math.min(it.width, 2400);
+  const width = out.width || Math.min(it.width, MAX_WIDTH);
   const height = out.height || Math.round((it.height * width) / it.width);
   const where = it.pages?.[0]?.heading ? ` beside "${it.pages[0].heading}"` : "";
   const alt = realAlt(it.alts?.[0]);
@@ -262,7 +260,7 @@ const siteReviews = read("_index/reviews.json", []).filter((r) => r.quote);
 const siteRatings = (facts.ratings || []).filter((r) => r.value);
 const proofFile = "public/proof.md";
 const proofNote = existsSync(proofFile) ? readFileSync(proofFile, "utf8") : "";
-const [, proofFront = "title: Proof\ntype: proof\nstatus: current", proofBody = ""] = proofNote.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/) || [];
+const { front: proofFront, body: proofBody } = frontmatter(proofNote) || { front: "title: Proof\ntype: proof\nstatus: current", body: "" };
 const proof = YAML.parseDocument(proofFront);
 const PROOF_KINDS = ["reviews", "ratings", "logos", "people", "numbers", "posts"];
 const proofEmpty = PROOF_KINDS.every((k) => !proof.get(k)?.items?.length);
@@ -272,16 +270,16 @@ const proofEmpty = PROOF_KINDS.every((k) => !proof.get(k)?.items?.length);
 // to this app stands in: its gateway URL, with the machine token as the key
 // (the gateway swaps in the real one; neither leaves for Google).
 function placesEnv() {
-  if (process.env.GOOGLE_PLACES_API_KEY || !process.env.MACHINE_TOKEN) return process.env;
+  const env = machineEnv();
+  if (env.GOOGLE_PLACES_API_KEY || !env.MACHINE_TOKEN) return env;
   try {
-    const listed = execFileSync("python3", ["-c", "import json; from tools.taskandtool import list_connections; print(json.dumps(list_connections()))"],
-      { cwd: homedir(), encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    const listed = execFileSync("python3", [join(homedir(), "tools", "taskandtool.py"), "list-connections", "--json"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
     const places = (JSON.parse(listed)?.connections || []).find((c) => c.provider === "google-places" && c.gateway_url);
-    if (places) return { ...process.env, GOOGLE_PLACES_API_URL: places.gateway_url.replace(/\/$/, "") + "/v1", GOOGLE_PLACES_API_KEY: process.env.MACHINE_TOKEN };
+    if (places) return { ...env, GOOGLE_PLACES_API_URL: places.gateway_url.replace(/\/$/, "") + "/v1", GOOGLE_PLACES_API_KEY: env.MACHINE_TOKEN };
   } catch {
     // No bridge here (off the platform): the key, if any, is the whole story.
   }
-  return process.env;
+  return env;
 }
 
 // their Google listing, through a key or the Google Places Connection
@@ -291,7 +289,7 @@ function google() {
   const where = [filled.address?.locality, filled.address?.region].filter(Boolean).join(", ") || first("address");
   if (!name || /to fill/i.test(name)) return null;
   try {
-    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], env: placesEnv() });
+    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places", "--json"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], env: placesEnv() });
     const answer = JSON.parse(out.trim().split("\n").pop());
     const d = JSON.parse(readFileSync(join("raw/places", `${answer.place_id}.json`), "utf8"));
     const src = `raw/places/${answer.place_id}.json`;
@@ -309,9 +307,9 @@ function google() {
       })).filter((r) => r.quote),
     };
   } catch (e) {
-    const why = String(e.stdout || e.stderr || e.message);
+    const why = String(e.stderr || e.message);
     notes.push(/no Google Places access|unknown_connection|not granted/.test(why)
-      ? "no Google listing read: add the Google Places Connection (or another review source) for their rating and reviews"
+      ? 'no Google listing read: for their rating and reviews, ask for the connection (python3 ~/tools/taskandtool.py request-connection google-places --why "their Google rating and reviews") or find them elsewhere'
       : `their Google listing could not be read: ${errorLine(e).slice(0, 160)}`);
     return null;
   }
@@ -497,39 +495,21 @@ else {
 // ── what the agent reads next ─────────────────────────────────────────────
 const pageFile = (u) => (manifest().pages || []).find((p) => p.url === u)?.file;
 const services = servicesPage && pageFile(servicesPage);
-const summary = {
-  site: host,
-  wrote,
-  kept,
-  notes,
-  homepage_words: `${dir}/pages/index.md`,
-  services_words: services ? `${dir}/${services}` : null,
-  looks_today: `${dir}/shots/index/`,
-  colours_by_use: palette.slice(0, 8),
-  fonts,
-  photographs: shown,
-  proof: { reviews: reviewRows.length, ratings: ratingRows.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`), logos: logoRows.length, sheet },
-  rest_of_site_later: `tt-crawl brand ${manifest().start || url} --resume`,
-  next: [
-    services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
-    "find the rest of the proof (the new-site skill's Proof step)",
-    "design and build the homepage with all the proof on it: the design skill's \"The homepage first\"",
-  ],
-};
-if (asJson) {
-  console.log(JSON.stringify(summary, null, 2));
-} else {
-  const list = (title, items) => (items.length ? `${title}\n${items.map((d) => `  ${d}`).join("\n")}\n` : "");
-  console.log(`from-site: ${host}
+const ratings = ratingRows.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`);
+const next = [
+  services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
+  "find the rest of the proof, then design and build the homepage with all of it on it (the new-site skill, from step 3)",
+];
+const list = (title, items) => (items.length ? `${title}\n${items.map((d) => `  ${d}`).join("\n")}\n` : "");
+console.log(`from-site: ${host}
 ${list("Wrote:", wrote)}${list("Kept:", kept)}${list("Check:", notes)}
-The homepage's words:    ${summary.homepage_words}${summary.services_words ? `\nThe services page:       ${summary.services_words}` : ""}
-How it looks today:      ${summary.looks_today}
-Colours by use:          ${summary.colours_by_use.join(" ") || "none read"}
+The homepage's words:    ${dir}/pages/index.md${services ? `\nThe services page:       ${dir}/${services}` : ""}
+How it looks today:      ${dir}/shots/index/
+Colours by use:          ${palette.slice(0, 8).join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
 Photographs (in static/images/; "full width" ones can run edge to edge):
 ${shown.map((s) => `  ${s}`).join("\n") || "  none 800px or wider"}
-Proof (public/proof.md): ${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${summary.proof.ratings.join("; ") || "none yet"}
+Proof (public/proof.md): ${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${ratings.join("; ") || "none yet"}
+Later, the rest of their site: tt-crawl brand ${manifest().start || url} --resume
 
-Next: ${summary.next.join("; then ")}.
-Later, the rest of their site: ${summary.rest_of_site_later}`);
-}
+Next: ${next.join("; then ")}.`);

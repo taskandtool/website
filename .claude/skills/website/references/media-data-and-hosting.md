@@ -42,20 +42,21 @@ here in five mechanical steps:
   layout. Server round-trips (a filter, a search) can use htmx the same way.
   No client framework unless a view genuinely needs one.
 - Forms, the private side and data the project's other apps share come
-  from the business skills beside this one: `forms` (any form a visitor
-  sends, stored in `submissions`, where a CRM finds them), `admin` (the
-  private `/admin` with its lists and exports), `booking` (a booking page
-  and the hours behind it), `reports` (charts and report pages), all on
-  `data` (the database handle, settings, email, spam checks).
-  Copy a skill's code into `src/<skill>/` as its skill says, its tests
-  with it (`npm test` runs every `src/**/*.test.ts`); here the handle is
+  from the business skills beside this one, on `data` (the database
+  handle, settings, email, spam checks). `forms` (any form a visitor sends,
+  stored in `submissions`, where a CRM finds them; an order or a booking
+  is a form with steps), `booking`, `payments` and `admin` (the private
+  `/admin`, kept for the team by setup) are already here: their code is in
+  `src/<skill>/` and `src/business.tsx` mounts it. `reports` (charts and
+  report pages) is copied into `src/reports/` as its skill says when the
+  site needs it, its tests with it. Here the handle is
   `fromNeon(envVar(c, "DATABASE_URL"))`, since production runs on the Neon
   HTTP driver. Where a skill asks for the business's time zone, pass
-  `content.facts.business.time_zone` (the business note's `time_zone`). A
-  private view on a public site is kept for the team with
-  `add_private_path("/admin")`. If the app has no database, the owner adds
-  managed Postgres in the app's Settings; `request_capability("postgres",
-  why)` from `tools/taskandtool.py` asks them.
+  `content.facts.business.time_zone` (the business note's `time_zone`).
+  Another private view on a public site is kept for the team with
+  `python3 ~/tools/taskandtool.py add-private-path <path>`. If the app has
+  no database, `python3 ~/tools/taskandtool.py request-capability postgres`
+  asks the owner for one.
 - Dynamic routes go in `src/app.tsx` below the page loop, under the same
   rule as all of `src/` (AGENTS.md: Rules); `npm run check` flags a Node
   import outside tests.

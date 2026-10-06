@@ -7,17 +7,17 @@
 import { spawn, spawnSync } from "node:child_process";
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { fail } from "../src/data/cli.mjs";
+import { start } from "./lib.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run dev\n\nThe web service's command: Tailwind rebuilds the CSS and the server restarts on every change.");
-  process.exit(0);
-}
+start("dev", `usage: npm run dev
+
+The web service's command, running until stopped: the notes compiled, the
+database's tables set up, Tailwind rebuilding the CSS and the server on
+localhost:3000 restarting on every change. Its output is the service log.`);
 
 for (const b of ["node_modules/.bin/tailwindcss", "node_modules/.bin/tsx"]) {
-  if (!existsSync(b)) {
-    console.error(`${b} is missing: run npm install first`);
-    process.exit(1);
-  }
+  if (!existsSync(b)) fail(`dev: ${b} is missing`, "npm install, then npm run dev");
 }
 
 const content = () => spawnSync("node", ["scripts/content.mjs"], { stdio: "inherit" });

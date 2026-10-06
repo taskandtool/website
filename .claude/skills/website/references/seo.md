@@ -54,8 +54,6 @@ build or improve those pages.
 
 ## Before launch
 
-`npm run verify`, then the `launch-check` skill: every old
-URL 200 or 301 to a 200, titles and descriptions present, the sitemap
-matching the routes, the JSON-LD parsing. After launch, the weekly audit
-job the skill schedules and, once a Search Console connection exists, its
-coverage report.
+`npm run verify`; a site that replaces an old one then passes the
+`launch-check` skill, which also schedules the weekly audit. Once a Search
+Console connection exists, its coverage report too.

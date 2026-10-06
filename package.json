@@ -6,7 +6,6 @@
   "description": "A business website on Hono: runs in dev on its own machine while it is built, pre-rendered and deployed to production on Cloudflare.",
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "start": "npm run content && npm run css && tsx src/server.ts",
     "content": "node scripts/content.mjs --verbose",
     "css": "tailwindcss -i styles/input.css -o static/site.css --minify",
     "css:watch": "tailwindcss -i styles/input.css -o static/site.css --watch=always",

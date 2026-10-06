@@ -11,6 +11,8 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import YAML from "yaml";
+import { fail } from "../src/data/cli.mjs";
+import { start } from "./lib.mjs";
 
 export const RECORD = "design/system.yaml";
 export const THEME = "styles/theme.css";
@@ -180,16 +182,14 @@ export const googleFontsUrl = ${JSON.stringify(url)};
 }
 
 if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
-  if (process.argv.includes("--help") || process.argv.includes("-h")) {
-    console.log("usage: npm run system\n\nCompiles design/system.yaml into styles/theme.css, DESIGN.md and src/fonts.ts.");
-    process.exit(0);
-  }
+  start("system", `usage: npm run system
+
+Compiles design/system.yaml into styles/theme.css, DESIGN.md and src/fonts.ts,
+and prints which it wrote. A record with problems lists them on stderr and
+exits 1, writing nothing.`);
   const rec = readRecord();
   const found = problems(rec);
-  if (found.length) {
-    console.error(`system: ${RECORD} has ${found.length} problem(s)\n  - ${found.join("\n  - ")}`);
-    process.exit(1);
-  }
+  if (found.length) fail(`system: ${RECORD} has ${found.length} problem(s)\n  - ${found.join("\n  - ")}`, "npm run system, once the record is fixed");
   const outputs = [[THEME, themeCss(rec)], [DESIGN, designMd(rec)], [FONTS, fontsTs(rec)]];
   const changed = outputs.filter(([f, body]) => !existsSync(f) || readFileSync(f, "utf8") !== body);
   for (const [f, body] of changed) writeFileSync(f, body);

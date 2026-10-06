@@ -10,33 +10,36 @@ import { spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { build } from "esbuild";
+import { done, fail } from "../src/data/cli.mjs";
+import { start } from "./lib.mjs";
+
+start("build", `usage: npm run build
+
+Compiles the notes and the CSS, pre-renders every route (pages, posts, legal)
+and the 404 page to dist/ beside static/, writes sitemap.xml and robots.txt,
+checks the redirect table, and bundles the Worker to build/worker.mjs. Prints
+one line of what it built, then the redirects and anything to set before
+launch. A failure says which step, on stderr, and exits 1.`, { tryHelp: "npm run build -- --help" });
 
 const dist = "dist";
 const out = "build";
 
-function step(label: string) {
-  console.log(`== ${label}`);
+/** A step's own output only when it fails. */
+function run(step: string, cmd: string, args: string[]) {
+  const r = spawnSync(cmd, args, { encoding: "utf8" });
+  if (r.status !== 0) fail(`build: the ${step} step failed\n${`${r.stdout || ""}${r.stderr || ""}`.trim()}`, `npm run ${step}`);
 }
 
-function run(label: string, cmd: string, args: string[]) {
-  const r = spawnSync(cmd, args, { stdio: "inherit" });
-  if (r.status !== 0) {
-    console.error(`${label} failed`);
-    process.exit(r.status ?? 1);
-  }
-}
-
-step("content");
-run("content", "node", ["scripts/content.mjs", "--verbose"]);
-step("css");
+run("content", "node", ["scripts/content.mjs"]);
 run("css", "npm", ["run", "--silent", "css"]);
 
-// Imported after the content is generated, so the routes see it.
-const { default: app, routes } = await import("../src/app");
-const { redirects } = await import("../src/redirects");
-const { site } = await import("../src/site");
+// Imported after the content is generated, so the routes see it. A page that
+// throws as it loads is named here, not left as a stack trace.
+const loaded = await Promise.all([import("../src/app"), import("../src/redirects"), import("../src/site")]).catch((e: unknown) =>
+  fail(`build: the app did not load: ${e instanceof Error ? e.message : String(e)}`, "npm run typecheck, which names the file"),
+);
+const [{ default: app, routes }, { redirects }, { site }] = loaded;
 
-step("static assets");
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync("static", dist, { recursive: true });
@@ -48,33 +51,21 @@ if (existsSync("brand/logo")) {
   });
 }
 
-step("routes");
 const routePaths = new Set<string>();
 for (const r of routes) {
-  if (routePaths.has(r.path)) {
-    console.error(`two routes claim ${r.path} (a page, a post, or a legal page share a path)`);
-    process.exit(1);
-  }
+  if (routePaths.has(r.path)) fail(`build: two routes claim ${r.path} (a page, a post or a legal page share a path)`, "npm run check, which names the files");
   routePaths.add(r.path);
 }
-console.log(`   ${routes.length} route(s), no duplicates`);
 
-step("redirects");
+const fixRedirects = "npm run build, once src/redirects.ts is fixed";
 const froms = new Set<string>();
 for (const [from, to] of redirects) {
-  if (froms.has(from)) {
-    console.error(`redirect ${from} is listed twice`);
-    process.exit(1);
-  }
+  if (froms.has(from)) fail(`build: redirect ${from} is listed twice in src/redirects.ts`, fixRedirects);
   froms.add(from);
-  if (routePaths.has(from)) {
-    console.error(`redirect ${from} shadows a page of the same path`);
-    process.exit(1);
-  }
+  if (routePaths.has(from)) fail(`build: redirect ${from} shadows a page of the same path`, fixRedirects);
   const external = /^https?:\/\//.test(to);
   if (!external && !routePaths.has(to) && !redirects.some(([f]) => f === to)) {
-    console.error(`redirect ${from} -> ${to}: the target is neither a page, another redirect, nor an external URL`);
-    process.exit(1);
+    fail(`build: redirect ${from} -> ${to}: the target is neither a page, another redirect, nor an external URL`, fixRedirects);
   }
 }
 for (const [from] of redirects) {
@@ -83,53 +74,49 @@ for (const [from] of redirects) {
   for (let i = 0; i <= redirects.length; i++) {
     const next = redirects.find(([f]) => f === cur)?.[1];
     if (!next) break;
-    if (next === from) {
-      console.error(`redirect loop through ${from}`);
-      process.exit(1);
-    }
+    if (next === from) fail(`build: redirect loop through ${from}`, fixRedirects);
     cur = next;
   }
 }
-console.log(`   ${redirects.length} redirect(s) ok`);
 
-step("pages");
 for (const route of routes) {
   const res = await app.request(route.path);
-  if (res.status !== 200) {
-    console.error(`${route.path} rendered with status ${res.status}`);
-    process.exit(1);
-  }
+  if (res.status !== 200) fail(`build: ${route.path} rendered with status ${res.status}`, `curl -si http://localhost:3000${route.path} | head -20`);
   const file = route.path === "/" ? "index.html" : `${route.path.replace(/^\//, "").replace(/\/$/, "")}.html`;
   const target = join(dist, file);
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, await res.text());
-  console.log(`   ${route.path} -> ${target}`);
 }
 const nf = await app.request("/this-page-does-not-exist");
 writeFileSync(join(dist, "404.html"), await nf.text());
-console.log(`   404 -> ${join(dist, "404.html")}`);
 
-step("sitemap and robots");
 for (const [path, file] of [["/sitemap.xml", "sitemap.xml"], ["/robots.txt", "robots.txt"]] as const) {
   const res = await app.request(path);
   writeFileSync(join(dist, file), await res.text());
 }
-if (!site.url) console.log("   site.url is empty: sitemap locations are relative; set the real domain in src/site.ts before launch");
 
-step("worker");
 mkdirSync(out, { recursive: true });
-await build({
-  entryPoints: ["src/worker.ts"],
-  bundle: true,
-  format: "esm",
-  outfile: join(out, "worker.mjs"),
-  platform: "browser",
-  conditions: ["workerd", "worker", "browser"],
-  target: "es2022",
-  jsx: "automatic",
-  jsxImportSource: "hono/jsx",
-  define: { "process.env.NODE_ENV": '"production"' },
-  logLevel: "warning",
+try {
+  await build({
+    entryPoints: ["src/worker.ts"],
+    bundle: true,
+    format: "esm",
+    outfile: join(out, "worker.mjs"),
+    platform: "browser",
+    conditions: ["workerd", "worker", "browser"],
+    target: "es2022",
+    jsx: "automatic",
+    jsxImportSource: "hono/jsx",
+    define: { "process.env.NODE_ENV": '"production"' },
+    logLevel: "silent",
+  });
+} catch (e) {
+  fail(`build: the Worker did not bundle\n${e instanceof Error ? e.message : String(e)}`, "npm run check, which finds a Node import the Worker reaches");
+}
+
+done("build", `${routes.length} route${routes.length === 1 ? "" : "s"} + 404 to ${dist}/, Worker to ${out}/worker.mjs`, {
+  lines: [
+    `${redirects.length} redirect(s) checked; sitemap.xml and robots.txt written`,
+    ...(site.url ? [] : ["site.url is empty, so the sitemap's locations are relative: set the real domain in src/site.ts before launch"]),
+  ],
 });
-console.log(`   src/worker.ts -> ${join(out, "worker.mjs")}`);
-console.log(`\nbuilt: ${routes.length} route(s) + 404 in ${dist}/, Worker in ${out}/worker.mjs`);

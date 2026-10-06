@@ -11,26 +11,30 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { basename, join } from "node:path";
 import YAML from "yaml";
 import { marked } from "marked";
+import { fail, has } from "../src/data/cli.mjs";
+import { frontmatter, start } from "./lib.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run content\n\nCompiles public/, posts/ and legal/ into src/generated/content.json for the pages.");
-  process.exit(0);
-}
+const a = start("content", `usage: npm run content [-- --verbose]
+
+Compiles public/, posts/ and legal/ into src/generated/content.json for the
+pages. Silent when every note reads; a note that does not is listed on
+stderr and exits 1.
+  --verbose   one line of what it compiled (npm run content passes it)`, { bools: ["verbose"] });
 
 // a note that cannot be read leaves its facts off the site: say so and fail
 const problems = [];
 
 function readNote(file) {
   const raw = readFileSync(file, "utf8");
-  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!m) return { data: {}, body: raw };
+  const note = frontmatter(raw);
+  if (!note) return { data: {}, body: raw };
   let data = {};
   try {
-    data = YAML.parse(m[1]) ?? {};
+    data = YAML.parse(note.front) ?? {};
   } catch (e) {
     problems.push(`${file}: frontmatter is not valid YAML (${e.message.split("\n")[0]})`);
   }
-  return { data, body: m[2] };
+  return { data, body: note.body };
 }
 
 const notes = (dir) => (existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".md") && !f.startsWith("_") && f !== "README.md").sort() : []);
@@ -120,10 +124,7 @@ for (const f of notes("legal")) {
 mkdirSync("src/generated", { recursive: true });
 const out = { generatedAt: new Date().toISOString(), facts, posts, legal };
 writeFileSync("src/generated/content.json", JSON.stringify(out, null, 2) + "\n");
-if (problems.length) {
-  console.error(`content: ${problems.length} note(s) not read, so their facts are not on the site:\n  - ${problems.join("\n  - ")}`);
-  process.exit(1);
-}
-if (process.argv.includes("--verbose")) {
+if (problems.length) fail(`content: ${problems.length} note(s) not read, so their facts are not on the site:\n  - ${problems.join("\n  - ")}`, "npm run content, once each is fixed");
+if (has(a, "verbose")) {
   console.log(`content: business ${facts.business ? "yes" : "no"}, ${facts.offerings.length} offering(s), ${facts.faq.length} faq, ${posts.length} post(s), ${legal.length} legal page(s)`);
 }

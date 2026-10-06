@@ -47,7 +47,7 @@
     {
       "id": "plan-the-new-site",
       "label": "Plan the new site",
-      "prompt": "Plan the new site in site-map.md from raw/site/<host>/_index/inventory.json and _index/furniture.json: one row per old URL (keep, merge, drop) and per new page, the redirect targets, the notes each page draws on, the nav and footer architecture, and anything out of scope. Apply the migrate-site rules (existing redirects kept, noindex never kept, posts as a collection, every form reproduced or dropped on purpose). Propose it all in one message and wait for my decisions.",
+      "prompt": "Plan the new site in site-map.md: the migrate-site skill's step 4. Propose it all in one message and wait for my decisions.",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -125,12 +125,12 @@
     {
       "id": "add-a-blog-post",
       "label": "Add a blog post",
-      "prompt": "Add a blog post to posts/ following the website skill's posts.md: frontmatter with title, date, description, and a path if it replaces an old URL; the body in the voice of brand/voice.md (the writing skill); a real photo if I have one. The post is about "
+      "prompt": "Add a blog post to posts/ following the website skill's references/posts.md: frontmatter with title, date, description, and a path if it replaces an old URL; the body in the voice of brand/voice.md (the writing skill); a real photo if I have one. The post is about "
     },
     {
       "id": "add-a-contact-form",
       "label": "Add a contact form",
-      "prompt": "Add a contact form with the forms skill: the form as a row in the forms table, every submission in submissions (ask me to enable Postgres with request_capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
+      "prompt": "Add a contact form with the forms skill: the form as a row in the forms table, every submission in submissions (ask me for Postgres with request-capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
     },
     {
       "id": "publish-to-production",

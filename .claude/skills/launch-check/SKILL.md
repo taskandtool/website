@@ -26,8 +26,8 @@ owner the report as a table.
 
 ## Deploying and the cutover
 
-1. `site.url` in `src/site.ts` is the real domain (canonical tags and the
-   sitemap depend on it). Tracking IDs are in `src/site.ts`.
+1. `npm run build` warns of nothing left to set before launch, and the
+   tracking IDs are in `src/site.ts`.
 2. `npm run deploy` (the `website` skill). Ask the owner to make production
    public when they are ready for visitors.
 3. The owner points the domain at the platform (a custom domain in the
@@ -41,19 +41,16 @@ owner the report as a table.
 tt-crawl check https://theirdomain.com
 ```
 
-5. Set the weekly audit up as a **scheduled job** (`schedule_job` from
-   `tools/taskandtool.py`), kept for the team. Tell the owner what it
+5. Set the weekly audit up as a **scheduled job**, kept for the team. Tell the owner what it
    checks, that it runs weekly, and that they can see or remove it on the
    app's Upcoming page. The command runs on this machine from the app root every
    Monday morning and exits non-zero when it finds anything, which is what
    alerts the owner; the report lands in `raw/audit/<host>/<date>.md`,
    `raw/audit/_latest.json` points at it, and the chat then offers "Fix the site audit findings":
 
-   ```python
-   from tools.taskandtool import schedule_job
-   schedule_job("weekly-site-audit", "0 7 * * 1",
-                command="tt-crawl audit https://theirdomain.com",
-                client_visible=False)
+   ```bash
+   python3 ~/tools/taskandtool.py schedule-job weekly-site-audit --when "0 7 * * 1" \
+     --command "tt-crawl audit https://theirdomain.com" --team-only
    ```
 
    `tt-crawl audit` crawls production for broken links, missing titles and

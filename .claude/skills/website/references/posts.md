@@ -20,8 +20,9 @@ with alt text; links to the site's pages.
 ```
 
 Migrating a blog: one file per old post from `raw/site/<host>/pages/`
-(`tt-crawl import` first when the old site was WordPress or has a feed: it
-writes each post there with its exact author and date), `path` set to the old URL so nothing redirects, the
+(first `tt-crawl import` for a WordPress site, or `tt-crawl import
+--template post` for one with a feed: each post is written there with its
+exact author and date), `path` set to the old URL so nothing redirects, the
 words kept and edited only through the writing skill's passes, the date
 kept. The `/blog` index appears automatically once a post exists; add it
 to the nav in `src/site.ts` when the business wants it there.

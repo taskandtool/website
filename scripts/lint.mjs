@@ -20,18 +20,18 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "node-html-parser";
 import { check as tropes, findings as tropesIn, HINT_RULES } from "../.claude/skills/tropes/tropes.mjs";
-import { walk } from "./files.mjs";
+import { fail } from "../src/data/cli.mjs";
+import { start, walk } from "./lib.mjs";
 import { chromaHue, luminance, ratio, readTheme } from "./theme.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run lint\n\nChecks the built pages in dist/: the refuse list, contrast in context, and the copy through the tropes skill.");
-  process.exit(0);
-}
+start("lint", `usage: npm run lint
 
-if (!existsSync("dist/index.html")) {
-  console.error("lint: no dist/ yet; run npm run build first");
-  process.exit(1);
-}
+Checks the built pages in dist/: the refuse list, contrast in context, and
+the copy through the tropes skill. Prints a count of errors and hints first,
+then every error and two hints per rule, each with what to do instead.
+Errors exit 1; hints never fail. Run npm run build first.`);
+
+if (!existsSync("dist/index.html")) fail("lint: no dist/ yet", "npm run build, then npm run lint");
 const { colours } = readTheme();
 
 
@@ -382,4 +382,4 @@ for (const [rule, list] of byRule) {
   for (const f of shown) say(`  ${f.level.padEnd(5)} ${rule}  ${f.page}${f.where ? "  " + f.where : ""}\n        ${f.message}`);
   if (list.length > shown.length) say(`        (+${list.length - shown.length} more hints like this)`);
 }
-if (errors) process.exit(1);
+if (errors) fail(`lint: fix the ${errors} error(s) above in one pass`, "npm run build && npm run lint");

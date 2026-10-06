@@ -72,15 +72,13 @@ python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is 
 # tt-crawl on the PATH, then the browsers it drives: Chrome reads pages and
 # takes screenshots, Obscura is the small fallback. Done here so a first crawl
 # never downloads a browser mid-conversation.
-python3 -m ttcrawl setup || echo "tt-crawl setup did not finish every step; its JSON line says which"
+python3 -m ttcrawl setup || echo "tt-crawl setup did not finish every step; its output above says which"
 
 # 4. /admin is the team's: Task & Tool asks for a sign-in there even once the
 # site is public (src/business.tsx answers 404 to anyone it does not name).
 # Declaring a path already declared changes nothing.
-# The bridge reads PHOENIX_URL and MACHINE_TOKEN from the environment, which
-# this script is not given: they are in /home/sprite/.env.
-if [ -f /home/sprite/tools/taskandtool.py ] && [ -f /home/sprite/.env ]; then
-  (set -a; . /home/sprite/.env; set +a; cd /home/sprite && python3 -c 'from tools.taskandtool import add_private_path; r = add_private_path("/admin"); print("== /admin kept for the team" if r.get("ok") else "== /admin not declared yet: " + str(r.get("error")))') || true
+if [ -f /home/sprite/tools/taskandtool.py ]; then
+  python3 /home/sprite/tools/taskandtool.py add-private-path /admin || true
 fi
 
 # 5. The web service: the site runs in dev on this machine from now on.

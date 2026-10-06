@@ -6,11 +6,13 @@
 // source to learn the same.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { imageSizes, start } from "./lib.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run parts\n\nWhat a page is built from: the components and their props, the classes, the page shape, the facts and proof the notes hold.");
-  process.exit(0);
-}
+start("parts", `usage: npm run parts
+
+What a page is built from: the components and their props, the classes, the
+page shape, the facts and proof the notes hold, and the photographs in
+static/images/ with their pixels. Read it instead of opening the source.`);
 
 const read = (f) => (existsSync(f) ? readFileSync(f, "utf8") : "");
 const out = [];
@@ -60,11 +62,7 @@ try {
 const images = existsSync("static/images") ? readdirSync("static/images").filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f)) : [];
 out.push("", `Photographs (static/images/, served at /images/<file>): ${images.length || "none yet"}`);
 if (images.length) {
-  try {
-    const sizes = execFileSync("python3", ["-c", "import sys\nfrom PIL import Image\nfor f in sys.argv[1:]:\n    w,h=Image.open(f).size; print(f'{w}x{h}')", ...images.map((f) => `static/images/${f}`)], { encoding: "utf8" }).trim().split("\n");
-    images.forEach((f, i) => out.push(`  /images/${f}  ${sizes[i] || ""}`));
-  } catch {
-    images.forEach((f) => out.push(`  /images/${f}`));
-  }
+  const sizes = imageSizes(images.map((f) => `static/images/${f}`));
+  images.forEach((f, i) => out.push(`  /images/${f}${sizes[i] ? `  ${sizes[i].width}x${sizes[i].height}` : ""}`));
 }
 console.log(out.join("\n"));

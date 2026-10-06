@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Designs the look of this website: the first screen, the design system record and how it grows, type, colour, imagery, layout and the rendered review. Use when the owner says change the look, it looks generic, new colours or fonts, or when the site grows past its homepage. Not for starting a site (new-site) or its words (writing)."
+description: "Designs this website's look: the first screen, the design system record and how it grows, type, colour, imagery, layout and the review gate. Use for change the look, it looks generic, new colours or fonts, or a site growing past its homepage. Not for starting a site (new-site) or its words (writing)."
 ---
 
 # Design

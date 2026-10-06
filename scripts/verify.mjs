@@ -1,23 +1,26 @@
 #!/usr/bin/env node
 // Every check before showing work, in one call: `npm run verify`.
 // content (the notes compiled), check (the project), typecheck (src/), test
-// (any skill's tests), build (dist/), proof (the homepage shows it all), trace
+// (the skills' and the scripts' tests), build (dist/), proof (the homepage shows it all), trace
 // (every fact on the pages is in the notes), lint (the built pages), one line
 // each. It runs them all and lists every failure together, so they are fixed
 // in one pass; proof, trace and lint need the build, so a failed build skips
 // them. Lint hints are listed but never fail.
 import { spawnSync } from "node:child_process";
+import { done, fail } from "../src/data/cli.mjs";
+import { start } from "./lib.mjs";
 
-if (process.argv.includes("--help") || process.argv.includes("-h")) {
-  console.log("usage: npm run verify\n\nRuns content, check, typecheck, test, build, proof, trace and lint, and lists every failure together.");
-  process.exit(0);
-}
+start("verify", `usage: npm run verify
+
+Runs content, check, typecheck, test, build, proof, trace and lint: one line
+each as it goes ("ok" or "!!"), lint's hints after it, then every failure's
+last lines together on stderr (exit 1), so they are fixed in one pass.`);
 
 const steps = [
   ["content", "the notes in public/, posts/ and legal/ compiled for the pages"],
   ["check", "the project: the design record, contrast, page paths, the site map, the Cloudflare rule"],
   ["typecheck", "the TypeScript in src/"],
-  ["test", "the tests under src/"],
+  ["test", "the tests under src/ and test/"],
   ["build", "every page pre-rendered to dist/, the Worker bundled"],
   ["proof", "every logo and rating in public/proof.md on the homepage, and its reviews"],
   ["trace", "every phone, email, price, year, count and quote on the pages is in the notes"],
@@ -41,16 +44,16 @@ for (const [name, what] of steps) {
     continue;
   }
   const lines = out.split("\n").filter((l) => l.trim());
-  // a script's summary line: lint prints it first, the others last
+  // a script's summary line: build and lint print it first, the others last
   const last = (lines.find((l) => l.startsWith(`${name}: `)) || lines.pop() || "ok").trim().replace(new RegExp(`^${name}: `), "");
-  console.log(`  ok  ${name}: ${name === "build" ? "dist/ written" : last}`);
+  console.log(`  ok  ${name}: ${last}`);
   if (name === "lint") {
     const hints = out.split("\n").filter((l) => /^\s*hint\b|^\s{8}\S/.test(l));
     if (hints.length) console.log(hints.join("\n"));
   }
 }
 if (failed.length) {
-  console.error(`\n${failed.map((f) => `── ${f.name}\n${f.tail}`).join("\n\n")}\n\nverify: ${failed.length} failed (${failed.map((f) => f.name).join(", ")}). Fix them all in one pass, then npm run verify again.`);
-  process.exit(1);
+  console.error(`\n${failed.map((f) => `── ${f.name}\n${f.tail}`).join("\n\n")}\n`);
+  fail(`verify: ${failed.length} failed (${failed.map((f) => f.name).join(", ")}); fix them all in one pass`, "npm run verify");
 }
-console.log("verify: all passed. Next: npm run shots, and look at the images.");
+done("verify", "all passed", { next: "npm run shots, and look at the images" });
