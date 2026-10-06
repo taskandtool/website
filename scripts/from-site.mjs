@@ -17,6 +17,7 @@
 // and it says which.
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { basename, join } from "node:path";
 import YAML from "yaml";
 import { webSize } from "./images.mjs";
@@ -26,8 +27,9 @@ const USAGE = `usage: npm run from-site -- https://theirsite.com [--only-homepag
 
 Reads their homepage (and its gallery and services page), then writes the
 business note, the logo, their photographs at web size, and design tokens
-from their colours and fonts. Prints what it wrote, what it kept, and what
-to read next.
+from their colours and fonts, public/proof.md (their reviews, Google's
+rating and reviews, logos) and numbered sheets of photos and logos to name.
+Prints what it wrote, what it kept, and what to read next.
   --only-homepage   skip the gallery and services pages
   --json            the summary as JSON`;
 const args = process.argv.slice(2);
@@ -48,7 +50,11 @@ const host = new URL(url).hostname.replace(/^www\./, "");
 const dir = `raw/site/${host}`;
 const read = (f, fallback) => (existsSync(join(dir, f)) ? JSON.parse(readFileSync(join(dir, f), "utf8")) : fallback);
 const crawl = (cmd) => execFileSync("tt-crawl", cmd, { stdio: ["ignore", "ignore", "pipe"] });
-const lastLine = (e) => String(e.stderr || e.message).trim().split("\n").pop();
+// tt-crawl prints progress first, then what went wrong unindented, its details and Try: line indented
+const errorLine = (e) => {
+  const lines = String(e.stderr || e.message).split("\n").filter((l) => l.trim());
+  return (lines.findLast((l) => !/^\s/.test(l)) || lines.at(-1) || "").trim();
+};
 const wrote = [];
 const kept = [];
 const notes = [];
@@ -57,7 +63,7 @@ const notes = [];
 try {
   if (!existsSync(join(dir, "_index/facts.json"))) crawl(["brand", url, "--max-pages", "1"]);
 } catch (e) {
-  console.error(`from-site: could not read ${url}: ${lastLine(e)}\n  Is the address right? Try: curl -sI ${url}`);
+  console.error(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right? Try: curl -sI ${url}`);
   process.exit(1);
 }
 const manifest = () => read("_index/manifest.json", {});
@@ -72,7 +78,7 @@ if (unread.length) {
   try {
     crawl(["add", ...unread]);
   } catch (e) {
-    notes.push(`could not read ${unread.join(", ")}: ${lastLine(e)}`);
+    notes.push(`could not read ${unread.join(", ")}: ${errorLine(e)}`);
   }
 }
 const facts = read("_index/facts.json", {});
@@ -261,6 +267,23 @@ const proof = YAML.parseDocument(proofFront);
 const PROOF_KINDS = ["reviews", "ratings", "logos", "people", "numbers", "posts"];
 const proofEmpty = PROOF_KINDS.every((k) => !proof.get(k)?.items?.length);
 
+// The crawler reads Places with GOOGLE_PLACES_API_KEY, at GOOGLE_PLACES_API_URL
+// when set. Without a key of the owner's, a Google Places Connection granted
+// to this app stands in: its gateway URL, with the machine token as the key
+// (the gateway swaps in the real one; neither leaves for Google).
+function placesEnv() {
+  if (process.env.GOOGLE_PLACES_API_KEY || !process.env.MACHINE_TOKEN) return process.env;
+  try {
+    const listed = execFileSync("python3", ["-c", "import json; from tools.taskandtool import list_connections; print(json.dumps(list_connections()))"],
+      { cwd: homedir(), encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    const places = (JSON.parse(listed)?.connections || []).find((c) => c.provider === "google-places" && c.gateway_url);
+    if (places) return { ...process.env, GOOGLE_PLACES_API_URL: places.gateway_url.replace(/\/$/, "") + "/v1", GOOGLE_PLACES_API_KEY: process.env.MACHINE_TOKEN };
+  } catch {
+    // No bridge here (off the platform): the key, if any, is the whole story.
+  }
+  return process.env;
+}
+
 // their Google listing, through a key or the Google Places Connection
 function google() {
   const filled = business.toJSON() || {};
@@ -268,7 +291,7 @@ function google() {
   const where = [filled.address?.locality, filled.address?.region].filter(Boolean).join(", ") || first("address");
   if (!name || /to fill/i.test(name)) return null;
   try {
-    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], env: placesEnv() });
     const answer = JSON.parse(out.trim().split("\n").pop());
     const d = JSON.parse(readFileSync(join("raw/places", `${answer.place_id}.json`), "utf8"));
     const src = `raw/places/${answer.place_id}.json`;
@@ -289,7 +312,7 @@ function google() {
     const why = String(e.stdout || e.stderr || e.message);
     notes.push(/no Google Places access|unknown_connection|not granted/.test(why)
       ? "no Google listing read: add the Google Places Connection (or another review source) for their rating and reviews"
-      : `their Google listing could not be read: ${why.trim().split("\n").pop().slice(0, 160)}`);
+      : `their Google listing could not be read: ${errorLine(e).slice(0, 160)}`);
     return null;
   }
 }
