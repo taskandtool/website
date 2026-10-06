@@ -11,6 +11,8 @@ publishes). A website sets its look and copy from them, marketing makes
 creatives from them, a brain links its deeper notes to them. Fill them from
 whatever material arrives, and cite every fact.
 
+Version: 0.1.0 (taskandtool/skills)
+
 1. **Keep the material** under `raw/` before using it (the table below).
    Name files `YYYY-MM-DD-<slug>.<ext>` unless a tool names them, and never
    edit a raw file afterwards.

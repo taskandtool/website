@@ -1,7 +1,7 @@
 // MACHINE ONLY. The calendar sync job: never import this from a page or
 // from code that deploys to the edge. Pages read busy; this fills it.
 //
-// Run it every 15 minutes as a command job (SKILL.md, "Connect a calendar"):
+// Run it every 15 minutes as a command job (references/calendar-sync.md):
 //   npx tsx src/booking/sync.ts
 //
 // Each run, in this order:
@@ -204,6 +204,7 @@ export async function pullCalendar(db: Db, gw: Gateway, k: CalendarRow, now: Dat
 
 type Due = {
   id: string; resource_id: string; status: string; starts_at: Date; ends_at: Date; name: string; email: string; phone: string | null;
+  type_name: string | null; location_kind: string; location: string | null;
   sequence: number; event_key: string; external_event_id: string | null; external_calendar_id: string | null;
   /** An earlier push may have reached the calendar (it died, or failed): look for its event before creating one. */
   attempted: boolean;
@@ -211,8 +212,20 @@ type Due = {
 type Cal = { id: string; resource_id: string; provider: "google" | "microsoft"; external_id: string; receives_bookings: boolean };
 
 /** What the owner sees in their calendar. Adjust freely; keep the booker out of attendees. */
-export function eventText(b: Due): { title: string; details: string } {
-  return { title: `Booking: ${b.name}`, details: [`${b.name} <${b.email}>`, b.phone ? `Phone: ${b.phone}` : "", `Booking ${b.id}`].filter(Boolean).join("\n") };
+const WHERE: Record<string, string> = { their_place: "At", our_place: "At", phone: "Call", video: "Join" };
+
+/** What the person's calendar shows: what it is and who, where, and how to reach them. */
+export function eventText(b: Pick<Due, "id" | "name" | "email" | "phone" | "type_name" | "location_kind" | "location">): { title: string; details: string; location: string | null } {
+  return {
+    title: b.type_name ? `${b.type_name}: ${b.name}` : `Booking: ${b.name}`,
+    details: [
+      `${b.name} <${b.email}>`,
+      b.phone ? `Phone: ${b.phone}` : "",
+      b.location ? `${WHERE[b.location_kind] ?? "Where"}: ${b.location}` : "",
+      `Booking ${b.id}`,
+    ].filter(Boolean).join("\n"),
+    location: b.location,
+  };
 }
 
 const msTime = (d: Date) => ({ dateTime: d.toISOString().slice(0, 19), timeZone: "UTC" });
@@ -237,10 +250,10 @@ async function findEvents(gw: Gateway, k: Cal, tag: string): Promise<string[]> {
 
 /** Create the event under the name we chose. Returns its id. */
 async function insertEvent(gw: Gateway, k: Cal, b: Due, tag: string): Promise<string> {
-  const { title, details } = eventText(b);
+  const { title, details, location } = eventText(b);
   if (k.provider === "google") {
     const id = attemptId(tag, b.sequence);
-    const event = { summary: title, description: details, extendedProperties: { private: { [GOOGLE_TAG]: tag } }, ...gTimes(b) };
+    const event = { summary: title, description: details, ...(location ? { location } : {}), extendedProperties: { private: { [GOOGLE_TAG]: tag } }, ...gTimes(b) };
     const made = await call(gw, GOOGLE_SLUG, gEvents(k.external_id), { method: "POST", body: JSON.stringify({ id, ...event }) }, [409]);
     if (made) return String(made.id ?? id);
     // 409 "The requested identifier already exists": an earlier attempt made it
@@ -252,7 +265,7 @@ async function insertEvent(gw: Gateway, k: Cal, b: Due, tag: string): Promise<st
   const body = await call(gw, MICROSOFT_SLUG, msEvents(k), {
     method: "POST",
     body: JSON.stringify({
-      subject: title, body: { contentType: "text", content: details }, start: msTime(b.starts_at), end: msTime(b.ends_at), showAs: "busy",
+      subject: title, body: { contentType: "text", content: details }, ...(location ? { location: { displayName: location } } : {}), start: msTime(b.starts_at), end: msTime(b.ends_at), showAs: "busy",
       transactionId: attemptId(tag, b.sequence), singleValueExtendedProperties: [{ id: MICROSOFT_TAG, value: tag }],
     }),
   });
@@ -314,7 +327,8 @@ export async function pushBookings(db: Db, gw: Gateway, now = new Date(), limit 
         select k.id from calendars k where k.resource_id = b.resource_id and k.receives_bookings order by k.id limit 1))
     from due where b.id = due.id
     returning b.id::text as id, b.resource_id::text as resource_id, b.status, b.starts_at, b.ends_at, b.name, b.email::text as email,
-              b.phone, b.sequence, b.event_key, b.external_event_id, b.external_calendar_id::text as external_calendar_id, due.attempted`) as Due[];
+              b.phone, (select t.name from booking_types t where t.id = b.type_id) as type_name, b.location_kind, b.location,
+              b.sequence, b.event_key, b.external_event_id, b.external_calendar_id::text as external_calendar_id, due.attempted`) as Due[];
   if (!due.length) return { pushed: 0, errors: [] };
   const cals = (await db.sql`
     select id::text as id, resource_id::text as resource_id, provider, external_id, receives_bookings from calendars
@@ -359,10 +373,10 @@ export async function syncCalendars(db: Db, gw: Gateway, now = new Date()): Prom
   const { pushed, errors } = await pushBookings(db, gw, now);
   const rows = (await db.sql`
     select k.id::text as id, k.resource_id::text as resource_id, k.provider, k.external_id, r.time_zone,
-           -- A crew books its members with the crew's horizon, so read as far as the furthest one.
-           greatest(r.horizon_days, coalesce((
-             select max(c.horizon_days) from resource_members m join resources c on c.id = m.crew_id
-             where m.member_id = r.id and c.active), 0)) as horizon_days
+           -- As far ahead as the furthest type this person takes can be booked.
+           coalesce((
+             select max(t.horizon_days) from booking_type_hosts h join booking_types t on t.id = h.type_id
+             where h.resource_id = r.id and t.active), 0) as horizon_days
     from calendars k join resources r on r.id = k.resource_id where r.active order by k.id`) as CalendarRow[];
   let pulled = 0;
   for (const k of rows) {
@@ -377,16 +391,27 @@ export async function syncCalendars(db: Db, gw: Gateway, now = new Date()): Prom
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { default: pg } = await import("pg");
   const { fromPool } = await import("../data/pg");
-  const { PHOENIX_URL, MACHINE_TOKEN, DATABASE_URL } = process.env;
-  if (!PHOENIX_URL || !MACHINE_TOKEN || !DATABASE_URL) {
-    console.error("Needs PHOENIX_URL, MACHINE_TOKEN and DATABASE_URL: run it on the machine.");
+  const { machineEnv, misused } = await import("../data/cli");
+  const CMD = "npx tsx src/booking/sync.ts";
+  const args = process.argv.slice(2);
+  if (args.includes("--help") || args.includes("-h")) {
+    console.log(`usage: ${CMD}\n\nPushes bookings to the hosts' connected calendars and pulls their busy times, once. Schedule it every 15 minutes.`);
+    process.exit(0);
+  }
+  if (args.length) misused(`calendar sync: it takes no arguments (given ${args.join(" ")})\n  Try: ${CMD}`);
+  // The machine's settings, so a run by hand from a chat shell sees what the scheduled job sees.
+  const env = machineEnv();
+  const missing = ["PHOENIX_URL", "MACHINE_TOKEN", "DATABASE_URL"].filter((k) => !env[k]);
+  if (missing.length) {
+    console.error(`calendar sync: ${missing.join(", ")} not set, here or in /home/sprite/.env\n  Try: run it on the machine as a scheduled job: ${CMD}`);
     process.exit(1);
   }
-  const pool = new pg.Pool({ connectionString: DATABASE_URL, max: 2 });
+  const pool = new pg.Pool({ connectionString: env.DATABASE_URL, max: 2 });
   try {
-    const r = await syncCalendars(fromPool(pool), (slug, path, init) => gatewayFetch(process.env, slug, path, init));
-    console.log(`pushed ${r.pushed} bookings, pulled ${r.pulled} calendars`);
-    for (const e of r.errors) console.error(e);
+    const r = await syncCalendars(fromPool(pool), (slug, path, init) => gatewayFetch(env, slug, path, init));
+    console.log(`calendar sync: pushed ${r.pushed} booking${r.pushed === 1 ? "" : "s"}, pulled ${r.pulled} calendar${r.pulled === 1 ? "" : "s"}${r.errors.length ? `, ${r.errors.length} failed` : ""}`);
+    for (const e of r.errors) console.error(`  ${e}`);
+    if (r.errors.length) console.error("  Try: the booking admin's Calendars page shows each calendar's last error");
     process.exitCode = r.errors.length ? 1 : 0;
   } finally {
     await pool.end();

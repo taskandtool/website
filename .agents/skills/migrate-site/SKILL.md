@@ -1,6 +1,6 @@
 ---
 name: migrate-site
-description: "Takes over an existing website: reads it into an inventory and raw pages, gets the facts and brand into notes, plans the new site as a page map against the old URLs, builds the pages, generates redirects, and checks the launch. Use when the owner has a current site and says migrate, rebuild, redesign or clone."
+description: "Moves an existing website here page for page: reads it into an inventory, gets the facts and brand into notes, maps every old URL to a new page, builds the pages, writes the redirects, then hands to launch-check. Use when the owner says migrate, move, clone or rebuild my site and keep its pages. Not for a new design from the homepage (new-site)."
 ---
 
 # Migrate Site

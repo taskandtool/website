@@ -133,7 +133,8 @@ state (`starter-app.json`'s `when` conditions).
 - **Try the skills:** clone it as above and drive Claude Code in the clone.
 - **On the platform:** Task & Tool's own repo keeps a working clone under
   `starter_apps/` and runs it through the real install path, locally and on a
-  real machine (`dev/live_website.exs`), before a release is pinned.
+  real machine (`dev/live_website.exs`), before a change reaches `main`,
+  which every install clones.
   Contributions welcome as pull requests.
 
 A pre-push secret scan guards this repository. It holds no credentials by

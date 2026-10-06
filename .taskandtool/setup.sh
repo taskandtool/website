@@ -9,7 +9,9 @@
 #   1. makes sure the working copy is a git repo with a commit in it
 #   2. installs the npm dependencies and builds the CSS once
 #   3. installs tt-crawl (the site reader) and its browsers
-#   4. registers the `web` service (`npm run dev`) so the site runs in dev on the
+#   4. keeps /admin for the team in production (the forms, bookings and
+#      payments the site takes are read there)
+#   5. registers the `web` service (`npm run dev`) so the site runs in dev on the
 #      machine's URL, or restarts it after a replacement
 #
 # The app's own files are not this script's business: they arrive with the
@@ -72,7 +74,16 @@ python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is 
 # never downloads a browser mid-conversation.
 python3 -m ttcrawl setup || echo "tt-crawl setup did not finish every step; its JSON line says which"
 
-# 4. The web service: the site runs in dev on this machine from now on.
+# 4. /admin is the team's: Task & Tool asks for a sign-in there even once the
+# site is public (src/business.tsx answers 404 to anyone it does not name).
+# Declaring a path already declared changes nothing.
+# The bridge reads PHOENIX_URL and MACHINE_TOKEN from the environment, which
+# this script is not given: they are in /home/sprite/.env.
+if [ -f /home/sprite/tools/taskandtool.py ] && [ -f /home/sprite/.env ]; then
+  (set -a; . /home/sprite/.env; set +a; cd /home/sprite && python3 -c 'from tools.taskandtool import add_private_path; r = add_private_path("/admin"); print("== /admin kept for the team" if r.get("ok") else "== /admin not declared yet: " + str(r.get("error")))') || true
+fi
+
+# 5. The web service: the site runs in dev on this machine from now on.
 # `npm run dev` rebuilds the CSS and restarts the server on every change.
 # This is what the manifest's `ready` check looks for, so a failure here is a
 # failure of the setup: an app that reports installed and serves nothing is

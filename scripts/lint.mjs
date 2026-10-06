@@ -373,11 +373,13 @@ const byRule = new Map();
 for (const f of findings) byRule.set(f.rule, [...(byRule.get(f.rule) || []), f]);
 const errors = findings.filter((f) => f.level === "error").length;
 const hints = findings.length - errors;
-// every error, so all are fixed in one pass; hints two per rule
+// summary first, then every error (so all are fixed in one pass) and two hints per rule;
+// all on stderr when an error fails the run, so the order holds
+const say = errors ? console.error : console.log;
+say(`lint: ${errors} error(s), ${hints} hint(s) across ${pages.length} page(s)`);
 for (const [rule, list] of byRule) {
   const shown = list[0].level === "error" ? list : list.slice(0, 2);
-  for (const f of shown) console.log(`  ${f.level.padEnd(5)} ${rule}  ${f.page}${f.where ? "  " + f.where : ""}\n        ${f.message}`);
-  if (list.length > shown.length) console.log(`        (+${list.length - shown.length} more hints like this)`);
+  for (const f of shown) say(`  ${f.level.padEnd(5)} ${rule}  ${f.page}${f.where ? "  " + f.where : ""}\n        ${f.message}`);
+  if (list.length > shown.length) say(`        (+${list.length - shown.length} more hints like this)`);
 }
-console.log(`lint: ${errors} error(s), ${hints} hint(s) across ${pages.length} page(s)`);
 if (errors) process.exit(1);

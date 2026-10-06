@@ -30,6 +30,7 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         {(page.jsonLd ?? []).map((obj) => (
           <script type="application/ld+json">{raw(JSON.stringify(obj))}</script>
         ))}
+        {site.cart ? <script src="/cart.js" defer /> : null}
         <Tracking />
       </head>
       <body class="min-h-screen bg-canvas text-ink font-body">

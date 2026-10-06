@@ -48,6 +48,10 @@ export const site = {
   /** Analytics and verification IDs carried over from the old site (the
    *  inventory's `tracking`), rendered by the layout. Empty = nothing rendered. */
   tracking: { ga4: "", metaPixel: "", searchConsole: "" },
+  /** The business's IANA zone (public/business.md `time_zone`): the team's views show times in it. */
+  timeZone: typeof business.time_zone === "string" && business.time_zone ? business.time_zone : "UTC",
+  /** true once a form sells things: every page loads /cart.js (the forms skill's cart: Add to order buttons, the count, the order form filled from it). */
+  cart: false,
   /** Header links, in order (at most four; more belong in a menu). */
   nav: [] as { label: string; href: string }[],
   year: new Date().getFullYear(),

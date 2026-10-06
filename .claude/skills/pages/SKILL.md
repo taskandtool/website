@@ -94,7 +94,7 @@ From its brief, in the record:
 
 1. `npm run verify` and `npm run shots -- /path /path …` for every new page,
    then the design skill's review gate, the writing skill's cold read and
-   the website skill's `seo.md` (one h1, headings in order, descriptive
+   `.claude/skills/website/seo.md` (one h1, headings in order, descriptive
    links, real alt text):
    one list of everything they find, fixed in one pass, then `verify` and
    `shots` once more.

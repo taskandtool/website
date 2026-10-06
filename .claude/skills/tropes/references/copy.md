@@ -20,7 +20,7 @@ Structures outlast word lists: the vocabulary moves with each model generation (
 | Trope | Examples | Fix |
 |---|---|---|
 | **Negation pivot** (strongest tell) `negation-pivot` | "It's not X, it's Y", "not just X but Y", "X, not Y", "Not because X. Because Y.", "Y rather than X" | State Y. Nobody proposed X |
-| Rule of three `triads` | three adjectives, three bullets, three examples per section | Use the number of things there really are. At most one triad a page |
+| Rule of three `triads` | three adjectives, three bullets, three examples per section | Use the number of things there really are. At most one triad a section |
 | Staccato triplet `triads` | "No fluff. No filler. No stress." "Fast. Simple. Effective." | One plain sentence with the real claim |
 | Throat-clearing openers | In today's fast-paced world; In a world where; Imagine a world; Welcome to; Are you looking for; When it comes to | Start with the offer |
 | Audience sweep | Whether you're X or Y; Look no further; something for everyone | Name the one reader |

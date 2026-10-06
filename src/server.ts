@@ -12,6 +12,8 @@ const server = new Hono();
 // Static files win over routes, exactly as they do at the edge.
 server.use("/brand/logo/*", serveStatic({ root: "./brand/logo", rewriteRequestPath: (p) => p.replace(/^\/brand\/logo/, "") }));
 server.use("/*", serveStatic({ root: "./static" }));
+// The order cart (the forms skill's cart.js), copied to dist/cart.js by the build.
+server.use("/cart.js", serveStatic({ path: "./src/forms/cart.js" }));
 server.route("/", app);
 
 serve({ fetch: server.fetch, port, hostname: "0.0.0.0" }, (info) => {

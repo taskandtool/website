@@ -1,6 +1,6 @@
 ---
 name: new-site
-description: "Takes a business from no website, or an old one, to a launched site like a good agency: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch when they want the whole site. Use for build me a homepage, build my site, or a link to their business."
+description: "Builds a business a new website the way a good agency would: a striking homepage first, from their current site and what they say, then the design system, the other pages and the launch. Use for build me a homepage, build my site, redesign my site, or a link to their business. Not for moving a site page for page with its URLs (migrate-site)."
 ---
 
 # New site
@@ -71,5 +71,6 @@ When the owner wants the rest, or brings a whole site to replace:
 
 ## Launch
 
-The `website` skill's "Before each deploy", then `npm run deploy`. A site
+When the owner asks: the `website` skill's "Before each deploy", then
+`npm run deploy`. A site
 that replaces an old one passes the `launch-check` skill first.

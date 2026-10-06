@@ -11,6 +11,7 @@ import { content } from "./content";
 import { redirectFor } from "./redirects";
 import { render } from "./layout";
 import { site, type Page } from "./site";
+import business from "./business";
 
 type Bindings = { DATABASE_URL?: string };
 
@@ -62,8 +63,11 @@ app.get("/robots.txt", (c) =>
 );
 
 // Dynamic routes (form posts, anything computed per request) go below. They
-// run on the machine and, after deploying, in the production Worker. A form
-// that stores what visitors send is the `forms` skill.
+// run on the machine and, after deploying, in the production Worker.
+
+// Forms, booking, payments and the private /admin (src/business.tsx): live
+// once the project has a database, 404 until then.
+app.route("/", business);
 
 app.notFound((c) => c.html(render(NotFound.page, <NotFound.Body />), 404));
 

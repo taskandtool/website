@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { applySchema } from "../../data/migrate";
 import { scratch, why, type Scratch } from "../../data/test/scratch";
 import { book, cancelByToken, reschedule, setStatus } from "../book";
-import { addMember, addWindow, createResource } from "../hours";
+import { addWindow, createPerson, createType, setHosts } from "../hours";
 import { gatewayFetch } from "../../data/gateway";
 import { eventTag, GOOGLE_TAG, MICROSOFT_TAG, syncCalendars, type Gateway } from "../sync";
 
@@ -38,16 +38,22 @@ function fake(routes: Record<string, (c: Call) => Response | Promise<Response>>)
 }
 const json = (v: unknown, status = 200) => new Response(JSON.stringify(v), { status, headers: { "Content-Type": "application/json" } });
 
+const typeOf = (slug: string, horizon: string) => ({
+  name: "Site visit", slug, duration_min: "60", interval_min: "60", buffer_before_min: "0", buffer_after_min: "0", min_notice_min: "0",
+  horizon_days: horizon, location_kind: "our_place", location: "1 Main St",
+});
+
+/** Pat, 09:00 to 17:00 in `zone`, taking one type (`resource`, horizon 30), with one calendar. */
 async function setup(s: Scratch, provider: "google" | "microsoft", zone = "UTC") {
   await applySchema(s.db, schema);
-  const r = await createResource(s.db, {
-    name: "Pat", slug: "pat", email: "pat@example.com", time_zone: zone, duration_min: "60", interval_min: "60",
-    buffer_before_min: "0", buffer_after_min: "0", min_notice_min: "0", horizon_days: "30",
-  }, "o@example.com", "test");
-  assert.ok(r.ok);
-  for (let d = 0; d < 7; d++) await addWindow(s.db, r.value.id, String(d), "09:00", "17:00", "o@example.com");
-  const [k] = await s.db.sql`insert into calendars (resource_id, provider, external_id) values (${r.value.id}::bigint, ${provider}, ${provider === "google" ? "pat@example.com" : "primary"}) returning id::text as id`;
-  return { resource: r.value, calendarId: k.id as string };
+  const p = await createPerson(s.db, { name: "Pat", email: "pat@example.com", time_zone: zone }, "o@example.com", "test");
+  assert.ok(p.ok);
+  for (let d = 0; d < 7; d++) await addWindow(s.db, p.value.id, String(d), "09:00", "17:00", "o@example.com");
+  const t = await createType(s.db, typeOf("visit", "30"), "o@example.com", "test");
+  assert.ok(t.ok);
+  await setHosts(s.db, t.value.id, [p.value.id]);
+  const [k] = await s.db.sql`insert into calendars (resource_id, provider, external_id) values (${p.value.id}::bigint, ${provider}, ${provider === "google" ? "pat@example.com" : "primary"}) returning id::text as id`;
+  return { resource: t.value, person: p.value, calendarId: k.id as string };
 }
 
 const busyRows = async (s: Scratch) =>
@@ -273,7 +279,7 @@ test("Microsoft: a nextLink off graph.microsoft.com is refused", (t) =>
 test("bookings are written to the calendar under our id, moved, and removed; our own event never blocks us", (t) =>
   withDb(t, async (s) => {
     const { resource, calendarId } = await setup(s, "google");
-    const a = await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
+    const a = await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
     assert.ok(a.ok);
     const g = googleCalendar();
     g.add("2026-03-09T11:00:00Z", "2026-03-09T12:00:00Z"); // the owner's meeting right after it
@@ -285,6 +291,8 @@ test("bookings are written to the calendar under our id, moved, and removed; our
     assert.equal(insert.path, "/google-calendar/calendar/v3/calendars/pat%40example.com/events");
     assert.equal(insert.body.start.dateTime, "2026-03-09T10:00:00.000Z");
     assert.equal(insert.body.attendees, undefined, "no attendees: the provider would email the booker");
+    assert.equal(insert.body.summary, "Site visit: Ann", "what it is and who");
+    assert.equal(insert.body.location, "1 Main St");
     let [row] = await s.db.sql`select event_key, external_event_id, external_provider, synced_sequence, push_claimed_at from bookings`;
     const tag = eventTag(row.event_key, calendarId);
     assert.equal(insert.body.id, `${tag}v0`, "the id is ours, chosen before the call");
@@ -322,7 +330,7 @@ test("bookings are written to the calendar under our id, moved, and removed; our
 test("Google: the job dies after the create; the event is not busy meanwhile and the rerun makes no second one", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "google");
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
     const g = googleCalendar();
     const { calls, gw } = fake(g.routes);
     await syncCalendars(s.db, gw, NOW);
@@ -348,7 +356,7 @@ test("Google: the job dies after the create; the event is not busy meanwhile and
 test("Google: the job dies after the create, then the booking moves; the one event moves with it", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "google");
-    const a = await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
+    const a = await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
     assert.ok(a.ok);
     const g = googleCalendar();
     const { gw } = fake(g.routes);
@@ -365,7 +373,7 @@ test("Google: the job dies after the create, then the booking moves; the one eve
 test("Google: the job dies after the create, then the booking is cancelled; the event is still removed", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "google");
-    const a = await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
+    const a = await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
     assert.ok(a.ok);
     const g = googleCalendar();
     const { gw } = fake(g.routes);
@@ -384,7 +392,7 @@ test("Google: the job dies after the create, then the booking is cancelled; the 
 test("Google: an insert answered 409 (the id exists) takes that event over", (t) =>
   withDb(t, async (s) => {
     const { resource, calendarId } = await setup(s, "google");
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
     const [{ event_key }] = await s.db.sql`select event_key from bookings`;
     const id = `${eventTag(event_key, calendarId)}v0`;
     const g = googleCalendar();
@@ -402,7 +410,7 @@ test("Google: an insert answered 409 (the id exists) takes that event over", (t)
 test("Microsoft: a lost create response, then a rerun, makes one event; the pull reads our tag", (t) =>
   withDb(t, async (s) => {
     const { resource, calendarId } = await setup(s, "microsoft");
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
     const m = microsoftCalendar();
     m.add("2026-03-09T10:00:00.0000000", "2026-03-09T11:00:00.0000000"); // the owner's own event at the same time
     const create = m.routes["POST /microsoft-calendar/v1.0/me/events"];
@@ -442,7 +450,7 @@ test("Microsoft: a lost create response, then a rerun, makes one event; the pull
 test("Microsoft: the job dies after the create; the rerun makes no second event", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "microsoft");
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
     const m = microsoftCalendar();
     const { calls, gw } = fake(m.routes);
     await syncCalendars(s.db, gw, NOW);
@@ -457,7 +465,7 @@ test("Microsoft: the job dies after the create; the rerun makes no second event"
 test("a failed push is recorded on the booking and retried next run", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "microsoft");
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
     let fail = true;
     const { calls, gw } = fake({
       "POST /microsoft-calendar/v1.0/me/events": () => (fail ? json({ error: { code: "ErrorAccessDenied" } }, 403) : json({ id: "AAMk-1" })),
@@ -477,24 +485,21 @@ test("a failed push is recorded on the booking and retried next run", (t) =>
     assert.deepEqual([row.external_event_id, row.external_error], ["AAMk-1", null]);
   }));
 
-test("a member's calendar is read as far ahead as the crews it is in book", (t) =>
+test("a person's calendar is read as far ahead as the furthest type they take", (t) =>
   withDb(t, async (s) => {
-    const { resource } = await setup(s, "google"); // horizon 30
-    const crew = await createResource(s.db, {
-      kind: "crew", name: "Crew", slug: "crew", email: "", time_zone: "UTC", duration_min: "60", interval_min: "60",
-      buffer_before_min: "0", buffer_after_min: "0", min_notice_min: "0", horizon_days: "90",
-    }, "o@example.com", "test");
-    assert.ok(crew.ok);
-    assert.ok((await addMember(s.db, crew.value.id, resource.id)).ok);
+    const { person } = await setup(s, "google"); // horizon 30
+    const longer = await createType(s.db, typeOf("install", "90"), "o@example.com", "test");
+    assert.ok(longer.ok);
+    await setHosts(s.db, longer.value.id, [person.id]);
     const { calls, gw } = fake({ "GET /google-calendar/calendar/v3/calendars/": () => json({ items: [] }) });
     assert.deepEqual((await syncCalendars(s.db, gw, NOW)).errors, []);
-    assert.equal(new URL(calls[calls.length - 1].url).searchParams.get("timeMax"), "2026-06-01T00:00:00.000Z", "90 + 2 days, not the member's own 30");
+    assert.equal(new URL(calls[calls.length - 1].url).searchParams.get("timeMax"), "2026-06-01T00:00:00.000Z", "90 + 2 days, not the visit's 30");
   }));
 
 test("an event the owner deleted is written again when its booking moves", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "microsoft");
-    const a = await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
+    const a = await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
     assert.ok(a.ok);
     const m = microsoftCalendar();
     const { calls, gw } = fake(m.routes);
@@ -514,7 +519,7 @@ test("an event the owner deleted is written again when its booking moves", (t) =
 test("a booking moved and then marked completed keeps its event, at the new time", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "google");
-    const a = await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
+    const a = await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW });
     assert.ok(a.ok);
     const g = googleCalendar();
     const { calls, gw } = fake(g.routes);
@@ -530,8 +535,8 @@ test("a booking moved and then marked completed keeps its event, at the new time
 test("event_key is filled for every booking, old rows included, and stays put", (t) =>
   withDb(t, async (s) => {
     const { resource } = await setup(s, "google");
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
-    assert.ok((await book(s.db, { resourceId: resource.id, start: T("2026-03-09T12:00:00Z"), name: "Bo", email: "bo@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T10:00:00Z"), name: "Ann", email: "ann@example.com", source: "website", now: NOW })).ok);
+    assert.ok((await book(s.db, { typeId: resource.id, start: T("2026-03-09T12:00:00Z"), name: "Bo", email: "bo@example.com", source: "website", now: NOW })).ok);
     // Rows from before the column existed get a key when the schema adds it.
     await s.db.sql`alter table bookings drop column event_key`;
     await applySchema(s.db, schema);

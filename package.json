@@ -23,9 +23,10 @@
     "from-site": "node scripts/from-site.mjs",
     "images": "node scripts/images.mjs",
     "typecheck": "tsc --noEmit -p .",
+    "db:setup": "tsx scripts/db.ts",
     "test": "node scripts/test.mjs",
     "audit": "tt-crawl audit http://localhost:3000 --no-external --no-register",
-    "deploy": "npm run build && python3 ~/tools/taskandtool.py deploy dist --worker build/worker.mjs"
+    "deploy": "npm run db:setup && npm run build && python3 ~/tools/taskandtool.py deploy dist --worker build/worker.mjs"
   },
   "engines": {
     "node": ">=20"

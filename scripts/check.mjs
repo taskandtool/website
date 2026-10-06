@@ -7,13 +7,13 @@
 //   - page paths are unique and start with "/"
 //   - site-map.md's keep and merge rows resolve to a page or a redirect
 //   - posts carry a real date; the business note's phone looks like one
-//   - nothing under src/ except server.ts imports a Node built-in (the edge rule)
+//   - nothing the production Worker imports uses a Node built-in (the edge rule)
 // What the rendered pages may and may not carry (the refuse list, the copy
 // rules, contrast in context, the generated-page patterns) is `npm run lint`,
 // which reads dist/ after a build.
 // Exit 1 with the findings when something is off.
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { DESIGN, FONTS, RECORD, THEME, designMd, fontsTs, problems, readRecord, themeCss } from "./system.mjs";
 import { walk } from "./files.mjs";
 import { TEXT_PAIRS, isHex, ratio, readTheme } from "./theme.mjs";
@@ -127,18 +127,29 @@ try {
   console.log("note: src/generated/content.json missing; run npm run content");
 }
 
-// the edge rule: what ships to Cloudflare. Tests (a test/ folder or a
-// *.test.ts file, copied with a skill's code) run on this machine and never
-// ship, so they may use Node.
-const nodeImport = /(?:from\s+|import\s*\(\s*|require\s*\(\s*)["'](node:[a-z_/]+|(?:fs|path|child_process|os|net|crypto|http|https|stream|url|util)(?:\/[a-z_]+)?)["']/;
+// the edge rule: what ships to Cloudflare is src/worker.ts and everything it
+// imports. A machine-only file (a skill's cli.ts, a test) imports Node freely,
+// so long as nothing the Worker reaches imports it.
+const nodeImport = /(?:from\s+|import\s*\(?\s*|require\s*\(\s*)["'](node:[a-z_/]+|(?:fs|path|child_process|os|net|crypto|http|https|stream|url|util)(?:\/[a-z_]+)?)["']/;
+const localImport = /(?:from\s+|import\s*\(?\s*)["'](\.{1,2}\/[^"']+)["']/g;
 // comments out, strings kept: a "/api/*" route must not open a comment
 const code = (src) => src.replace(/("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|`(?:\\.|[^`\\])*`)|\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, (m, str) => str ?? "");
-for (const file of walk("src")) {
-  // comments may show a machine-side usage; only code counts
+const resolveImport = (from, spec) => {
+  const base = join(dirname(from), spec);
+  return [base, `${base}.ts`, `${base}.tsx`, join(base, "index.ts"), join(base, "index.tsx")].find((f) => existsSync(f) && statSync(f).isFile());
+};
+const shipped = new Set();
+const queue = [join("src", "worker.ts")];
+while (queue.length) {
+  const file = queue.pop();
+  if (shipped.has(file) || !existsSync(file)) continue;
+  shipped.add(file);
   const src = code(readFileSync(file, "utf8"));
-  if (file !== join("src", "server.ts") && !/(^|\/)test\/|\.test\.tsx?$/.test(file)) {
-    const m = src.match(nodeImport);
-    if (m) findings.push(`${file} imports ${m[1]}: Node built-ins cannot run in production on Cloudflare (only src/server.ts may)`);
+  const m = src.match(nodeImport);
+  if (m) findings.push(`${file} imports ${m[1]}, and the production Worker imports ${file}: Node built-ins cannot run on Cloudflare (keep machine-only code out of what src/worker.ts reaches)`);
+  for (const [, spec] of src.matchAll(localImport)) {
+    const next = resolveImport(file, spec);
+    if (next) queue.push(next);
   }
 }
 

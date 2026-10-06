@@ -49,7 +49,8 @@ column so a change points at the pages.
 
 Sections that render from the notes are ready in `src/components/facts.tsx`:
 `ServicesSection`, `FaqSection`, `ContactSection`, and for the proof
-`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`. Each
+`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
+`NumbersSection`. Each
 renders nothing while its note is empty, so a page can include them before
 the facts exist. Compose around them; do not retype a fact into markup.
 `npm run parts` prints the components, their props and the facts there are.

@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Designs the look of this website: the homepage built for real and shown, the first screen, the design system record and how it grows with the site, type, colour, imagery and layout, and the rendered review. Use when building or changing how a page looks, when the owner says change the look or it looks generic, and when the site grows past its homepage."
+description: "Designs the look of this website: the first screen, the design system record and how it grows, type, colour, imagery, layout and the rendered review. Use when the owner says change the look, it looks generic, new colours or fonts, or when the site grows past its homepage. Not for starting a site (new-site) or its words (writing)."
 ---
 
 # Design
@@ -31,7 +31,7 @@ Most owners judge a design by looking at it.
    them, never another site's words, pictures or logo. The site's system is
    always its own.
 2. **Write the brief,** `design/briefs/home.md` in the `pages` skill's
-   format (`references/brief.md` there); for a first homepage, the
+   format (`.claude/skills/pages/references/brief.md`); for a first homepage, the
    frontmatter and the hero's lines are enough.
 3. **Set the look** in `design/system.yaml`: `npm run from-site` seeded the
    tokens from their current site; change what this design needs (colours
@@ -97,7 +97,7 @@ proud to send the link.
   homepage and every service page, and design it as boldly as the rest:
   the rating by the first action, walls or bands of logos, star-rated
   reviews (`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
-  or your own from `content.facts`).
+  `NumbersSection`, or your own from `content.facts`).
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 

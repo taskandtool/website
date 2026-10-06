@@ -41,7 +41,8 @@ for (const [name, what] of steps) {
     continue;
   }
   const lines = out.split("\n").filter((l) => l.trim());
-  const last = (lines.pop() || "ok").trim().replace(new RegExp(`^${name}: `), "");
+  // a script's summary line: lint prints it first, the others last
+  const last = (lines.find((l) => l.startsWith(`${name}: `)) || lines.pop() || "ok").trim().replace(new RegExp(`^${name}: `), "");
   console.log(`  ok  ${name}: ${name === "build" ? "dist/ written" : last}`);
   if (name === "lint") {
     const hints = out.split("\n").filter((l) => /^\s*hint\b|^\s{8}\S/.test(l));

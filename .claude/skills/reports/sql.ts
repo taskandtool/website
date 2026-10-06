@@ -50,6 +50,8 @@ type Source = {
   where: string;
   /** one aggregate call; a FILTER clause is appended to it */
   agg: string;
+  /** money: the column naming each row's currency. Such a source is charted one currency at a time. */
+  currency?: string;
 };
 
 export const SOURCES = {
@@ -59,6 +61,8 @@ export const SOURCES = {
   bookings: { table: "bookings", at: "starts_at", where: "status <> 'cancelled'", agg: "count(*)" },
   /** bookings made, by when they were made, cancelled ones included */
   bookings_made: { table: "bookings", at: "created_at", where: "true", agg: "count(*)" },
+  /** invoices paid, live money only, by when they were paid: minor units of one currency (the invoices skill) */
+  invoices_paid: { table: "invoices", at: "paid_at", where: "status = 'paid' and livemode is true", agg: "sum(total_cents)", currency: "currency" },
 } as const satisfies Record<string, Source>;
 
 export type SourceName = keyof typeof SOURCES;
@@ -154,6 +158,16 @@ function check(p: Period, grain: Grain | null, zone: string) {
 
 // ---- Builders ---------------------------------------------------------------
 
+/** A money source's currency filter, as parameter $n. Amounts in two currencies are never added. */
+function inCurrency(s: Source, currency: string | undefined, n: number): { where: string; values: string[] } {
+  if (!s.currency) {
+    if (currency !== undefined) throw new Error("this source is not money: it takes no currency");
+    return { where: "", values: [] };
+  }
+  if (!currency || !/^[a-z]{3}$/i.test(currency)) throw new Error("a money source is charted one currency at a time: pass its code, like usd");
+  return { where: ` and lower(${s.currency}) = lower($${n})`, values: [currency] };
+}
+
 // The bounds of a period as instants, from parameters $1 (from), $2 (to) and
 // the zone's parameter number.
 const start = (z: string) => `($1::date::timestamp at time zone ${z})`;
@@ -165,22 +179,23 @@ const end = (z: string) => `(($2::date + 1)::timestamp at time zone ${z})`;
  * day, week or month starts on. Align the period to the grain (lastFull does)
  * or the first and last buckets are partial.
  */
-export function seriesQuery(name: SourceName, p: Period, grain: Grain, zone: string): Query {
+export function seriesQuery(name: SourceName, p: Period, grain: Grain, zone: string, currency?: string): Query {
   check(p, grain, zone);
   const s: Source = SOURCES[name];
+  const money = inCurrency(s, currency, 5);
   return {
     text: `with buckets as (
   select generate_series(date_trunc($3, $1::date::timestamp), $2::date::timestamp, ('1 ' || $3)::interval) as bucket
 ), counted as (
   select date_trunc($3, ${s.at} at time zone $4) as bucket, ${s.agg} as value
   from ${s.table}
-  where (${s.where}) and ${s.at} >= ${start("$4")} and ${s.at} < ${end("$4")}
+  where (${s.where})${money.where} and ${s.at} >= ${start("$4")} and ${s.at} < ${end("$4")}
   group by 1
 )
 select to_char(b.bucket, 'YYYY-MM-DD') as bucket, coalesce(c.value, 0)::float8 as value
 from buckets b left join counted c using (bucket)
 order by b.bucket`,
-    values: [p.from, p.to, grain, zone],
+    values: [p.from, p.to, grain, zone, ...money.values],
   };
 }
 
@@ -188,10 +203,11 @@ order by b.bucket`,
  * The total for a period and for the period before it, in one pass:
  * `{ current: number, previous: number }`.
  */
-export function compareQuery(name: SourceName, p: Period, zone: string, prev: Period = previousPeriod(p)): Query {
+export function compareQuery(name: SourceName, p: Period, zone: string, prev: Period = previousPeriod(p), currency?: string): Query {
   check(p, null, zone);
   adjacent(prev, p);
   const s: Source = SOURCES[name];
+  const money = inCurrency(s, currency, 5);
   // $1..$2 is this period; $4 is where the previous one starts.
   const prevStart = `($4::date::timestamp at time zone $3)`;
   return {
@@ -199,8 +215,8 @@ export function compareQuery(name: SourceName, p: Period, zone: string, prev: Pe
   coalesce(${s.agg} filter (where ${s.at} >= ${start("$3")}), 0)::float8 as current,
   coalesce(${s.agg} filter (where ${s.at} < ${start("$3")}), 0)::float8 as previous
 from ${s.table}
-where (${s.where}) and ${s.at} >= ${prevStart} and ${s.at} < ${end("$3")}`,
-    values: [p.from, p.to, zone, prev.from],
+where (${s.where})${money.where} and ${s.at} >= ${prevStart} and ${s.at} < ${end("$3")}`,
+    values: [p.from, p.to, zone, prev.from, ...money.values],
   };
 }
 
@@ -246,7 +262,8 @@ export function weightedMean<T>(rows: readonly T[], field: keyof T, weight: keyo
 // These read the forms, booking and payments tables by fixed names and run only when the tables
 // exist (`projectTables`). Every period bound is computed in SQL in the zone.
 
-export type ProjectTables = { submissions: boolean; forms: boolean; bookings: boolean; payments: boolean };
+/** `paymentTotals`: payments has total_cents (payments 0.2.0 and later), what was paid with tax and fees. */
+export type ProjectTables = { submissions: boolean; forms: boolean; bookings: boolean; payments: boolean; paymentTotals?: boolean };
 
 /** Which of those tables this project has. A project without booking has no bookings. */
 export async function projectTables(db: Db): Promise<ProjectTables> {
@@ -254,7 +271,10 @@ export async function projectTables(db: Db): Promise<ProjectTables> {
     select table_name from information_schema.tables
     where table_schema = 'public' and table_name in ('submissions', 'forms', 'bookings', 'payments')`;
   const has = new Set(rows.map((r) => r.table_name));
-  return { submissions: has.has("submissions"), forms: has.has("forms"), bookings: has.has("bookings"), payments: has.has("payments") };
+  const [totals] = await db.sql<{ yes: boolean }>`
+    select exists (select 1 from information_schema.columns
+                   where table_schema = 'public' and table_name = 'payments' and column_name = 'total_cents') as yes`;
+  return { submissions: has.has("submissions"), forms: has.has("forms"), bookings: has.has("bookings"), payments: has.has("payments"), paymentTotals: totals.yes };
 }
 
 /**
@@ -269,9 +289,11 @@ export async function projectTables(db: Db): Promise<ProjectTables> {
  * and net is what the business kept. Test-mode payments (`livemode` false)
  * are not revenue.
  */
-export function revenueQuery(p: Period, zone: string, prev: Period = previousPeriod(p)): Query {
+export function revenueQuery(p: Period, zone: string, prev: Period = previousPeriod(p), opts: { totals?: boolean } = {}): Query {
   check(p, null, zone);
   adjacent(prev, p);
+  // What was paid: the total with tax and fees where the payments table records it (refunds come back with tax).
+  const paid = opts.totals ? "coalesce(total_cents, amount_cents)" : "amount_cents";
   // A refund event that reaches the webhook before the payment event leaves
   // paid_at empty until that one arrives (if it ever does); meanwhile such a
   // payment is placed by when it was created rather than left out.
@@ -279,10 +301,10 @@ export function revenueQuery(p: Period, zone: string, prev: Period = previousPer
   const cur = `${at} >= ${start("$3")}`;
   return {
     text: `select upper(currency) as currency,
-  coalesce(sum(amount_cents) filter (where ${cur}), 0)::float8 as gross,
+  coalesce(sum(${paid}) filter (where ${cur}), 0)::float8 as gross,
   coalesce(sum(refunded_cents) filter (where ${cur}), 0)::float8 as refunds,
-  coalesce(sum(amount_cents - refunded_cents) filter (where ${cur}), 0)::float8 as net,
-  coalesce(sum(amount_cents - refunded_cents) filter (where not (${cur})), 0)::float8 as previous_net
+  coalesce(sum(${paid} - refunded_cents) filter (where ${cur}), 0)::float8 as net,
+  coalesce(sum(${paid} - refunded_cents) filter (where not (${cur})), 0)::float8 as previous_net
 from payments
 where status in ('paid', 'partially_refunded', 'refunded') and livemode is not false
   and ${at} >= ($4::date::timestamp at time zone $3) and ${at} < ${end("$3")}

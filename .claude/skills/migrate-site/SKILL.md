@@ -1,6 +1,6 @@
 ---
 name: migrate-site
-description: "Takes over an existing website: reads it into an inventory and raw pages, gets the facts and brand into notes, plans the new site as a page map against the old URLs, builds the pages, generates redirects, and checks the launch. Use when the owner has a current site and says migrate, rebuild, redesign or clone."
+description: "Moves an existing website here page for page: reads it into an inventory, gets the facts and brand into notes, maps every old URL to a new page, builds the pages, writes the redirects, then hands to launch-check. Use when the owner says migrate, move, clone or rebuild my site and keep its pages. Not for a new design from the homepage (new-site)."
 ---
 
 # Migrate a site
@@ -20,8 +20,8 @@ re-plans both). Write both answers at the top of `site-map.md`.
 ## 1. Inventory
 
 One crawl reads the site into `raw/site/<host>/`; its ledger is
-`_index/inventory.json`, one record per URL (the crawler's README lists
-every file it writes).
+`_index/inventory.json`, one record per URL (`tt-crawl playbook rebuild`, its
+"Read" section, lists the files to read).
 
 The crawler carries the recipes; print the one you need rather than
 guessing flags:
@@ -88,9 +88,9 @@ Each page through the `pages` skill (its brief, then the page, in the
 site's record; in a faithful rebuild the copy is the owner's and is only
 edited, never re-voiced unless asked), with the old page's raw markdown
 open for what it said and which links it carried. Title and h1
-keep their intent (the website skill's `seo.md`); photographs come from `_index/media.json`'s
+keep their intent (`.claude/skills/website/seo.md`); photographs come from `_index/media.json`'s
 photo entries at full size with their alt text; internal
-links point at the new map. Posts go through the website skill's `posts.md`; legal pages
+links point at the new map. Posts go through `.claude/skills/website/posts.md`; legal pages
 render from `legal/`. Mark the row built, show the page, and
 stop for review before the next page.
 

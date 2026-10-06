@@ -40,6 +40,7 @@ step("static assets");
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 cpSync("static", dist, { recursive: true });
+cpSync("src/forms/cart.js", join(dist, "cart.js"));
 if (existsSync("brand/logo")) {
   cpSync("brand/logo", join(dist, "brand", "logo"), {
     recursive: true,

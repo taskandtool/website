@@ -10,7 +10,8 @@ is the owner's to change.
 
 Which skill to read, by what the owner asks:
 
-- "build me a homepage", "build my site", a link to their business: `new-site`
+- "build me a homepage", "build my site", "redesign my site", a link to their
+  business: `new-site` (a new site, homepage first, even when they have one)
 - "change the look", "it looks generic", colours, fonts, a new logo: `design`
 - a new page, the page plan, what a page should say: `pages`
 - words and headlines: `writing`; the tells generated text falls into: `tropes`
@@ -18,11 +19,18 @@ Which skill to read, by what the owner asks:
   document, photos or logos sent in chat (`uploads/`, then `npm run images`): `brand`
 - a blog post: the website skill's `posts.md`, with `writing`
 - "help us rank for …": the website skill's `seo.md` ("Ranking for a search")
-- "migrate", "rebuild", "redesign" a site they have: `migrate-site`; the
-  cutover and the weekly audit: `launch-check`
+- "migrate", "move", "clone" or "rebuild" a site they have, keeping its pages
+  and URLs: `migrate-site`; the cutover and the weekly audit: `launch-check`
+- "is it ready to go live": the website skill's checklist before each
+  deploy; a migrated site also `launch-check`
 - a form, a private `/admin`, a booking page, a report or chart: `forms`,
   `admin`, `booking`, `reports`, all on `data` (what they store is in the
   project's database, which the project's other apps read too)
+- "take orders", "an order page", a form with steps, "a paid appointment
+  with a few questions": `forms` (an order is a form: its items, a booking
+  step, a payment step), then `payments` for the Stripe key and webhook
+- "take payment", a deposit, a refund: `payments`, with `forms` or
+  `booking` for what is paid for
 - a small edit (a typo, a line), running, code, deploying: `website`; what production is:
   the platform's `deploy` skill
 
@@ -36,7 +44,9 @@ Each prints what it did and what to read next.
 ```bash
 npm run from-site -- <url>   # a first homepage's start, about a minute: reads their homepage, gallery and services page;
                              # writes the business note, the logo, their photos at web size, design tokens
-                             # from their colours and fonts; prints what it wrote, kept, and what to read next
+                             # from their colours and fonts, public/proof.md (their reviews, Google's rating and
+                             # reviews, logos), numbered sheets of photos and logos to name; prints what it wrote,
+                             # kept, and what to read next
 npm run parts                # what a page is built from: components and props, the classes, the page shape,
                              # the facts the notes hold, the photos and their sizes
 npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
@@ -48,6 +58,8 @@ npm run show -- --from-shots # each page whole, one image per width, sent to the
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
 npm test                     # the tests under src/ (a skill's tests arrive with its code)
 npm run audit                # the crawler against dev: links, headings, alt text, titles
+node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
+npm run db:setup             # the forms, booking and payments tables (dev start and deploy run it)
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)
 ```
 
@@ -66,6 +78,10 @@ page with `npm run shots`, then `npm run show -- --from-shots`.
   `src/pages/*.tsx` the pages, listed in `src/pages/index.ts`;
   `src/layout.tsx` the head, header and footer; `src/components/` the shared
   pieces; `src/app.tsx` the Hono app.
+- `src/business.tsx` mounts forms (with booking and payment steps), `/book`,
+  Stripe's webhook and the private `/admin`, all on the project's database
+  and 404 until it has one; the code under `src/data`, `admin`, `forms`,
+  `booking`, `payments` is those skills', refreshed from them.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served
   as they are.
 
@@ -80,8 +96,9 @@ page with `npm run shots`, then `npm run show -- --from-shots`.
 
 ## Rules
 
-- Code in `src/` must run on Cloudflare (no Node built-ins, no filesystem,
-  no per-request state); `src/server.ts` is the single exception. Files and
+- Code the Worker reaches from `src/worker.ts` must run on Cloudflare (no
+  Node built-ins, no filesystem, no per-request state); `src/server.ts`, a
+  skill's `cli.ts` and tests are machine only (`npm run check`). Files and
   heavy work happen at build time, on this machine.
 - Colours and fonts live in `design/system.yaml`, set from the brand
   notes. Markup never carries a hex value or a Tailwind
