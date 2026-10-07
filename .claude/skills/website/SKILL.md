@@ -6,8 +6,8 @@ description: "Runs, changes and deploys this business website: the Hono app, its
 # Website
 
 This app is a website on Hono: server-rendered JSX, Tailwind v4, no client
-framework. **Dev** is this machine: the `web` service at the team's
-Development link, every edit there on refresh. **Production** is the site
+framework. **Dev** is this machine: the `web` service at dev's address
+(the platform instructions name it), every edit there on refresh. **Production** is the site
 deployed to Cloudflare (below, and the platform's `deploy` skill): every
 page pre-rendered to HTML, with a small Worker behind it for anything
 dynamic. `AGENTS.md` in the app root lists the commands and where things
