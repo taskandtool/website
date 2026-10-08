@@ -32,8 +32,8 @@ Read the folders and carry on from where they are:
    their Google rating and reviews). It prints what to read next. With a
    name and no link, find their website first and say in one line who you
    found.
-2. **Write `public/services.md`** from the services page it names: a
-   `## <service>` section each, in the page's own facts, cited, with
+2. **Write `public/services.md`** from the services page `from-site`
+   names: one `## <service>` section per service, in the page's own facts, cited, with
    `updated` and `sources` set and no "to fill" left. The page shows them
    through `ServicesSection` or `content`, never typed into the markup.
    Describe each photograph once in `brand/images.md`, from the numbered
@@ -53,8 +53,8 @@ run it):
    (`tt-crawl reference <url>` captures its look), the design library (the
    `design` skill's `references/library.md`: fourteen systems with a
    preview each), and their photographs as `brand/images.md` describes
-   them. Take ideas from the one or two closest to what this business
-   needs, never another site's words, pictures or logo. The site's system
+   them. Take ideas from the one or two references closest to what this
+   business needs, but never another site's words, pictures or logo. The site's system
    is always its own.
 5. **Write the brief,** `design/briefs/home.md` in the `pages` skill's
    format (`.claude/skills/pages/references/brief.md`); for a first
@@ -64,7 +64,7 @@ run it):
    role, fonts, sizes, radii), then `npm run system`.
 7. **Build the page** in `src/pages/home.tsx`, written whole in one go
    (`.claude/skills/pages/references/page-code.md`), then `npm run verify`
-   and fix what is a mistake. When the owner asked for something the lint
+   and fix the findings that are mistakes. When the owner asked for something the lint
    flags, put `data-lint-allow="<rule>"` on that element and say so in one
    line.
 8. **Review.** Start the `writing` skill's cold read (a sub-agent) on the
@@ -76,8 +76,8 @@ run it):
    screen above all. Say the one or two things that would make it better
    (their own sharp photographs, a fact the site does not state).
 
-Then follow the owner. A small change is an edit, one look at that page's
-shots, and a show; a new section or page gets the full review. When they
+Then follow the owner. A small change gets an edit, one look at that
+page's shots, and a show; a new section or page gets the full review. When they
 want options, or a change worth comparing, build each option as the real
 page in turn, commit each, show them side by side, and keep the one they
 pick.

@@ -13,7 +13,7 @@ Who searched for this question, in their words, and which service page they need
 
 <exists>
 Decide first whether the post, or the blog, should exist. Keep a post only when `public/` and `brand/`
-holds first-hand material for it: a job the company did, a question customers really ask, a local
+hold first-hand material for it: a job the company did, a question customers really ask, a local
 fact, the owner's own view. Otherwise: improve a post that has traffic or links; merge overlapping
 weak posts into one and redirect the rest; retire posts with no traffic, links or first-hand
 material. Retiring a whole blog is legitimate when nothing survives. Mass-produced AI posts are
@@ -44,7 +44,7 @@ against the material. Each line says what the band holds, then when it earns its
   answer      core      The answer itself, first, in two or three sentences.
   body        core      Sections headed by what each covers; one idea per paragraph.
   evidence    optional  The job, photographs, numbers or a diagram that show the company has done it.
-                        When: `public/` and `brand/` holds them. This is what makes the post worth having.
+                        When: `public/` and `brand/` hold them. This is what makes the post worth having.
   contents    optional  A list of the sections, linked. When: the post is long enough to need it.
   sources     optional  Where outside facts came from, linked. When: the post cites any.
   service     core      An in-body link to the service, where the topic meets the offer.
@@ -66,7 +66,7 @@ against the material. Each line says what the band holds, then when it earns its
 
 <show>
   - The company's own job photographs, a diagram of the actual problem, the real author. No image
-    beats a stock hero. One real image serves sharing and article markup.
+    at all beats a stock hero. One real image serves sharing and article markup.
   - The constraint is measure, not word count: comfortable line length, generous line spacing,
     space between paragraphs.
 </show>
@@ -85,7 +85,7 @@ evergreen posts on the main services pinned if useful. Each entry: title, a one-
 finding, date, topic, in the same structure every time; a thumbnail only where a real image exists,
 never a placeholder. One page is best for a small blog; pagination means the archive needs
 pruning. Categories mirror services and open with a line and a link to that service's page; a
-category needs several posts to exist; no tags on a small site.
+category exists only when it has several posts; no tags on a small site.
 </variant>
 
 <industry>

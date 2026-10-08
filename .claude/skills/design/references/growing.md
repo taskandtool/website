@@ -13,8 +13,8 @@ every page:
    `design/briefs/home.md`, `public/`, `brand/` and `design/system.yaml`,
    and have it build the homepage as a scratch page at `/rebuild`
    (`src/pages/rebuild.tsx`, listed in `src/pages/index.ts`). Screenshot both (`npm run shots -- /rebuild`).
-   Where they differ in a way the owner would notice, the record left it
-   out: add it, rebuild once more, then delete the scratch page. Without a
+   Where the two differ in a way the owner would notice, the record left
+   something out: add it, rebuild once more, then delete the scratch page. Without a
    sub-agent, skip this and say so.
 3. **Check it:** `npm run verify`.
 

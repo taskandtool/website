@@ -20,7 +20,7 @@ once per site, before planning pages:
   3. Decision cost × reversibility → how much proof, how long the page.
   4. Retrieval or persuasion → the shape of the text.
   5. What does the law require, or forbid, on this page in this jurisdiction? Required elements
-     are correctness, not convention. The brand folder needs its jurisdiction.
+     are correctness, not convention. The brand folder must record the jurisdiction.
 
 Two more that hold everywhere:
   - Proof is increasingly checked off the site: reviews are read across several platforms and in
@@ -94,8 +94,8 @@ Real stories used with consent.
 <sitemaps>
 The pages a site of each kind usually needs, most necessary first. The minimum is
 the first four or five. Add a page only when `public/` and `brand/` hold the facts for it. An empty
-team, blog, FAQ or events page costs more trust than a missing one. `type` or `type/variant` as
-it goes in the page's brief.
+team, blog, FAQ or events page costs more trust than a missing one. Each page is named by its
+`type` or `type/variant`, as it goes in the page's brief.
 
   trade, home service   homepage · service/index (when more than a few services) · service per
                         service · reviews · contact · about · work/index (with real job photographs) ·

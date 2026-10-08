@@ -8,8 +8,8 @@ the commonest way to fail.
 </job>
 
 <angle>
-Decide per page, before choosing any content, and write in the brief's frontmatter. Derive them
-from this brand's own material; nothing here supplies them.
+Decide these per page, before choosing any content, and write them in the brief's frontmatter.
+Derive them from this brand's own material; nothing here supplies them.
 
   reader  who this page is for, narrowly. One audience; the page says nothing to anyone else.
   pain    the doubt or problem they arrive with, in words they would use.
@@ -23,7 +23,7 @@ same way, you are applying a formula, not reading the business.
 </angle>
 
 <inventory>
-Before selecting, sort every usable item in `public/` and `brand/` into bins, noting its source. Look in
+Before selecting, sort every usable item into bins, noting its source. Look in
 `public/` and `brand/`, `brand/images/`, and `raw/` (the crawled pages, reviews and places). What
 the owner asked for gives direction, never a fact.
 
@@ -48,7 +48,7 @@ An item that serves another audience is not in the inventory at all.
   - Third-party proof beats the company's own claims; a claim with a customer saying it beats
     the claim alone.
   - Price, when the brand has it, beats silence: users' first information need is cost, and a
-    hidden price reads as expensive and evasive. Where price varies, typical-job prices.
+    hidden price reads as expensive and evasive. Where price varies, give typical-job prices.
   - Unique to this company beats true of every competitor.
   - Length follows decision cost: a cheap, reversible yes needs a short page; an expensive,
     hard-to-reverse one needs every objection answered. Cut anything that does not earn its place.
@@ -156,9 +156,9 @@ and cost information: removing those costs trust and ad quality, not just exits.
     shows it: one photograph per feature is the aim, and the brief names which.
   - Customers' own photographs from reviews and the Google profile, named where the review is.
   - Every review shows its source's square icon and its rating as star graphics, one per star,
-    taken from the review itself (the pages skill, "Proof, on every page"); a rating nobody
-    recorded is not assumed. The platform icons and gold stars are the colour in a proof band, so reviews sit on white or
-    white cards, where both read as drawn.
+    taken from the review itself (the design skill, "Proof, front and centre"); a rating nobody
+    recorded is not assumed. The platform icons and gold stars are a proof band's colour, so
+    reviews sit on white or on white cards, where both read as drawn.
   - Finished jobs, captioned by job and place; before and after only as real pairs of one job.
   - Ratings are prominent, each with its platform's own icon beside it, so the reader sees whose
     stars they are. Certification and manufacturer logos appear as the logos, near the top.

@@ -58,8 +58,9 @@ flatten a sentence the owner actually wrote.
 ## The cold read
 
 When a page is built, give a fresh sub-agent only the rendered words
-(`dist/index.html` for the homepage, `dist/<path>.html` for a page), `public/` and `brand/voice.md`, and ask for every line
-to change as `| line, exactly | replacement, or CUT | why |`: a claim the
+(`dist/index.html` for the homepage, `dist/<path>.html` for a page),
+`public/` and `brand/voice.md`, and ask it to list every line that should
+change as `| line, exactly | replacement, or CUT | why |`: a claim the
 notes don't hold, a line no person would say, a vague line, a tell the
 checker missed. Apply the table in one pass. Without a sub-agent, read the
 page yourself as a stranger and say so.

@@ -14,9 +14,9 @@ what is included.
 </reader>
 
 <exists>
-Make the page only when `public/` and `brand/` holds upcoming dates, or a private-hire offer, and someone
-keeps them current. A calendar that goes stale is worse than none. Leave the events off, and name
-the kind of events on the homepage instead.
+Make the page only when `public/` and `brand/` hold upcoming dates, or a private-hire offer, and someone
+keeps them current. A calendar that goes stale is worse than none. Otherwise leave the events page
+off, and name the kind of events on the homepage instead.
 </exists>
 
 <inventory>

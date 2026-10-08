@@ -42,7 +42,7 @@ Sort every usable item into bins, with its source.
     nothing is emphasised.
   - Reviews: several sit together in their own band; one may also sit beside the claim it
     proves. The design system decides how either looks. Each carries its platform's mark and
-    its stars in the brief (SKILL.md, "Proof, on every page").
+    its stars in the brief (the design skill, "Proof, front and centre").
 </select>
 
 <sections>

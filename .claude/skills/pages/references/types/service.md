@@ -42,7 +42,7 @@ service across several pages; gather from all of them.
     nothing is emphasised.
   - Reviews: several sit together in their own band; one may also sit beside the claim it
     proves. The design system decides how either looks. Each carries its platform's mark and
-    its stars in the brief (SKILL.md, "Proof, on every page").
+    its stars in the brief (the design skill, "Proof, front and centre").
 </select>
 
 <sections>
@@ -100,7 +100,7 @@ line on what it involves, one distinguishing fact where the brand has it (a "fro
 duration, who it is for), a photograph of that work, and a link. Every service represented evenly,
 in the same structure. A line or two of context at the top; no proof or long copy (that lives on
 the service pages). Skip the index when there are only a few services and the nav lists them all.
-Area pages are `location.md`, and exist only where `public/` and `brand/` holds local proof for that
+Area pages are `location.md`, and exist only where `public/` and `brand/` hold local proof for that
 place; otherwise the places are named on the service page.
 </variant>
 

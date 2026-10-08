@@ -18,7 +18,7 @@ Decide per page and write in the brief's frontmatter, from this brand's own mate
 
 <exists>
 Make a team page when there are more than about four people, or when customers choose a person.
-Otherwise the people go in the about page's people band. Leave out anyone `public/` and `brand/` has no
+Otherwise the people go in the about page's people band. Leave out anyone `public/` and `brand/` have no
 role for.
 </exists>
 

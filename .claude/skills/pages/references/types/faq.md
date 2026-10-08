@@ -14,7 +14,7 @@ their question and leave once it is answered.
 </reader>
 
 <exists>
-Only questions `public/` and `brand/` shows customers asking, or that the company answers in its own
+Only questions `public/` and `brand/` show customers asking, or that the company answers in its own
 text. A "Why choose us?" question is marketing and is cut. With fewer than about ten, the
 questions go on the pages they belong to instead.
 </exists>

@@ -55,7 +55,7 @@ reviews and places the crawl found).
     nothing is emphasised.
   - Reviews: several sit together in their own band; one may also sit beside the claim it
     proves. The design system decides how either looks. Each carries its platform's icon and
-    its stars in the brief (SKILL.md, "Proof, on every page").
+    its stars in the brief (the design skill, "Proof, front and centre").
 </select>
 
 <sections>
@@ -111,7 +111,7 @@ band holds, then when it earns its place.
 </show>
 
 <industry>
-What the first screen leads with follows the site's archetype (industries.md, <sitemaps>).
+What the first screen leads with follows the kind of site (industries.md, <sitemaps>).
 Restaurant: today's hours, the address and the two actions (reserve, order), and the menu one click
 away. A café with one short menu may carry the whole menu on the homepage. Clinic: booking, whether
 new patients are accepted, insurance taken, location. Trade: the service, the area, the phone.

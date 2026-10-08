@@ -7,8 +7,9 @@ description: "Moves an existing website here page for page: an inventory, the fa
 
 The rule: **facts first, pages second, URLs preserved.** Never convert
 the old pages one by one and re-render them; that carries over dead
-sections, duplicated facts, and the old design. The steps, in order;
-2 and 3 are the `brand` skill's work, into `public/` and `brand/`.
+sections, duplicated facts, and the old design. Follow the steps in
+order; steps 2 and 3 are the `brand` skill's work, written into `public/`
+and `brand/`.
 
 ## 0. Two questions, first
 
@@ -19,9 +20,9 @@ re-plans both). Write both answers at the top of `site-map.md`.
 
 ## 1. Inventory
 
-One crawl reads the site into `raw/site/<host>/`; its ledger is
-`_index/inventory.json`, one record per URL (`tt-crawl playbook rebuild`, its
-"Read" section, lists the files to read).
+One crawl reads the site into `raw/site/<host>/`; its ledger,
+`_index/inventory.json`, holds one record per URL. The "Read" section of
+`tt-crawl playbook rebuild` lists the files to read.
 
 The crawler carries the recipes; print the one you need rather than
 guessing flags:
@@ -42,7 +43,7 @@ limit if it was hit, forms and embeds seen, and the tracking IDs.
 
 ## 2. Facts (the `brand` skill)
 
-The notes in `public/` (`FACTS.md`), written with the `brand` skill from
+Write the notes in `public/` (`FACTS.md`) with the `brand` skill, from
 the crawl: `business.md` with the typed
 frontmatter (name, phone, email, address, hours, social), `services.md`
 or one note per offering, `faq.md`, `team.md`, `policies.md`, `proof.md`.
@@ -50,7 +51,7 @@ Legal text goes verbatim into `legal/` with `path` and `title`.
 
 ## 3. Brand (the `brand` skill, from the same crawl)
 
-The notes in `brand/` from `_index/styles.json`, the logo candidates in
+Write the notes in `brand/` from `_index/styles.json`, the logo candidates in
 `_index/media.json`, and the copy: `visual-identity.md` with colours as hex,
 the fonts, the logo files copied into `brand/logo/`. Then apply them:
 `BRAND.md` → "What the AI sets from them" (`design/system.yaml` and
@@ -58,8 +59,8 @@ the fonts, the logo files copied into `brand/logo/`. Then apply them:
 
 ## 4. Plan: `site-map.md`
 
-From the inventory and the two answers, one row per old URL and per new
-page: keep | merge | drop | new, the target, the page's job, the notes it
+From the inventory and the two answers, write one row per old URL and per
+new page: keep | merge | drop | new, the target, the page's job, the notes it
 draws on, its status. Rules: a redirect the old site already had is kept;
 a `noindex` page is never a keep; thin, duplicate, and orphan pages are
 the merge and drop candidates, judged by in-body links, not sitewide
@@ -84,10 +85,10 @@ then the `design` skill's "When the site grows".
 
 ## 6. Pages, one per turn
 
-Each page through the `pages` skill (its brief, then the page, in the
-site's record; in a faithful rebuild the copy is the owner's and is only
-edited, never re-voiced unless asked), with the old page's raw markdown
-open for what it said and which links it carried. Title and h1
+Build each page with the `pages` skill (its brief, then the page, in the
+site's record), with the old page's raw markdown open for what it said and
+which links it carried. In a faithful rebuild the copy is the owner's: it
+is only edited, never re-voiced unless asked. Title and h1
 keep their intent (`.claude/skills/website/references/seo.md`); photographs come from `_index/media.json`'s
 photo entries at full size with their alt text; internal
 links point at the new map. Posts go through `.claude/skills/website/references/posts.md`; legal pages
@@ -96,8 +97,9 @@ stop for review before the next page.
 
 ## 7. Plumbing, generated
 
-The build writes it (`.claude/skills/website/references/seo.md`,
-"Generated"); a wrong generated thing means the note or the map is wrong.
+The build generates the plumbing (`.claude/skills/website/references/seo.md`,
+"Generated"); when something generated is wrong, the note or the map is
+wrong.
 
 ## 8. Launch
 

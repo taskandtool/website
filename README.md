@@ -11,8 +11,8 @@ click on Task & Tool, or cloned into a project of your own (below). MIT
 licensed.
 
 It runs in dev on the machine while it is being built, and is pre-rendered
-to production on Cloudflare when the owner deploys. It needs nothing to start; managed Postgres
-once a form stores submissions, and depends on nothing else.
+to production on Cloudflare when the owner deploys. It needs nothing to start, needs managed
+Postgres only once a form stores submissions, and depends on nothing else.
 
 ## What is in the box
 
@@ -127,7 +127,7 @@ state (`starter-app.json`'s `when` conditions).
 
 ## Developing this Starter App
 
-- **Tests:** the crawler's live in its own repo. Here:
+- **Tests:** the crawler's tests live in its own repo. Here:
   `npm install && npm run verify` (`npm test` alone for the tests).
   `node_modules/`, `dist/`, `build/` and `static/site.css` are ignored and
   never committed.

@@ -3,9 +3,10 @@
 Fourteen design systems, each a different answer to the same question:
 fourteen studios, not fourteen colourways. Use them as references, never as
 templates: look at the previews, take ideas from the one or two closest to
-what the business needs, and make this site its own system. A preview is the top of the
-system's reference page, built blind from its record on a real business with
-the business swapped for a made-up one; `library/<id>.webp` beside this file.
+what the business needs, and make this site its own system. A preview
+(`library/<id>.webp` beside this file) is the top of the system's reference
+page, built blind from its record on a real business, with the business
+swapped for a made-up one.
 Each id links to the system's record, `records/<id>.yaml`, in the shape of
 `design/system.yaml` (`authoring.md`): its own colour names plus the
 website's roles, its components, layout and rules. Read the record of a

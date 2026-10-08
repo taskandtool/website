@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Designs this website's look: the first screen, the design system record and how it grows, type, colour, imagery, layout and the review gate. Use for change the look, it looks generic, new colours or fonts, or a site growing past its homepage. Not for starting a site (new-site) or its words (writing)."
+description: "Designs this website's look: the first screen, the design system record and how it grows, type, colour, imagery, layout and the review gate. Use for requests like change the look, it looks generic, new colours or fonts, or a site growing past its homepage. Not for starting a site (new-site) or its words (writing)."
 ---
 
 # Design
@@ -14,8 +14,8 @@ its rules with their reasons, and how each kind of content is laid out.
 Make the page unmistakably this business, for its customers, doing its one
 job. A new palette on a familiar landing-page template is not a design.
 When the owner asks for a faithful copy of an existing design, fidelity
-wins. A first homepage's steps are the `new-site` skill's; this skill is
-what makes it good.
+wins. The steps for a first homepage are in the `new-site` skill; this
+skill is what makes it good.
 
 ## The first screen
 
@@ -50,7 +50,7 @@ proud to send the link.
   belongs to the subject, not the cliché for the industry.
 - **Colour.** Every colour has a job; the accent is for actions. Contrast
   holds in every state: hover, focus, over a photograph.
-- **Imagery.** A generated image is described apart from the layout:
+- **Imagery.** Describe a generated image apart from the layout: its
   subject, composition, light, crop and the space the words need. Words
   stay in HTML, never baked into an image.
 - **Motion.** One orchestrated moment, or none. Nothing waits behind it,
@@ -96,9 +96,9 @@ strips are the same page at full size, top to bottom. Read them in order:
    image, a crop that cuts the subject, uneven spacing or alignment, low
    contrast, an empty or broken image, a section that could be another
    business's.
-3. **Their current homepage beside it** (`raw/site/<host>/shots/`): what
-   did it do better, in layout, content or proof? Carry that over. Is the
-   new first screen clearly better, would the owner send it to someone?
+3. **The owner's current homepage beside it** (`raw/site/<host>/shots/`):
+   what did it do better, in layout, content or proof? Carry that over. Is
+   the new first screen clearly better? Would the owner send it to someone?
 4. **The phone strips:** the first screen holds the promise and the action;
    nothing is cut off, squeezed or tiny.
 

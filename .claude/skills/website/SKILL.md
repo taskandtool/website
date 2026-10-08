@@ -7,21 +7,21 @@ description: "Runs, changes and deploys this business website: the Hono app, its
 
 This app is a website on Hono: server-rendered JSX, Tailwind v4, no client
 framework. **Dev** is this machine: the `web` service at dev's address
-(the platform instructions name it), every edit there on refresh. **Production** is the site
+(the platform instructions name it), where every edit shows on refresh. **Production** is the site
 deployed to Cloudflare (below, and the platform's `deploy` skill): every
 page pre-rendered to HTML, with a small Worker behind it for anything
 dynamic. `AGENTS.md` in the app root lists the commands and where things
 are; `DESIGN.md` and `brand/` say how it should look and sound.
 
 This skill is the mechanics. A new homepage or site is the `new-site`
-skill, the look is `design`, what pages a site needs, what each says and
-its code is `pages`, and a site to replace page for page is `migrate-site`.
+skill; the look is `design`; the pages a site needs, what each says and
+its code are `pages`; and a site to replace page for page is `migrate-site`.
 In `references/`, read when the request needs it:
 
 - `seo.md`: what the build generates, the per-page search rules, ranking
   for a search, and launch.
 - `posts.md`: the blog collection.
-- `media-data-and-hosting.md`: an HTML page made a page here, images and
+- `media-data-and-hosting.md`: turning an HTML page into a page here, images and
   video, interactivity, forms and data, after launch, off the platform.
 
 ## The facts
@@ -29,9 +29,9 @@ In `references/`, read when the request needs it:
 The notes in `public/` carry typed frontmatter (`FACTS.md`); `npm run
 content` (run by every build, and by the dev loop when a note changes)
 turns them, `posts/` and `legal/` into `src/generated/content.json`, which
-the pages, the footer and the JSON-LD read. A fact lives in a note, once; a
-page that shows it is listed in `site-map.md`'s notes column so a change
-points at the pages.
+the pages, the footer and the JSON-LD read. Each fact lives once, in a
+note. Every page that shows it is listed in `site-map.md`'s notes column,
+so a change to the note points at the pages.
 
 Sections that render from the notes are ready in `src/components/facts.tsx`:
 `ServicesSection`, `FaqSection`, `ContactSection`, and for the proof

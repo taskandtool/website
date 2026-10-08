@@ -26,8 +26,8 @@ a line.
    old site, its pages are in the ledger already (the `migrate-site` skill)
    and each keep or merge row becomes a page here.
 3. **One row per page in `site-map.md`**, with its job and the notes it
-   draws on, status `planned`; the nav in "Architecture" (at most four
-   links, the action as the button).
+   draws on, status `planned`. Write the nav under "Architecture" (at most
+   four links, with the action as the button).
 4. **Show the plan in one message**, the least that lets them say yes:
 
    ```
@@ -62,7 +62,7 @@ in the format of `references/brief.md`:
    is one `tt-crawl add <url>` away.
 5. **Choose the bands.** `core` bands are on nearly every page of the type;
    every other band earns its place when the material answers its question
-   well. A good page is usually shorter than the menu. What you considered
+   well. A good page is usually shorter than the guide's full menu of bands. What you considered
    and left out goes in `omit:`, one clause each.
 6. **Write the copy**, in the business's voice and plainer where their
    voice is marketese, from this business's material alone: never wording
@@ -79,21 +79,21 @@ From its brief, in the record:
 - **Each band** by its shape and count: a list of named things is `items`,
   questions are `qa`, steps are `sequence`, and so on, laid out as
   `x_layout.shapes.<shape>` says for that many. The page's last ask is
-  `x_layout.close`. A record without `x_layout` (the starter) leaves this to
-  `DESIGN.md` and the design skill.
+  `x_layout.close`. When the record has no `x_layout` (as the starter's
+  does not), `DESIGN.md` and the design skill decide the layout instead.
 - **The code:** `references/page-code.md` (a module in `src/pages`, listed
   in `src/pages/index.ts`, facts read from the content), with `page.title`
   and `page.description` from the brief.
 - **The words are the brief's.** A line that does not fit is changed in the
-  brief first, then on the page. A `NEED:` is built without, never filled
-  with a placeholder sentence.
+  brief first, then on the page. Build without the fact a `NEED:` names;
+  never fill the gap with a placeholder sentence.
 - **The nav** from `site-map.md` into `site.nav` in `src/site.ts`.
 
 ## 4. Check and show
 
 1. The design skill's review gate on every new page, the writing skill's
    cold read, and `.claude/skills/website/references/seo.md`'s "By hand"
-   list: one list of everything they find, fixed in one pass.
+   list. Put everything they find in one list and fix it in one pass.
 2. Mark the rows `built` in `site-map.md`, show the pages together, then
    the one line of what would make them better (the `NEED:`s, rolled up).
 

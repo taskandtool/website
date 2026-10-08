@@ -14,7 +14,7 @@ arriving from a map or a search with the town's name in it.
 
 <exists>
 Decide first whether the page should exist. A place with its own address, hours or staff gets a page.
-A service area gets one only when `public/` and `brand/` holds facts for that place: jobs done there, reviews
+A service area gets one only when `public/` and `brand/` hold facts for that place: jobs done there, reviews
 from there, photographs there, a service offered only there. Otherwise the places are named on the
 homepage, the service pages or a single areas list. Never make near-identical pages with the town
 name swapped.
@@ -63,7 +63,7 @@ the material. Each line says what the band holds, then when it earns its place.
 </show>
 
 <links>
-Up to the locations index. From the contact page and the footer.
+Up to the locations index. In from the contact page and the footer.
 </links>
 
 <variant name="index" label="locations index" mode="retrieval">

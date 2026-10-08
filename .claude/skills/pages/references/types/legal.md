@@ -14,7 +14,7 @@ that the notice is there. They search the page for one answer.
 
 <exists>
 Every site needs a privacy policy. Terms, returns and shipping go on a site that sells online. A
-clinic needs the notices its jurisdiction requires. Where `public/` and `brand/` has no text for a required
+clinic needs the notices its jurisdiction requires. Where `public/` and `brand/` have no text for a required
 page, the page is a NEED. We never draft legal terms.
 </exists>
 

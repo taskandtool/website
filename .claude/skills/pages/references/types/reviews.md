@@ -59,7 +59,7 @@ the material. Each line says what the band holds, then when it earns its place.
 <show>
   - Customer photographs where the platform carries them and the brand has them.
   - Platform icons, with the count beside them.
-  - Every review with its platform's icon and its stars (SKILL.md, "Proof, on every page").
+  - Every review with its platform's icon and its stars (the design skill, "Proof, front and centre").
 </show>
 
 <links>

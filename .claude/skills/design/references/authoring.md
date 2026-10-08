@@ -37,8 +37,9 @@ designed with.
 The library names colours per system (`claret`, `cloth`, `wine`). The site
 names them by role, because the layout, the components and
 `styles/input.css` use these classes on every page. The record defines
-each: `npm run system` names one the base stylesheet reads, and `npm run
-lint` a class a page uses that no token makes.
+every role: `npm run system` names any role the base stylesheet reads that
+the record lacks, and `npm run lint` names any class a page uses that no
+token makes.
 
 | Role | What it is | Claret would map |
 |---|---|---|
@@ -54,7 +55,8 @@ lint` a class a page uses that no token makes.
 A system's own extra colours (a star yellow, a second dark) are added under
 their own names, and get a sentence in `sections.colors`. Typography needs
 `display`, `section`, `title`, `lede`, `copy` and `label`; the family of
-`display` becomes `font-display` and of `copy` `font-body`. Spacing needs
+`display` becomes `font-display`, and the family of `copy` becomes
+`font-body`. Spacing needs
 `section` and `block`, containers `content` and `wide`, rounded `control`
 and `card`. A role the system has no use for still gets the nearest value,
 because the footer and the shared components use it.
@@ -120,9 +122,9 @@ example.
 ## When the record is done
 
 A fresh builder, given only `design/briefs/home.md`, the facts and this record,
-should produce the homepage again: the blind rebuild in the design
-skill's "When the site grows". Where the rebuild differs, the record left something out;
-add it to the record, not to the page.
+should produce the homepage again (the blind rebuild in the design
+skill's "When the site grows"). Where the rebuild differs, the record left
+something out; add it to the record, not to the page.
 
 ## A worked example: the identity
 

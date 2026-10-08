@@ -10,7 +10,7 @@ about itself, once, consistently.
   the origin. Set `site.url` to the real domain before launch.
 - The canonical tag on every page, pointing at `site.url` + path. While
   the site serves on the platform subdomain and the old site is still on
-  the real domain, this is what keeps the two from competing.
+  the real domain, the canonical tag keeps the two from competing.
 - JSON-LD from the notes, by the builders in `src/content.ts`: the home
   page carries `LocalBusiness` and `FAQPage`, each post `BlogPosting`. A
   service or location page adds `serviceJsonLd` or `localBusinessJsonLd` to
@@ -45,12 +45,12 @@ about itself, once, consistently.
 
 ## Ranking for a search
 
-A local business ranks on three things. Its Google profile and its reviews
-(right name, address, phone, categories, hours, photos; reviews answered) are
-the owner's to tend: say so plainly. Pages that answer the search: one per
-service and per place it truly serves (a brief's `query`; `location.md`'s rule
-against doorway pages). The same name, address and phone everywhere. Then
-build or improve those pages.
+A local business ranks on three things: its Google profile and its reviews
+(right name, address, phone, categories, hours, photos; reviews answered);
+pages that answer the search, one per service and per place it truly serves
+(a brief's `query`; `location.md`'s rule against doorway pages); and the same
+name, address and phone everywhere. The profile and reviews are the owner's
+to tend: say so plainly. Then build or improve those pages.
 
 ## Before launch
 
