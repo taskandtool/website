@@ -42,17 +42,12 @@ The work is in these scripts; run them rather than doing the same by hand.
 Each prints what it did and what to read next.
 
 ```bash
-npm run from-site -- <url>   # a first homepage's start, about a minute: reads their homepage, gallery and services page;
-                             # writes the business note, the logo, their photos at web size, design tokens
-                             # from their colours and fonts, public/proof.md (their reviews, Google's rating and
-                             # reviews, logos), numbered sheets of photos and logos to name; prints what it wrote,
-                             # kept, and what to read next
-npm run parts                # what a page is built from: components and props, the classes, the page shape,
-                             # the facts the notes hold, the photos and their sizes
+npm run from-site -- <url>   # a first homepage's start (a minute): their facts, logo, photos, colours, fonts and proof
+                             # into the notes and the record; prints what it wrote and what to read next
+npm run parts                # what a page is built from: components, classes, facts, photos; read it, not the source
 npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
 npm run verify               # content, check, typecheck, test, build, proof, trace, lint: lists every failure at once
-npm run shots [-- /path]     # the page at 1280 and 390 wide: uploads/<page>-<width>/overview.png (all of it, when
-                             # longer than one image), then 01.png, 02.png … at full size
+npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/; prints which image to read first
 npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
 npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
@@ -108,3 +103,4 @@ run the same three for that page.
   default colour; `npm run lint` refuses both.
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.
+  `npm run trace` fails on a number or quote the notes do not hold.

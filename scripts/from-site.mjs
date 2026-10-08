@@ -502,7 +502,7 @@ const services = servicesPage && pageFile(servicesPage);
 const ratings = ratingRows.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`);
 const next = [
   services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
-  "find the rest of the proof, then design and build the homepage with all of it on it (the new-site skill, from step 3)",
+  "find the rest of the proof, then design and build the homepage with all of it on it (the new-site skill's homepage, from 'All the proof')",
 ];
 const list = (title, items) => (items.length ? `${title}\n${items.map((d) => `  ${d}`).join("\n")}\n` : "");
 console.log(`from-site: ${host}

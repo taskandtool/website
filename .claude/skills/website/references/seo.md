@@ -22,6 +22,10 @@ about itself, once, consistently.
 
 ## By hand, on every page
 
+`npm run lint` fails a page without exactly one `h1` or an image without
+`alt`; `npm run audit` lists missing titles, descriptions and broken links.
+What they cannot judge is yours:
+
 - One `h1`, in the display face, saying what the page is for; `h2`s for
   sections in order. Never skip a level for looks.
 - `title` (in `page.title`): the page's job first. The layout appends ` · `

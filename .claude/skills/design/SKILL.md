@@ -1,6 +1,6 @@
 ---
 name: design
-description: "Designs this website's look: the first screen, the design system record and how it grows, type, colour, imagery, layout and the review gate. Use for requests like change the look, it looks generic, new colours or fonts, or a site growing past its homepage. Not for starting a site (new-site) or its words (writing)."
+description: "Designs this website's look: the first screen, the design system record and how it grows, type, colour, imagery, layout and the review gate. Use for change the look, it looks generic, new colours or fonts, or a site growing past its homepage. Not for starting a site (new-site) or its words (writing)."
 ---
 
 # Design
@@ -60,7 +60,8 @@ proud to send the link.
   homepage and every service page, and design it as boldly as the rest:
   the rating by the first action, walls or bands of logos, star-rated
   reviews (`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
-  `NumbersSection`, or your own from `content.facts`).
+  `NumbersSection`, or your own from `content.facts`). `npm run proof` fails
+  while any of it is missing from the homepage.
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 

@@ -1,6 +1,6 @@
 ---
 name: new-site
-description: "Builds a business's new website like a good agency: a striking homepage first, from their current site, then the design system, the other pages and the launch. Use for build me a homepage, build my site, redesign my site, or a link to their business. Not for a page-for-page move (migrate-site)."
+description: "Builds a business's new website like a good agency: a striking homepage first, from their current site, then the system, the other pages and the launch. Use for build me a homepage, build my site, redesign my site, or a link to their business. Not for a page-for-page move (migrate-site)."
 ---
 
 # New site
@@ -25,53 +25,48 @@ Read the folders and carry on from where they are:
 
 ## The homepage
 
-1. **Start from their site:** `npm run from-site -- <url>` (about a
-   minute). It does the mechanical part: the business note, the logo,
-   their photographs at web size, the fonts, design tokens from their
-   colours, and the proof it can reach (their site's reviews and logos,
-   their Google rating and reviews). It prints what to read next. With a
-   name and no link, their Google listing names the website (the `brand`
-   skill's listing row); say in one line who you found, and ask for the
-   link when it names none.
-2. **Write `public/services.md`** from the services page `from-site`
-   names: one `## <service>` section per service, in the page's own facts, cited, with
-   `updated` and `sources` set and no "to fill" left. The page shows them
-   through `ServicesSection` or `content`, never typed into the markup.
-   Describe each photograph once in `brand/images.md`, from the numbered
-   `raw/photos.png`; from then on read that file, not the pictures.
-3. **Proof.** Name each logo in `public/proof.md` (`raw/logos.png` shows
-   them numbered) and delete any that is not a logo. Then get what
-   `from-site` could not reach: the profiles in `public/business.md`'s
-   `same_as` and anything the owner sent. Paste the words in as written.
+Done when it is plainly this business's page: its words from their own
+material, all their proof on it, a look of its own, and the owner proud to
+send the link. They are deciding whether to trust you with the rest of the
+site, on its first screen above all.
 
-4. **Look before choosing.** Their current site (`raw/site/<host>/`, its
-   screenshot in `shots/`), anything they linked or said they like
-   (`tt-crawl reference <url>` captures its look), the design library (the
-   `design` skill's `references/library.md`: fourteen systems with a
-   preview each), and their photographs as `brand/images.md` describes
-   them. Take ideas from the one or two references closest to what this
-   business needs, but never another site's words, pictures or logo. The site's system
-   is always its own.
-5. **Write the brief,** `design/briefs/home.md` in the `pages` skill's
-   format (`.claude/skills/pages/references/brief.md`); for a first
-   homepage, the frontmatter and the hero's lines are enough.
-6. **Set the look** in `design/system.yaml` with the `design` skill: change
-   what this design needs from the tokens `from-site` seeded (colours by
-   role, fonts, sizes, radii), then `npm run system`.
-7. **Build the page** from what `npm run parts` lists now, in
-   `src/pages/home.tsx`, written whole in one go
-   (`.claude/skills/pages/references/page-code.md`), then `npm run verify`
-   and fix the findings that are mistakes. When the owner asked for something the lint
-   flags, put `data-lint-allow="<rule>"` on that element and say so in one
-   line.
-8. **Review.** Start the `writing` skill's cold read (a sub-agent) on the
-   built page, run the `design` skill's review gate meanwhile, and fix both
-   lists in one pass.
-9. **Commit and show.** Commit (one plain line), so any version the owner
-   has seen comes back with one `git checkout`; then show it. The owner is
-   deciding whether to trust you with the rest of the site, on its first
-   screen above all. Say the one or two things that would make it better
-   (their own sharp photographs, a fact the site does not state).
+The order matters; how you do each part is yours:
+
+1. **Start from their site:** `npm run from-site -- <url>` (about a minute)
+   does the mechanical part and prints what it wrote and what to read next.
+   With a name and no link, their Google listing names the website (the
+   `brand` skill's listing row); say in one line who you found, and ask for
+   the link when it names none.
+2. **The facts, as notes:** `public/services.md` from the services page
+   `from-site` names, one `## <service>` per service, cited, with `updated`
+   and `sources` set and no "to fill" left (it reads as empty); each
+   photograph described once in `brand/images.md` from the numbered
+   `raw/photos.png`, so you read that file from then on, not the pictures.
+   The page reads facts from the notes (`ServicesSection`, `content`), never
+   typed into the markup.
+3. **All the proof:** name each logo in `public/proof.md` from
+   `raw/logos.png` and delete what is not a logo; then add what `from-site`
+   could not reach (the profiles in `business.md`'s `same_as`, anything the
+   owner sent), word for word. `npm run proof` fails while any of it is off
+   the page.
+4. **Look before choosing:** their current site (`raw/site/<host>/`), what
+   they linked or said they like (`tt-crawl reference <url>` captures its
+   look), and the design library (the `design` skill's
+   `references/library.md`). Borrow ideas from the closest one or two,
+   never another site's words, pictures or logo.
+5. **Brief, look, page:** the brief in `design/briefs/home.md` (the `pages`
+   skill's `references/brief.md`; the frontmatter and the hero's lines are
+   enough), the look in `design/system.yaml` with the `design` skill, then
+   the page written whole from what `npm run parts` lists
+   (`.claude/skills/pages/references/page-code.md`). `npm run verify` and
+   fix its findings. When the owner asked for something the lint flags, put
+   `data-lint-allow="<rule>"` on that element and say so.
+6. **Review:** the `writing` skill's cold read (a sub-agent) and the
+   `design` skill's review gate together; fix both lists in one pass.
+7. **Commit, then show** (one plain line, so any version the owner saw
+   comes back with `git checkout`). Name the one or two things that would
+   make it better: their own sharp photographs, a fact the site does not
+   state.
 
 Then follow the owner. A small change gets an edit, one look at that
 page's shots, and a show; a new section or page gets the full review. When they

@@ -1,6 +1,6 @@
 ---
 name: pages
-description: "Plans and builds this website's pages like an agency: which pages the business needs, a brief per page with its words and facts, then each page's code in the site's design system. Use for a new page, the page plan, or what a page should say. Not for the look (design) or a small edit (website)."
+description: "Plans and builds this website's pages like an agency: which pages the business needs, a brief per page with its words and facts, then each page's code in the site's system. Use for a new page, the page plan, or what a page should say. Not for the look (design) or a small edit (website)."
 ---
 
 # Pages
@@ -44,30 +44,27 @@ a line.
 
 ## 2. A brief per page
 
-For each planned page, in the plan's order, write `design/briefs/<slug>.md`
-in the format of `references/brief.md`:
+For each planned page, `design/briefs/<slug>.md` in the format of
+`references/brief.md`. A brief is done when the owner could approve the
+page from it alone: its angle, every band's real words, and what was left
+out and why. Its page type's guide, `references/types/<type>.md` (and its
+`<variant>`), says what the type can hold; what matters is the choosing:
 
-1. **Read the type's guide**, `references/types/<type>.md`, and its
-   `<variant>` when the page is one (a services index is `service` with
-   `variant: index`).
-2. **Decide the angle**: a persuasion page's `reader`, `pain`, `offer` and
-   `lead`; a retrieval page's `<reader>`.
-3. **Sort the material** into the guide's `<inventory>` bins, each item with
-   its source: `public/`, `brand/`, `static/images/` (described in `brand/images.md`), the crawl in `raw/`.
-   When the page replaces an old one, start from the old page: list each
-   section it had and mark it carry, improve or drop; a drop goes in
-   `omit:` with its reason. The old page is the floor for how complete the
-   new one is, not the template for its shape.
-4. **Fetch rather than ask.** A page of their site the crawl did not read
-   is one `tt-crawl add <url>` away.
-5. **Choose the bands.** `core` bands are on nearly every page of the type;
-   every other band earns its place when the material answers its question
-   well. A good page is usually shorter than the guide's full menu of bands. What you considered
-   and left out goes in `omit:`, one clause each.
-6. **Write the copy**, in the business's voice and plainer where their
-   voice is marketese, from this business's material alone: never wording
-   from a guide or another page.
-7. **Write the search fields** (`references/brief.md`).
+- **The angle:** a persuasion page's `reader`, `pain`, `offer` and `lead`;
+  a retrieval page's `<reader>`.
+- **The material,** sorted into the guide's `<inventory>` bins with sources
+  (`public/`, `brand/`, `brand/images.md`, the crawl in `raw/`). A page of
+  their site the crawl did not read is one `tt-crawl add <url>` away; fetch
+  rather than ask. When the page replaces an old one, the old page is the
+  floor for how complete the new one is, not the template for its shape:
+  each of its sections is carried, improved, or dropped in `omit:` with the
+  reason.
+- **The bands:** the `core` ones, then only those the material answers
+  well. A good page is usually shorter than the guide's full menu; what you
+  considered and left out goes in `omit:`, one clause each.
+- **The copy,** in the business's voice and plainer where their voice is
+  marketese, from this business's material alone, never wording from a
+  guide or another page; then the search fields.
 
 ## 3. Build each page
 
