@@ -15,7 +15,7 @@ export function legalPage(doc: (typeof content.legal)[number]): { page: Page; Bo
     <Section labelledBy="legal-title">
       <h1 id="legal-title" class="max-w-[16ch] text-section">{doc.title}</h1>
       {doc.updated ? <p class="mt-4 text-label uppercase text-ink-3">Updated {doc.updated}</p> : null}
-      <div class="prose mt-block max-w-prose">{raw(doc.html)}</div>
+      <div class="prose mt-lead max-w-prose">{raw(doc.html)}</div>
     </Section>
   );
   return { page, Body };

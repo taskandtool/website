@@ -18,7 +18,7 @@ function Index() {
       {content.posts.length === 0 ? (
         <p class="mt-8 max-w-xl text-lede text-ink-2">Nothing published yet.</p>
       ) : (
-        <ol class="mt-block divide-y divide-line border-y border-line">
+        <ol class="mt-lead divide-y divide-line border-y border-line">
           {content.posts.map((p) => (
             <li class="grid gap-3 py-8 sm:grid-cols-[8rem_1fr] sm:gap-6">
               <time datetime={p.date} class="text-label uppercase text-ink-3">{p.date}</time>
@@ -53,8 +53,8 @@ export function postPage(post: (typeof content.posts)[number]): { page: Page; Bo
         {post.author ? ` · ${post.author}` : ""}
       </p>
       <h1 id="post-title" class="mt-4 max-w-[16ch] text-section">{post.title}</h1>
-      <div class="prose mt-block max-w-prose">{raw(post.html)}</div>
-      <p class="mt-block">
+      <div class="prose mt-lead max-w-prose">{raw(post.html)}</div>
+      <p class="mt-lead">
         <a href="/blog">All posts</a>
       </p>
     </Section>

@@ -95,7 +95,7 @@ tokens:
     lift: "0 1px 2px rgb(25 22 18 / 0.06), 0 12px 32px -12px rgb(25 22 18 / 0.18)"
   spacing:
     section: clamp(5rem, 10vw, 8.5rem)
-    block: clamp(2.5rem, 4vw, 3.5rem)
+    lead: clamp(2.5rem, 4vw, 3.5rem)
   containers:
     content: 72rem
     wide: 80rem
@@ -159,7 +159,7 @@ sections:
     Images at {rounded.card} or {rounded.frame}, real alt text, object-cover.
   layout: >
     The base unit is 4px. Sections take py-section ({spacing.section});
-    a heading group to what it introduces is mt-block ({spacing.block}).
+    a heading group to what it introduces is mt-lead ({spacing.lead}).
     max-w-content ({containers.content}) for reading sections, max-w-wide
     ({containers.wide}) for the hero and a wide visual; px-5 sm:px-8 at the
     sides. Compose from the content: a sequence, a comparison, a hierarchy

@@ -136,10 +136,16 @@ function addressFrom() {
 
 const businessFile = "public/business.md";
 const business = YAML.parseDocument(frontmatter(readFileSync(businessFile, "utf8"))?.front || "");
+// whether this run wrote the note (so the Google listing may fill its gaps), and
+// whether its hours came from the site's own markup (which beats the listing's)
+let businessWritten = false;
+let hoursMarked = false;
 if (business.get("name") && !/to fill/i.test(business.get("name"))) kept.push(`${businessFile} (already filled)`);
 else {
+  businessWritten = true;
   const address = addressFrom();
   const marked = [markup.openingHours].flat().filter((h) => typeof h === "string" && /^[A-Z][a-z](-[A-Z][a-z])?(,[A-Z][a-z])*\s+\d/.test(h));
+  hoursMarked = marked.length > 0;
   const hours = marked.length ? marked : schemaHours((facts.hours || []).map((h) => h.value));
   const inUS = address && /^(|US|USA|United States)$/i.test(String(address.country).trim());
   const zone = address && ((inUS && US_ONE_ZONE[address.region]) || COUNTRY_ONE_ZONE[String(address.country).trim().toUpperCase()]);
@@ -303,6 +309,7 @@ function google() {
       notes.push(`the Google listing found for "${name}, ${where}" is ${d.displayName?.text || "another place"} (${listed || "no website"}), not ${host}: left out; find theirs with tt-crawl places --place-id`);
       return null;
     }
+    fillFromListing(d, src);
     return {
       rating: d.rating ? { platform: "Google", value: d.rating, count: d.userRatingCount || null, url: d.googleMapsUri || "", source: src } : null,
       reviews: (d.reviews || []).map((r) => ({
@@ -317,6 +324,101 @@ function google() {
       : `their Google listing could not be read: ${errorLine(e).slice(0, 160)}`);
     return null;
   }
+}
+
+// Google's kind of place as a schema.org type; anything else stays LocalBusiness
+const SCHEMA_TYPES = {
+  bakery: "Bakery", cafe: "CafeOrCoffeeShop", coffee_shop: "CafeOrCoffeeShop", restaurant: "Restaurant", bar: "BarOrPub",
+  dentist: "Dentist", doctor: "Physician", pharmacy: "Pharmacy", veterinary_care: "VeterinaryCare", plumber: "Plumber",
+  electrician: "Electrician", roofing_contractor: "RoofingContractor", general_contractor: "GeneralContractor",
+  painter: "HousePainter", locksmith: "Locksmith", moving_company: "MovingCompany", car_repair: "AutoRepair",
+  hair_salon: "HairSalon", beauty_salon: "BeautySalon", gym: "ExerciseGym", florist: "Florist", hotel: "Hotel",
+  lawyer: "Attorney", accounting: "AccountingService", insurance_agency: "InsuranceAgency", real_estate_agency: "RealEstateAgent",
+};
+const schemaType = (d) => {
+  for (const t of [d.primaryType, ...(d.types || [])].filter(Boolean)) {
+    if (SCHEMA_TYPES[t]) return SCHEMA_TYPES[t];
+    if (t.endsWith("_restaurant")) return "Restaurant";
+  }
+  return "";
+};
+
+// Google's addressComponents as the note's address (tt-crawl's address_parts)
+function listedAddress(components = []) {
+  const out = { street: "", locality: "", region: "", postal_code: "", country: "" };
+  let number = "", route = "";
+  for (const c of components) {
+    const types = new Set(c.types || []), text = c.longText || c.shortText || "";
+    if (types.has("street_number")) number = text;
+    else if (types.has("route")) route = text;
+    else if (types.has("locality") || types.has("postal_town")) out.locality ||= text;
+    else if (types.has("administrative_area_level_1")) out.region = c.shortText || text;
+    else if (types.has("postal_code")) out.postal_code = text;
+    else if (types.has("country")) out.country = c.shortText || text;
+  }
+  out.street = [number, route].filter(Boolean).join(" ");
+  return out;
+}
+
+// Google's regularOpeningHours.periods as schema.org strings ("Mo-Fr 08:00-17:00")
+function listedHours(regular) {
+  const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+  const pad = (n) => String(n || 0).padStart(2, "0");
+  const periods = regular?.periods || [];
+  // open around the clock: one period that never closes
+  if (periods.length === 1 && !periods[0].close && !periods[0].open?.hour) return ["Mo-Su 00:00-23:59"];
+  const byDay = new Map();
+  for (const { open, close } of periods) {
+    if (open?.day === undefined) continue;
+    byDay.set(DAYS[(open.day + 6) % 7], close ? `${pad(open.hour)}:${pad(open.minute)}-${pad(close.hour)}:${pad(close.minute)}` : "00:00-23:59");
+  }
+  const out = [];
+  for (let i = 0; i < 7; i++) {
+    const t = byDay.get(DAYS[i]);
+    if (!t) continue;
+    let j = i;
+    while (j + 1 < 7 && byDay.get(DAYS[j + 1]) === t) j++;
+    out.push(`${DAYS[i]}${j > i ? `-${DAYS[j]}` : ""} ${t}`);
+    i = j;
+  }
+  return out;
+}
+
+// What the site left out of the business note, from their own Google listing:
+// the address, hours, time zone, phone, map point and kind of business. Only a
+// note this run wrote; an owner's note is theirs.
+function fillFromListing(d, src) {
+  if (!businessWritten) return;
+  const note = business.toJSON() || {};
+  const filled = [];
+  const set = (key, value, label) => {
+    business.set(key, value);
+    filled.push(label);
+  };
+  const drop = (re) => notes.splice(0, notes.length, ...notes.filter((n) => !re.test(n)));
+  const address = listedAddress(d.addressComponents);
+  if ((!note.address?.street || !note.address?.locality) && address.street && address.locality) {
+    set("address", address, "address");
+    drop(/^the address is one line/);
+  }
+  const hours = listedHours(d.regularOpeningHours);
+  if (hours.length && !hoursMarked) {
+    set("opening_hours", hours, "hours");
+    drop(/^hours found but not in schema\.org form/);
+  }
+  if (!note.time_zone && d.timeZone?.id) {
+    set("time_zone", d.timeZone.id, `time zone ${d.timeZone.id}`);
+    drop(/^time_zone not set/);
+  }
+  if (!note.telephone && (d.nationalPhoneNumber || d.internationalPhoneNumber)) set("telephone", d.nationalPhoneNumber || d.internationalPhoneNumber, "phone");
+  if (note.geo?.lat == null && d.location?.latitude != null) set("geo", { lat: d.location.latitude, lng: d.location.longitude }, "map point");
+  const type = schemaType(d);
+  if ((!note.schema_type || note.schema_type === "LocalBusiness") && type) set("schema_type", type, `type ${type}`);
+  if (!filled.length) return;
+  business.set("sources", [...new Set([...(note.sources || []), src])]);
+  const body = frontmatter(readFileSync(businessFile, "utf8"))?.body || "";
+  writeFileSync(businessFile, `---\n${business.toString().trimEnd()}\n---\n${body}`);
+  wrote.push(`${businessFile}: ${filled.join(", ")} from their Google listing`);
 }
 
 const logoRows = [];

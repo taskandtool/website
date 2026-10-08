@@ -65,7 +65,7 @@ Buttons (Button in src/components): 48px minimum, px-5, `rounded-control`, 16px 
 
 ## Layout Principles
 
-The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-block (clamp(2.5rem, 4vw, 3.5rem)). max-w-content (72rem) for reading sections, max-w-wide (80rem) for the hero and a wide visual; px-5 sm:px-8 at the sides. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition or a ground. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
+The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-lead (clamp(2.5rem, 4vw, 3.5rem)). max-w-content (72rem) for reading sections, max-w-wide (80rem) for the hero and a wide visual; px-5 sm:px-8 at the sides. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition or a ground. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
 
 ## Depth & Elevation
 
@@ -118,7 +118,7 @@ Nothing declared.
 - Colours (as `bg-`, `text-`, `border-`): `canvas`, `surface`, `panel`, `night`, `ink`, `ink-2`, `ink-3`, `night-ink`, `night-ink-2`, `accent`, `accent-ink`, `accent-hover`, `line`, `line-strong`, `line-on-night`.
 - Families: `font-display`, `font-body`. Sizes: `text-display`, `text-section`, `text-title`, `text-lede`, `text-copy`, `text-specimen`, `text-label`.
 - Edges: `rounded-control`, `rounded-card`, `rounded-frame`; `shadow-lift`.
-- Spacing (with `p`, `m`, `gap` and their sides): `section`, `block`.
+- Spacing (with `p`, `m`, `gap` and their sides): `section`, `lead`.
 - Widths: `max-w-content`, `max-w-wide`.
 
 ## Changing the design

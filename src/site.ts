@@ -83,7 +83,10 @@ export function canonicalUrl(path: string): string | null {
 
 const DAYS: Record<string, string> = { Mo: "Monday", Tu: "Tuesday", We: "Wednesday", Th: "Thursday", Fr: "Friday", Sa: "Saturday", Su: "Sunday" };
 
-/** "Mo-Fr 08:00-17:00; Sa 09:00-12:00" -> "Monday to Friday 8:00 to 17:00, Saturday 9:00 to 12:00". */
+/** "17:00" -> "5pm", "07:30" -> "7:30am": how a visitor reads a time. */
+const clock = (h: string, min: string) => `${Number(h) % 12 || 12}${min === "00" ? "" : `:${min}`}${Number(h) % 24 >= 12 ? "pm" : "am"}`;
+
+/** "Mo-Fr 08:00-17:00; Sa 09:00-12:30" -> "Monday to Friday 8am to 5pm, Saturday 9am to 12:30pm". */
 export function formatHours(spec: string): string {
   return spec
     .split(/;\s*/)
@@ -92,7 +95,7 @@ export function formatHours(spec: string): string {
       const m = part.trim().match(/^([A-Za-z]{2})(?:-([A-Za-z]{2}))?\s+(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
       if (!m) return part.trim();
       const days = m[2] ? `${DAYS[m[1]] ?? m[1]} to ${DAYS[m[2]] ?? m[2]}` : DAYS[m[1]] ?? m[1];
-      return `${days} ${Number(m[3])}:${m[4]} to ${Number(m[5])}:${m[6]}`;
+      return `${days} ${clock(m[3], m[4])} to ${clock(m[5], m[6])}`;
     })
     .join(", ");
 }

@@ -14,7 +14,7 @@ export function ServicesSection({ id = "services", heading = "What we do" }: { i
   return (
     <Section id={id} labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[12ch] text-section">{heading}</h2>
-      <ol class="mt-block divide-y divide-line border-y border-line">
+      <ol class="mt-lead divide-y divide-line border-y border-line">
         {items.map((o) => (
           <li class="grid gap-3 py-8 sm:grid-cols-[1fr_auto] sm:gap-6">
             <div>
@@ -40,7 +40,7 @@ export function FaqSection({ id = "faq", heading = "Questions people ask", groun
   return (
     <Section id={id} ground={ground} labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[12ch] text-section">{heading}</h2>
-      <dl class="mt-block grid gap-8 md:grid-cols-2">
+      <dl class="mt-lead grid gap-8 md:grid-cols-2">
         {items.map((i) => (
           <div>
             <dt class="text-title">{i.question}</dt>
@@ -61,7 +61,7 @@ export function ContactSection({ id = "contact", heading = "Get in touch", groun
   return (
     <Section id={id} ground={ground} labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[12ch] text-section">{heading}</h2>
-      <dl class={`mt-block grid gap-8 sm:grid-cols-2 lg:grid-cols-4 ${muted}`}>
+      <dl class={`mt-lead grid gap-8 sm:grid-cols-2 lg:grid-cols-4 ${muted}`}>
         {c.phone ? <div><dt class="text-label uppercase">Phone</dt><dd class="mt-2 text-lede"><a href={`tel:${c.phone}`} class="no-underline hover:underline">{c.phone}</a></dd></div> : null}
         {c.email ? <div><dt class="text-label uppercase">Email</dt><dd class="mt-2 text-lede"><a href={`mailto:${c.email}`} class="no-underline hover:underline">{c.email}</a></dd></div> : null}
         {c.address ? <div><dt class="text-label uppercase">Address</dt><dd class="mt-2 text-lede">{c.address}</dd></div> : null}
@@ -116,7 +116,7 @@ export function ReviewsSection({ id = "reviews", heading = "What customers say" 
   return (
     <Section id={id} labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[14ch] text-section">{heading}</h2>
-      <ul class="mt-block grid items-start gap-4 md:grid-cols-3">
+      <ul class="mt-lead grid items-start gap-4 md:grid-cols-3">
         {items.map((r: Record<string, any>) => (
           <li class="flex flex-col gap-4 rounded-card border border-line bg-surface p-6">
             {r.stars ? <Stars value={r.stars} /> : null}
@@ -175,7 +175,7 @@ export function PeopleSection({ id = "people", heading = "Who you will work with
   return (
     <Section id={id} labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[14ch] text-section">{heading}</h2>
-      <ul class="mt-block grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+      <ul class="mt-lead grid gap-6 sm:grid-cols-2 md:grid-cols-4">
         {items.map((p) => (
           <li>
             {p.photo ? <img src={p.photo} alt={p.name} class="aspect-square w-full rounded-card object-cover" loading="lazy" /> : null}

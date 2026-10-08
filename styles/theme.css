@@ -71,7 +71,7 @@
 
   /* spacing */
   --spacing-section: clamp(5rem, 10vw, 8.5rem);
-  --spacing-block: clamp(2.5rem, 4vw, 3.5rem);
+  --spacing-lead: clamp(2.5rem, 4vw, 3.5rem);
 
   /* containers */
   --container-content: 72rem;

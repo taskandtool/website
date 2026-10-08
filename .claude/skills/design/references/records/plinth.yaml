@@ -111,7 +111,7 @@ tokens:
     step-xxl: 128px
     # the website's roles: between bands, and between groups inside a band
     section: "{spacing.step-xxl}"
-    block: "{spacing.step-xl}"
+    lead: "{spacing.step-xl}"
   containers:
     content: 1120px
     wide: "{containers.content}"
