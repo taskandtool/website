@@ -30,7 +30,7 @@
       ]
     },
     {
-      "id": "build-out-the-site",
+      "id": "build-the-rest-of-the-site",
       "label": "Build out the rest of the site",
       "prompt": "Build out the rest of the site with the new-site skill: read the rest of our current site, plan the other pages, and keep the homepage's look on every one of them.",
       "when": [
@@ -61,7 +61,7 @@
       ]
     },
     {
-      "id": "build-the-next-page",
+      "id": "build-the-planned-pages",
       "label": "Build the next page",
       "prompt": "Build the planned pages in site-map.md with the pages skill, then show them to me together.",
       "when": [
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "id": "update-pages-whose-facts-changed",
+      "id": "update-pages-with-new-details",
       "label": "Update pages whose facts changed",
       "prompt": "The notes in public/ changed after the pages were last built. Read site-map.md's notes column to find the pages that draw on the changed notes, update them, run npm run verify, and show me what changed and where.",
       "when": [
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "id": "check-the-launch",
+      "id": "check-the-site-before-launch",
       "label": "Check the launch",
       "prompt": "Run the launch-check skill against dev, fix everything it finds in one pass, and show me the report as a table with what changed.",
       "when": [
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "id": "fix-the-site-audit-findings",
+      "id": "fix-the-site-audit-issues",
       "label": "Fix the site audit findings",
       "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, and offer to deploy the fix to production.",
       "when": [
@@ -123,7 +123,7 @@
       "prompt": "Add a page to the site with the pages skill: its brief, then the page in the site's design, its row in site-map.md, and the nav if it belongs there. The page is "
     },
     {
-      "id": "add-a-blog-post",
+      "id": "write-a-blog-post",
       "label": "Add a blog post",
       "prompt": "Add a blog post to posts/ following the website skill's references/posts.md: frontmatter with title, date, description, and a path if it replaces an old URL; the body in the voice of brand/voice.md (the writing skill); a real photo if I have one. The post is about "
     },
@@ -133,7 +133,7 @@
       "prompt": "Add a contact form with the forms skill: the form as a row in the forms table, every submission in submissions (ask me for Postgres with request-capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
     },
     {
-      "id": "publish-to-production",
+      "id": "deploy-to-production",
       "label": "Publish to production",
       "prompt": "Publish the site to production as the website skill says: run the checks, deploy with npm run deploy, open the production address to verify, and tell me who can see it and where I make it public."
     }

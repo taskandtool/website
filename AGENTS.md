@@ -82,7 +82,8 @@ run the same three for that page.
   pieces; `src/app.tsx` the Hono app.
 - `src/business.tsx` mounts forms (with booking and payment steps), `/book`,
   Stripe's webhook and the private `/admin`, all on the project's database;
-  each returns 404 until the project has a database. The code under
+  until it has one, the forms and `/book` answer 404 and `/admin` tells the
+  team so. The code under
   `src/data`, `admin`, `forms`, `booking`, `payments` belongs to those
   skills and is refreshed from them.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served

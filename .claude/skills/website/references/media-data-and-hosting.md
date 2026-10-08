@@ -59,7 +59,7 @@ here in five mechanical steps:
   asks the owner for one.
 - Dynamic routes go in `src/app.tsx` below the page loop, under the same
   rule as all of `src/` (AGENTS.md: Rules); `npm run check` flags a Node
-  import outside tests.
+  import anything `src/worker.ts` reaches.
 - Sending email needs a sender the owner connects (Resend or Postmark,
   through the platform's `connections` skill); Task & Tool sends none.
   `data`'s `send.ts` uses it. Without one, the submission is stored and the

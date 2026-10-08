@@ -43,7 +43,7 @@ tt-crawl check https://theirdomain.com
 
 5. Set the weekly audit up as a **scheduled job**, kept for the team. Tell the owner what it
    checks, that it runs weekly, and that they can see or remove it on the
-   app's Upcoming page. The command runs on this machine from the app root every
+   app's Jobs tab. The command runs on this machine from the app root every
    Monday morning and exits non-zero when it finds anything, which is what
    alerts the owner; the report lands in `raw/audit/<host>/<date>.md`,
    `raw/audit/_latest.json` points at it, and the chat then offers "Fix the site audit findings":

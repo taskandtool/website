@@ -27,7 +27,8 @@ if (has(a, "message") && !flag(a, "message")) misused("show: --message needs the
 const fromShots = has(a, "from-shots");
 const paths = a._.map((p) => (p.startsWith("/") ? p : `/${p}`));
 if (!paths.length) paths.push("/");
-const nameOf = (p) => (p === "/" ? "home" : p.replace(/^\/|\/$/g, "").replace(/[^a-z0-9]+/gi, "-").toLowerCase());
+// the folder tt-crawl shoot names for a path (shoot.py's name_for): lowercase, dashes, no query
+const nameOf = (p) => p.split(/[?#]/)[0].replace(/^\/+|\/+$/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "home";
 const message = flag(a, "message") || (paths.length === 1 ? `The ${nameOf(paths[0]) === "home" ? "home" : paths[0]} page at desktop and phone width` : `${paths.length} pages at desktop and phone width`);
 
 if (!existsSync(BRIDGE)) fail("show: no Task & Tool bridge on this machine, so there is no chat to send to", "npm run shots, and read the images in uploads/");
