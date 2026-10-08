@@ -19,7 +19,7 @@ last lines together on stderr (exit 1), so they are fixed in one pass.`);
 const steps = [
   ["content", "the notes in public/, posts/ and legal/ compiled for the pages"],
   ["check", "the project: the design record, contrast, page paths, the site map, the Cloudflare rule"],
-  ["typecheck", "the TypeScript in src/"],
+  ["typecheck", "the TypeScript in src/ and scripts/"],
   ["test", "the tests under src/ and test/"],
   ["build", "every page pre-rendered to dist/, the Worker bundled"],
   ["proof", "every logo and rating in public/proof.md on the homepage, and its reviews"],

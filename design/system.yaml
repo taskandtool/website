@@ -1,6 +1,6 @@
 # The website's design system, as one record. `npm run system` compiles it
-# into styles/theme.css (the tokens Tailwind turns into classes) and DESIGN.md
-# (the readable contract); never edit those two by hand, `npm run check` says
+# into styles/theme.css (the tokens Tailwind turns into classes), DESIGN.md
+# (the readable contract) and src/fonts.ts; never edit those two by hand, `npm run check` says
 # when they no longer match this file. The shape is the design library's
 # (.claude/skills/design/references/authoring.md); this one is the neutral
 # starting point. The first homepage replaces its tokens; the rest of the

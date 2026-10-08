@@ -7,7 +7,7 @@ from the owner's current site, or from a site they like, and ships it when
 the owner says so.
 
 The repository *is* the app: what you clone is what runs. Installed with one
-click on Task & Tool, or cloned into a project of your own (below). MIT
+click on Task & Tool, or cloned into a repository of your own (below). MIT
 licensed.
 
 It runs in dev on the machine while it is being built, and is pre-rendered
@@ -18,6 +18,7 @@ Postgres only once a form stores submissions, and depends on nothing else.
 
 ```
 src/             app.tsx (Hono) · layout.tsx · components/ · pages/ · site.ts · content.ts (JSON-LD) · redirects.ts · server.ts · worker.ts
+                 · business.tsx (the business routes) · fonts.ts · <skill>/ (code a skill brought, e.g. forms/)
 brand/           the brand as markdown notes: positioning · voice · audience · visual-identity · do-and-dont · logo/
 public/          the fact notes with typed frontmatter (FACTS.md); posts/ and legal/ are the collections
 site-map.md      the page plan and migration ledger; src/redirects.ts the 301 table it implies
@@ -31,7 +32,8 @@ scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · b
                  · system.mjs (the record → theme.css, DESIGN.md, src/fonts.ts) · check.mjs · lint.mjs · test.mjs
                  · proof.mjs (all the proof on the homepage) · trace.mjs (every fact on the pages is in the notes)
                  · verify.mjs (all of them) · from-site.mjs · parts.mjs · images.mjs · shots.mjs · show.mjs
-                 · db.ts (the database's tables) · forms.mjs (the forms skill's command) · lib.mjs (what they share)
+                 · db.ts (the database's tables) · forms.mjs (the forms skill's command, through run.mjs)
+                 · theme.mjs (a theme's colours and contrast) · lib.mjs (what they share)
 test/            the scripts' own tests: --help, and misuse refused
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform
 AGENTS.md        what the AI reads first; CLAUDE.md imports it
@@ -56,7 +58,7 @@ Beside the site, the two conventions Task & Tool reads:
                  in every Starter App that carries it
   launch-check/  the old URLs against the new site, before deploying and after the cutover
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl and its browsers, /admin kept for the team, the `web` service
-starter-app.json       the manifest: what the app needs, what "ready" means, and the suggestions an
+starter-app.json       the manifest: what "ready" means, and the suggestions an
                        empty chat offers
 ```
 
@@ -71,8 +73,8 @@ starter-app.json       the manifest: what the app needs, what "ready" means, and
   bundles the app to `build/worker.mjs`. `npm run deploy` builds and hands
   both to the platform. Static paths are served as
   assets, free and always on; paths that match no file (a redirect, a
-  form post, a dynamic route, the 404) reach the Worker. Only `src/server.ts` may touch Node; the
-  rest of `src/` must run on Cloudflare, and `npm run check` enforces it.
+  form post, a dynamic route, the 404) reach the Worker. Whatever `src/worker.ts` reaches must run on
+  Cloudflare, with no Node built-in; `npm run check` enforces it.
 - **Who can open production** is the owner's setting in the dashboard:
   the first deploy opens it to the team, and only the owner makes it
   public.
@@ -122,8 +124,8 @@ state (`starter-app.json`'s `when` conditions).
   [Obscura](https://github.com/h4ckf0r0day/obscura) (Apache-2.0, a small
   Rust headless browser, the fallback).
 - npm packages, MIT: `hono`, `@hono/node-server`, `@neondatabase/serverless`,
-  `marked`, `yaml`, `tailwindcss` + `@tailwindcss/cli`, `esbuild`, `tsx`,
-  `typescript`, `node-html-parser`, `pg`.
+  `marked`, `tailwindcss` + `@tailwindcss/cli`, `esbuild`, `tsx`,
+  `node-html-parser`, `pg`; `yaml` (ISC) and `typescript` (Apache-2.0).
 
 ## Developing this Starter App
 
@@ -140,7 +142,7 @@ state (`starter-app.json`'s `when` conditions).
 
 A pre-push secret scan guards this repository. It holds no credentials by
 design: anything the site needs at runtime arrives through the platform's
-Connections and Secrets, never through this repo.
+Connections, never through this repo.
 
 ## License
 

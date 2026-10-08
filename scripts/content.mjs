@@ -122,7 +122,7 @@ for (const f of notes("legal")) {
 }
 
 mkdirSync("src/generated", { recursive: true });
-const out = { generatedAt: new Date().toISOString(), facts, posts, legal };
+const out = { facts, posts, legal };
 writeFileSync("src/generated/content.json", JSON.stringify(out, null, 2) + "\n");
 if (problems.length) fail(`content: ${problems.length} note(s) not read, so their facts are not on the site:\n  - ${problems.join("\n  - ")}`, "npm run content, once each is fixed");
 if (has(a, "verbose")) {

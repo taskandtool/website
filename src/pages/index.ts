@@ -7,7 +7,7 @@ import type { FC } from "hono/jsx";
 import type { Page } from "../site";
 import { Home } from "./home";
 
-export interface PageModule {
+interface PageModule {
   page: Page;
   Body: FC;
 }

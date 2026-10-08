@@ -1,8 +1,8 @@
 # Writing the site's system record
 
 `design/system.yaml` is the site's design system as one record, in the
-design library's shape. `npm run system` compiles it into `styles/theme.css`
-and `DESIGN.md`; nothing else holds a design value. The library's
+design library's shape. `npm run system` compiles it into `styles/theme.css`,
+`DESIGN.md` and `src/fonts.ts`; nothing else holds a design value. The library's
 fourteen systems sit in `records/` in this shape (`library.md` previews
 them). Read the closest one whole before writing; they show the level of
 detail that lets a page be rebuilt from the record alone, and their

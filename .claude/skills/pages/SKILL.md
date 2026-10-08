@@ -15,7 +15,7 @@ a line.
 
 ## 1. Plan the site
 
-1. **Answer the five questions once**, from `references/types/industries.md`:
+1. **Answer the five questions once**, from `references/industries.md`:
    the visitor's doubt, what is bought, the decision cost, retrieval or
    persuasion, and what the law requires. Write them into `site-map.md`
    under "The reader"; they hold for every page.
@@ -53,7 +53,7 @@ in the format of `references/brief.md`:
 2. **Decide the angle**: a persuasion page's `reader`, `pain`, `offer` and
    `lead`; a retrieval page's `<reader>`.
 3. **Sort the material** into the guide's `<inventory>` bins, each item with
-   its source: `public/`, `brand/`, `brand/images/`, the crawl in `raw/`.
+   its source: `public/`, `brand/`, `static/images/` (described in `brand/images.md`), the crawl in `raw/`.
    When the page replaces an old one, start from the old page: list each
    section it had and mark it carry, improve or drop; a drop goes in
    `omit:` with its reason. The old page is the floor for how complete the

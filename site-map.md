@@ -37,7 +37,7 @@ One row per old URL (from `raw/site/<host>/_index/inventory.json`) and per new p
 `action` is keep | merge | drop | new; `target` is the new path (for merge
 and drop, the page a redirect sends to, or `-` to answer 404); `notes` are
 the notes in `public/` and `brand/` the page draws on; `status` is
-planned | built | reviewed.
+planned | built.
 
 | old URL | action | target | job | notes | status |
 |---|---|---|---|---|---|

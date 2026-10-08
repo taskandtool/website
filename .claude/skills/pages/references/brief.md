@@ -33,7 +33,7 @@ Headline: Fitted kitchens, made in our Bristol workshop
 Lead: Kitchens and wardrobes made to measure for old houses and new, fitted by the joiners who built them.
 Action: Book a workshop visit → /contact
 
-![Oak kitchen with a deep sink under a sash window, finished last spring](brand/images/kitchen-oak.jpg)
+![Oak kitchen with a deep sink under a sash window, finished last spring](static/images/kitchen-oak.jpg)
 
 ## offerings
 Heading: What we make

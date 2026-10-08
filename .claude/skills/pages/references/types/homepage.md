@@ -22,7 +22,7 @@ wait, open 24 hours, the owner answers the phone) sits halfway down an old page.
 
 <inventory>
 Sort every usable item into bins, with its source. Look in `public/` and `brand/` (the facts and the
-brand notes), `brand/images/`, and `raw/` (every crawled page, not just the old homepage, and the
+brand notes), `static/images/` (described in `brand/images.md`), and `raw/` (every crawled page, not just the old homepage, and the
 reviews and places the crawl found).
 
   identity    what they do, named as a customer would search for it; where; who

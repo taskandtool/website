@@ -32,7 +32,7 @@ export const site = {
   description: "A new website, being set up now. The full site will be here soon; chat with AI to get it running.",
   locale: "en",
   /** The canonical origin (https://example.com) once the site has one; the
-   *  canonical tag points here so the platform copy never competes with it. */
+   *  canonical tag points here so the platform's address never competes with it. */
   url: "",
   /** A closure or announcement across the top of every page, until its last day. */
   notice: { text: typeof business.notice === "string" ? business.notice : "", until: typeof business.notice_until === "string" ? business.notice_until : "" },

@@ -1,4 +1,4 @@
-// Build the site for publishing:
+// Build the site for production:
 //   dist/            every static asset (static/ and brand/logo/), the built
 //                    CSS, sitemap.xml and robots.txt, and every route
 //                    pre-rendered to HTML (pages, posts, legal)

@@ -24,7 +24,7 @@ same way, you are applying a formula, not reading the business.
 
 <inventory>
 Before selecting, sort every usable item into bins, noting its source. Look in
-`public/` and `brand/`, `brand/images/`, and `raw/` (the crawled pages, reviews and places). What
+`public/` and `brand/`, `static/images/` (described in `brand/images.md`), and `raw/` (the crawled pages, reviews and places). What
 the owner asked for gives direction, never a fact.
 
   outcomes    what the reader ends up with

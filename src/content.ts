@@ -5,7 +5,6 @@
 import generated from "./generated/content.json";
 
 export const content = generated as {
-  generatedAt: string;
   facts: {
     business: Record<string, any> | null;
     locations: Record<string, any>[];

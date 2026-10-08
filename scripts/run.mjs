@@ -1,4 +1,4 @@
-// What every scripts/<name>.mjs runs: scripts/<name>.ts under tsx, from the
+// What scripts/forms.mjs runs: scripts/forms.ts under tsx, from the
 // app root, so a script shares the app's TypeScript without a build step.
 // CALLER_CWD keeps where it was run from, for a file argument.
 import { spawnSync } from "node:child_process";

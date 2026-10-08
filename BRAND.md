@@ -20,7 +20,7 @@ brand/
                        body fonts, the logo files, the photography style
   do-and-dont.md       observable rules; words used and never used
   logo/                the logo files (svg preferred), served at /brand/logo/<file>
-  images/  images.md   the business's best real photos, each described, with permission for ads
+  images.md            the business's best real photos (in static/images/), each described, with permission for ads
   <anything>.md        further notes are welcome and read as context
 ```
 

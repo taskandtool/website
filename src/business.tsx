@@ -55,7 +55,7 @@ const business = new Hono();
 
 // Stripe's events: the only thing that marks a payment paid. Each app that
 // takes payments has its own endpoint (stripe_events dedupes an event two
-// apps both receive). Stripe reaches dev at inbound_url("/hooks/stripe") and
+// apps both receive). Stripe reaches dev at `taskandtool.py inbound-url /hooks/stripe` and
 // production at this site's address; the payments skill's setup says how.
 // A form that ends in payment is complete once it is paid, and its booking
 // is confirmed then (Stripe delivers again if the send fails).
@@ -110,7 +110,7 @@ business.route(
 );
 
 // The team's side, private: Task & Tool lets only the team reach /admin
-// (add_private_path, which setup.sh declares) and teamOnly answers 404 to
+// (add-private-path, which setup.sh declares) and teamOnly answers 404 to
 // anyone else. One nav across the sections.
 const nav: NavItem[] = [
   { href: "/admin/forms/submissions", label: "Submissions" },

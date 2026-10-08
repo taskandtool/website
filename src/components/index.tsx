@@ -1,6 +1,7 @@
 // The site's small set of shared pieces (the sections that render from the
 // notes are in facts.tsx: ServicesSection, FaqSection, ContactSection, and the
-// proof: RatingLine, Stars, ReviewsSection, LogosSection, PeopleSection). Add to this file as pages need
+// proof: RatingLine, Stars, ReviewsSection, LogosSection, PeopleSection,
+// NumbersSection). Add to this file as pages need
 // them; keep each one a plain function that returns markup. DESIGN.md says
 // how each should look and behave.
 import type { Child } from "hono/jsx";
