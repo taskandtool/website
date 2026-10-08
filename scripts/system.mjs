@@ -36,7 +36,14 @@ const SECTIONS = [
 const EXTENSIONS = ["x_invariants", "x_imagery", "x_emphasis", "x_motion", "x_layout"];
 const REF = /\{([a-z_]+)\.([a-z0-9-]+)\}/g;
 
-export const readRecord = (file = RECORD) => YAML.parse(readFileSync(file, "utf8"));
+/** The record, or exit 1 naming the YAML mistake, never a stack trace. */
+export function readRecord(file = RECORD) {
+  try {
+    return YAML.parse(readFileSync(file, "utf8"));
+  } catch (e) {
+    fail(`${file} is not valid YAML: ${String(e.message).split("\n")[0].replace(/:$/, "")}`, `fix ${file} at that line, then npm run system`);
+  }
+}
 
 /** Everything wrong with a record, as sentences; empty when it compiles. */
 export function problems(rec) {

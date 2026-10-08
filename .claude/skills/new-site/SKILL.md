@@ -30,8 +30,9 @@ Read the folders and carry on from where they are:
    their photographs at web size, the fonts, design tokens from their
    colours, and the proof it can reach (their site's reviews and logos,
    their Google rating and reviews). It prints what to read next. With a
-   name and no link, find their website first and say in one line who you
-   found.
+   name and no link, their Google listing names the website (the `brand`
+   skill's listing row); say in one line who you found, and ask for the
+   link when it names none.
 2. **Write `public/services.md`** from the services page `from-site`
    names: one `## <service>` section per service, in the page's own facts, cited, with
    `updated` and `sources` set and no "to fill" left. The page shows them
@@ -40,13 +41,8 @@ Read the folders and carry on from where they are:
    `raw/photos.png`; from then on read that file, not the pictures.
 3. **Proof.** Name each logo in `public/proof.md` (`raw/logos.png` shows
    them numbered) and delete any that is not a logo. Then get what
-   `from-site` could not reach: their Facebook and other review pages, sites
-   that mention them, anything the owner sent. Paste the words in as written.
-
-What a page is built from (`npm run parts`; if the list is not shown here,
-run it):
-
-!`npm run --silent parts 2>/dev/null || true`
+   `from-site` could not reach: the profiles in `public/business.md`'s
+   `same_as` and anything the owner sent. Paste the words in as written.
 
 4. **Look before choosing.** Their current site (`raw/site/<host>/`, its
    screenshot in `shots/`), anything they linked or said they like
@@ -62,7 +58,8 @@ run it):
 6. **Set the look** in `design/system.yaml` with the `design` skill: change
    what this design needs from the tokens `from-site` seeded (colours by
    role, fonts, sizes, radii), then `npm run system`.
-7. **Build the page** in `src/pages/home.tsx`, written whole in one go
+7. **Build the page** from what `npm run parts` lists now, in
+   `src/pages/home.tsx`, written whole in one go
    (`.claude/skills/pages/references/page-code.md`), then `npm run verify`
    and fix the findings that are mistakes. When the owner asked for something the lint
    flags, put `data-lint-allow="<rule>"` on that element and say so in one

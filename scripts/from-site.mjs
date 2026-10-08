@@ -39,8 +39,11 @@ const given = a._[0];
 // a bare domain is their site too
 const url = given && !/^https?:\/\//.test(given) && /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(given) ? `https://${given}` : given;
 const onlyHomepage = has(a, "only-homepage");
-if (!/^https?:\/\//.test(url || "")) misused("from-site: it needs the business's site as a full URL", "npm run from-site -- https://theirsite.com");
+if (!/^https?:\/\//.test(url || "") || !URL.canParse(url)) misused("from-site: it needs the business's site as a full URL", "npm run from-site -- https://theirsite.com");
 const host = new URL(url).hostname.replace(/^www\./, "");
+// a profile or listing is not their site: its colours and facts would seed the note and the tokens for good
+if (/(^|\.)(facebook|instagram|linkedin|tiktok|youtube|twitter|x|yelp|tripadvisor|nextdoor|linktr)\.(com|ee)$|(^|\.)(fb\.com|google\.[a-z.]+|g\.page|goo\.gl)$/i.test(host))
+  misused(`from-site: ${host} is a profile or listing, not their own site (read it as proof); their Google listing names their site (the brand skill's listing row)`, "npm run from-site -- https://theirsite.com");
 const dir = `raw/site/${host}`;
 const read = (f, fallback) => (existsSync(join(dir, f)) ? JSON.parse(readFileSync(join(dir, f), "utf8")) : fallback);
 const crawl = (cmd) => execFileSync("tt-crawl", cmd, { stdio: ["ignore", "ignore", "pipe"] });
@@ -63,6 +66,7 @@ const notes = [];
 try {
   if (!existsSync(join(dir, "_index/facts.json"))) crawl(["brand", url, "--max-pages", "1"]);
 } catch (e) {
+  if (e.code === "ENOENT") fail("from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
   fail(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
 }
 const manifest = () => read("_index/manifest.json", {});

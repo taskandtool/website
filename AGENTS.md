@@ -52,8 +52,7 @@ npm run parts                # what a page is built from: components and props, 
 npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
 npm run verify               # content, check, typecheck, test, build, proof, trace, lint: lists every failure at once
 npm run shots [-- /path]     # the page at 1280 and 390 wide: uploads/<page>-<width>/overview.png (all of it, when
-                             # longer than one image), then 01.png, 02.png … at full size;
-                             # --first-screen, --width N
+                             # longer than one image), then 01.png, 02.png … at full size
 npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
 npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'

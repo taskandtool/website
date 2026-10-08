@@ -6,7 +6,7 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { done, fail, flag, has, misused } from "../src/data/cli.mjs";
+import { done, fail, flag, flags, has, misused } from "../src/data/cli.mjs";
 import { devUp, shootFlags, start } from "./lib.mjs";
 
 const a = start("show", `usage: npm run show [-- /path ...] [--from-shots] [--first-screen] [--width N ...] [--message "…"]
@@ -38,7 +38,9 @@ if (!fromShots && !devUp()) fail("show: dev is not answering on localhost:3000",
 const folders = [];
 for (const path of paths) {
   if (fromShots) {
-    const mine = existsSync("uploads") ? readdirSync("uploads").filter((d) => new RegExp(`^${nameOf(path)}-\\d+$`).test(d)) : [];
+    // only the widths asked for (desktop and phone by default), never one an older shots left
+    const widths = flags(a, "width").length ? flags(a, "width") : ["1280", "390"];
+    const mine = existsSync("uploads") ? readdirSync("uploads").filter((d) => widths.some((w) => d === `${nameOf(path)}-${w}`)) : [];
     if (!mine.length) fail(`show: no screenshots of ${path} in uploads/`, `npm run shots -- ${path}, then this again (or leave out --from-shots)`);
     folders.push(...mine.sort((a, b) => Number(b.split("-").pop()) - Number(a.split("-").pop())).map((d) => join("uploads", d)));
     continue;

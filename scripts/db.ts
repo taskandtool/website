@@ -4,7 +4,7 @@
 //
 //   npm run db:setup        `npm run dev` runs it before the server starts; `npm run deploy` before the build
 //
-// Without DATABASE_URL (this shell's or /home/sprite/.env's) it says so and
+// Without DATABASE_URL (this shell's or ~/.env's) it says so and
 // exits 0: a site with no database is a site of pages.
 import { readFileSync } from "node:fs";
 import { basename, resolve } from "node:path";
@@ -34,7 +34,7 @@ const databaseUrl = () => machineEnv().DATABASE_URL || undefined;
 export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
   const url = databaseUrl();
   if (!url) fail("database: DATABASE_URL is not set, so this site has no database yet", "python3 ~/tools/taskandtool.py request-capability postgres");
-  if (!/^postgres(ql)?:\/\//.test(url)) fail("database: DATABASE_URL is not a postgres:// address", "grep DATABASE_URL /home/sprite/.env");
+  if (!/^postgres(ql)?:\/\//.test(url)) fail("database: DATABASE_URL is not a postgres:// address", "grep DATABASE_URL ~/.env");
   // A database that never answers fails in seconds, so `npm run dev` still starts the pages.
   const pool = new pg.Pool({ connectionString: url, max: 2, connectionTimeoutMillis: 20_000, query_timeout: 120_000 });
   // A refused connection is an AggregateError with no message of its own, only a code.
@@ -60,10 +60,10 @@ export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   start("db", `usage: npm run db:setup
 
-Brings the project database's forms, booking and payments tables up to date
-and prints which. Safe to re-run; without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
+Brings the project database's forms, booking and payments tables up to
+date. Safe to re-run; without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
   if (!databaseUrl()) {
-    done("db", "no DATABASE_URL, nothing to set up", { lines: ["the forms, booking and admin paths answer 404 until there is one"] });
+    done("db", "no DATABASE_URL, nothing to set up", { lines: ["until there is one, the forms and booking pages answer 404 and /admin says so"] });
     process.exit(0);
   }
   await withDb(async () => {});

@@ -53,6 +53,9 @@ test("from-site, images and shots refuse wrong input with exit 2 before any work
   for (const [script, args, said] of [
     ["from-site.mjs", [], /full URL/],
     ["from-site.mjs", ["a.com", "b.com"], /one site at a time/],
+    ["from-site.mjs", ["https://"], /full URL/],
+    ["from-site.mjs", ["https://www.facebook.com/harlowjoinery"], /not their own site/],
+    ["from-site.mjs", ["https://maps.app.goo.gl/abc"], /not their own site/],
     ["images.mjs", [], /name the picture/],
     ["images.mjs", ["a.jpg", "b.jpg", "--as", "hero"], /--as names one file/],
     ["shots.mjs", ["--width", "wide"], /--width needs a number/],
@@ -64,4 +67,12 @@ test("from-site, images and shots refuse wrong input with exit 2 before any work
     assert.match(r.stderr, said);
     assert.match(r.stderr, /Try: /);
   }
+});
+
+test("a file that is not there fails with exit 1 and names it", async () => {
+  const r = await run("images.mjs", ["uploads/no-such-picture.jpg"]);
+  assert.equal(r.status, 1, r.stderr);
+  assert.equal(r.stdout, "");
+  assert.match(r.stderr, /no-such-picture\.jpg: not found/);
+  assert.match(r.stderr, /Try: /);
 });
