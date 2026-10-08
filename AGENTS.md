@@ -1,7 +1,7 @@
 # This app: a website on Hono
 
 A business website. It runs in **dev** on this machine while it is being
-built, and in **production** on Cloudflare once deployed: pre-rendered to
+built, and in **production** on Cloudflare once deployed, as pre-rendered
 HTML plus a small Worker. This
 repository *is* the app: the site at the root, the skills that know how to
 work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
@@ -14,7 +14,7 @@ Which skill to read, by what the owner asks:
   business: `new-site` (a new site, homepage first, even when they have one)
 - "change the look", "it looks generic", colours, fonts, a new logo: `design`
 - a new page, the page plan, what a page should say, a page's code: `pages`
-- words and headlines: `writing`; the tells generated text falls into: `tropes`
+- words and headlines: `writing`; the tells of generated text: `tropes`
 - facts about the business (hours, phone, a new service), a crawl, a
   document, photos or logos sent in chat (`uploads/`, then `npm run images`): `brand`
 - a blog post: the website skill's `references/posts.md`, with `writing`
@@ -63,10 +63,10 @@ npm run db:setup             # the forms, booking and payments tables (dev start
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)
 ```
 
-The ones with options take `--help`. Before showing work: `npm run verify`, look at the
-page with `npm run shots`, then `npm run show -- --from-shots`. A small
-edit: fix it at its source (the note, the brief or the page), then the same
-three for that page.
+Each one with options takes `--help`. Before showing work, run `npm run verify`,
+look at the page with `npm run shots`, then run `npm run show -- --from-shots`.
+For a small edit, fix it at its source (the note, the brief or the page), then
+run the same three for that page.
 
 ## Where things are
 
@@ -81,9 +81,10 @@ three for that page.
   `src/layout.tsx` the head, header and footer; `src/components/` the shared
   pieces; `src/app.tsx` the Hono app.
 - `src/business.tsx` mounts forms (with booking and payment steps), `/book`,
-  Stripe's webhook and the private `/admin`, all on the project's database
-  and 404 until it has one; the code under `src/data`, `admin`, `forms`,
-  `booking`, `payments` is those skills', refreshed from them.
+  Stripe's webhook and the private `/admin`, all on the project's database;
+  each returns 404 until the project has a database. The code under
+  `src/data`, `admin`, `forms`, `booking`, `payments` belongs to those
+  skills and is refreshed from them.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served
   as they are.
 
