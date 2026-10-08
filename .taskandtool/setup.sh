@@ -77,8 +77,8 @@ python3 -m ttcrawl setup || echo "tt-crawl setup did not finish every step; its 
 # 4. /admin is the team's: Task & Tool asks for a sign-in there even once the
 # site is public (src/business.tsx answers 404 to anyone it does not name).
 # Declaring a path already declared changes nothing.
-if [ -f /home/sprite/tools/taskandtool.py ]; then
-  python3 /home/sprite/tools/taskandtool.py add-private-path /admin || true
+if [ -f "$HOME/tools/taskandtool.py" ]; then
+  python3 "$HOME/tools/taskandtool.py" add-private-path /admin || true
 fi
 
 # 5. The web service: the site runs in dev on this machine from now on.
