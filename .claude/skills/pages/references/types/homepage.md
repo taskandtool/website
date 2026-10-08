@@ -105,7 +105,7 @@ band holds, then when it earns its place.
 
 <show>
   - Real photographs that carry information; stock images are ignored or distrusted.
-  - No auto-rotating carousel: its later slides are not seen. No autoplaying video.
+  - No auto-rotating carousel: its later slides are not seen. No video that plays with sound; a short muted loop behind the hero is fine.
   - The homepage should look like the homepage, distinct from inner pages.
   - With no usable photographs, set the page in type deliberately rather than leave holes.
 </show>

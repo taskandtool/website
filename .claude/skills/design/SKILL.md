@@ -25,9 +25,11 @@ one action: a visitor names what this is in five seconds, and the owner is
 proud to send the link.
 
 - **Lead with an image when there is a good one:** the business's best
-  photograph of the work, the place or the product, crisp and large. A
-  photograph runs full-bleed only when it is at least 2000px wide; never
-  enlarge one past its own width. A photograph too small to be sharp is set
+  photograph of the work, the place or the product, crisp and large. When
+  the business is visual (food, a place, a view, a craft), prefer it
+  full-bleed behind the headline, or a short muted looping video when they
+  have one. A photograph runs full-bleed from 1600px wide; never enlarge one
+  past its own width. A photograph too small to be sharp is set
   at its own size, framed, or left out, and the head becomes type-led.
 - **Words over a photograph stay readable:** a fade, a scrim, a band, or
   placement beside the subject, with contrast checked over the image.

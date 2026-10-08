@@ -196,7 +196,7 @@ const shown = photos.flatMap((it) => {
   const where = it.pages?.[0]?.heading ? ` beside "${it.pages[0].heading}"` : "";
   const alt = realAlt(it.alts?.[0]);
   photoRows.push({ file: dest, source: fileOf(it), width, height });
-  return [`/images/${name}  ${width}x${height}${width >= 2000 ? "  full width" : ""}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
+  return [`/images/${name}  ${width}x${height}${width >= 1600 ? "  full width" : ""}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
 });
 if (shown.length) wrote.push(`static/images/: ${shown.length} photographs at web size`);
 
@@ -251,8 +251,8 @@ if ((photoRows.length || videoRows.length) && existsSync(imagesNote) && /\| to f
   wrote.push(`${imagesNote}: a row for each photograph${photoSheet ? `, numbered in ${photoSheet}` : ""}`);
   notes.push(`describe each photograph and video once in ${imagesNote}${photoSheet ? ` from ${photoSheet} (numbered in the table's order)` : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`);
 }
-if (photoRows.length && !photoRows.some((r) => r.width >= 2000) && !videoRows.length)
-  notes.push("no photograph is 2000px wide: ask the owner for the originals (a NEED) rather than running a smaller one full width");
+if (photoRows.length && !photoRows.some((r) => r.width >= 1600) && !videoRows.length)
+  notes.push("no photograph is 1600px wide: ask the owner for the originals (a NEED) rather than running a smaller one full width");
 
 // ── the proof: what others say ────────────────────────────────────────────
 // Everything the crawl and their Google listing hold goes into
