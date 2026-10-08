@@ -60,17 +60,18 @@ the fonts, the logo files copied into `brand/logo/`. Then apply them:
 ## 4. Plan: `site-map.md`
 
 From the inventory and the two answers, write one row per old URL and per
-new page: keep | merge | drop | new, the target, the page's job, the notes it
-draws on, its status. Rules: a redirect the old site already had is kept;
-a `noindex` page is never a keep; thin, duplicate, and orphan pages are
-the merge and drop candidates, judged by in-body links, not sitewide
-ones; dated posts are the `posts/` collection under their old paths, not
-pages; every form on the old site is reproduced or consciously dropped;
-sections that stay where they are (a store, a booking system) go under
-"Out of scope" with the link. The architecture section states the new
-nav in order and the footer groups, mapped from `_index/furniture.json`, so
-nothing that held a top-level slot disappears without a decision.
-Propose the whole map in one message; the owner decides.
+new page: keep | merge | drop | new, the target, the page's job, the notes
+it draws on, its status. Rules: a redirect the old site already had is kept;
+a `noindex` page is never a keep; thin, duplicate, and orphan pages are the
+merge and drop candidates, and whether a page mattered is judged by its body
+links (the inventory's `body links` column), never its sitewide ones; dated
+posts are the `posts/` collection under their old paths, not pages; every
+form on the old site is reproduced or consciously dropped; sections that
+stay where they are (a store, a booking system) go under "Out of scope" with
+the link. The architecture section states the new nav in order and the
+footer groups, mapped from `_index/furniture.json`, so nothing that held a
+top-level slot disappears without a decision. Propose the whole map in one
+message; the owner decides.
 
 Write the merge and drop rows into `src/redirects.ts` as you go. `npm run
 check` holds the map and the table to each other.

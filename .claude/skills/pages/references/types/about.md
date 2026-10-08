@@ -6,8 +6,8 @@ through corporate language and stock photographs; a real place and visible peopl
 business credible. It is on the path to buying, so it ends in the action. Many readers skip it, so
 its trust facts also belong on the homepage and service pages.
 
-Contact and locations pages have their own types now (`contact.md`, `location.md`); the team page
-is `team.md`.
+This type does not cover contact, location or team pages: those are
+`contact.md`, `location.md` and `team.md`.
 </job>
 
 <angle>
