@@ -11,7 +11,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import YAML from "yaml";
-import { fail } from "../src/data/cli.mjs";
+import { fail, misused } from "../src/data/cli.mjs";
 import { start } from "./lib.mjs";
 
 export const RECORD = "design/system.yaml";
@@ -27,6 +27,9 @@ const PREFIX = { colors: "color", typography: "text", rounded: "radius", shadows
 // Tailwind resolves max-w-<name> against --spacing-* first, so a spacing step
 // named like a size silently changes every max-w-xl on the site.
 const SIZE_NAMES = /^(3xs|2xs|xs|sm|md|lg|xl|[2-7]xl|prose|full|screen)$/;
+// and one named like a display value becomes a size too: a step called
+// "block" makes every inline-block also set inline-size
+const DISPLAY_NAMES = /^(block|flex|grid|table|contents|flow-root|list-item|hidden)$/;
 const IDENTITY = { subject: "Subject", audience: "Audience", one_job: "One job", direction: "Direction", source: "Source", signature: "Signature", rejection: "Rejection", photography: "Photography" };
 const SECTIONS = [
   ["overview", "Visual Theme & Atmosphere"], ["colors", "Color Palette & Roles"], ["typography", "Typography Rules"],
@@ -53,6 +56,7 @@ export function problems(rec) {
   for (const style of ["display", "copy"]) if (!t.typography?.[style]?.fontFamily) out.push(`tokens.typography.${style} needs a fontFamily (it sets font-${style === "copy" ? "body" : "display"})`);
   for (const group of Object.keys(t)) if (!PREFIX[group]) out.push(`tokens.${group} is not a token group (${Object.keys(PREFIX).join(", ")})`);
   for (const k of Object.keys(t.spacing ?? {})) if (SIZE_NAMES.test(k)) out.push(`tokens.spacing.${k}: a size name would hijack max-w-${k}; name it for what it spaces`);
+  for (const k of Object.keys(t.spacing ?? {})) if (DISPLAY_NAMES.test(k)) out.push(`tokens.spacing.${k}: a display name would give inline-${k} a width; name it for what it spaces`);
   for (const [, group, name] of YAML.stringify(rec).matchAll(REF)) {
     if (!t[group]?.[name]) out.push(`{${group}.${name}} refers to a token the record does not define`);
   }
@@ -188,13 +192,102 @@ export const googleFontsUrl = ${JSON.stringify(url)};
 `;
 }
 
+// `set colors.accent=#435331`: a token group's name stands for tokens.<group>
+const recordPath = (key) => {
+  const path = key.split(".");
+  return PREFIX[path[0]] ? ["tokens", ...path] : path;
+};
+// "600" is a number and '["a","b"]' a list; anything else is the text as written
+const valueOf = (raw) => {
+  try {
+    const v = JSON.parse(raw);
+    return typeof v === "object" && v !== null && !Array.isArray(v) ? raw : v;
+  } catch {
+    return raw;
+  }
+};
+
+/**
+ * Applies `path=value` pairs to the record's text: a value already there is
+ * replaced where it stands, and a new one goes in under the deepest group it
+ * belongs to, so the rest of the file, comments and wrapping included, is
+ * untouched. Returns `{ text, said }`, said being one line per value.
+ */
+export function setValues(source, pairs) {
+  let text = source;
+  const said = pairs.map((pair) => {
+    const [, key, raw] = pair.match(/^([A-Za-z0-9_.-]+)=(.*)$/s) || [];
+    if (!key) misused(`system set: "${pair}" is not path=value`, "npm run system -- set colors.accent=#435331");
+    const path = recordPath(key);
+    const doc = YAML.parseDocument(text);
+    const node = doc.getIn(path, true);
+    const value = valueOf(raw);
+    // a list is replaced whole (x_declares='["eyebrow"]'); a group is set one value at a time
+    const list = YAML.isSeq(node) && Array.isArray(value);
+    if (node !== undefined && !YAML.isScalar(node) && !list) misused(`system set: ${path.join(".")} holds several values; set one of them`, `npm run system -- set ${path.join(".")}.<name>=<value>`);
+    const name = `  ${path.join(".")}: `;
+    const before = list ? node.toJSON() : node?.value;
+    if (node && JSON.stringify(before) === JSON.stringify(value)) return `${name}already ${JSON.stringify(value)}`;
+    if (node) {
+      text = text.slice(0, node.range[0]) + JSON.stringify(value) + text.slice(node.range[1]);
+      return `${name}${JSON.stringify(before)} -> ${JSON.stringify(value)}`;
+    }
+    // the deepest group on the path that exists; the rest is new, nested under it
+    let depth = path.length - 1;
+    while (depth > 0 && !YAML.isMap(doc.getIn(path.slice(0, depth), true))) depth--;
+    const group = depth ? doc.getIn(path.slice(0, depth), true) : doc.contents;
+    if (!YAML.isMap(group)) misused(`system set: ${path.slice(0, depth).join(".") || "the record"} is not a group to add ${path.at(-1)} to`, `npm run system -- set ${path.join(".")}=<value> in a group the record has`);
+    if (group.flow) {
+      // an inline group ({} or { a: 1 }) is written again inline, with the new value
+      doc.setIn(path, value);
+      text = text.slice(0, group.range[0]) + JSON.stringify(group.toJSON()) + text.slice(group.range[1]);
+      return `${name}(new) ${JSON.stringify(value)}`;
+    }
+    const fresh = path.slice(depth).reduceRight((inner, k) => ({ [k]: inner }), value);
+    const lastPair = group.items.at(-1);
+    let indent = 0, pos = text.length;
+    if (lastPair) {
+      const at = lastPair.key.range[0];
+      indent = at - text.lastIndexOf("\n", at - 1) - 1;
+      const end = text.indexOf("\n", Math.max((lastPair.value?.range ?? lastPair.key.range)[1] - 1, 0));
+      pos = end === -1 ? text.length : end;
+    }
+    const lines = YAML.stringify(fresh, { lineWidth: 0, defaultStringType: "QUOTE_DOUBLE", defaultKeyType: "PLAIN" }).trimEnd().split("\n");
+    text = text.slice(0, pos) + lines.map((l) => `\n${" ".repeat(indent)}${l}`).join("") + text.slice(pos);
+    return `${name}(new) ${JSON.stringify(value)}`;
+  });
+  return { text, said };
+}
+
 if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
-  start("system", `usage: npm run system
+  const a = start("system", `usage: npm run system
+       npm run system -- set <path>=<value> [<path>=<value> ...]
 
 Compiles design/system.yaml into styles/theme.css, DESIGN.md and src/fonts.ts,
 and prints which it wrote. A record with problems lists them on stderr and
-exits 1, writing nothing.`);
-  const rec = readRecord();
+exits 1, writing nothing.
+
+set changes values in the record first, keeping its comments, then compiles:
+  npm run system -- set colors.accent=#435331 colors.accent-hover=#2f3b22
+  npm run system -- set typography.display.fontFamily="Fraunces" identity.direction="The bakery counter"
+A token group (colors, typography, rounded, shadows, spacing, containers,
+easing) stands for tokens.<group>; any other path is the record's own
+(identity.subject, sections.overview). It prints each value before and
+after; a change that leaves the record with problems is refused and nothing
+is written.`, { args: true });
+  const [command, ...pairs] = a._;
+  if (command !== undefined && command !== "set") misused(`system: no command "${command}"; the one command is set`, "npm run system -- set colors.accent=#435331");
+  if (command === "set" && !pairs.length) misused("system set: name what to change, as path=value", "npm run system -- set colors.accent=#435331");
+  let rec;
+  if (command === "set") {
+    readRecord();
+    const { text, said } = setValues(readFileSync(RECORD, "utf8"), pairs);
+    rec = YAML.parse(text);
+    const found = problems(rec);
+    if (found.length) fail(`system set: refused, ${RECORD} would have ${found.length} problem(s)\n  - ${found.join("\n  - ")}`, "npm run system -- set with values that fix them");
+    writeFileSync(RECORD, text);
+    console.log(`system set: ${said.length} value(s) in ${RECORD}\n${said.join("\n")}`);
+  } else rec = readRecord();
   const found = problems(rec);
   if (found.length) fail(`system: ${RECORD} has ${found.length} problem(s)\n  - ${found.join("\n  - ")}`, "npm run system, once the record is fixed");
   const outputs = [[THEME, themeCss(rec)], [DESIGN, designMd(rec)], [FONTS, fontsTs(rec)]];

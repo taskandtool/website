@@ -8,8 +8,11 @@ description: "Designs this website's look: the first screen, the design system r
 The site's design system is one record, `design/system.yaml`: its tokens,
 its rules with their reasons, and how each kind of content is laid out.
 `npm run system` compiles it into `styles/theme.css` (the classes) and
-`DESIGN.md` (the readable contract); never edit those two by hand. Read
-`DESIGN.md` and the notes in `brand/` before designing.
+`DESIGN.md` (the readable contract); never edit those two by hand. Change
+values with `npm run system -- set colors.accent=#435331
+identity.direction="…"`: it keeps the file as written, refuses a broken
+record, and compiles. Read `DESIGN.md` and the notes in `brand/` before
+designing.
 
 Make the page unmistakably this business, for its customers, doing its one
 job. A new palette on a familiar landing-page template is not a design.

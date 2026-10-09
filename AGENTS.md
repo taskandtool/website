@@ -50,6 +50,7 @@ npm run verify               # content, check, typecheck, test, build, proof, tr
 npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/; prints which image to read first
 npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
+npm run system -- set colors.accent=#435331   # change record values in place, then compile
 npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
 npm run audit                # the crawler against dev: links, headings, alt text, titles
 node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
