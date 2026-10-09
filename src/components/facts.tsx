@@ -132,14 +132,14 @@ function ReviewCard({ r, class: cls = "", copy = false }: { r: Record<string, an
     <li class={`flex flex-col gap-3 rounded-card border border-line bg-surface p-6 text-ink shadow-lift ${cls}`} {...(copy ? { "aria-hidden": "true", inert: true } : {})}>
       <div class="flex items-center gap-3">
         <Avatar name={r.name || r.platform} photo={r.photo} />
-        <p class="min-w-0 flex-1 leading-tight">
+        <p class="min-w-0 flex-1">
           <span class="block truncate font-semibold">{r.url ? <a href={r.url}>{who}</a> : who}</span>
           {r.date ? <span class="text-sm text-ink-3">{said(r.date)}</span> : null}
         </p>
         {platformIcon(r.platform) ? <img src={platformIcon(r.platform)} alt={r.platform} class="size-5 shrink-0 self-start" /> : null}
       </div>
       {r.stars ? <Stars value={r.stars} size="size-[18px]" /> : null}
-      <blockquote class="line-clamp-5 text-base leading-relaxed">{r.quote}</blockquote>
+      <blockquote class="line-clamp-5 text-base">{r.quote}</blockquote>
     </li>
   );
 }
@@ -147,8 +147,8 @@ function ReviewCard({ r, class: cls = "", copy = false }: { r: Record<string, an
 /**
  * Reviews and posts as cards of one height, the rating under the heading. Four
  * or more drift sideways, two rows the opposite way from eight, stopping under
- * the pointer; reduced motion gets one still row to swipe. Fewer, or
- * `scroll={false}`: a still grid, a row to swipe on a phone.
+ * the pointer; reduced motion gets one still row to swipe. Fewer: a still
+ * grid, a row to swipe on a phone.
  */
 export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel", scroll = true }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night"; scroll?: boolean }) {
   const items = [...content.facts.reviews, ...content.facts.posts.map((p) => ({ quote: p.text || "", platform: p.platform, date: p.date, url: p.url }))].filter((r) => r.quote);
