@@ -6,7 +6,7 @@
 // how each should look and behave.
 import type { Child } from "hono/jsx";
 
-/** A section with the standard vertical rhythm and a ground. */
+/** A section with the standard vertical rhythm and a ground, on the site's one frame (its left edge lines up with the header's). */
 export function Section({
   id,
   ground = "canvas",
@@ -27,8 +27,9 @@ export function Section({
   };
   return (
     <section id={id} class={grounds[ground]} aria-labelledby={labelledBy}>
-      <div class={`mx-auto px-5 py-section sm:px-8 ${wide ? "max-w-wide" : "max-w-content"}`}>
-        {children}
+      {/* every band shares the header's and footer's frame, so their left edges line up; a reading section narrows its column inside it */}
+      <div class="mx-auto max-w-wide px-5 py-section sm:px-8">
+        {wide ? children : <div class="max-w-content">{children}</div>}
       </div>
     </section>
   );

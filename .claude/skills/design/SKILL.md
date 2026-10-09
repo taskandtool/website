@@ -12,7 +12,9 @@ its rules with their reasons, and how each kind of content is laid out.
 values with `npm run system -- set colors.accent=#435331
 identity.direction="…"`: it keeps the file as written, refuses a broken
 record, and compiles. Read `DESIGN.md` and the notes in `brand/` before
-designing.
+designing. The starter's record is a placeholder: every token is chosen
+again for this business, starting from the colours and fonts `from-site`
+read from their site.
 
 Make the page unmistakably this business, for its customers, doing its one
 job. A new palette on a familiar landing-page template is not a design.
@@ -37,7 +39,8 @@ proud to send the link.
 - **Words over a photograph stay readable:** a fade, a scrim, a band, or
   placement beside the subject, with contrast checked over the image.
 - **Commit to a colour world:** a saturated field, black, or the
-  photograph. A warm off-white ground is a choice, not a default.
+  photograph. A warm off-white ground is a choice, not a default; one deep
+  brand colour against white reads stronger than tints of one hue.
 - **One signature move** that belongs to this business: an oversized word,
   a numeral crossing a photograph's edge, the product lit on black, a live
   detail (today's hours). One, not five.
@@ -46,20 +49,28 @@ proud to send the link.
 
 ## Making it good
 
+- **Impact, not only clarity.** Beyond the first screen, one or two moments
+  a visitor remembers: a photograph at full width with words over it (a
+  gradient or scrim keeps them legible), a band of deep brand colour, an
+  oversized word. Every section still reads at a glance.
 - **Layout.** Sequence, comparison and hierarchy each look different. One
   section is the peak; the rest are quieter. Cards only for comparable
   things (services, people, plans), never around a paragraph. No two
-  adjacent sections share a composition or a ground.
+  adjacent sections share a composition or a ground. Every band's content
+  starts on one left edge (the `Section` frame); `npm run shots` names a
+  band that does not.
 - **Type.** Display, reading and labels each have a job. Body copy at 18px
   or more, normal weight; the heaviest weight once. A type personality that
-  belongs to the subject, not the cliché for the industry.
+  belongs to the subject, not the cliché for the industry: start from the
+  business's own fonts or a library record's pairing.
 - **Colour.** Every colour has a job; the accent is for actions. Contrast
   holds in every state: hover, focus, over a photograph.
 - **Imagery.** Describe a generated image apart from the layout: its
   subject, composition, light, crop and the space the words need. Words
   stay in HTML, never baked into an image.
-- **Motion.** One orchestrated moment, or none. Nothing waits behind it,
-  and reduced motion shows the finished page.
+- **Motion.** The first screen's words rise in (`data-rise`) and one or
+  two later bands come into view (`data-reveal`); nothing else moves, and
+  nothing waits behind it.
 - **Proof, front and centre.** What others say persuades more than
   anything the business says, so use all of `public/proof.md`, on the
   homepage and every service page, and design it as boldly as the rest:

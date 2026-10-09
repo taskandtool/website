@@ -160,9 +160,12 @@ sections:
   layout: >
     The base unit is 4px. Sections take py-section ({spacing.section});
     a heading group to what it introduces is mt-lead ({spacing.lead}).
-    max-w-content ({containers.content}) for reading sections, max-w-wide
-    ({containers.wide}) for the hero and a wide visual; px-5 sm:px-8 at the
-    sides. Compose from the content: a sequence, a comparison, a hierarchy
+    Every band shares one frame, max-w-wide ({containers.wide}) with px-5
+    sm:px-8 at the sides (Section does this), so the header, each section
+    and the footer start on one left edge; a reading section narrows its
+    column inside the frame to max-w-content ({containers.content}), left
+    aligned. A photograph or colour field runs edge to edge behind the frame.
+    Compose from the content: a sequence, a comparison, a hierarchy
     and a change of thought each look different. No two adjacent sections
     share a composition or a ground. One section is the peak; everything
     else is quieter. Prefer document flow; absolute positioning is for one
@@ -174,11 +177,11 @@ sections:
     dialog on {colors.surface} with {shadows.lift} at {rounded.card}. No
     inner shadows, no glass or blur, no gradients on interface elements.
   motion: >
-    One thing moves per page, and only to explain a state or direct
-    attention. Hover and focus transitions are 150ms with {easing.soft}.
-    Nothing animates on load, nothing follows the scroll, and the finished
-    composition is always visible without motion; reduced motion turns every
-    transition off (styles/input.css).
+    The first screen's words rise in once on load (data-rise on their
+    wrapper), and one or two later bands as they come into view
+    (data-reveal); nothing else moves. Hover and focus transitions are 150ms
+    with {easing.soft}. Reduced motion shows the finished page
+    (styles/input.css).
   responsive_behavior: >
     Mobile and desktop are two compositions of the same content. Type sizes
     are fluid, so headings need no mobile overrides. Below 1024px a split

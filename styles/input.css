@@ -48,4 +48,20 @@
       scroll-behavior: auto !important;
     }
   }
+  /* Motion, CSS only: the first screen's words rise in once (data-rise on
+     their wrapper, children in turn), and a later band as it scrolls into
+     view (data-reveal). Reduced motion, or a browser without scroll
+     timelines, shows the page finished. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-rise] > * { animation: rise 0.9s var(--ease-soft) both; }
+    [data-rise] > :nth-child(2) { animation-delay: 0.12s; }
+    [data-rise] > :nth-child(3) { animation-delay: 0.24s; }
+    [data-rise] > :nth-child(n + 4) { animation-delay: 0.36s; }
+    @supports (animation-timeline: view()) {
+      [data-reveal] { animation: rise linear both; animation-timeline: view(); animation-range: entry 5% cover 25%; }
+    }
+  }
+  @keyframes rise {
+    from { opacity: 0; translate: 0 1.5rem; }
+  }
 }

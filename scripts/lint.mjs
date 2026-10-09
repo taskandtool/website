@@ -54,7 +54,7 @@ const findings = [];
 const HINTS = new Set(["same-hue-text", "light-on-dark", "adjacent-ground", "card-in-card", "side-stripe",
   "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread", "we-over-you",
   "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", "title-length", "description-length",
-  "duplicate-title", ...HINT_RULES]);
+  "duplicate-title", "tinted-grounds", "default-font", ...HINT_RULES]);
 const allowed = (el, rule) => {
   for (let e = el; e; e = e.parentNode) if (e.getAttribute?.("data-lint-allow")?.split(/\s+/).includes(rule)) return true;
   return false;
@@ -382,9 +382,18 @@ for (const { page, bands } of pageBands) {
 for (const id of declared.keys()) if (!HINTS.has(id)) findings.push({ rule: "declared-unread", level: "hint", page: "DESIGN.md", where: "", message: `"${id}" is declared but no hint by that name exists; check the spelling (only hints can be declared)` });
 
 // ── the report ───────────────────────────────────────────────────────────
+// the record as a whole: grounds that are all tints of one hue, and the
+// fonts generated sites reach for by default
+const tints = ["canvas", "surface", "panel"].filter((k) => colours[k]).map((k) => ({ v: colours[k], ...chromaHue(colours[k]) }));
+const hueGap = (a, b) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+if (tints.length === 3 && tints.every((t) => t.chroma > 0.04 && hueGap(t.hue, tints[0].hue) < 30))
+  report("tinted-grounds", "design/system.yaml", null, `canvas, surface and panel are all tints of one hue (${tints.map((t) => t.v).join(" ")}); make one white or near it, so the deep brand colour and the photographs carry the colour`);
+const DEFAULT_FONTS = /^(Inter|Roboto|Arial|Helvetica|Open Sans|Lato|Montserrat|Poppins|DM Sans|DM Serif Display|Fraunces|Playfair Display|Space Grotesk)$/;
+for (const [, role, family] of readTheme().source.matchAll(/--font-(display|body):\s*"([^"]+)"/g))
+  if (DEFAULT_FONTS.test(family)) report("default-font", "design/system.yaml", null, `the ${role} font "${family}" is one generated sites reach for by default; choose one for this business (its own, or a library record's pairing), or declare default-font with the reason it fits`);
+for (const [title, on] of titles) if (on.length > 1) for (const page of on.slice(1)) report("duplicate-title", page, null, `"${title}" is also the title of ${on[0]}; each page needs its own, or search shows two alike`);
 const byRule = new Map();
 for (const f of findings) byRule.set(f.rule, [...(byRule.get(f.rule) || []), f]);
-for (const [title, on] of titles) if (on.length > 1) for (const page of on.slice(1)) report("duplicate-title", page, null, `"${title}" is also the title of ${on[0]}; each page needs its own, or search shows two alike`);
 const errors = findings.filter((f) => f.level === "error").length;
 const hints = findings.length - errors;
 // summary first, then every error (so all are fixed in one pass) and two hints per rule;

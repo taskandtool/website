@@ -65,7 +65,7 @@ Buttons (Button in src/components): 48px minimum, px-5, `rounded-control`, 16px 
 
 ## Layout Principles
 
-The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-lead (clamp(2.5rem, 4vw, 3.5rem)). max-w-content (72rem) for reading sections, max-w-wide (80rem) for the hero and a wide visual; px-5 sm:px-8 at the sides. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition or a ground. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
+The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-lead (clamp(2.5rem, 4vw, 3.5rem)). Every band shares one frame, max-w-wide (80rem) with px-5 sm:px-8 at the sides (Section does this), so the header, each section and the footer start on one left edge; a reading section narrows its column inside the frame to max-w-content (72rem), left aligned. A photograph or colour field runs edge to edge behind the frame. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition or a ground. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
 
 ## Depth & Elevation
 
@@ -73,7 +73,7 @@ Three levels. Flat: sections, rows, text, most of the page. Lifted: a card or fr
 
 ## Motion
 
-One thing moves per page, and only to explain a state or direct attention. Hover and focus transitions are 150ms with `ease-soft`. Nothing animates on load, nothing follows the scroll, and the finished composition is always visible without motion; reduced motion turns every transition off (styles/input.css).
+The first screen's words rise in once on load (data-rise on their wrapper), and one or two later bands as they come into view (data-reveal); nothing else moves. Hover and focus transitions are 150ms with `ease-soft`. Reduced motion shows the finished page (styles/input.css).
 
 ## Responsive Behavior
 
