@@ -76,9 +76,9 @@ proud to send the link.
   homepage and every service page, and design it as boldly as the rest:
   the rating by the first action, walls or bands of logos, star-rated
   reviews (`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
-  `NumbersSection`, or your own from `content.facts`); restyle them to the
-  system rather than thin reviews into a list of quotes. `npm run proof`
-  fails while any of it is missing from the homepage.
+  `NumbersSection`, or your own from `content.facts`). Reviews:
+  `ReviewsSection`, restyled to the system rather than replaced. `npm run
+  proof` fails while any of it is missing from the homepage.
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 
