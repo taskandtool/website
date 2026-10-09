@@ -102,9 +102,10 @@ strips are the same page at full size, top to bottom. Read them in order:
    image, a crop that cuts the subject, uneven spacing or alignment, low
    contrast, an empty or broken image, a section that could be another
    business's.
-3. **The owner's current homepage beside it** (`raw/site/<host>/shots/`):
-   what did it do better, in layout, content or proof? Carry that over. Is
-   the new first screen clearly better? Would the owner send it to someone?
+3. **The page it replaces beside it** (`raw/site/<host>/shots/`), or the
+   one the owner pointed at (`tt-crawl reference <url>`): what did it do
+   better, in layout, imagery, content or proof? Carry that over. Is the
+   new page clearly better? Would the owner send it to someone?
 4. **The phone strips:** the first screen holds the promise and the action;
    nothing is cut off, squeezed or tiny.
 

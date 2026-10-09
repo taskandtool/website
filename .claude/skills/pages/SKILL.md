@@ -58,7 +58,9 @@ out and why. Its page type's guide, `references/types/<type>.md` (and its
   rather than ask. When the page replaces an old one, the old page is the
   floor for how complete the new one is, not the template for its shape:
   each of its sections is carried, improved, or dropped in `omit:` with the
-  reason.
+  reason. A page the owner names to be like (theirs, a competitor's):
+  `tt-crawl reference <url>` captures its look; borrow its structure and
+  ideas, never its words, pictures or logo.
 - **The bands:** the `core` ones, then only those the material answers
   well. A good page is usually shorter than the guide's full menu; what you
   considered and left out goes in `omit:`, one clause each.
@@ -97,4 +99,7 @@ From its brief, in the record:
 ## Changing a page later
 
 What a page says changes in its brief first, then on the page. How it looks
-changes in the record (the `design` skill), never on one page.
+changes in the record (the `design` skill), never on one page. A page that
+needs a pattern the site does not have yet (a photograph banner per menu
+section) gets it as a component in `src/components`, in the record's
+tokens, so the next page can use it too.
