@@ -314,7 +314,7 @@ function google() {
       rating: d.rating ? { platform: "Google", value: d.rating, count: d.userRatingCount || null, url: d.googleMapsUri || "", source: src } : null,
       reviews: (d.reviews || []).map((r) => ({
         quote: (r.text?.text || r.originalText?.text || "").trim(), name: r.authorAttribution?.displayName || "",
-        platform: "Google", date: (r.publishTime || "").slice(0, 10), stars: r.rating || null, url: r.authorAttribution?.uri || "", source: src,
+        platform: "Google", date: (r.publishTime || "").slice(0, 10), stars: r.rating || null, url: r.authorAttribution?.uri || "", photo: r.authorAttribution?.photoUri || "", source: src,
       })).filter((r) => r.quote),
     };
   } catch (e) {

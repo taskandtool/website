@@ -150,7 +150,7 @@ sections:
     more"). Links in copy are underlined, 1px, offset, in the text's colour.
     Nav links are {colors.ink-2}, {colors.ink} on hover, with
     aria-current="page" on the current page. Cards only for discrete,
-    comparable objects (a service, a person, a plan): {rounded.card},
+    comparable objects (a service, a person, a plan, a review): {rounded.card},
     {colors.line} edge, {colors.surface}; never around a single paragraph.
     Inputs are 48px tall, {rounded.control}, a {colors.line-strong} edge,
     the label above in 16px semibold, help text in {colors.ink-3}. Lists of

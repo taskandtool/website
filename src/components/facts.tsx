@@ -109,22 +109,44 @@ export function RatingLine() {
   );
 }
 
-/** Reviews and posts as cards: stars, the words as written, who, where and when (RatingLine goes where you want it). */
-export function ReviewsSection({ id = "reviews", heading = "What customers say" }: { id?: string; heading?: string }) {
+// "Mar 2026": when it was said, which does not go stale the way "3 months ago" does
+const said = (date?: string) => {
+  const d = date ? new Date(date) : null;
+  return d && !isNaN(d.getTime()) ? d.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" }) : date || "";
+};
+
+/** The reviewer's own photo (Google gives one), else their initial in a circle. */
+function Avatar({ name, photo }: { name?: string; photo?: string }) {
+  if (photo) return <img src={photo} alt="" width="40" height="40" loading="lazy" referrerpolicy="no-referrer" class="size-10 shrink-0 rounded-full object-cover" />;
+  return (
+    <span aria-hidden="true" class="grid size-10 shrink-0 place-items-center rounded-full bg-accent text-accent-ink font-semibold">
+      {(name || "?").trim().charAt(0).toUpperCase()}
+    </span>
+  );
+}
+
+/** Reviews and posts as cards of one height, the way the platforms show them: photo or initial, name and when, the platform's mark, the stars, the words as written (cut at five lines). The rating sits under the heading. */
+export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel" }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night" }) {
   const items = [...content.facts.reviews, ...content.facts.posts.map((p) => ({ quote: p.text || "", platform: p.platform, date: p.date, url: p.url }))].filter((r) => r.quote);
   if (!items.length) return null;
   return (
-    <Section id={id} labelledBy={`${id}-title`}>
-      <h2 id={`${id}-title`} class="max-w-[14ch] text-section">{heading}</h2>
-      <ul class="mt-lead grid items-start gap-4 md:grid-cols-3">
+    <Section id={id} ground={ground} wide labelledBy={`${id}-title`}>
+      <h2 id={`${id}-title`} class="max-w-[20ch] text-section">{heading}</h2>
+      <div class="mt-6"><RatingLine /></div>
+      {/* a row to swipe on a phone, a grid of one height from 640px */}
+      <ul class="-mx-5 mt-lead flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:grid sm:auto-rows-fr sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3" data-reveal>
         {items.map((r: Record<string, any>) => (
-          <li class="flex flex-col gap-4 rounded-card border border-line bg-surface p-6">
-            {r.stars ? <Stars value={r.stars} /> : null}
-            <blockquote class="text-lede">“{r.quote}”</blockquote>
-            <p class="flex items-center gap-2 text-ink-2">
-              {platformIcon(r.platform) ? <img src={platformIcon(r.platform)} alt={r.platform} class="size-4" /> : null}
-              <span>{[r.name, r.role, r.company].filter(Boolean).join(", ") || r.platform}{r.date ? `, ${r.date}` : ""}</span>
-            </p>
+          <li class="flex w-[85%] shrink-0 snap-start flex-col gap-3 rounded-card border border-line bg-surface p-6 text-ink shadow-lift sm:w-auto">
+            <div class="flex items-center gap-3">
+              <Avatar name={r.name || r.platform} photo={r.photo} />
+              <p class="min-w-0 flex-1 leading-tight">
+                <span class="block truncate font-semibold">{r.url ? <a href={r.url}>{[r.name, r.role, r.company].filter(Boolean).join(", ") || r.platform}</a> : [r.name, r.role, r.company].filter(Boolean).join(", ") || r.platform}</span>
+                {r.date ? <span class="text-sm text-ink-3">{said(r.date)}</span> : null}
+              </p>
+              {platformIcon(r.platform) ? <img src={platformIcon(r.platform)} alt={r.platform} class="size-5 shrink-0 self-start" /> : null}
+            </div>
+            {r.stars ? <Stars value={r.stars} size="size-[18px]" /> : null}
+            <blockquote class="line-clamp-5 text-base leading-relaxed">{r.quote}</blockquote>
           </li>
         ))}
       </ul>

@@ -10,7 +10,7 @@ export const content = generated as {
     locations: Record<string, any>[];
     offerings: Record<string, any>[];
     faq: { question: string; answer: string; answerHtml: string }[];
-    reviews: { quote: string; name?: string; role?: string; company?: string; platform?: string; date?: string; stars?: number; url?: string }[];
+    reviews: { quote: string; name?: string; role?: string; company?: string; platform?: string; date?: string; stars?: number; url?: string; photo?: string }[];
     ratings: { platform: string; value: number; count?: number; url?: string }[];
     logos: { name: string; file: string }[];
     people: { name: string; role?: string; photo?: string }[];

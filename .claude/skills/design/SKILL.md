@@ -76,8 +76,12 @@ proud to send the link.
   homepage and every service page, and design it as boldly as the rest:
   the rating by the first action, walls or bands of logos, star-rated
   reviews (`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
-  `NumbersSection`, or your own from `content.facts`). `npm run proof` fails
-  while any of it is missing from the homepage.
+  `NumbersSection`, or your own from `content.facts`). Reviews look the way
+  the platforms show them: cards of one height, each with the reviewer's
+  photo or initial, name and month, the platform's mark, the stars and the
+  words; restyle `ReviewsSection` to the system rather than thin it into a
+  list of quotes. `npm run proof` fails while any of it is missing from the
+  homepage.
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 
