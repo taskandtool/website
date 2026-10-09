@@ -69,21 +69,16 @@ proud to send the link.
   subject, composition, light, crop and the space the words need. Words
   stay in HTML, never baked into an image.
 - **Motion.** The first screen's words rise in (`data-rise`) and one or
-  two later bands come into view (`data-reveal`); reviews, and a wall of
-  logos if you like, drift sideways (`data-drift`). Nothing else moves, and
-  nothing waits behind it.
+  two later bands come into view (`data-reveal`); nothing waits behind
+  it.
 - **Proof, front and centre.** What others say persuades more than
   anything the business says, so use all of `public/proof.md`, on the
   homepage and every service page, and design it as boldly as the rest:
   the rating by the first action, walls or bands of logos, star-rated
   reviews (`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
-  `NumbersSection`, or your own from `content.facts`). Reviews look the way
-  the platforms show them: cards of one height, each with the reviewer's
-  photo or initial, name and month, the platform's mark, the stars and the
-  words, drifting sideways from four (`ReviewsSection`; `scroll={false}` for
-  a still grid); restyle it to the system rather than thin it into a list
-  of quotes. `npm run proof` fails while any of it is missing from the
-  homepage.
+  `NumbersSection`, or your own from `content.facts`); restyle them to the
+  system rather than thin reviews into a list of quotes. `npm run proof`
+  fails while any of it is missing from the homepage.
 - **Phone and desktop** are two compositions of the same content, both
   checked.
 
