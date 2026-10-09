@@ -64,4 +64,20 @@
   @keyframes rise {
     from { opacity: 0; translate: 0 1.5rem; }
   }
+  /* A row that drifts sideways (data-drift="left" or "right" on its frame,
+     the cards twice inside so it loops, --drift its time); it stops under the
+     pointer or focus. Reduced motion gets one still row to swipe. */
+  [data-drift] { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-drift] > * { animation: drift var(--drift, 60s) linear infinite; }
+    [data-drift="right"] > * { animation-direction: reverse; }
+    [data-drift]:hover > *, [data-drift]:focus-within > * { animation-play-state: paused; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-drift] { overflow-x: auto; mask-image: none; }
+    [data-drift] [inert] { display: none; }
+  }
+  @keyframes drift {
+    to { translate: -50% 0; }
+  }
 }

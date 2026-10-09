@@ -69,8 +69,9 @@ proud to send the link.
   subject, composition, light, crop and the space the words need. Words
   stay in HTML, never baked into an image.
 - **Motion.** The first screen's words rise in (`data-rise`) and one or
-  two later bands come into view (`data-reveal`); nothing else moves, and
-  nothing waits behind it.
+  two later bands come into view (`data-reveal`); a wall of reviews or
+  logos may drift sideways (`data-drift`, `ReviewsSection scroll`). Nothing
+  else moves, and nothing waits behind it.
 - **Proof, front and centre.** What others say persuades more than
   anything the business says, so use all of `public/proof.md`, on the
   homepage and every service page, and design it as boldly as the rest:

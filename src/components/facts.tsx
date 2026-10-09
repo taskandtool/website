@@ -125,31 +125,57 @@ function Avatar({ name, photo }: { name?: string; photo?: string }) {
   );
 }
 
-/** Reviews and posts as cards of one height, the way the platforms show them: photo or initial, name and when, the platform's mark, the stars, the words as written (cut at five lines). The rating sits under the heading. */
-export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel" }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night" }) {
+/** One review as the platforms show it: photo or initial, name and when, the platform's mark, the stars, the words (cut at five lines). */
+function ReviewCard({ r, class: cls = "", copy = false }: { r: Record<string, any>; class?: string; copy?: boolean }) {
+  const who = [r.name, r.role, r.company].filter(Boolean).join(", ") || r.platform;
+  return (
+    <li class={`flex flex-col gap-3 rounded-card border border-line bg-surface p-6 text-ink shadow-lift ${cls}`} {...(copy ? { "aria-hidden": "true", inert: true } : {})}>
+      <div class="flex items-center gap-3">
+        <Avatar name={r.name || r.platform} photo={r.photo} />
+        <p class="min-w-0 flex-1 leading-tight">
+          <span class="block truncate font-semibold">{r.url ? <a href={r.url}>{who}</a> : who}</span>
+          {r.date ? <span class="text-sm text-ink-3">{said(r.date)}</span> : null}
+        </p>
+        {platformIcon(r.platform) ? <img src={platformIcon(r.platform)} alt={r.platform} class="size-5 shrink-0 self-start" /> : null}
+      </div>
+      {r.stars ? <Stars value={r.stars} size="size-[18px]" /> : null}
+      <blockquote class="line-clamp-5 text-base leading-relaxed">{r.quote}</blockquote>
+    </li>
+  );
+}
+
+/**
+ * Reviews and posts as cards of one height, the rating under the heading. Still
+ * by default: a grid, a row to swipe on a phone. `scroll` (four or more) sets
+ * them drifting sideways instead, two rows the opposite way from eight, stopping
+ * under the pointer; reduced motion gets one still row to swipe.
+ */
+export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel", scroll = false }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night"; scroll?: boolean }) {
   const items = [...content.facts.reviews, ...content.facts.posts.map((p) => ({ quote: p.text || "", platform: p.platform, date: p.date, url: p.url }))].filter((r) => r.quote);
   if (!items.length) return null;
+  const rows = items.length >= 8 ? [items.slice(0, Math.ceil(items.length / 2)), items.slice(Math.ceil(items.length / 2))] : [items];
   return (
     <Section id={id} ground={ground} wide labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[20ch] text-section">{heading}</h2>
       <div class="mt-6"><RatingLine /></div>
-      {/* a row to swipe on a phone, a grid of one height from 640px */}
-      <ul class="-mx-5 mt-lead flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:grid sm:auto-rows-fr sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3" data-reveal>
-        {items.map((r: Record<string, any>) => (
-          <li class="flex w-[85%] shrink-0 snap-start flex-col gap-3 rounded-card border border-line bg-surface p-6 text-ink shadow-lift sm:w-auto">
-            <div class="flex items-center gap-3">
-              <Avatar name={r.name || r.platform} photo={r.photo} />
-              <p class="min-w-0 flex-1 leading-tight">
-                <span class="block truncate font-semibold">{r.url ? <a href={r.url}>{[r.name, r.role, r.company].filter(Boolean).join(", ") || r.platform}</a> : [r.name, r.role, r.company].filter(Boolean).join(", ") || r.platform}</span>
-                {r.date ? <span class="text-sm text-ink-3">{said(r.date)}</span> : null}
-              </p>
-              {platformIcon(r.platform) ? <img src={platformIcon(r.platform)} alt={r.platform} class="size-5 shrink-0 self-start" /> : null}
+      {scroll && items.length >= 4 ? (
+        <div class="mt-lead flex flex-col gap-4">
+          {rows.map((row, i) => (
+            // the cards twice, so the row loops; the copy is hidden from readers and keys
+            <div data-drift={i % 2 ? "right" : "left"} style={`--drift: ${row.length * 8}s`}>
+              <ul class="flex w-max gap-4 pr-4 pb-4">
+                {row.map((r) => <ReviewCard r={r} class="w-[22rem] max-w-[80vw]" />)}
+                {row.map((r) => <ReviewCard r={r} class="w-[22rem] max-w-[80vw]" copy />)}
+              </ul>
             </div>
-            {r.stars ? <Stars value={r.stars} size="size-[18px]" /> : null}
-            <blockquote class="line-clamp-5 text-base leading-relaxed">{r.quote}</blockquote>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      ) : (
+        // a row to swipe on a phone, a grid of one height from 640px
+        <ul class="-mx-5 mt-lead flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:grid sm:auto-rows-fr sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3" data-reveal>
+          {items.map((r) => <ReviewCard r={r} class="w-[85%] shrink-0 snap-start sm:w-auto" />)}
+        </ul>
+      )}
     </Section>
   );
 }
