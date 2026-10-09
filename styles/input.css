@@ -75,6 +75,8 @@
   }
   @media (prefers-reduced-motion: reduce) {
     [data-drift] { overflow-x: auto; mask-image: none; }
+    [data-drift] > * { padding-inline-start: 1.25rem; }
+    @media (width >= 40rem) { [data-drift] > * { padding-inline-start: 2rem; } }
     [data-drift] [inert] { display: none; }
   }
   @keyframes drift {

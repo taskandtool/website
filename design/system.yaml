@@ -179,7 +179,7 @@ sections:
   motion: >
     The first screen's words rise in once on load (data-rise on their
     wrapper), and one or two later bands as they come into view
-    (data-reveal); a wall of reviews or logos may drift sideways
+    (data-reveal); reviews, and a wall of logos if wanted, drift sideways
     (data-drift); nothing else moves. Hover and focus transitions are 150ms
     with {easing.soft}. Reduced motion shows the finished page
     (styles/input.css).
