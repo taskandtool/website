@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Photographs ready for the web: `npm run images -- <file> [<file> …]`.
-// Each becomes a JPEG in static/images/ at most 2400px wide and, where the
-// quality allows, under 300 KB (the hero limit), with ffmpeg or else Pillow.
+// Each becomes a JPEG in static/images/ at most 2560px wide and, where the
+// quality allows, under 600 KB, with ffmpeg or else Pillow.
 // It prints each file's path, size and pixels. A photograph neither can
 // encode is left out rather than shipped as it is. from-site uses it too.
 import { execFileSync } from "node:child_process";
@@ -11,8 +11,8 @@ import { fileURLToPath } from "node:url";
 import { done, fail, flag, has, misused } from "../src/data/cli.mjs";
 import { imageSizes, start } from "./lib.mjs";
 
-export const MAX_WIDTH = 2400;
-const TARGET_BYTES = 300 * 1024;
+export const MAX_WIDTH = 2560;
+const TARGET_BYTES = 600 * 1024;
 
 // One encode at `quality` (ffmpeg's -q:v, 2 best … 31 worst), else Pillow at the matching 0-100.
 function encode(src, dest, q) {
@@ -65,7 +65,7 @@ if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   const a = start("images", `usage: npm run images -- <file> [<file> …] [--as <name>] [--logo]
 
 Each picture for the web: a photograph as a JPEG in static/images/, at most
-2400px wide and under 300 KB where the quality allows; a transparent picture
+2560px wide and under 600 KB where the quality allows; a transparent picture
 stays a PNG, trimmed to its edges. Files sent in chat are in uploads/; their
 time stamp is dropped from the name. Prints each file's web path, pixels and
 size; one already done since the original last changed is left alone.

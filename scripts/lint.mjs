@@ -53,7 +53,8 @@ try {
 const findings = [];
 const HINTS = new Set(["same-hue-text", "light-on-dark", "adjacent-ground", "card-in-card", "side-stripe",
   "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread", "we-over-you",
-  "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", ...HINT_RULES]);
+  "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", "title-length", "description-length",
+  "duplicate-title", ...HINT_RULES]);
 const allowed = (el, rule) => {
   for (let e = el; e; e = e.parentNode) if (e.getAttribute?.("data-lint-allow")?.split(/\s+/).includes(rule)) return true;
   return false;
@@ -115,6 +116,8 @@ const pageBands = [];
 
 // ── each page ────────────────────────────────────────────────────────────
 const pages = walk("dist").filter((f) => f.endsWith(".html"));
+// each title and the pages that carry it, for a duplicate across pages
+const titles = new Map();
 for (const file of pages) {
   const page = "/" + file.slice("dist/".length).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "");
   const root = parse(readFileSync(file, "utf8"), { comment: false });
@@ -134,6 +137,16 @@ for (const file of pages) {
   const h1 = root.querySelector("h1");
   const h1Words = h1 ? h1.text.trim().split(/\s+/).filter(Boolean).length : 0;
   if (h1Words > 10) report("long-h1", page, h1, `the <h1> is ${h1Words} words; a headline is one claim, so cut it to ten or fewer and move the rest to the line beneath`);
+  // what a search result shows: the title and the description, each once
+  if (page !== "/404") {
+    const title = root.querySelector("title")?.text.trim() || "";
+    const description = root.querySelector('meta[name="description"]')?.getAttribute("content")?.trim() || "";
+    if (!title) report("missing-title", page, null, "no <title>; set the page's title in its Page");
+    else if (title.length > 60) report("title-length", page, null, `the <title> is ${title.length} characters; search results cut it near 60, so lead with what the page is`);
+    if (!description) report("missing-description", page, null, "no meta description; set the page's description in its Page");
+    else if (description.length < 70 || description.length > 160) report("description-length", page, null, `the description is ${description.length} characters; search results show about 70 to 160`);
+    if (title) (titles.get(title) || titles.set(title, []).get(title)).push(page);
+  }
 
   for (const el of all) {
     const tag = el.rawTagName?.toLowerCase();
@@ -371,6 +384,7 @@ for (const id of declared.keys()) if (!HINTS.has(id)) findings.push({ rule: "dec
 // ── the report ───────────────────────────────────────────────────────────
 const byRule = new Map();
 for (const f of findings) byRule.set(f.rule, [...(byRule.get(f.rule) || []), f]);
+for (const [title, on] of titles) if (on.length > 1) for (const page of on.slice(1)) report("duplicate-title", page, null, `"${title}" is also the title of ${on[0]}; each page needs its own, or search shows two alike`);
 const errors = findings.filter((f) => f.level === "error").length;
 const hints = findings.length - errors;
 // summary first, then every error (so all are fixed in one pass) and two hints per rule;

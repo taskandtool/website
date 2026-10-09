@@ -38,21 +38,25 @@ Read the one that fits the ask rather than working from memory.
 
 ## Commands
 
-The work is in these scripts; run them rather than doing the same by hand.
-Each prints what it did and what to read next.
+The work is in these scripts; run them rather than doing the same by hand or
+writing a checker of your own. Each prints what it did and what to read next.
+The machine's one browser is tt-crawl's (shots, check, audit); install no other.
 
 ```bash
 npm run from-site -- <url>   # a first homepage's start (a minute): their facts, logo, photos, colours, fonts and proof
                              # into the notes and the record; prints what it wrote and what to read next
 npm run parts                # what a page is built from: components, classes, facts, photos; read it, not the source
-npm run images -- <file>...  # photos into static/images/ at web size (<=2400px, ~300 KB); prints their pixels
-npm run verify               # content, check, typecheck, test, build, proof, trace, lint: lists every failure at once
-npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/; prints which image to read first
+npm run images -- <file>...  # photos into static/images/ at web size (<=2560px, ~600 KB); prints their pixels
+npm run verify               # content, check, typecheck, test, build, proof, trace, lint (design rules; each page's
+                             # title, description, one h1): lists every failure at once
+npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page); prints which
+                             # image to read first and any width where the page scrolls sideways
 npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
 npm run system -- set colors.accent=#435331   # change record values in place, then compile
 npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
-npm run audit                # the crawler against dev: links, headings, alt text, titles
+npm run audit                # the crawler against dev: broken links, headings, alt text, titles, images over 1.5 MB
+tt-crawl check http://localhost:3000  # every page of the crawled old site answers here (200 or 301); the sitemap lists them
 node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
 npm run db:setup             # the forms, booking and payments tables (dev start and deploy run it)
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)

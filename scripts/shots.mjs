@@ -12,8 +12,9 @@ overview.png (the whole page in one image, for its shape, when it is
 longer than one image), then 01.png,
 02.png … (the page at full size, read in order), and page.png (the whole
 page at full size, what npm run show sends). /path defaults to /; give
-several to shoot several pages. Prints each width's folder and which image
-to read first.
+several to shoot several pages. Prints each width's folder, which image
+to read first, and any width where the page scrolls sideways (and what
+sticks out).
   --all            every page in the site's sitemap.xml (after a change across the site)
   --first-screen   only what shows before scrolling, one image per width
   --width N        a width in pixels; repeat for more`, { flags: ["width"], bools: ["all", "first-screen"], args: true });

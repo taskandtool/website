@@ -16,7 +16,10 @@ the old design. The steps below are in the order they depend on each other.
 Before anything: **keep the URLs?** (yes unless the structure is broken;
 keeping them removes the largest migration risk) and **faithful rebuild
 or redesign?** (faithful keeps the words and the page set; redesign
-re-plans both). Write both answers at the top of `site-map.md`.
+re-plans both). Write both answers at the top of `site-map.md`. An address
+that names its old technology (`/about.php`, `/menu.html`, `.asp`) moves
+to a clean one (`/about`) with a 301 from the old in `src/redirects.ts`;
+the redirect carries its search ranking.
 
 ## 1. Inventory
 
@@ -72,21 +75,27 @@ then the `design` skill's "When the site grows".
 
 ## 5. Pages, one per turn
 
-Build each page with the `pages` skill (its brief, then the page, in the
-site's record), with the old page's raw markdown open for what it said and
-which links it carried. In a faithful rebuild the copy is the owner's: it
+Build each page with the `pages` skill (its brief, then its own layout, in
+the site's record), with the old page's raw markdown open for what it said
+and which links it carried; never one template filled from the old HTML.
+Done when each page is at least as good as the old one: its shots beside
+the old page's (`raw/site/<host>/shots/`), keeping what made the old page
+work (its photographs and their size, its emphasis). In a faithful rebuild the copy is the owner's: it
 is only edited, never re-voiced unless asked. Title and h1
 keep their intent (`.claude/skills/website/references/seo.md`); photographs come from `_index/media.json`'s
 photo entries at full size with their alt text; internal
 links point at the new map. Posts go through `.claude/skills/website/references/posts.md`; legal pages
 render from `legal/`. Mark the row built, show the page, and
-stop for review before the next page.
+stop for review before the next page, unless the owner asked for the whole
+site at once: then build every page in this turn and show them together.
 
 ## 6. Plumbing, generated
 
 The build generates the plumbing (`.claude/skills/website/references/seo.md`,
 "Generated"); when something generated is wrong, the note or the map is
-wrong.
+wrong. The SEO pass is `npm run verify` (each page's title, description
+and h1) and `tt-crawl check http://localhost:3000` (every old URL, the
+sitemap); `npm run shots -- --all` names any page that scrolls sideways.
 
 ## 7. Launch
 

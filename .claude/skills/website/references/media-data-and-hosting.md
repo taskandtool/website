@@ -23,11 +23,13 @@ here in five mechanical steps:
 ## Images and media
 
 - `npm run images -- <file>…` puts photographs in `static/images/` at web
-  size (at most 2400px wide, under 300 KB where the quality allows) and
-  prints each one's pixels. Real `alt` text always.
-- Video: a few MB, muted h264 mp4 plus webm, compressed here with ffmpeg;
-  long-form video embeds from the owner's platform. Keep files over 100 MB
-  out of git (`.gitignore`).
+  size (at most 2560px wide, under 600 KB where the quality allows) and
+  prints each one's pixels. Real `alt` text always. Use photographs
+  generously: big, full-bleed where they hold up, several per page.
+- Video: muted h264 mp4 (plus webm), compressed here with ffmpeg; a
+  background loop of 10 to 20 MB is fine. Cloudflare serves each static
+  file up to 25 MB, so a longer film embeds from the owner's platform.
+  Keep files over 100 MB out of git (`.gitignore`).
 - In production, Cloudflare serves the pre-rendered pages and everything
   in `static/` as static files; dev still shows this machine's working
   copy.
