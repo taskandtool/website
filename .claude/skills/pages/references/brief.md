@@ -20,7 +20,7 @@ reader: a Bristol homeowner renovating a kitchen, comparing three or four makers
 pain: showroom kitchens that do not fit an old house's walls
 offer: made to measure in their own workshop, fitted by the people who made it
 lead: what they make and where, with made-to-measure beside it
-omit:
+omit:                 # each section of the page this replaces (raw/site/<host>/) left out, and why; empty means all of it is carried
   - team: one photograph of two people, carried by the about band instead
 query: fitted kitchens Bristol
 title: Fitted kitchens made in Bristol
