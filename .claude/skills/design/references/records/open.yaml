@@ -289,7 +289,7 @@ x_motion:
   signature: "The head video loops, muted; the signup field's outline turns {colors.ink} on focus and the button nudges 2px on hover."
   scroll: "Event rows fade in 60ms apart as the band enters; nothing else animates on scroll."
   reduced: "Under prefers-reduced-motion the video shows its poster, nothing moves, nothing is hidden; with script off the page is complete."
-  mechanism: "Tailwind transition, duration, ease, opacity and translate utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; the pause button toggles the video and its label; no <style> block, no keyframes."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css; a short script lets the pause button toggle the video and its label."
 
 x_layout:
   measure:

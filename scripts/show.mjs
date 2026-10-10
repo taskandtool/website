@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Screenshots of pages, sent to the chat as one group: each page whole at each
 // width, one image apiece (page.png), for the owner to scroll. Look at them
-// yourself first (npm run shots); this only shows them.
+// yourself first (npm run shots); this sends those, taking them only when a
+// page has none or --retake asks.
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { homedir } from "node:os";
@@ -9,22 +10,22 @@ import { join } from "node:path";
 import { done, fail, flag, flags, has, misused } from "../src/data/cli.mjs";
 import { devUp, shootFlags, start } from "./lib.mjs";
 
-const a = start("show", `usage: npm run show [-- /path ...] [--from-shots] [--first-screen] [--width N ...] [--message "…"]
+const a = start("show", `usage: npm run show [-- /path ...] [--retake] [--first-screen] [--width N ...] [--message "…"]
 
-Takes each page whole at desktop (1280) and phone (390) width and sends one
-image of each whole page per width to the chat as one group
-(create-deliverables). /path defaults to /. Prints what it sent and the
-bridge's line for the group.
-  --from-shots     send what npm run shots already took, without taking them again
-  --first-screen   only what shows before scrolling
+Sends one image of each whole page per width, desktop (1280) and phone (390),
+to the chat as one group (create-deliverables): the ones npm run shots took,
+or new ones for a page that has none. /path defaults to /. Prints what it sent
+and the bridge's line for the group.
+  --retake         take them again first (after a change since npm run shots)
+  --first-screen   take only what shows before scrolling
   --width N        a width in pixels; repeat for more
-  --message "…"    the line shown with the images`, { flags: ["width", "message"], bools: ["from-shots", "first-screen"], args: true });
+  --message "…"    the line shown with the images`, { flags: ["width", "message"], bools: ["retake", "first-screen"], args: true });
 const MAX_ITEMS = 50; // create-deliverables' limit for one group
 const BRIDGE = join(homedir(), "tools", "taskandtool.py");
 
 const shoot = shootFlags(a, "show");
 if (has(a, "message") && !flag(a, "message")) misused("show: --message needs the line to show", 'npm run show -- --message "The new homepage"');
-const fromShots = has(a, "from-shots");
+const retake = has(a, "retake") || has(a, "first-screen");
 const paths = a._.map((p) => (p.startsWith("/") ? p : `/${p}`));
 if (!paths.length) paths.push("/");
 // the folder tt-crawl shoot names for a path (shoot.py's name_for): lowercase, dashes, no query
@@ -32,19 +33,17 @@ const nameOf = (p) => p.split(/[?#]/)[0].replace(/^\/+|\/+$/g, "").toLowerCase()
 const message = flag(a, "message") || (paths.length === 1 ? `The ${nameOf(paths[0]) === "home" ? "home" : paths[0]} page at desktop and phone width` : `${paths.length} pages at desktop and phone width`);
 
 if (!existsSync(BRIDGE)) fail("show: no Task & Tool bridge on this machine, so there is no chat to send to", "npm run shots, and read the images in uploads/");
-if (!fromShots && !devUp()) fail("show: dev is not answering on localhost:3000", "bash ~/app/.taskandtool/setup.sh (or npm run dev), or send what shots took: npm run show -- --from-shots");
-
-// the image folders for each page: shot now, or the ones shots left
+// the image folders for each page: the ones shots left, or shot now
 const folders = [];
 for (const path of paths) {
-  if (fromShots) {
-    // only the widths asked for (desktop and phone by default), never one an older shots left
-    const widths = flags(a, "width").length ? flags(a, "width") : ["1280", "390"];
-    const mine = existsSync("uploads") ? readdirSync("uploads").filter((d) => widths.some((w) => d === `${nameOf(path)}-${w}`)) : [];
-    if (!mine.length) fail(`show: no screenshots of ${path} in uploads/`, `npm run shots -- ${path}, then this again (or leave out --from-shots)`);
+  // only the widths asked for (desktop and phone by default), never one an older shots left
+  const widths = flags(a, "width").length ? flags(a, "width") : ["1280", "390"];
+  const mine = retake || !existsSync("uploads") ? [] : readdirSync("uploads").filter((d) => widths.some((w) => d === `${nameOf(path)}-${w}`));
+  if (mine.length) {
     folders.push(...mine.sort((a, b) => Number(b.split("-").pop()) - Number(a.split("-").pop())).map((d) => join("uploads", d)));
     continue;
   }
+  if (!devUp()) fail(`show: no screenshots of ${path} in uploads/, and dev is not answering on localhost:3000 to take them`, "bash ~/app/.taskandtool/setup.sh (or npm run dev), then this again");
   const shot = spawnSync("tt-crawl", ["shoot", `http://localhost:3000${path}`, "--out", "uploads", "--json", ...shoot], { encoding: "utf8" });
   let results;
   try {
@@ -77,6 +76,6 @@ const what = `${files.length} image${files.length === 1 ? "" : "s"} of ${paths.j
 if (call.status !== 0) {
   // The bridge's reason, without its own Try line: this one says how to send them again.
   const why = (call.stderr || call.error?.message || "the bridge failed").trim().split("\n").filter((l) => !/^\s*Try:/.test(l)).join("\n  ");
-  fail(`show: ${what} not sent; they are in uploads/\n  ${why}`, `npm run show -- ${paths.join(" ")} --from-shots, once that is fixed`);
+  fail(`show: ${what} not sent; they are in uploads/\n  ${why}`, `npm run show -- ${paths.join(" ")}, once that is fixed`);
 }
 done("show", `${what} sent to the chat as one group ("${message}")`, { lines: [...sent, ...call.stdout.trim().split("\n")] });

@@ -91,7 +91,7 @@
     {
       "id": "check-the-site-before-launch",
       "label": "Check the launch",
-      "prompt": "Run the launch-check skill against dev, fix everything it finds in one pass, and show me the report as a table with what changed.",
+      "prompt": "Run the cutover-check skill against dev, fix everything it finds in one pass, and show me the report as a table with what changed.",
       "when": [
         {
           "path": "raw/site/_sites.json",

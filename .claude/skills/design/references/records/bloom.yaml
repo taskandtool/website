@@ -290,7 +290,7 @@ x_motion:
   signature: "The hero video loops, muted; photographs in bands ease from 1.03 to 1.00 scale over 1600ms as they enter, once."
   scroll: "Only photographs settle as they enter; words do not animate on scroll."
   reduced: "Under prefers-reduced-motion the video shows its poster, nothing scales, nothing is hidden; with script off the page is complete."
-  mechanism: "Tailwind transition, duration, ease, opacity, translate and scale utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; the pause button toggles the video; no <style> block, no keyframes."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css; a short script lets the pause button toggle the video."
 
 x_layout:
   measure:

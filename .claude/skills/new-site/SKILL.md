@@ -93,4 +93,4 @@ When the owner wants the rest, or brings a whole site to replace:
 
 When the owner asks: the `website` skill's "Before each deploy", then
 `npm run deploy`. A site
-that replaces an old one passes the `launch-check` skill first.
+that replaces an old one passes the `cutover-check` skill first.

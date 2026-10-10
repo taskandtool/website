@@ -70,7 +70,7 @@ here in five mechanical steps:
 ## After launch
 
 A site nobody checks rots quietly. Once the site is on its real domain,
-the `launch-check` skill schedules `tt-crawl audit` as a weekly job
+the `cutover-check` skill schedules `tt-crawl audit` as a weekly job
 (broken links and images, missing titles or descriptions, h1 problems,
 redirect chains, sitemap drift); a failing run alerts the owner and the
 chat offers "Fix the site audit findings".

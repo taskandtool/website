@@ -298,7 +298,7 @@ x_motion:
   signature: "On hover or focus a tile's photograph scales to 1.03 inside its rounded frame over 300ms and its chevron moves 4px right."
   scroll: "Nothing arrives on scroll."
   reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; with script off the page is complete."
-  mechanism: "Tailwind transition, duration, opacity, scale and translate utilities with group-hover/group-focus-visible on tiles and a short script with data-motion for the stage; no <style> block, no keyframes."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css, and group-hover/group-focus-visible scale and translate on tiles."
 
 x_layout:
   measure:

@@ -146,11 +146,11 @@ function ReviewCard({ r, class: cls = "", copy = false }: { r: Record<string, an
 
 /**
  * Reviews and posts as cards of one height, the rating under the heading. Four
- * or more drift sideways, two rows the opposite way from eight, stopping under
- * the pointer; reduced motion gets one still row to swipe. Fewer: a still
- * grid, a row to swipe on a phone.
+ * or more run as a marquee, two rows the opposite way from eight, stopping
+ * under the pointer; reduced motion gets one still row to swipe. Fewer, or
+ * marquee={false}: a grid, a row to swipe on a phone.
  */
-export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel", scroll = true }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night"; scroll?: boolean }) {
+export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel", marquee = true }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night"; marquee?: boolean }) {
   const items = [...content.facts.reviews, ...content.facts.posts.map((p) => ({ quote: p.text || "", platform: p.platform, date: p.date, url: p.url }))].filter((r) => r.quote);
   if (!items.length) return null;
   const rows = items.length >= 8 ? [items.slice(0, Math.ceil(items.length / 2)), items.slice(Math.ceil(items.length / 2))] : [items];
@@ -158,11 +158,11 @@ export function ReviewsSection({ id = "reviews", heading = "What customers say",
     <Section id={id} ground={ground} wide labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[20ch] text-section">{heading}</h2>
       <div class="mt-6"><RatingLine /></div>
-      {scroll && items.length >= 4 ? (
+      {marquee && items.length >= 4 ? (
         <div class="-mx-5 mt-lead flex flex-col gap-4 sm:-mx-8">
           {rows.map((row, i) => (
             // the cards twice, so the row loops; the copy is hidden from readers and keys
-            <div data-drift={i % 2 ? "right" : "left"} style={`--drift: ${row.length * 8}s`}>
+            <div data-marquee={i % 2 ? "right" : "left"} style={`--marquee-time: ${row.length * 8}s`}>
               <ul class="flex w-max gap-4 pr-4 pb-4">
                 {row.map((r) => <ReviewCard r={r} class="w-[22rem] max-w-[80vw]" />)}
                 {row.map((r) => <ReviewCard r={r} class="w-[22rem] max-w-[80vw]" copy />)}

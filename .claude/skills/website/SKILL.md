@@ -58,7 +58,7 @@ this is the site's part, every time:
    `brand/voice.md`'s voice (the `writing` skill's pass).
 3. **You looked at it.** The changed pages in dev, at desktop and phone
    width.
-4. **A migrated site** has passed the `launch-check` skill.
+4. **A migrated site** has passed the `cutover-check` skill.
 
 Then `npm run deploy`: it builds the site (every page pre-rendered, a small
 Worker for dynamic routes) and deploys it. Read what the build prints

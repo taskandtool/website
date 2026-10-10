@@ -20,9 +20,9 @@ Which skill to read, by what the owner asks:
 - a blog post: the website skill's `references/posts.md`, with `writing`
 - "help us rank for …": the website skill's `references/seo.md` ("Ranking for a search")
 - "migrate", "move", "clone" or "rebuild" a site they have, keeping its pages
-  and URLs: `migrate-site`; the cutover and the weekly audit: `launch-check`
+  and URLs: `migrate-site`; the cutover and the weekly audit: `cutover-check`
 - "is it ready to go live": the website skill's checklist before each
-  deploy; a migrated site also `launch-check`
+  deploy; a migrated site also `cutover-check`
 - a form, a private `/admin`, a booking page, a report or chart: `forms`,
   `admin`, `booking`, `reports`, all on `data` (what they store is in the
   project's database, which the project's other apps read too)
@@ -51,7 +51,7 @@ npm run verify               # content, check, typecheck, test, build, proof, tr
                              # title, description, one h1): lists every failure at once
 npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page); prints which
                              # image to read first and any width where the page scrolls sideways
-npm run show -- --from-shots # each page whole, one image per width, sent to the chat (without the flag it shoots again)
+npm run show                 # each page whole, one image per width, sent to the chat (what shots took; --retake after a change)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
 npm run system -- set colors.accent=#435331   # change record values in place, then compile
 npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
@@ -63,7 +63,7 @@ npm run deploy               # production, only when the owner asks (the website
 ```
 
 Each one with options takes `--help`. Before showing work, run `npm run verify`,
-look at the page with `npm run shots`, then run `npm run show -- --from-shots`.
+look at the page with `npm run shots`, then run `npm run show`.
 For a small edit, fix it at its source (the note, the brief or the page), then
 run the same three for that page.
 

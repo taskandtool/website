@@ -340,7 +340,7 @@ x_motion:
   signature: "A plate turns 6 degrees on hover over 700ms ease-out, like a plate turned on the table to show it."
   scroll: "A row of plates arrives with the same set-down turn, 150ms apart; a list of names arrives one by one, 60ms apart; the one figure, or its row of discs, is set down like plates. No other band animates."
   reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; with script off the page is complete."
-  mechanism: "The classes that hide an element are added by a short script only just before it is watched (IntersectionObserver), then removed; motion is Tailwind transition, duration, ease, opacity, translate, scale and rotate utilities (data-motion and data-delay attributes); hover uses motion-safe: variants. No <style> block, no keyframes."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css; hover uses motion-safe: variants."
 
 x_layout:
   measure:

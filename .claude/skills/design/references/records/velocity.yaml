@@ -355,7 +355,7 @@ x_motion:
   signature: "The scoreboard ticker: when a band holds a list of short items, a {colors.black} strip of {typography.label} uppercase items split by 1px {colors.white} rules runs left at about 40px per second, forever, at most one per page (in the reference, directly under the head)."
   scroll: "Every band's contents arrive once with the same rise, 24px over 500ms, 80ms apart in reading order, when 15% of the band enters the viewport; the ticker keeps running. Nothing else arrives on scroll."
   reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden: no element rises in, and the ticker stands still showing its first items; with script off the page is complete."
-  mechanism: "A short script with the Web Animations API, no CSS keyframes and no <style> block: elements marked data-rise are animated with fill backwards by an IntersectionObserver on each [data-band] (threshold 0.15), unobserved after one run, so nothing is hidden before the script acts; the [data-ticker] track clones its list to fill the width and animates translateX linearly, infinitely. The script returns early under prefers-reduced-motion, and the track carries motion-reduce:transform-none. Hover colour changes use transition-colors."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css; the ticker is a data-marquee row (its list twice, as ReviewsSection does), still under reduced motion. Hover colour changes use transition-colors."
 
 x_imagery:
   role: >

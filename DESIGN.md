@@ -73,7 +73,7 @@ Three levels. Flat: sections, rows, text, most of the page. Lifted: a card or fr
 
 ## Motion
 
-The first screen's words rise in once on load (data-rise on their wrapper), and one or two later bands as they come into view (data-reveal); reviews, and a wall of logos if wanted, drift sideways (data-drift); nothing else moves. Hover and focus transitions are 150ms with `ease-soft`. Reduced motion shows the finished page (styles/input.css).
+The first screen's words rise in once on load (data-rise on their wrapper), and one or two later bands as they come into view (data-reveal); reviews, and a wall of logos if wanted, run as a marquee (data-marquee); nothing else moves. Hover and focus transitions are 150ms with `ease-soft`. Reduced motion shows the finished page (styles/input.css).
 
 ## Responsive Behavior
 

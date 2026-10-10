@@ -307,7 +307,7 @@ x_motion:
   signature: "The frosted booking bar arrives last, settling under the words 240ms after the headline, so the first screen comes to rest on the choice it asks for. Hover never moves anything: the gold pill only deepens to {colors.primary-deep} with {colors.pearl} text."
   scroll: "Nothing arrives on scroll; every band below the head is still."
   reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; the head is at rest from the first frame, and with script off the page is complete."
-  mechanism: "CSS only, no script: Tailwind's starting: variant (@starting-style) sets the start (starting:opacity-0 starting:translate-y-3) and transition, duration-700, ease-out and delay-120 / delay-240 utilities run it; motion-reduce:transition-none switches it off. No data-motion attributes, no IntersectionObserver, no <style> block, no keyframes."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css."
 
 # How any band of any page is laid out in this system.
 # Look only: never a page type, never what content goes where. The layout and

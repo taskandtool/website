@@ -329,9 +329,9 @@ x_components:
 
 # The website's lint hints this system uses on purpose (scripts/lint.mjs).
 x_declares:
-  - light-on-dark
+  - dark-bands
 x_declares_reasons:
-  light-on-dark: The room is unlit glass by design, so most bands are dark; the one man-page band on
+  dark-bands: The room is unlit glass by design, so most bands are dark; the one man-page band on
     {colors.ash} is the relief, and the lit panels inside each band carry the contrast.
 
 # ── Extensions ────────────────────────────────────────────────────

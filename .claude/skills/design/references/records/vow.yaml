@@ -269,7 +269,7 @@ x_motion:
   signature: "Photograph pairs enter one after the other, 200ms apart, fading in and rising 16px, once."
   scroll: "Only photographs enter on scroll; words do not animate."
   reduced: "Under prefers-reduced-motion nothing moves and nothing is hidden; with script off the page is complete."
-  mechanism: "Tailwind transition, duration, ease, opacity and translate utilities toggled by a short script (IntersectionObserver) with data-motion and data-delay attributes; no <style> block, no keyframes."
+  mechanism: "CSS only: the template's data-rise (the first screen) and data-reveal (a later band) in styles/input.css."
 
 x_layout:
   measure:

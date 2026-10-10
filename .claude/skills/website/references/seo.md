@@ -60,7 +60,7 @@ to tend: say so plainly. Then build or improve those pages.
 ## Before launch
 
 `npm run verify`; a site that replaces an old one then passes the
-`launch-check` skill, which also schedules the weekly audit. Once the site
+`cutover-check` skill, which also schedules the weekly audit. Once the site
 has a Search Console connection, check its key pages with the URL Inspection
 API (the Page indexing report, once called Coverage, is not in the API: ask
 the owner to read it) and fix any page left out of the index for a reason

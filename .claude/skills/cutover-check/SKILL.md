@@ -1,9 +1,9 @@
 ---
-name: launch-check
+name: cutover-check
 description: "Checks a rebuilt site against the old one, before and after launch: every old URL answers, redirects land, titles and descriptions exist, the sitemap matches, email survives the cutover; then a weekly audit of the live site. Use before deploying a migrated site, after the cutover, and on an audit alert."
 ---
 
-# Launch check
+# Cutover check
 
 Deterministic first, judgment second. The old site's inventory
 (`raw/site/<host>/_index/inventory.json`, from the crawl) is the ledger; the check

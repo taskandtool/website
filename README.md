@@ -56,7 +56,7 @@ Beside the site, the two conventions Task & Tool reads:
   migrate-site/  replace an existing site page for page: inventory, facts, brand, look, page map, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
-  launch-check/  the old URLs against the new site, before deploying and after the cutover
+  cutover-check/  the old URLs against the new site, before deploying and after the cutover
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl and its browsers, /admin kept for the team, the `web` service
 starter-app.json       the manifest: what "ready" means, and the suggestions an
                        empty chat offers
@@ -109,7 +109,7 @@ redesign?), one crawl with the shared crawler
 the header and footer as structure, media, styles, screenshots, linked
 documents, the site's own structured data), the facts and brand as notes
 (the `brand` skill), a page map against the old URLs in `site-map.md`, pages one
-per turn, generated redirects and structured data, and `launch-check`
+per turn, generated redirects and structured data, and `cutover-check`
 before deploying and after the domain cutover, then `tt-crawl audit` as a
 weekly scheduled job that alerts the owner when the live site has broken
 links or SEO problems. The chat suggests the next step from the folder

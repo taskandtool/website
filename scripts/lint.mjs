@@ -51,8 +51,8 @@ try {
 
 // ── findings ──────────────────────────────────────────────────────────────
 const findings = [];
-const HINTS = new Set(["same-hue-text", "light-on-dark", "adjacent-ground", "card-in-card", "side-stripe",
-  "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unread", "we-over-you",
+const HINTS = new Set(["same-hue-text", "dark-bands", "adjacent-ground", "card-in-card", "side-stripe",
+  "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unknown", "we-over-you",
   "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", "title-length", "description-length",
   "duplicate-title", "tinted-grounds", "default-font", ...HINT_RULES]);
 const allowed = (el, rule) => {
@@ -220,12 +220,12 @@ for (const file of pages) {
   const grounds = bands.map(groundOf);
   const dark = grounds.filter((g) => g && luminance(colours[g]) < 0.2).length;
   if (bands.length >= 3 && dark / bands.length > 0.5) {
-    report("light-on-dark", page, null, `light text on a dark ground in ${dark} of ${bands.length} bands; keep the dark ground for the bands that need weight and set the rest light, so the dark ones mean something`);
+    report("dark-bands", page, null, `light text on a dark ground in ${dark} of ${bands.length} bands; keep the dark ground for the bands that need weight and set the rest light, so the dark ones mean something`);
   }
   grounds.forEach((g, i) => {
     if (i && g && g === grounds[i - 1]) report("adjacent-ground", page, bands[i], `bands ${i} and ${i + 1} share bg-${g}; change one ground, or merge the two bands`);
   });
-  const moving = bands.filter((b) => b.querySelector("[data-motion]") || b.getAttribute?.("data-motion") || /\b(starting:|transition-(opacity|transform|all))/.test(b.toString())).length;
+  const moving = bands.filter((b) => b.querySelector("[data-rise], [data-reveal]") || b.hasAttribute?.("data-rise") || b.hasAttribute?.("data-reveal") || /\b(starting:|transition-(opacity|transform|all))/.test(b.toString())).length;
   if (moving > 3) report("entrance-everywhere", page, null, `an entrance animation in ${moving} bands; keep the one moment that explains something and let the rest be still`);
 
   // generated-UI patterns
@@ -385,7 +385,7 @@ for (const { page, bands } of pageBands) {
 }
 
 // A declaration no rule reads is a typo, or a rule that no longer exists.
-for (const id of declared.keys()) if (!HINTS.has(id)) findings.push({ rule: "declared-unread", level: "hint", page: "DESIGN.md", where: "", message: `"${id}" is declared but no hint by that name exists; check the spelling (only hints can be declared)` });
+for (const id of declared.keys()) if (!HINTS.has(id)) findings.push({ rule: "declared-unknown", level: "hint", page: "DESIGN.md", where: "", message: `"${id}" is declared but no hint by that name exists; check the spelling (only hints can be declared)` });
 
 // ── the report ───────────────────────────────────────────────────────────
 // the record as a whole: grounds that are all tints of one hue, and the
