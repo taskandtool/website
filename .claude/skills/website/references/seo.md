@@ -30,8 +30,8 @@ What they cannot judge is yours:
   sections in order. Never skip a level for looks.
 - `title` (in `page.title`): the page's job first. The layout appends ` · `
   and the business name, and the whole title stays under 60 characters, so
-  `page.title` gets what is left (the homepage's title is the business name
-  alone). `description` a real sentence, 70 to 155 characters, that would
+  `page.title` gets what is left (the homepage's too: the service and the
+  town, then the name). `description` a real sentence, 70 to 155 characters, that would
   make sense as the snippet. Keep the intent of the old page's title and
   description when migrating; rewrite the words only when they were bad.
 - Internal links in body copy to the pages in `site-map.md`, with

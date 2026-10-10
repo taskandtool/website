@@ -65,7 +65,7 @@ Buttons (Button in src/components): 48px minimum, px-5, `rounded-control`, 16px 
 
 ## Layout Principles
 
-The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-lead (clamp(2.5rem, 4vw, 3.5rem)). Every band shares one frame, max-w-wide (80rem) with px-5 sm:px-8 at the sides (Section does this), so the header, each section and the footer start on one left edge; a reading section narrows its column inside the frame to max-w-content (72rem), left aligned. A photograph or colour field runs edge to edge behind the frame. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition or a ground. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
+The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-lead (clamp(2.5rem, 4vw, 3.5rem)). Every band shares one frame, max-w-wide (80rem) with px-5 sm:px-8 at the sides (Section does this), so the header, each section and the footer start on one left edge; a reading section narrows its column inside the frame to max-w-content (72rem), left aligned. A photograph or colour field runs edge to edge behind the frame. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition; where bands are separated by ground, they change ground too. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
 
 ## Depth & Elevation
 
@@ -94,7 +94,7 @@ Do:
 
 Don't:
 
-- Don't default to a centred hero over a glow, a logo strip, three feature cards, testimonials, pricing, an FAQ and a final call to action.
+- Don't default to a centred hero over a glow, three feature cards, pricing, an FAQ and a final call to action whatever the content.
   It is the generated-page template; a visitor has seen it a hundred times and it says nothing about this business.
 - Don't use icons in coloured circles as the visual language.
   They fill space without showing anything real about the work.

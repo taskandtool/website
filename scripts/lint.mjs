@@ -86,10 +86,10 @@ const STAR = readFileSync("static/images/platforms/star.svg", "utf8").match(/fil
 const refuse = [
   [/^(bg|text|border|from|to|via|ring|outline|fill|stroke)-\[#/, "a hex colour in markup; give the colour a role in design/system.yaml and run npm run system"],
   [/^(bg|text|border|ring|outline)-(gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|white|black)(-|$)/, "a Tailwind default colour; use the theme's tokens (bg-canvas, bg-panel, bg-night, text-ink…)"],
-  [/^(bg-gradient-|bg-linear-|bg-radial-|bg-conic-)/, "a gradient; use a flat token ground"],
+  [/^(bg-gradient-|bg-linear-|bg-radial-|bg-conic-)/, "a gradient; use a flat token ground, or scrim / scrim-up for words over a photograph"],
   [/^(backdrop-blur|blur-|drop-shadow-)/, "blur or glass; give depth with the theme's grounds instead"],
   [/^(bg-clip-text|text-transparent)$/, "gradient text; set the heading in a token colour"],
-  [/^animate-/, "an animation utility; one thing moves per page, written in CSS with a reduced-motion state"],
+  [/^animate-/, "an animation utility; motion here is data-rise, data-reveal and data-marquee (styles/input.css), each with its reduced-motion state"],
   [/^(tracking|leading)-/, "a tracking or leading override; the size token carries both"],
   [/^font-(bold|extrabold|black)$/, "a weight above the heading weight; use the size tokens' weights or font-semibold"],
   [/^text-\[(?!clamp)/, "an arbitrary text size; add a type style to design/system.yaml and run npm run system"],

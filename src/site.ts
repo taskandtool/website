@@ -73,7 +73,8 @@ export function logoUrl(): string | null {
 
 /** A page's <title>. */
 export function pageTitle(page: Page) {
-  return page.path === "/" ? site.name : `${page.title} · ${site.name}`;
+  // the starter's placeholder "Home" says nothing; the business's homepage title leads with what it does
+  return !page.title || page.title === "Home" || page.title === site.name ? site.name : `${page.title} · ${site.name}`;
 }
 
 /** The canonical URL of a path: the real domain when set, else none. */

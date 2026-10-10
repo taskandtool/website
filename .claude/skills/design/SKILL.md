@@ -36,8 +36,9 @@ proud to send the link.
   have one. A photograph runs full-bleed from 1600px wide; never enlarge one
   past its own width. A photograph too small to be sharp is set
   at its own size, framed, or left out, and the head becomes type-led.
-- **Words over a photograph stay readable:** a fade, a scrim, a band, or
-  placement beside the subject, with contrast checked over the image.
+- **Words over a photograph stay readable:** a scrim (`scrim`, `scrim-up`
+  on a layer over the image), a band, or placement beside the subject,
+  with contrast checked over the image.
 - **Commit to a colour world:** a saturated field, black, or the
   photograph. A warm off-white ground is a choice, not a default; one deep
   brand colour against white reads stronger than tints of one hue.
@@ -45,18 +46,18 @@ proud to send the link.
   a numeral crossing a photograph's edge, the product lit on black, a live
   detail (today's hours). One, not five.
 - **The form is not the hero.** A form sits beside the promise only when
-  booking on the first screen is the page's whole job.
+  a quote or a booking on the first screen is the page's whole job.
 
 ## Making it good
 
 - **Impact, not only clarity.** Beyond the first screen, one or two moments
-  a visitor remembers: a photograph at full width with words over it (a
-  gradient or scrim keeps them legible), a band of deep brand colour, an
+  a visitor remembers: a photograph at full width with words over it, a band of deep brand colour, an
   oversized word. Every section still reads at a glance.
 - **Layout.** Sequence, comparison and hierarchy each look different. One
   section is the peak; the rest are quieter. Cards only for comparable
   things (services, people, plans), never around a paragraph. No two
-  adjacent sections share a composition or a ground. Every band's content
+  adjacent sections share a composition; where the system separates bands
+  by ground, they change ground too. Every band's content
   starts on one left edge (the `Section` frame); `npm run shots` names a
   band that does not.
 - **Type.** Display, reading and labels each have a job. Body copy at 18px

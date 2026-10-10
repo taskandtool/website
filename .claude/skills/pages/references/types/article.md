@@ -3,8 +3,8 @@
 <job>
 A blog post answers one question a real customer has, shows the company has done the thing, and
 hands interested readers to the matching service page. Success is the reader getting the answer;
-the second job is the path to the money page. Most small-business posts earn nothing: 96.55% of
-pages get no search traffic, and thin or machine-made posts weigh on the whole site.
+the second job is the path to the money page. A post earns its place by
+answering a question people search for; thin or machine-made posts weigh on the whole site.
 </job>
 
 <reader>

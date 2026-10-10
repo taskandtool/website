@@ -3,8 +3,7 @@
 <job>
 The reader has chosen, or is stuck, and needs the right way to reach the company, fast. They expect
 a dedicated contact page as well as the phone number in the header or footer. A page that offers
-only a form, hides the phone number, or gives no hours or reply time fails them. NN/g tested
-contact pages with 20 users across 40 sites.
+only a form, hides the phone number, or gives no hours or reply time fails them.
 </job>
 
 <reader>

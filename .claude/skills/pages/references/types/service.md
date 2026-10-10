@@ -3,7 +3,7 @@
 <job>
 One service, for someone who searched for it by name. They doubt: is this the right place, do they
 do this well here, what will it involve and cost. The page confirms, proves and prices it, and gets
-them to act. One page per service is the strongest local-search signal there is.
+them to act. One page per service is how a site answers a search for that service.
 </job>
 
 <angle>
