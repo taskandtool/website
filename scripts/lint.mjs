@@ -78,6 +78,9 @@ const nearest = (el, prefix) => {
   }
   return undefined;
 };
+const hueGap = (a, b) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+// The platforms' gold star (Stars, RatingLine): it vanishes on a strong ground of its own hue.
+const STAR = readFileSync("static/images/platforms/star.svg", "utf8").match(/fill="(#[0-9a-f]{6})"/i)?.[1];
 
 // ── the refuse list (DESIGN.md: Do's and Don'ts) and the copy rules ──────
 const refuse = [
@@ -262,6 +265,9 @@ for (const file of pages) {
     const stars = /out of \d+ stars?/i.test(el.getAttribute?.("aria-label") || "") || (ownText(el).match(/[★☆]/g) || []).length >= 3
       || el.childNodes.filter((n) => n.rawTagName?.toLowerCase() === "img" && /star/i.test(n.getAttribute("src") || "")).length >= 3;
     if (!stars || el.parentNode?.getAttribute?.("aria-label")?.match(/stars?$/i)) continue;
+    const ground = nearest(el, "bg-");
+    if (STAR && ground && chromaHue(colours[ground]).chroma > 0.3 && hueGap(chromaHue(colours[ground]).hue, chromaHue(STAR).hue) < 30)
+      report("contrast", page, el, `the gold stars vanish on bg-${ground}, a strong colour of their own hue; set the rating on a light or dark ground`);
     let sourced = false;
     for (let a = el.parentNode, i = 0; !sourced && a?.getAttribute && i < 3 && !/^(section|main|body)$/i.test(a.rawTagName); a = a.parentNode, i++) {
       const said = `${a.text} ${a.querySelectorAll("img").map((m) => m.getAttribute("alt") || "").join(" ")}`;
@@ -385,7 +391,6 @@ for (const id of declared.keys()) if (!HINTS.has(id)) findings.push({ rule: "dec
 // the record as a whole: grounds that are all tints of one hue, and the
 // fonts generated sites reach for by default
 const tints = ["canvas", "surface", "panel"].filter((k) => colours[k]).map((k) => ({ v: colours[k], ...chromaHue(colours[k]) }));
-const hueGap = (a, b) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
 if (tints.length === 3 && tints.every((t) => t.chroma > 0.04 && hueGap(t.hue, tints[0].hue) < 30))
   report("tinted-grounds", "design/system.yaml", null, `canvas, surface and panel are all tints of one hue (${tints.map((t) => t.v).join(" ")}); make one white or near it, so the deep brand colour and the photographs carry the colour`);
 const DEFAULT_FONTS = /^(Inter|Roboto|Arial|Helvetica|Open Sans|Lato|Montserrat|Poppins|DM Sans|DM Serif Display|Fraunces|Playfair Display|Space Grotesk)$/;
