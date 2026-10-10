@@ -116,9 +116,12 @@ strips are the same page at full size, top to bottom. Read them in order:
    contrast, an empty or broken image, a section that could be another
    business's.
 3. **The page it replaces beside it** (`raw/site/<host>/shots/`), or the
-   one the owner pointed at (`tt-crawl reference <url>`): what did it do
-   better, in layout, imagery, content or proof? Carry that over. Is the
-   new page clearly better? Would the owner send it to someone?
+   one the owner pointed at (`tt-crawl reference <url>`): name each of its
+   sections and whether the new page keeps it, does it better, or is
+   better without it. A gallery, a video or questions a reader would miss
+   come over; a weak old page sets no floor. What did it do better in
+   layout, imagery or proof? Carry that over. Is the new page clearly
+   better? Would the owner send it to someone?
 4. **The phone strips:** the first screen holds the promise and the action;
    nothing is cut off, squeezed or tiny.
 
