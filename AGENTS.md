@@ -75,7 +75,8 @@ run the same three for that page.
 - `design/system.yaml` the design system as one record; `npm run system`
   compiles it. Never edit `styles/theme.css`, `DESIGN.md` or `src/fonts.ts`
   by hand. Read `DESIGN.md` before designing.
-- `src/site.ts` the name, tagline, logo, nav and real domain;
+- `src/site.ts` the tagline, logo, nav and real domain (the name and
+  contact details come from `public/business.md`);
   `src/pages/*.tsx` the pages, listed in `src/pages/index.ts`;
   `src/layout.tsx` the head, header and footer; `src/components/` the shared
   pieces; `src/app.tsx` the Hono app.
@@ -83,8 +84,8 @@ run the same three for that page.
   Stripe's webhook and the private `/admin`, all on the project's database;
   until it has one, the forms and `/book` answer 404 and `/admin` tells the
   team so. The code under
-  `src/data`, `admin`, `forms`, `booking`, `payments` belongs to those
-  skills and is refreshed from them.
+  `src/data`, `admin`, `forms`, `booking`, `payments` came from those
+  skills, which say how it works; it is this app's code to change.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served
   as they are.
 

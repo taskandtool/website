@@ -75,7 +75,7 @@ A site nobody checks rots quietly. Once the site is on its real domain,
 the `cutover-check` skill schedules `tt-crawl audit` as a weekly job
 (broken links and images, missing titles or descriptions, h1 problems,
 redirect chains, sitemap drift); a failing run alerts the owner and the
-chat offers "Fix the site audit findings".
+chat offers "Fix the site audit issues".
 `tt-crawl audit URL` runs it by hand any time.
 
 ## Off the platform

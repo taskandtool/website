@@ -46,7 +46,7 @@ tt-crawl check https://theirdomain.com
    app's Jobs tab. The command runs on this machine from the app root every
    Monday morning and exits non-zero when it finds anything, which is what
    alerts the owner; the report lands in `raw/audit/<host>/<date>.md`,
-   `raw/audit/_latest.json` points at it, and the chat then offers "Fix the site audit findings":
+   `raw/audit/_latest.json` points at it, and the chat then offers "Fix the site audit issues":
 
    ```bash
    python3 ~/tools/taskandtool.py schedule-job weekly-site-audit --when "0 7 * * 1" \

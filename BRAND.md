@@ -37,9 +37,9 @@ Two files, in this order, whenever the brand changes:
    `styles/theme.css` and `DESIGN.md`. A brand colour that fails 4.5:1 as
    text gets a different role, never a squint; `npm run check` measures the
    pairs.
-2. **`src/site.ts`**: the name, tagline, description, locale and logo
-   file, from `positioning.md` and `visual-identity.md`. Contact details
-   and social links come from `public/business.md`, and the fonts' link
+2. **`src/site.ts`**: the tagline, description, locale and logo file,
+   from `positioning.md` and `visual-identity.md`. The name, contact
+   details and social links come from `public/business.md`, and the fonts' link
    from the record (`npm run system` writes `src/fonts.ts`; self-hosted
    fonts go in `static/fonts/` with `@font-face` in `styles/input.css`).
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 // Photographs ready for the web: `npm run images -- <file> [<file> …]`.
-// Each becomes a JPEG in static/images/ at most 2560px wide and, where the
-// quality allows, under 600 KB, with ffmpeg or else Pillow.
+// Each becomes a JPEG in static/images/ (a transparent one stays PNG; --logo
+// writes to static/images/logos/) at most 2560px wide and, where the quality
+// allows, under 600 KB, with ffmpeg or else Pillow.
 // It prints each file's path, size and pixels. A photograph neither can
 // encode is left out rather than shipped as it is. from-site uses it too.
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, statSync } from "node:fs";
-import { basename, join, resolve } from "node:path";
+import { basename, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { done, fail, flag, has, misused } from "../src/data/cli.mjs";
 import { imageSizes, start } from "./lib.mjs";
@@ -91,7 +92,7 @@ size; one already done since the original last changed is left alone.
     let name = as || basename(file).replace(/^\d{8}-\d{6}-[a-z0-9]+-/i, "").replace(/\.[a-z0-9]+$/i, "");
     name = name.replace(/[^a-z0-9._-]+/gi, "-").toLowerCase();
     // a.png and a.webp in one call would collide: the second keeps its extension in the name
-    if (written.has(name)) name = basename(file).replace(/\./g, "-").toLowerCase();
+    if (written.has(name)) name = `${name}-${extname(file).slice(1).toLowerCase()}`;
     written.add(name);
     const keepAlpha = logo || transparent(file);
     const dest = join(dir, `${name}.${keepAlpha ? "png" : "jpg"}`);
@@ -102,12 +103,14 @@ size; one already done since the original last changed is left alone.
     }
     const out = keepAlpha ? pngSize(file, dest) : webSize(file, dest);
     if (out) lines.push(`${web}  ${out.width ? `${out.width}x${out.height}` : "size unknown (no Pillow)"}  ${out.kb} KB${keepAlpha ? "  transparent" : ""}`);
-    else missed.push(`${file}: neither ffmpeg nor Pillow could resize it; left out`);
+    else missed.push(`${file}: ${keepAlpha ? "Pillow could not resize it" : "neither ffmpeg nor Pillow could resize it"}`);
   }
   const next = logo
     ? "add each to public/proof.md's logos with its name; the homepage shows them"
     : "describe each in brand/images.md, then use it by path, at no more than the width printed";
-  if (missed.length && !lines.length) fail(`images: none prepared\n  ${missed.join("\n  ")}`, "ls uploads/, for the files sent in chat");
-  done("images", `${lines.length} of ${files.length} ready in ${dir}/`, { lines: [...lines, ...missed.map((m) => `left out: ${m}`)], next });
-  if (missed.length) process.exit(1);
+  if (missed.length) {
+    const made = lines.length ? `${lines.length} of ${files.length} prepared, ${missed.length} not` : "none prepared";
+    fail(`images: ${made}\n  ${[...lines, ...missed.map((m) => `left out: ${m}`)].join("\n  ")}`, "ls uploads/, for the files sent in chat");
+  }
+  done("images", `${lines.length} of ${files.length} ready in ${dir}/`, { lines, next });
 }

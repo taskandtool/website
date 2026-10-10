@@ -147,7 +147,7 @@ sections:
     {colors.accent-ink}, hover {colors.accent-hover}; secondary is a
     {colors.line-strong} outline with a {colors.panel} hover. One primary per
     section; the label says what happens next ("Book a call", never "Learn
-    more"). Links in copy are underlined, 1px, offset, in the text's colour.
+    more"). Links in copy are underlined, 1px, offset, in {colors.accent}.
     Nav links are {colors.ink-2}, {colors.ink} on hover, with
     aria-current="page" on the current page. Cards only for discrete,
     comparable objects (a service, a person, a plan, a review): {rounded.card},

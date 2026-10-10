@@ -27,13 +27,14 @@ import { TEXT_PAIRS, chromaHue, isHex, luminance, ratio } from "./theme.mjs";
 
 const a = start("from-site", `usage: npm run from-site -- https://theirsite.com [--only-homepage]
 
-Reads their homepage (and its gallery and services page), then writes the
-business note, the logo, their photographs at web size, and design tokens
-from their colours and fonts, public/proof.md (their reviews, Google's
-rating and reviews, logos) and numbered sheets of photos and logos to name.
+Reads their homepage (and its gallery, services page and a page of reviews
+or clients), then writes the business note, the logo, their photographs at
+web size, and design tokens from their colours and fonts, public/proof.md
+(their reviews, Google's rating and reviews, logos) and numbered sheets of
+photos and logos to name.
 Prints what it wrote, what it kept, and what to read next. Safe to run
 again: a note, logo or record already filled in is kept.
-  --only-homepage   skip the gallery and services pages`, { bools: ["only-homepage"], args: true });
+  --only-homepage   skip the gallery, services and reviews pages`, { bools: ["only-homepage"], args: true });
 if (a._.length > 1) misused(`from-site: one site at a time (given ${a._.join(" ")})`, "npm run from-site -- https://theirsite.com");
 const given = a._[0];
 // a bare domain is their site too
@@ -189,10 +190,13 @@ mkdirSync("static/images", { recursive: true });
 // an alt worth keeping says something: not a file name, a number or "image"
 const realAlt = (alt) => (alt && /[a-z]{3,}\s+[a-z]{3,}/i.test(alt) && !/\.(jpe?g|png|webp)|^(image|photo|img)\b/i.test(alt) ? alt : "");
 const photoRows = [];
+let photosThere = 0;
 const shown = photos.flatMap((it) => {
   const name = it.file.replace(/\.[a-z0-9]+$/i, "") + ".jpg";
   const dest = join("static/images", name);
-  const out = existsSync(dest) ? { width: Math.min(it.width, MAX_WIDTH) } : webSize(fileOf(it), dest);
+  const there = existsSync(dest);
+  if (there) photosThere++;
+  const out = there ? { width: Math.min(it.width, MAX_WIDTH) } : webSize(fileOf(it), dest);
   if (!out) {
     notes.push(`${it.file} (${it.width}px wide) could not be resized here and was left out`);
     return [];
@@ -204,7 +208,8 @@ const shown = photos.flatMap((it) => {
   photoRows.push({ file: dest, source: fileOf(it), width, height });
   return [`/images/${name}  ${width}x${height}${width >= 1600 ? "  full width" : ""}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
 });
-if (shown.length) wrote.push(`static/images/: ${shown.length} photographs at web size`);
+if (shown.length > photosThere) wrote.push(`static/images/: ${shown.length - photosThere} photographs at web size`);
+if (photosThere) kept.push(`static/images/: ${photosThere} photographs already there`);
 
 // Their videos: at web size in static/videos/ (ffmpeg, else as they are),
 // with one frame each beside the photographs on the sheet.
@@ -217,11 +222,13 @@ const probe = (file) => {
   }
 };
 const videoRows = [];
+let videosThere = 0;
 for (const it of media.filter((m) => m.kind === "video" && m.file && existsSync(fileOf(m)))) {
   mkdirSync("static/videos", { recursive: true });
   mkdirSync("raw/frames", { recursive: true });
   const dest = join("static/videos", it.file.replace(/\.[a-z0-9]+$/i, ".mp4"));
-  if (!existsSync(dest)) {
+  if (existsSync(dest)) videosThere++;
+  else {
     try {
       execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", fileOf(it), "-vf", "scale='min(1920,iw)':-2", "-c:v", "libx264", "-crf", "28", "-preset", "veryfast", "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", dest], { stdio: "ignore" });
     } catch {
@@ -235,7 +242,8 @@ for (const it of media.filter((m) => m.kind === "video" && m.file && existsSync(
   const p = probe(dest) || {};
   videoRows.push({ file: dest, frame: existsSync(frame) ? frame : "", source: fileOf(it), ...p, autoplay: it.autoplay });
 }
-if (videoRows.length) wrote.push(`static/videos/: ${videoRows.length} videos at web size`);
+if (videoRows.length > videosThere) wrote.push(`static/videos/: ${videoRows.length - videosThere} videos at web size`);
+if (videosThere) kept.push(`static/videos/: ${videosThere} videos already there`);
 
 // Each photograph and video is looked at once: one numbered sheet
 // (raw/photos.png) and a row for each in brand/images.md, which the AI fills
@@ -615,7 +623,7 @@ Colours by use:          ${palette.slice(0, 8).join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
 Photographs (in static/images/; "full width" ones can run edge to edge):
 ${shown.map((s) => `  ${s}`).join("\n") || "  none 800px or wider"}
-Proof (public/proof.md): ${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${ratings.join("; ") || "none yet"}
+Proof (public/proof.md): ${proofEmpty ? `${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${ratings.join("; ") || "none yet"}` : "kept as it was"}
 Later, the rest of their site: tt-crawl brand ${manifest().start || url} --resume
 
 Next: ${next.join("; then ")}.`);

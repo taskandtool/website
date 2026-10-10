@@ -100,8 +100,8 @@ business.route(
     domain: DOMAIN,
     css: CSS,
     source: SOURCE,
-    Page: ({ title, children }) => (
-      <Layout page={{ path: "/book", title, description: title }}>
+    Page: ({ title, path, children }) => (
+      <Layout page={{ path: path ?? "/book", canonical: path !== null, title, description: title }}>
         <Shell>{children}</Shell>
       </Layout>
     ),

@@ -5,8 +5,8 @@
 //
 // Errors fail (exit 1): what breaks the theme, the reader or the copy rules.
 // Hints never fail: a pattern that reads as generated when it is a habit
-// rather than a choice. Each finding says what to do instead, and each rule
-// prints at most two findings, so the list is a set of cues, not a wall.
+// rather than a choice. Each finding says what to do instead. Every error is
+// printed and at most two hints per rule, so the hints are cues, not a wall.
 //
 // A hint the design uses on purpose is declared in DESIGN.md under
 // "## Declared", one line each: `- rule-id: the reason`. Then the rule is
@@ -309,22 +309,17 @@ for (const file of pages) {
 // A band's prose is its text less headings, questions (a FAQ's summary or dt)
 // and calls to action, checked on their own, and quotes, which stay as written. Block elements break
 // lines, so list items and cards stay separate sentences.
-// The innermost element holding the words, so data-lint-allow and the report point at it.
-function locateIn(band, words) {
+// The innermost element in the band holding the words, so data-lint-allow and
+// the report point at it. `norm` puts an element's text in the needle's form.
+const flat = (t) => t.replace(/\s+/g, " ").toLowerCase();
+function locateIn(band, needle, norm = flat) {
   let hit = null;
-  for (const el of band.querySelectorAll("*")) if ((el.text.toLowerCase().match(WORD) || []).join(" ").includes(words)) hit = el;
+  for (const el of band.querySelectorAll("*")) if (norm(el.text).includes(needle)) hit = el;
   return hit || band;
 }
 
 function lintCopy(page, bands) {
-  const flat = (t) => t.replace(/\s+/g, " ").toLowerCase();
-  // The innermost element in the band holding the words, so data-lint-allow and the report point at it.
-  const locate = (band, match) => {
-    const m = flat(match);
-    let hit = null;
-    for (const el of band.querySelectorAll("*")) if (flat(el.text).includes(m)) hit = el;
-    return hit || band;
-  };
+  const locate = (band, match) => locateIn(band, flat(match));
   const sections = bands.map((band) => {
     const h = band.querySelector("h1, h2, h3");
     return { heading: h ? h.text.replace(/\s+/g, " ").trim() : "", body: tidy(prose(band)) };
@@ -377,7 +372,7 @@ for (const { page, bands } of pageBands) {
         if (!first) phrases.set(g, page);
         else if (first !== page && !said.has(first)) {
           said.add(first);
-          report("phrase-across-pages", page, locateIn(b.el, g), `"${g}" is on ${first} too; say it once, where it belongs, and give this page its own words`);
+          report("phrase-across-pages", page, locateIn(b.el, g, (t) => (t.toLowerCase().match(WORD) || []).join(" ")), `"${g}" is on ${first} too; say it once, where it belongs, and give this page its own words`);
         }
       }
     }

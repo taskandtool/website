@@ -26,7 +26,7 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         ) : null}
         <link rel="stylesheet" href="/site.css" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        {canonicalUrl(page.path) ? <link rel="canonical" href={canonicalUrl(page.path)!} /> : null}
+        {page.canonical !== false && canonicalUrl(page.path) ? <link rel="canonical" href={canonicalUrl(page.path)!} /> : null}
         {(page.jsonLd ?? []).map((obj) => (
           <script type="application/ld+json">{raw(JSON.stringify(obj))}</script>
         ))}
@@ -90,7 +90,7 @@ function Header({ current }: { current: string }) {
           <Wordmark />
         </a>
         <nav aria-label="Main">
-          <ul class="flex items-center gap-x-6 gap-y-2 text-base font-medium">
+          <ul class="flex items-center gap-x-6 text-base">
             {site.nav.map((item) => (
               <li>
                 <a
@@ -119,7 +119,8 @@ function Wordmark() {
 
 function Footer() {
   const { contact } = site;
-  const hasContact = contact.phone || contact.email || contact.address || contact.hours;
+  const social = Object.entries(site.social);
+  const hasContact = contact.phone || contact.email || contact.address || contact.hours || social.length;
   return (
     <footer class="bg-night text-night-ink">
       <div class="mx-auto grid max-w-wide gap-10 px-5 py-16 sm:px-8 md:grid-cols-[1fr_auto]">
@@ -133,12 +134,17 @@ function Footer() {
             {contact.email ? <p><a href={`mailto:${contact.email}`} class="no-underline hover:text-night-ink">{contact.email}</a></p> : null}
             {contact.address ? <p>{contact.address}</p> : null}
             {contact.hours ? <p>{formatHours(contact.hours)}</p> : null}
+            {social.length ? (
+              <p class="mt-3 flex flex-wrap gap-x-4">
+                {social.map(([label, href]) => <a href={href} rel="me" class="no-underline hover:text-night-ink">{label}</a>)}
+              </p>
+            ) : null}
           </address>
         ) : null}
       </div>
       <div class="border-t border-line-on-night">
         <p class="mx-auto max-w-wide px-5 py-5 text-sm text-night-ink-2 sm:px-8">
-          © {site.year} {site.name}
+          © {new Date().getFullYear()} {site.name}
         </p>
       </div>
     </footer>

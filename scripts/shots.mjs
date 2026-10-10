@@ -23,8 +23,11 @@ const shoot = shootFlags(a, "shots");
 if (!devUp()) fail("shots: dev is not answering on localhost:3000", "bash ~/app/.taskandtool/setup.sh (or npm run dev)");
 // --all: the pages dev serves, as its sitemap lists them (the 404 page is not one)
 const listed = async () => {
-  const xml = await (await fetch("http://localhost:3000/sitemap.xml")).text();
-  return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1], "http://localhost:3000").pathname);
+  const res = await fetch("http://localhost:3000/sitemap.xml").catch(() => null);
+  const xml = res?.ok ? await res.text() : "";
+  const found = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1], "http://localhost:3000").pathname);
+  if (!found.length) fail(`shots: --all read no pages from /sitemap.xml (${res ? `answered ${res.status}` : "no answer"})`, "curl -s localhost:3000/sitemap.xml");
+  return found;
 };
 const paths = [...a._.map((p) => (p.startsWith("/") ? p : `/${p}`)), ...(has(a, "all") ? await listed() : [])];
 if (!paths.length) paths.push("/");

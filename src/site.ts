@@ -16,6 +16,8 @@ export interface Page {
   description: string;
   /** JSON-LD objects for this page, from src/content.ts builders. */
   jsonLd?: object[];
+  /** false: no canonical link (a page at one visitor's address, like a booking's manage link). */
+  canonical?: boolean;
 }
 
 const business = content.facts.business ?? {};
@@ -54,12 +56,13 @@ export const site = {
   cart: false,
   /** Header links, in order (at most four; more belong in a menu). */
   nav: [] as { label: string; href: string }[],
-  year: new Date().getFullYear(),
 };
 
+/** "https://www.instagram.com/acme" -> "Instagram". */
 function hostLabel(u: string) {
   try {
-    return new URL(u).hostname.replace(/^www\./, "").split(".")[0];
+    const name = new URL(u).hostname.replace(/^www\./, "").split(".")[0];
+    return name.charAt(0).toUpperCase() + name.slice(1);
   } catch {
     return u;
   }

@@ -1,3 +1,11 @@
+---
+title: Voice
+type: brand
+updated: to fill
+status: current
+sources: []
+---
+
 # Voice
 
 How this business sounds, stated so that anyone (the AI included) can write

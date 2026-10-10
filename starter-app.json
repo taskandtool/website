@@ -9,7 +9,7 @@
     {
       "id": "build-me-a-homepage",
       "label": "Build me a homepage",
-      "prompt": "Build me a homepage. Our website or business: ",
+      "prompt": "Build me a homepage. My current site or business is ",
       "when": [
         {
           "path": "src/pages/home.tsx",
@@ -20,8 +20,8 @@
     },
     {
       "id": "rebuild-my-current-site",
-      "label": "Rebuild my current site page for page",
-      "prompt": "Rebuild my current site page for page with the migrate-site skill. My site is ",
+      "label": "Rebuild my current site",
+      "prompt": "Rebuild my current website here, page for page. It's at ",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -31,8 +31,8 @@
     },
     {
       "id": "build-the-rest-of-the-site",
-      "label": "Build out the rest of the site",
-      "prompt": "Build out the rest of the site with the new-site skill: read the rest of our current site, plan the other pages, and keep the homepage's look on every one of them.",
+      "label": "Build the rest of the site",
+      "prompt": "Build the rest of the site in the same style as the homepage.",
       "when": [
         {
           "path": "design/briefs/home.md",
@@ -47,7 +47,7 @@
     {
       "id": "plan-the-new-site",
       "label": "Plan the new site",
-      "prompt": "Plan the new site in site-map.md: the migrate-site skill's step 4. Propose it all in one message and wait for my decisions.",
+      "prompt": "Plan the new site from the crawl of our current one, keeping its pages and URLs, and show me before you build anything.",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -62,8 +62,8 @@
     },
     {
       "id": "build-the-planned-pages",
-      "label": "Build the next page",
-      "prompt": "Build the planned pages in site-map.md with the pages skill, then show them to me together.",
+      "label": "Build the planned pages",
+      "prompt": "Build the pages we planned and show them to me.",
       "when": [
         {
           "path": "site-map.md",
@@ -74,8 +74,8 @@
     },
     {
       "id": "update-pages-with-new-details",
-      "label": "Update pages whose facts changed",
-      "prompt": "The notes in public/ changed after the pages were last built. Read site-map.md's notes column to find the pages that draw on the changed notes, update them, run npm run verify, and show me what changed and where.",
+      "label": "Update pages with new details",
+      "prompt": "My business details changed. Update the pages that use them.",
       "when": [
         {
           "path": "public",
@@ -90,8 +90,8 @@
     },
     {
       "id": "check-the-site-before-launch",
-      "label": "Check the launch",
-      "prompt": "Run the cutover-check skill against dev, fix everything it finds in one pass, and show me the report as a table with what changed.",
+      "label": "Check the site before launch",
+      "prompt": "Check the new site is ready to launch and fix anything you find.",
       "when": [
         {
           "path": "raw/site/_sites.json",
@@ -107,8 +107,8 @@
     },
     {
       "id": "fix-the-site-audit-issues",
-      "label": "Fix the site audit findings",
-      "prompt": "The weekly site audit found issues. Read the report raw/audit/_latest.json names, fix everything in the site's control (broken internal links, missing titles or descriptions, a page without one h1, images without alt text, redirect chains), tell me about anything outside it, and offer to deploy the fix to production.",
+      "label": "Fix the site audit issues",
+      "prompt": "Fix the issues this week's site audit found.",
       "when": [
         {
           "path": "raw/audit/_latest.json",
@@ -120,22 +120,22 @@
     {
       "id": "add-a-page",
       "label": "Add a page",
-      "prompt": "Add a page to the site with the pages skill: its brief, then the page in the site's design, its row in site-map.md, and the nav if it belongs there. The page is "
+      "prompt": "Add a page about "
     },
     {
       "id": "write-a-blog-post",
-      "label": "Add a blog post",
-      "prompt": "Add a blog post to posts/ following the website skill's references/posts.md: frontmatter with title, date, description, and a path if it replaces an old URL; the body in the voice of brand/voice.md (the writing skill); a real photo if I have one. The post is about "
+      "label": "Write a blog post",
+      "prompt": "Write a blog post about "
     },
     {
       "id": "add-a-contact-form",
       "label": "Add a contact form",
-      "prompt": "Add a contact form with the forms skill: the form as a row in the forms table, every submission in submissions (ask me for Postgres with request-capability if this app has none), the form on the contact page, and the private /admin where I can read what comes in, kept for my team in production. Tell me how I will be notified of a submission."
+      "prompt": "Add a contact form to the site and tell me how I'll see what people send."
     },
     {
       "id": "deploy-to-production",
-      "label": "Publish to production",
-      "prompt": "Publish the site to production as the website skill says: run the checks, deploy with npm run deploy, open the production address to verify, and tell me who can see it and where I make it public."
+      "label": "Deploy to production",
+      "prompt": "Deploy the site to production."
     }
   ]
 }

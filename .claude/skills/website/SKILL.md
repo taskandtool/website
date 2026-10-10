@@ -43,8 +43,8 @@ the facts exist. Compose around them; do not retype a fact into markup.
 
 Colours and fonts are set from `brand/` into `design/system.yaml` by role
 ("What the AI sets from them" in `BRAND.md`), then `npm run system`
-compiles the theme, `DESIGN.md` and the font link; the name, tagline and
-logo go in `src/site.ts`.
+compiles the theme, `DESIGN.md` and the font link; the tagline and logo go
+in `src/site.ts` (the name comes from `public/business.md`).
 
 ## Before each deploy
 

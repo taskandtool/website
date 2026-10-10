@@ -6,6 +6,7 @@ import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import app from "./app";
+import { devFiles } from "./forms/files";
 
 const port = Number(process.env.PORT ?? 3000);
 
@@ -15,6 +16,8 @@ server.use("/brand/logo/*", serveStatic({ root: "./brand/logo", rewriteRequestPa
 server.use("/*", serveStatic({ root: "./static" }));
 // The order cart (the forms skill's cart.js), copied to dist/cart.js by the build.
 server.use("/cart.js", serveStatic({ path: "./src/forms/cart.js" }));
+// A photo field's uploads on localhost (the routing worker answers them at the app's addresses).
+server.route("/", devFiles());
 server.route("/", app);
 
 serve({ fetch: server.fetch, port, hostname: "0.0.0.0" }, (info) => {
