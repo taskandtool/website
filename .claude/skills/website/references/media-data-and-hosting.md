@@ -26,8 +26,10 @@ here in five mechanical steps:
   size (at most 2560px wide, under 600 KB where the quality allows) and
   prints each one's pixels. Real `alt` text always. Use photographs
   generously: big, full-bleed where they hold up, several per page.
-- Video: muted h264 mp4 (plus webm), compressed here with ffmpeg; a
-  background loop of 10 to 20 MB is fine. Cloudflare serves each static
+- Video: muted h264 mp4 (plus webm). Read it with `ffprobe` first; for a
+  background loop, trim it and drop the audio, and re-encode only a heavy
+  file, keeping the source's resolution and a quality that stays sharp at
+  full width (look at it). A loop of 10 to 20 MB is fine. Cloudflare serves each static
   file up to 25 MB, so a longer film embeds from the owner's platform.
   Keep files over 100 MB out of git (`.gitignore`).
 - In production, Cloudflare serves the pre-rendered pages and everything
