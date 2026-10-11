@@ -6,8 +6,6 @@ status: current
 sources: []
 ---
 
-# Voice
-
 How this business sounds, stated so that anyone (the AI included) can write
 in it and be checked against it. Every writing task reads it first: web
 pages, ads, posts, emails. Fill it from the owner's own words: what they
@@ -55,7 +53,7 @@ with the sentence that shows it (the source in brackets):
 ## Never
 
 Words and moves the business does not use, with the reason when there is
-one. The `writing` skill's general refuse list applies on top of these.
+one. The app's own writing rules apply on top of these.
 
 - to fill — e.g. "bespoke" (the owner says "made to fit")
 - to fill
