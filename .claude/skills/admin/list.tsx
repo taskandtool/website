@@ -187,9 +187,9 @@ export function SearchBar(props: {
         />
       </label>
       {filters.map((f) => (
-        <label>
+        <label class="min-w-32 flex-1 sm:flex-none">
           <span class="sr-only">{f.label}</span>
-          <select name={f.name} hx-get={action} hx-trigger="change" hx-include="closest form" class={controlClass}>
+          <select name={f.name} hx-get={action} hx-trigger="change" hx-include="closest form" class={controlClass + " w-full"}>
             <option value="">{f.any ?? "All"}</option>
             {f.options.map((o) => (
               <option value={o.value} selected={o.value === f.value}>

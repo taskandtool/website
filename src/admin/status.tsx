@@ -36,11 +36,11 @@ export function StatusBadge({ value, options }: { value: string; options: Status
 
 const focus = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 /** An input, select or textarea; the same height as a button, so a row of them lines up. */
-export const controlClass = `min-h-9 rounded-control border border-line-strong bg-surface px-2.5 py-1.5 text-copy text-ink shadow-card ${focus}`;
+export const controlClass = `min-h-9 rounded-control border border-line-strong bg-surface px-2.5 py-1.5 text-copy font-normal text-ink shadow-card ${focus}`;
 /** Any button, or a link that does an action. */
-export const buttonClass = `inline-flex min-h-9 items-center justify-center whitespace-nowrap rounded-control border border-line-strong bg-surface px-3 text-label font-semibold text-ink no-underline shadow-card hover:bg-canvas ${focus}`;
+export const buttonClass = `inline-flex min-h-9 items-center justify-center rounded-control border border-line-strong bg-surface px-3 text-label font-semibold text-ink no-underline shadow-card hover:bg-canvas ${focus}`;
 /** The page's one main action. */
-export const primaryClass = `inline-flex min-h-9 items-center justify-center whitespace-nowrap rounded-control border border-accent bg-accent px-3 text-label font-semibold text-accent-ink no-underline shadow-card hover:border-accent-hover hover:bg-accent-hover ${focus}`;
+export const primaryClass = `inline-flex min-h-9 items-center justify-center rounded-control border border-accent bg-accent px-3 text-label font-semibold text-accent-ink no-underline shadow-card hover:border-accent-hover hover:bg-accent-hover ${focus}`;
 /** A label around its control: the words above, the control below. */
 export const fieldClass = "flex flex-col gap-1.5 text-label font-semibold text-ink";
 

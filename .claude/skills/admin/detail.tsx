@@ -20,13 +20,14 @@ export function Section({ title, children, class: extra = "" }: { title: string;
   );
 }
 
+/** Label and value pairs; one with no value is left out rather than shown as "None". */
 export function FieldList({ fields }: { fields: Field[] }) {
   return (
     <dl class="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-[minmax(8rem,auto)_1fr]">
-      {fields.map((f) => (
+      {fields.filter((f) => f.value !== null && f.value !== undefined && f.value !== "").map((f) => (
         <>
           <dt class="text-label text-ink-3">{f.label}</dt>
-          <dd class="min-w-0 break-words">{f.value === null || f.value === undefined || f.value === "" ? <span class="text-ink-3">None</span> : f.value}</dd>
+          <dd class="min-w-0 break-words">{f.value}</dd>
         </>
       ))}
     </dl>

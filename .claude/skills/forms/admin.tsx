@@ -15,7 +15,7 @@ import { FieldList, JsonData, Section } from "../admin/detail";
 import { alertClass, Flash, withFlash, type FlashMessages } from "../admin/flash";
 import { teamOnly, type TeamVars } from "../admin/guard";
 import { cut, everyPage, readCursor, type Cursor, type Keyed } from "../admin/keyset";
-import { AdminLayout, type NavItem } from "../admin/layout";
+import { SectionPage, type Frame, type Head, type NavItem } from "../admin/layout";
 import { DataTable, SearchBar, TableRow, TableRows, When, type TableSpec } from "../admin/list";
 import { formIds, idParam, isPartial, likePattern, listUrl, localPath, str } from "../admin/query";
 import { buttonClass, controlClass, fieldClass, pickStatus, StatusBadge, StatusForm, type StatusOption } from "../admin/status";
@@ -35,7 +35,7 @@ export type FormsAdminOptions = {
   nav?: NavItem[];
   pageSize?: number;
   /** The app's own page frame (the CRM's layout and nav) instead of AdminLayout. */
-  Frame?: (p: { title: string; user: string; children: Child }) => Child;
+  Frame?: Frame;
   /** Where a submission's booking and payment are shown, when the app has those pages. */
   links?: { booking?: (id: string) => string; payment?: (id: string) => string };
 };
@@ -134,29 +134,14 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
   const app = new Hono<{ Variables: TeamVars }>();
   app.use("*", teamOnly());
 
-  const layout = (c: Context<{ Variables: TeamVars }>, title: string, current: string, body: Child) => {
-    const flash = <Flash code={c.req.query("saved")} n={c.req.query("n")} messages={MESSAGES} />;
-    if (!opts.Frame) {
-      return (
-        <AdminLayout title={title} css={opts.css} nav={nav} current={current} user={c.get("user")}>
-          {flash}
-          {body}
-        </AdminLayout>
-      );
-    }
-    // In the app's own frame the sections are links at the top, as the booking pages do.
-    const sections = (
-      <nav aria-label="Forms" class="mb-4 flex flex-wrap gap-1 text-label">
-        {nav.map((n) => (
-          <a href={n.href} aria-current={current === n.href ? "page" : undefined}
-            class={"rounded-control px-2 py-1 no-underline " + (current === n.href ? "bg-panel font-semibold" : "text-ink-2 hover:bg-panel")}>
-            {n.label}
-          </a>
-        ))}
-      </nav>
-    );
-    return <>{opts.Frame({ title, user: c.get("user"), children: <>{sections}{flash}{body}</> })}</>;
-  };
+  /** A page: a title, or a whole head (a record's page has `back`, so the tabs give way to the way back). */
+  const layout = (c: Context<{ Variables: TeamVars }>, head: string | Head, current: string, body: Child) => (
+    <SectionPage Frame={opts.Frame} css={opts.css} user={c.get("user")} label="Forms" links={nav} current={current}
+      head={typeof head === "string" ? { title: head } : head}>
+      <Flash code={c.req.query("saved")} n={c.req.query("n")} messages={MESSAGES} />
+      {body}
+    </SectionPage>
+  );
   const withLinks = async (db: Db, rows: Item[]) => {
     const linked = await linkedTo(db, rows.map((r) => r.id));
     return rows.map((r) => ({ ...r, linked: linked.get(r.id) }));
@@ -519,12 +504,9 @@ export function formsAdmin(getDb: GetDb, opts: FormsAdminOptions) {
     return c.html(
       layout(
         c,
-        who(r),
+        { title: who(r), back: { href: listUrl(subs, { form: r.form_key }), label: `${form?.title ?? r.form_key} submissions` } },
         subs,
         <>
-          <p class="mb-4 text-label">
-            <a href={listUrl(subs, { form: r.form_key })}>All {form?.title ?? r.form_key} submissions</a>
-          </p>
           <div class="grid gap-4 md:grid-cols-3">
             <div class="flex flex-col gap-4 md:col-span-2">
               <Section title="Details">
