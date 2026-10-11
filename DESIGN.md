@@ -69,7 +69,7 @@ The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a he
 
 ## Depth & Elevation
 
-Three levels. Flat: sections, rows, text, most of the page. Lifted: a card or framed visual on the canvas, a `line` edge plus `shadow-lift`, for the one visual that should feel like an object. Overlay: a menu or dialog on `surface` with `shadow-lift` at `rounded-card`. No inner shadows, no glass or blur, no gradients on interface elements.
+Three levels. Flat: sections, rows, text, most of the page. Lifted: a card or framed visual on the canvas, a `line` edge plus `shadow-lift`, for the one visual that should feel like an object. Overlay: a menu or dialog on `surface` with `shadow-lift` at `rounded-card`. The team's admin pages give a card or a control `shadow-card`. No inner shadows, no glass or blur, no gradients on interface elements.
 
 ## Motion
 
@@ -117,7 +117,7 @@ Nothing declared.
 
 - Colours (as `bg-`, `text-`, `border-`): `canvas`, `surface`, `panel`, `night`, `ink`, `ink-2`, `ink-3`, `night-ink`, `night-ink-2`, `accent`, `accent-ink`, `accent-hover`, `line`, `line-strong`, `line-on-night`.
 - Families: `font-display`, `font-body`. Sizes: `text-display`, `text-section`, `text-title`, `text-lede`, `text-copy`, `text-specimen`, `text-label`.
-- Edges: `rounded-control`, `rounded-card`, `rounded-frame`; `shadow-lift`.
+- Edges: `rounded-control`, `rounded-card`, `rounded-frame`; `shadow-lift`, `shadow-card`.
 - Spacing (with `p`, `m`, `gap` and their sides): `section`, `lead`.
 - Widths: `max-w-content`, `max-w-wide`.
 

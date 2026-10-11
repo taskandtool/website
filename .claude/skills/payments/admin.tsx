@@ -299,7 +299,7 @@ export function paymentsAdmin(getDb: GetDb, opts: PaymentsAdminOptions) {
           <div class="flex flex-col gap-4">
             <Section title="Refund">
               {refundable(p) ? (
-                <a href={`${base}/${p.id}/refund`} class={buttonClass + " inline-block no-underline"}>
+                <a href={`${base}/${p.id}/refund`} class={buttonClass}>
                   Refund…
                 </a>
               ) : (

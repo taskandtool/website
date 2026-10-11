@@ -93,6 +93,7 @@ tokens:
     frame: 1.5rem
   shadows:
     lift: "0 1px 2px rgb(25 22 18 / 0.06), 0 12px 32px -12px rgb(25 22 18 / 0.18)"
+    card: "0 1px 2px rgb(25 22 18 / 0.06)"
   spacing:
     section: clamp(5rem, 10vw, 8.5rem)
     lead: clamp(2.5rem, 4vw, 3.5rem)
@@ -175,7 +176,8 @@ sections:
     Three levels. Flat: sections, rows, text, most of the page. Lifted: a card
     or framed visual on the canvas, a {colors.line} edge plus {shadows.lift},
     for the one visual that should feel like an object. Overlay: a menu or
-    dialog on {colors.surface} with {shadows.lift} at {rounded.card}. No
+    dialog on {colors.surface} with {shadows.lift} at {rounded.card}. The
+    team's admin pages give a card or a control {shadows.card}. No
     inner shadows, no glass or blur, no gradients on interface elements.
   motion: >
     The first screen's words rise in once on load (data-rise on their

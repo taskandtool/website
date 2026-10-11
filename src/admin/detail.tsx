@@ -13,8 +13,8 @@ export type Field = { label: string; value: Child };
 
 export function Section({ title, children, class: extra = "" }: { title: string; children?: Child; class?: string }) {
   return (
-    <section class={"rounded-card border border-line bg-surface p-4 " + extra}>
-      <h2 class="mb-3 text-label font-semibold text-ink-2">{title}</h2>
+    <section class={"rounded-card border border-line bg-surface p-4 shadow-card " + extra}>
+      <h2 class="mb-3 text-copy font-semibold text-ink">{title}</h2>
       {children}
     </section>
   );

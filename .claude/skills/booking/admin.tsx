@@ -21,7 +21,7 @@ import { cut, readCursor, type Cursor, type Keyed } from "../admin/keyset";
 import { AdminLayout, type NavItem } from "../admin/layout";
 import { DataTable, SearchBar, TableRow, TableRows, When, type TableSpec } from "../admin/list";
 import { idParam, isPartial, likePattern, listUrl, localPath, str } from "../admin/query";
-import { buttonClass, controlClass, pickStatus, StatusBadge, StatusForm, type StatusOption } from "../admin/status";
+import { buttonClass, controlClass, fieldClass, pickStatus, StatusBadge, StatusForm, type StatusOption } from "../admin/status";
 import { book, bookableTypes, hostsOf, LOCATION_KINDS, resourceById, setStatus, toBooking, typeById, whereText, type Booking, type BookingType, type Resource } from "./book";
 import {
   addCalendar, addTimeOff, addWindow, allPeople, allTypes, calendars, createPerson, createType, LOCATION_LABELS, removeCalendar,
@@ -217,7 +217,7 @@ export function bookingAdmin(getDb: GetDb, opts: BookingAdminOptions) {
     return framed(c, opts, links, base, "Bookings", (
       <>
         <Flash code={c.req.query("saved")} n={c.req.query("n")} messages={MESSAGES} />
-        <p class="mb-3"><a href={`${base}/new`} class={buttonClass + " no-underline"}>Book for someone</a></p>
+        <p class="mb-3"><a href={`${base}/new`} class={buttonClass}>Book for someone</a></p>
         <SearchBar action={base} target="#results" q={f.q} placeholder="Name or email" filters={[
           { name: "when", label: "When", options: [{ value: "past", label: "Past" }], value: params.when, any: "Upcoming" },
           { name: "type", label: "What", options: types.map((t) => ({ value: t.id, label: t.name })), value: f.type, any: "Anything" },
@@ -275,7 +275,7 @@ export function bookingAdmin(getDb: GetDb, opts: BookingAdminOptions) {
             <a href={self(addDays(monday, -7))}>Week before</a>
             {monday !== addDays(today, -((weekdayOf(today) + 6) % 7)) ? <a href={self(today)}>This week</a> : null}
             <a href={self(addDays(monday, 7))}>Week after</a>
-            <a href={`${base}/new`} class={buttonClass + " no-underline"}>Book for someone</a>
+            <a href={`${base}/new`} class={buttonClass}>Book for someone</a>
           </p>
         </div>
         <p class="mb-3 text-label text-ink-3">Times are in {zone.replace(/_/g, " ")}.</p>
@@ -548,7 +548,6 @@ export function bookingAdmin(getDb: GetDb, opts: BookingAdminOptions) {
 
 // ---- the availability editor ---------------------------------------------------------
 
-const fieldClass = "flex flex-col gap-1 text-label text-ink-2";
 const Err = ({ id, text }: { id: string; text?: string }) => (text ? <span id={id} class="text-label text-ink">{text}</span> : null);
 
 function Input(p: { label: string; name: string; value?: string | number | null; type?: string; errors?: Errors; hint?: string; required?: boolean; min?: number; max?: number; class?: string }) {
