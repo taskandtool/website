@@ -1,0 +1,56 @@
+{
+  "name": "Harlow Bakery",
+  "telephone": "(205) 555-0148",
+  "email": "hello@harlowbakery.com",
+  "address": {
+    "street": "214 Main Street",
+    "locality": "Leeds",
+    "region": "AL",
+    "postal_code": "35094",
+    "country": "US"
+  },
+  "opening_hours": [
+    "Mo-Th 07:00-15:00",
+    "Fr 07:00-17:00",
+    "Sa 08:00-14:00"
+  ],
+  "time_zone": "America/Chicago",
+  "same_as": [
+    "https://www.facebook.com/harlowbakery",
+    "https://www.instagram.com/harlowbakery"
+  ],
+  "description": "A neighbourhood bakery baking bread, pastries and cakes every morning.",
+  "logo": {
+    "file": "images/harlow-bakery-logo-11aa22bb.png",
+    "width": 600,
+    "height": 200
+  },
+  "photos": [
+    {
+      "file": "images/bread-counter-1a2b3c4d.jpg",
+      "width": 1600,
+      "height": 900,
+      "alt": "IMG_2041.jpg",
+      "heading": "Fresh today"
+    },
+    {
+      "file": "images/baker-at-work-5e6f7a8b.jpg",
+      "width": 1000,
+      "height": 800,
+      "alt": "Our baker shaping loaves at dawn",
+      "heading": "Baked every morning"
+    }
+  ],
+  "sources": {
+    "name": "structured/business.json",
+    "telephone": "_index/facts.json",
+    "email": "_index/facts.json",
+    "address": "_index/facts.json",
+    "opening_hours": "_index/facts.json",
+    "time_zone": "_index/facts.json",
+    "same_as": "_index/facts.json",
+    "description": "_index/inventory.json",
+    "logo": "_index/media.json",
+    "photos": "_index/media.json"
+  }
+}

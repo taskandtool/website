@@ -1,0 +1,38 @@
+{
+  "colors": [
+    {
+      "color": "#ffffff",
+      "count": 300
+    },
+    {
+      "color": "#442213",
+      "count": 200
+    },
+    {
+      "color": "#b05e27",
+      "count": 80
+    },
+    {
+      "color": "#f6efe6",
+      "count": 40
+    }
+  ],
+  "fonts": [
+    "Fraunces",
+    "Inter",
+    "Font Awesome 6"
+  ],
+  "roles": {
+    "body": {
+      "font": "Inter",
+      "color": "#442213",
+      "background": "#ffffff"
+    },
+    "h1": {
+      "font": "Fraunces"
+    },
+    "h2": {
+      "font": "Fraunces"
+    }
+  }
+}

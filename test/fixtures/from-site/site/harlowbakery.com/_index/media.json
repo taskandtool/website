@@ -1,0 +1,97 @@
+[
+  {
+    "key": "harlowbakery.com/harlow-bakery-logo-11aa22bb.png",
+    "original": "https://harlowbakery.com/harlow-bakery-logo-11aa22bb.png",
+    "file": "harlow-bakery-logo-11aa22bb.png",
+    "width": 600,
+    "height": 200,
+    "alts": [
+      "Harlow Bakery"
+    ],
+    "pages": [
+      {
+        "url": "https://harlowbakery.com/",
+        "heading": null,
+        "beside": ""
+      }
+    ],
+    "chrome": true,
+    "kind": "logo"
+  },
+  {
+    "key": "harlowbakery.com/baker-at-work-5e6f7a8b.jpg",
+    "original": "https://harlowbakery.com/baker-at-work-5e6f7a8b.jpg",
+    "file": "baker-at-work-5e6f7a8b.jpg",
+    "width": 1000,
+    "height": 800,
+    "alts": [
+      "Our baker shaping loaves at dawn"
+    ],
+    "pages": [
+      {
+        "url": "https://harlowbakery.com/",
+        "heading": "Baked every morning",
+        "beside": ""
+      }
+    ],
+    "chrome": false,
+    "kind": "photo"
+  },
+  {
+    "key": "harlowbakery.com/bread-counter-1a2b3c4d.jpg",
+    "original": "https://harlowbakery.com/bread-counter-1a2b3c4d.jpg",
+    "file": "bread-counter-1a2b3c4d.jpg",
+    "width": 1600,
+    "height": 900,
+    "alts": [
+      "IMG_2041.jpg"
+    ],
+    "pages": [
+      {
+        "url": "https://harlowbakery.com/",
+        "heading": "Fresh today",
+        "beside": ""
+      }
+    ],
+    "chrome": false,
+    "kind": "photo"
+  },
+  {
+    "key": "harlowbakery.com/small-croissant-9c0d1e2f.jpg",
+    "original": "https://harlowbakery.com/small-croissant-9c0d1e2f.jpg",
+    "file": "small-croissant-9c0d1e2f.jpg",
+    "width": 500,
+    "height": 400,
+    "alts": [
+      "Croissant"
+    ],
+    "pages": [
+      {
+        "url": "https://harlowbakery.com/",
+        "heading": null,
+        "beside": ""
+      }
+    ],
+    "chrome": false,
+    "kind": "photo"
+  },
+  {
+    "key": "harlowbakery.com/farmers-market-33cc44dd.png",
+    "original": "https://harlowbakery.com/farmers-market-33cc44dd.png",
+    "file": "farmers-market-33cc44dd.png",
+    "width": 240,
+    "height": 120,
+    "alts": [
+      "Leeds Farmers Market"
+    ],
+    "pages": [
+      {
+        "url": "https://harlowbakery.com/",
+        "heading": null,
+        "beside": ""
+      }
+    ],
+    "chrome": false,
+    "kind": "mark"
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "place_id": "ChIJharlow",
+  "name": "Harlow Bakery",
+  "address": {
+    "street": "214 Main Street",
+    "locality": "Leeds",
+    "region": "AL",
+    "postal_code": "35094",
+    "country": "US"
+  },
+  "formatted_address": "214 Main St, Leeds, AL 35094, USA",
+  "telephone": "(205) 555-0148",
+  "website": "https://www.harlowbakery.com/",
+  "maps_url": "https://maps.google.com/?cid=42",
+  "geo": {
+    "lat": 33.548,
+    "lng": -86.544
+  },
+  "opening_hours": [
+    "Mo-Th 07:00-15:00",
+    "Fr 07:00-17:00",
+    "Sa 08:00-14:00"
+  ],
+  "opening_hours_text": [],
+  "time_zone": "America/Chicago",
+  "status": "OPERATIONAL",
+  "primary_type": "bakery",
+  "schema_type": "Bakery",
+  "types": [
+    "bakery",
+    "food"
+  ],
+  "rating": 4.8,
+  "review_count": 312,
+  "price_level": "",
+  "summary": "",
+  "reviews": [
+    {
+      "quote": "The cinnamon rolls sell out by nine for a reason.",
+      "name": "Marcus T.",
+      "platform": "Google",
+      "date": "2026-03-01",
+      "stars": 5,
+      "url": "https://www.google.com/maps/contrib/1",
+      "photo": "https://lh3.googleusercontent.com/a/1"
+    }
+  ],
+  "photos": 0
+}

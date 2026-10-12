@@ -1,0 +1,122 @@
+{
+  "phone": [
+    {
+      "value": "(205) 555-0148",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    }
+  ],
+  "email": [
+    {
+      "value": "hello@harlowbakery.com",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    }
+  ],
+  "address": [
+    {
+      "value": "214 Main Street, Leeds, AL 35094",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    }
+  ],
+  "hours": [
+    {
+      "value": "Monday: 7am – 3pm",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    },
+    {
+      "value": "Tuesday: 7am – 3pm",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    },
+    {
+      "value": "Wednesday: 7am – 3pm",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    },
+    {
+      "value": "Thursday: 7am – 3pm",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    },
+    {
+      "value": "Friday: 7am – 5pm",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    },
+    {
+      "value": "Saturday: 8am – 2pm",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    },
+    {
+      "value": "Sunday: CLOSED",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "header/footer"
+        }
+      ]
+    }
+  ],
+  "social": [
+    {
+      "value": "https://www.facebook.com/harlowbakery",
+      "sources": [
+        {
+          "url": "https://harlowbakery.com/",
+          "where": "link"
+        }
+      ]
+    }
+  ],
+  "action": [],
+  "several": [],
+  "ratings": [
+    {
+      "platform": "Facebook",
+      "value": "9.6",
+      "best": "10",
+      "count": "1,204",
+      "url": "https://www.facebook.com/harlowbakery/reviews"
+    }
+  ]
+}

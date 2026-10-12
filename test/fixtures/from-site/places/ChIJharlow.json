@@ -1,0 +1,158 @@
+{
+  "id": "ChIJharlow",
+  "displayName": {
+    "text": "Harlow Bakery"
+  },
+  "formattedAddress": "214 Main St, Leeds, AL 35094, USA",
+  "addressComponents": [
+    {
+      "longText": "214",
+      "types": [
+        "street_number"
+      ]
+    },
+    {
+      "longText": "Main Street",
+      "shortText": "Main St",
+      "types": [
+        "route"
+      ]
+    },
+    {
+      "longText": "Leeds",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "longText": "Alabama",
+      "shortText": "AL",
+      "types": [
+        "administrative_area_level_1"
+      ]
+    },
+    {
+      "longText": "35094",
+      "types": [
+        "postal_code"
+      ]
+    },
+    {
+      "longText": "United States",
+      "shortText": "US",
+      "types": [
+        "country"
+      ]
+    }
+  ],
+  "location": {
+    "latitude": 33.548,
+    "longitude": -86.544
+  },
+  "nationalPhoneNumber": "(205) 555-0148",
+  "internationalPhoneNumber": "+1 205-555-0148",
+  "websiteUri": "https://www.harlowbakery.com/",
+  "googleMapsUri": "https://maps.google.com/?cid=42",
+  "regularOpeningHours": {
+    "periods": [
+      {
+        "open": {
+          "day": 1,
+          "hour": 7,
+          "minute": 0
+        },
+        "close": {
+          "day": 1,
+          "hour": 15,
+          "minute": 0
+        }
+      },
+      {
+        "open": {
+          "day": 2,
+          "hour": 7,
+          "minute": 0
+        },
+        "close": {
+          "day": 2,
+          "hour": 15,
+          "minute": 0
+        }
+      },
+      {
+        "open": {
+          "day": 3,
+          "hour": 7,
+          "minute": 0
+        },
+        "close": {
+          "day": 3,
+          "hour": 15,
+          "minute": 0
+        }
+      },
+      {
+        "open": {
+          "day": 4,
+          "hour": 7,
+          "minute": 0
+        },
+        "close": {
+          "day": 4,
+          "hour": 15,
+          "minute": 0
+        }
+      },
+      {
+        "open": {
+          "day": 5,
+          "hour": 7,
+          "minute": 0
+        },
+        "close": {
+          "day": 5,
+          "hour": 17,
+          "minute": 0
+        }
+      },
+      {
+        "open": {
+          "day": 6,
+          "hour": 8,
+          "minute": 0
+        },
+        "close": {
+          "day": 6,
+          "hour": 14,
+          "minute": 0
+        }
+      }
+    ]
+  },
+  "timeZone": {
+    "id": "America/Chicago"
+  },
+  "businessStatus": "OPERATIONAL",
+  "primaryType": "bakery",
+  "types": [
+    "bakery",
+    "food"
+  ],
+  "rating": 4.8,
+  "userRatingCount": 312,
+  "reviews": [
+    {
+      "rating": 5,
+      "publishTime": "2026-03-01T15:00:00Z",
+      "text": {
+        "text": "The cinnamon rolls sell out by nine for a reason."
+      },
+      "authorAttribution": {
+        "displayName": "Marcus T.",
+        "uri": "https://www.google.com/maps/contrib/1",
+        "photoUri": "https://lh3.googleusercontent.com/a/1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "@type": [
+    "Bakery"
+  ],
+  "name": "Harlow Bakery",
+  "sameAs": [
+    "https://www.instagram.com/harlowbakery"
+  ],
+  "sources": {
+    "name": [
+      "https://harlowbakery.com/"
+    ]
+  }
+}

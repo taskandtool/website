@@ -1,0 +1,11 @@
+{
+  "start": "https://harlowbakery.com/",
+  "profile": "brand",
+  "pages": [
+    {
+      "url": "https://harlowbakery.com/",
+      "file": "pages/index.md",
+      "template": "/"
+    }
+  ]
+}
