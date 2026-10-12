@@ -399,9 +399,12 @@ if (logo && noLogo.test(siteTs)) {
 const solid = (c) => (isHex(c) ? c.toLowerCase() : null);
 const palette = [...new Set(styles.colors.map((c) => solid(c.color)).filter(Boolean))];
 const iconFont = /icon|awesome|glyph|dashicons|eicons|material symbols/i;
-const fonts = styles.fonts.filter((f) => !iconFont.test(f));
-const bodyFont = [styles.roles.body?.font, styles.roles.p?.font, fonts[0]].find((f) => f && !iconFont.test(f)) || "";
-const headFont = [styles.roles.h1?.font, styles.roles.h2?.font].find((f) => f && !iconFont.test(f)) || bodyFont;
+// a generic family (sans-serif, system-ui) is the browser's default, not their font
+const generic = /^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-[a-z-]+|-apple-system|blinkmacsystemfont)$/i;
+const realFont = (f) => f && !iconFont.test(f) && !generic.test(f);
+const fonts = styles.fonts.filter(realFont);
+const bodyFont = [styles.roles.body?.font, styles.roles.p?.font, fonts[0]].find(realFont) || "";
+const headFont = [styles.roles.h1?.font, styles.roles.h2?.font].find(realFont) || bodyFont;
 
 // The weights Google Fonts serves a family in, [] when it does not serve it,
 // null when it could not be asked. A record weight the family lacks makes

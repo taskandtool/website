@@ -19,12 +19,13 @@
   ],
   "fonts": [
     "Fraunces",
+    "sans-serif",
     "Inter",
     "Font Awesome 6"
   ],
   "roles": {
     "body": {
-      "font": "Inter",
+      "font": "sans-serif",
       "color": "#442213",
       "background": "#ffffff"
     },
@@ -33,6 +34,9 @@
     },
     "h2": {
       "font": "Fraunces"
+    },
+    "p": {
+      "font": "Inter"
     }
   }
 }
