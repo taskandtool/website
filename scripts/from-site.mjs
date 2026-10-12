@@ -2,11 +2,12 @@
 // A first homepage's starting point from the business's current site:
 // `npm run from-site -- https://theirsite.com [--only-homepage]`.
 //
-// Reads the homepage (tt-crawl brand --max-pages 1), then, unless
-// --only-homepage, the pages it links to that hold photographs (gallery,
-// photos, portfolio, projects, our work: two at most), its services page and
-// a page of proof (testimonials, reviews, clients, partners), all at once
-// (tt-crawl add). Then it does by script what needs no judgement: the
+// Reads the homepage and the pages its menu links to (tt-crawl brand, twelve
+// pages at most: their biggest photographs are rarely all on the homepage),
+// then any page it links to that holds photographs (gallery, photos,
+// portfolio, projects, our work: two at most), its services page and a page
+// of proof (testimonials, reviews, clients, partners) not read yet
+// (tt-crawl add). --only-homepage reads the homepage alone. Then it does by script what needs no judgement: the
 // business note's facts (cited to the crawl), the logo into brand/logo/,
 // their photographs at web size into static/images/, the proof (their
 // reviews and ratings, Google's too, and every logo of others) into
@@ -27,19 +28,21 @@ import { TEXT_PAIRS, chromaHue, isHex, luminance, ratio } from "./theme.mjs";
 
 const a = start("from-site", `usage: npm run from-site -- https://theirsite.com [--only-homepage]
 
-Reads their homepage (and its gallery, services page and a page of reviews
-or clients), then writes the business note, the logo, their photographs at
+Reads their homepage and the pages its menu links to (and its gallery,
+services page and a page of reviews or clients), then writes the business note, the logo, their photographs at
 web size, and design tokens from their colours and fonts, public/proof.md
 (their reviews, Google's rating and reviews, logos) and numbered sheets of
 photos and logos to name.
 Prints what it wrote, what it kept, and what to read next. Safe to run
 again: a note, logo or record already filled in is kept.
-  --only-homepage   skip the gallery, services and reviews pages`, { bools: ["only-homepage"], args: true });
+  --only-homepage   read the homepage alone: quicker, with fewer photographs`, { bools: ["only-homepage"], args: true });
 if (a._.length > 1) misused(`from-site: one site at a time (given ${a._.join(" ")})`, "npm run from-site -- https://theirsite.com");
 const given = a._[0];
 // a bare domain is their site too
 const url = given && !/^https?:\/\//.test(given) && /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(given) ? `https://${given}` : given;
 const onlyHomepage = has(a, "only-homepage");
+// the homepage and the pages its menu links to, where the big photographs are
+const MENU_PAGES = 12;
 if (!/^https?:\/\//.test(url || "") || !URL.canParse(url)) misused("from-site: it needs the business's site as a full URL", "npm run from-site -- https://theirsite.com");
 const host = new URL(url).hostname.replace(/^www\./, "");
 // a profile or listing is not their site: its colours and facts would seed the note and the tokens for good
@@ -65,7 +68,7 @@ const notes = [];
 
 // ── reading their site ────────────────────────────────────────────────────
 try {
-  if (!existsSync(join(dir, "_index/business-card.json"))) crawl(["brand", url, "--max-pages", "1"]);
+  if (!existsSync(join(dir, "_index/business-card.json"))) crawl(["brand", url, "--max-pages", onlyHomepage ? "1" : String(MENU_PAGES)]);
 } catch (e) {
   if (e.code === "ENOENT") fail("from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
   fail(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
@@ -221,8 +224,6 @@ if ((photoRows.length || videoRows.length) && existsSync(imagesNote) && /\| to f
   wrote.push(`${imagesNote}: a row for each photograph${photoSheet ? `, numbered in ${photoSheet}` : ""}`);
   notes.push(`describe each photograph and video once in ${imagesNote}${photoSheet ? ` from ${photoSheet} (numbered in the table's order)` : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`);
 }
-if (photoRows.length && !photoRows.some((r) => r.width >= 1600) && !videoRows.length)
-  notes.push("no photograph is 1600px wide: ask the owner for the originals (a NEED) rather than running a smaller one full width");
 
 // ── the proof: what others say ────────────────────────────────────────────
 // Everything the crawl and their Google listing hold goes into
