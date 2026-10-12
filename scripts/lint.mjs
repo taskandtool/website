@@ -311,7 +311,10 @@ for (const file of pages) {
 // lines, so list items and cards stay separate sentences.
 // The innermost element in the band holding the words, so data-lint-allow and
 // the report point at it. `norm` puts an element's text in the needle's form.
-const flat = (t) => t.replace(/\s+/g, " ").toLowerCase();
+// Declared, not a const: the page loop above calls lintCopy before this line runs.
+function flat(t) {
+  return t.replace(/\s+/g, " ").toLowerCase();
+}
 function locateIn(band, needle, norm = flat) {
   let hit = null;
   for (const el of band.querySelectorAll("*")) if (norm(el.text).includes(needle)) hit = el;

@@ -20,8 +20,15 @@ const WRITTEN = ["public/business.md", "public/proof.md", "brand/images.md", "sr
 /** The folders whose file names are compared. */
 const LISTED = ["brand/logo", "static/images", "static/images/logos"];
 
+/** Still the starter: the expected copies are what from-site writes over it, so a site already filled in has nothing to compare. */
+const starter = () =>
+  /^name: to fill$/m.test(readFileSync(join(root, "public/business.md"), "utf8")) &&
+  /^id: starter$/m.test(readFileSync(join(root, "design/system.yaml"), "utf8")) &&
+  /logo: \{ file: "", alt: "" \}/.test(readFileSync(join(root, "src/site.ts"), "utf8"));
+
 const resizes = () =>
   spawnSync("ffmpeg", ["-version"]).status === 0 || spawnSync("python3", ["-c", "import PIL"]).status === 0;
+const skip = !starter() ? "this site is no longer the starter" : !resizes() && "needs ffmpeg or Pillow to resize the photos";
 
 /** This repository's tracked files in a temp folder, node_modules linked, the crawl and two stubs beside it. */
 function workspace() {
@@ -46,7 +53,7 @@ exit 1
   return dir;
 }
 
-test("a logo already in brand/logo/ is the one the site uses, and the crawl's is not copied", { skip: !resizes() && "needs ffmpeg or Pillow to resize the photos" }, () => {
+test("a logo already in brand/logo/ is the one the site uses, and the crawl's is not copied", { skip }, () => {
   const dir = workspace();
   try {
     writeFileSync(join(dir, "brand/logo/owner-logo.svg"), "<svg xmlns='http://www.w3.org/2000/svg'/>");
@@ -71,7 +78,7 @@ const CASES = [
   { name: "from their site alone", expected: join(fixture, "expected-site-only"), key: "" },
 ];
 
-for (const { name, expected, key } of CASES) test(`from-site ${name} writes the notes, photos, logo and tokens it wrote before`, { skip: !resizes() && "needs ffmpeg or Pillow to resize the photos" }, () => {
+for (const { name, expected, key } of CASES) test(`from-site ${name} writes the notes, photos, logo and tokens it wrote before`, { skip }, () => {
   const dir = workspace();
   try {
     const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir, GOOGLE_PLACES_API_KEY: key };
