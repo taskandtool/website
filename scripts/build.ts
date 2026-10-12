@@ -47,7 +47,8 @@ cpSync("src/forms/cart.js", join(dist, "cart.js"));
 if (existsSync("brand/logo")) {
   cpSync("brand/logo", join(dist, "brand", "logo"), {
     recursive: true,
-    filter: (src) => !src.endsWith("README.md"),
+    // the folder's note is for whoever reads brand/, not for the site
+    filter: (src) => !src.endsWith(".md"),
   });
 }
 

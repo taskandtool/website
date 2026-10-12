@@ -16,7 +16,7 @@
 // measures reaches 4.5:1. A note, logo or record already filled in is kept,
 // and it says which.
 import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, join } from "node:path";
 import YAML from "yaml";
@@ -65,7 +65,7 @@ const notes = [];
 
 // ── reading their site ────────────────────────────────────────────────────
 try {
-  if (!existsSync(join(dir, "_index/facts.json"))) crawl(["brand", url, "--max-pages", "1"]);
+  if (!existsSync(join(dir, "_index/business-card.json"))) crawl(["brand", url, "--max-pages", "1"]);
 } catch (e) {
   if (e.code === "ENOENT") fail("from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
   fail(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
@@ -85,56 +85,13 @@ if (unread.length) {
     notes.push(`could not read ${unread.join(", ")}: ${errorLine(e)}`);
   }
 }
+// the crawl's business card: its facts in a listing's forms, its logo and photographs (tt-crawl)
+const card = read("_index/business-card.json", {});
 const facts = read("_index/facts.json", {});
-const markup = read("structured/business.json", {});
 const styles = read("_index/styles.json", { colors: [], fonts: [], roles: {} });
 const media = read("_index/media.json", []);
-const home = inventory[0] || {};
-const first = (k) => facts[k]?.[0]?.value || "";
 
 // ── the business note ─────────────────────────────────────────────────────
-// A time zone only where the address leaves no doubt: a US state or a
-// country with one zone. Anywhere else it stays empty and the output says so.
-const US_ONE_ZONE = { AL: "America/Chicago", AR: "America/Chicago", CA: "America/Los_Angeles", CO: "America/Denver", CT: "America/New_York", DC: "America/New_York", DE: "America/New_York", GA: "America/New_York", HI: "Pacific/Honolulu", IA: "America/Chicago", IL: "America/Chicago", LA: "America/Chicago", MA: "America/New_York", MD: "America/New_York", ME: "America/New_York", MN: "America/Chicago", MO: "America/Chicago", MS: "America/Chicago", MT: "America/Denver", NC: "America/New_York", NH: "America/New_York", NJ: "America/New_York", NM: "America/Denver", NY: "America/New_York", OH: "America/New_York", OK: "America/Chicago", PA: "America/New_York", RI: "America/New_York", SC: "America/New_York", UT: "America/Denver", VA: "America/New_York", VT: "America/New_York", WA: "America/Los_Angeles", WI: "America/Chicago", WV: "America/New_York", WY: "America/Denver" };
-const COUNTRY_ONE_ZONE = { GB: "Europe/London", UK: "Europe/London", "UNITED KINGDOM": "Europe/London", IE: "Europe/Dublin", IRELAND: "Europe/Dublin", FR: "Europe/Paris", DE: "Europe/Berlin", NL: "Europe/Amsterdam", BE: "Europe/Brussels", IT: "Europe/Rome", CH: "Europe/Zurich", AT: "Europe/Vienna", SE: "Europe/Stockholm", NO: "Europe/Oslo", DK: "Europe/Copenhagen", FI: "Europe/Helsinki", PL: "Europe/Warsaw", NZ: "Pacific/Auckland", SG: "Asia/Singapore", JP: "Asia/Tokyo", ZA: "Africa/Johannesburg" };
-
-// "Mon: 8:00am - 6:00pm" lines as schema.org opening hours, runs of days with
-// the same times joined ("Mo-Sa 08:00-18:00"); [] when they do not read cleanly
-function schemaHours(lines) {
-  const DAYS = ["mo", "tu", "we", "th", "fr", "sa", "su"];
-  const t24 = (h, m, ap) => `${String((Number(h) % 12) + (/p/i.test(ap) ? 12 : 0)).padStart(2, "0")}:${m || "00"}`;
-  const byDay = new Map();
-  for (const line of lines) {
-    const m = String(line).match(/^\s*(mon|tue|wed|thu|fri|sat|sun)[a-z]*\.?\s*:?\s*(\d{1,2})(?::(\d{2}))?\s*([ap])\.?m\.?\s*[-–to]+\s*(\d{1,2})(?::(\d{2}))?\s*([ap])\.?m/i);
-    if (m) byDay.set(m[1].slice(0, 2).toLowerCase(), `${t24(m[2], m[3], m[4])}-${t24(m[5], m[6], m[7])}`);
-  }
-  const out = [];
-  for (let i = 0; i < 7; i++) {
-    const t = byDay.get(DAYS[i]);
-    if (!t) continue;
-    let j = i;
-    while (j + 1 < 7 && byDay.get(DAYS[j + 1]) === t) j++;
-    const cap = (d) => d[0].toUpperCase() + d[1];
-    out.push(`${cap(DAYS[i])}${j > i ? `-${cap(DAYS[j])}` : ""} ${t}`);
-    i = j;
-  }
-  return out;
-}
-
-function addressFrom() {
-  const a = markup.address;
-  if (a && typeof a === "object" && (a.streetAddress || a.addressLocality)) {
-    const country = typeof a.addressCountry === "object" ? a.addressCountry?.name || "" : a.addressCountry || "";
-    return { street: a.streetAddress || "", locality: a.addressLocality || "", region: a.addressRegion || "", postal_code: a.postalCode || "", country };
-  }
-  const line = (typeof a === "string" && a) || first("address");
-  if (!line) return null;
-  const m = line.match(/^(.+?),\s*([^,]+),\s*([A-Z]{2})\s+(\d{5}(?:-\d{4})?)(?:,\s*(?:USA|US|United States))?$/);
-  if (m) return { street: m[1], locality: m[2], region: m[3], postal_code: m[4], country: "US" };
-  notes.push(`the address is one line in public/business.md (street); split it into locality, region, postal_code and country`);
-  return { street: line, locality: "", region: "", postal_code: "", country: "" };
-}
-
 const businessFile = "public/business.md";
 const business = YAML.parseDocument(frontmatter(readFileSync(businessFile, "utf8"))?.front || "");
 // whether this run wrote the note (so the Google listing may fill its gaps), and
@@ -144,28 +101,27 @@ let hoursMarked = false;
 if (business.get("name") && !/to fill/i.test(business.get("name"))) kept.push(`${businessFile} (already filled)`);
 else {
   businessWritten = true;
-  const address = addressFrom();
-  const marked = [markup.openingHours].flat().filter((h) => typeof h === "string" && /^[A-Z][a-z](-[A-Z][a-z])?(,[A-Z][a-z])*\s+\d/.test(h));
-  hoursMarked = marked.length > 0;
-  const hours = marked.length ? marked : schemaHours((facts.hours || []).map((h) => h.value));
-  const inUS = address && /^(|US|USA|United States)$/i.test(String(address.country).trim());
-  const zone = address && ((inUS && US_ONE_ZONE[address.region]) || COUNTRY_ONE_ZONE[String(address.country).trim().toUpperCase()]);
+  const address = card.address;
+  if (address && !address.locality) notes.push(`the address is one line in public/business.md (street); split it into locality, region, postal_code and country`);
+  hoursMarked = card.sources?.opening_hours === "structured/business.json";
+  const hours = card.opening_hours || [];
+  const zone = card.time_zone;
   const set = {
     updated: new Date().toISOString().slice(0, 10),
-    name: markup.name || home.title?.split(/\s[|–-]\s/)[0].trim() || host,
-    telephone: first("phone") || (typeof markup.telephone === "string" ? markup.telephone : ""),
-    email: first("email") || (typeof markup.email === "string" ? markup.email : ""),
+    name: card.name || host,
+    telephone: card.telephone || "",
+    email: card.email || "",
     ...(address ? { address } : {}),
     ...(hours.length ? { opening_hours: hours } : {}),
     ...(zone ? { time_zone: zone } : {}),
-    same_as: [...new Set([...(facts.social || []).map((s) => s.value), ...[markup.sameAs].flat().filter((s) => typeof s === "string")])],
-    sources: [`${dir}/_index/facts.json`, `${dir}/structured/business.json`],
+    same_as: card.same_as || [],
+    sources: [`${dir}/_index/business-card.json`],
   };
   for (const [k, v] of Object.entries(set)) business.set(k, v);
   if (!hours.length && facts.hours?.length) notes.push(`hours found but not in schema.org form (${facts.hours.map((h) => h.value).join("; ")}): write them into opening_hours, e.g. "Mo-Fr 08:00-17:00"`);
   if (!zone) notes.push(`time_zone not set, the address does not settle it: set it in ${businessFile} (e.g. America/New_York) before hours, bookings or reports`);
-  const description = markup.description || home.meta_description || "";
-  const cite = markup.description ? `${dir}/structured/business.json` : `the homepage's description, ${dir}/_index/inventory.json`;
+  const description = card.description || "";
+  const cite = card.sources?.description === "structured/business.json" ? `${dir}/structured/business.json` : `the homepage's description, ${dir}/_index/inventory.json`;
   if (!description) notes.push(`${businessFile} has no paragraph yet: write what the business does from ${dir}/pages/index.md`);
   writeFileSync(businessFile, `---\n${business.toString().trimEnd()}\n---\n${description ? `\n${description} (${cite})\n` : ""}`);
   wrote.push(`${businessFile}: name, contact, address${hours.length ? ", hours" : ""}${zone ? `, time zone ${zone}` : ""} from the crawl`);
@@ -173,19 +129,19 @@ else {
 
 // ── the logo and the photographs ──────────────────────────────────────────
 const fileOf = (it) => join(dir, "images", it.file);
-const logo = media.filter((it) => it.kind === "logo" && it.file && existsSync(fileOf(it))).sort((a, b) => (b.width || 0) - (a.width || 0))[0];
-if (logo) {
+// the card's pictures, named as the crawl's images/ folder names them
+const asItem = (p) => p && { ...p, file: basename(p.file) };
+// A logo already in brand/logo/ is the logo: one the owner sent, or a copy of
+// another app's brand/ that the next refresh would put back as it was.
+const keptLogo = existsSync("brand/logo") ? readdirSync("brand/logo").filter((f) => /\.(png|jpe?g|svg|webp|gif)$/i.test(f)).sort()[0] : "";
+const logo = keptLogo ? { file: keptLogo } : asItem(card.logo);
+if (keptLogo) kept.push(`brand/logo/${keptLogo} (already there)`);
+else if (logo) {
   mkdirSync("brand/logo", { recursive: true });
-  if (existsSync(join("brand/logo", logo.file))) kept.push(`brand/logo/${logo.file} (already there)`);
-  else {
-    copyFileSync(fileOf(logo), join("brand/logo", logo.file));
-    wrote.push(`brand/logo/${logo.file} (${logo.width}x${logo.height})`);
-  }
+  copyFileSync(fileOf(logo), join("brand/logo", logo.file));
+  wrote.push(`brand/logo/${logo.file} (${logo.width}x${logo.height})`);
 }
-const photos = media
-  .filter((it) => it.kind === "photo" && it.file && (it.width || 0) >= 800 && existsSync(fileOf(it)))
-  .sort((a, b) => (b.width || 0) - (a.width || 0))
-  .slice(0, 16);
+const photos = (card.photos || []).map(asItem);
 mkdirSync("static/images", { recursive: true });
 // an alt worth keeping says something: not a file name, a number or "image"
 const realAlt = (alt) => (alt && /[a-z]{3,}\s+[a-z]{3,}/i.test(alt) && !/\.(jpe?g|png|webp)|^(image|photo|img)\b/i.test(alt) ? alt : "");
@@ -203,8 +159,8 @@ const shown = photos.flatMap((it) => {
   }
   const width = out.width || Math.min(it.width, MAX_WIDTH);
   const height = out.height || Math.round((it.height * width) / it.width);
-  const where = it.pages?.[0]?.heading ? ` beside "${it.pages[0].heading}"` : "";
-  const alt = realAlt(it.alts?.[0]);
+  const where = it.heading ? ` beside "${it.heading}"` : "";
+  const alt = realAlt(it.alt);
   photoRows.push({ file: dest, source: fileOf(it), width, height });
   return [`/images/${name}  ${width}x${height}${width >= 1600 ? "  full width" : ""}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
 });
@@ -303,27 +259,25 @@ function placesEnv() {
 // their Google listing, through a key or the Google Places Connection
 function google() {
   const filled = business.toJSON() || {};
-  const name = markup.name || filled.name;
-  const where = [filled.address?.locality, filled.address?.region].filter(Boolean).join(", ") || first("address");
+  const name = filled.name;
+  const where = [filled.address?.locality, filled.address?.region].filter(Boolean).join(", ") || filled.address?.street || "";
   if (!name || /to fill/i.test(name)) return null;
   try {
     const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places", "--json"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], env: placesEnv() });
     const answer = JSON.parse(out.trim().split("\n").pop());
-    const d = JSON.parse(readFileSync(join("raw/places", `${answer.place_id}.json`), "utf8"));
+    // tt-crawl's summary of Google's answer; the answer itself is the source
+    const d = JSON.parse(readFileSync(join("raw/places", `${answer.place_id}.summary.json`), "utf8"));
     const src = `raw/places/${answer.place_id}.json`;
     // only their own listing: its website is the site we crawled
-    const listed = (() => { try { return new URL(d.websiteUri).hostname.replace(/^www\./, ""); } catch { return ""; } })();
+    const listed = (() => { try { return new URL(d.website).hostname.replace(/^www\./, ""); } catch { return ""; } })();
     if (listed !== host) {
-      notes.push(`the Google listing found for "${name}, ${where}" is ${d.displayName?.text || "another place"} (${listed || "no website"}), not ${host}: left out; find theirs with tt-crawl places --place-id`);
+      notes.push(`the Google listing found for "${name}, ${where}" is ${d.name || "another place"} (${listed || "no website"}), not ${host}: left out; find theirs with tt-crawl places --place-id`);
       return null;
     }
     fillFromListing(d, src);
     return {
-      rating: d.rating ? { platform: "Google", value: d.rating, count: d.userRatingCount || null, url: d.googleMapsUri || "", source: src } : null,
-      reviews: (d.reviews || []).map((r) => ({
-        quote: (r.text?.text || r.originalText?.text || "").trim(), name: r.authorAttribution?.displayName || "",
-        platform: "Google", date: (r.publishTime || "").slice(0, 10), stars: r.rating || null, url: r.authorAttribution?.uri || "", photo: r.authorAttribution?.photoUri || "", source: src,
-      })).filter((r) => r.quote),
+      rating: d.rating ? { platform: "Google", value: d.rating, count: d.review_count || null, url: d.maps_url || "", source: src } : null,
+      reviews: d.reviews.map((r) => ({ ...r, source: src })),
     };
   } catch (e) {
     const why = String(e.stderr || e.message);
@@ -332,64 +286,6 @@ function google() {
       : `their Google listing could not be read: ${errorLine(e).slice(0, 160)}`);
     return null;
   }
-}
-
-// Google's kind of place as a schema.org type; anything else stays LocalBusiness
-const SCHEMA_TYPES = {
-  bakery: "Bakery", cafe: "CafeOrCoffeeShop", coffee_shop: "CafeOrCoffeeShop", restaurant: "Restaurant", bar: "BarOrPub",
-  dentist: "Dentist", doctor: "Physician", pharmacy: "Pharmacy", veterinary_care: "VeterinaryCare", plumber: "Plumber",
-  electrician: "Electrician", roofing_contractor: "RoofingContractor", general_contractor: "GeneralContractor",
-  painter: "HousePainter", locksmith: "Locksmith", moving_company: "MovingCompany", car_repair: "AutoRepair",
-  hair_salon: "HairSalon", beauty_salon: "BeautySalon", gym: "ExerciseGym", florist: "Florist", hotel: "Hotel",
-  lawyer: "Attorney", accounting: "AccountingService", insurance_agency: "InsuranceAgency", real_estate_agency: "RealEstateAgent",
-};
-const schemaType = (d) => {
-  for (const t of [d.primaryType, ...(d.types || [])].filter(Boolean)) {
-    if (SCHEMA_TYPES[t]) return SCHEMA_TYPES[t];
-    if (t.endsWith("_restaurant")) return "Restaurant";
-  }
-  return "";
-};
-
-// Google's addressComponents as the note's address (tt-crawl's address_parts)
-function listedAddress(components = []) {
-  const out = { street: "", locality: "", region: "", postal_code: "", country: "" };
-  let number = "", route = "";
-  for (const c of components) {
-    const types = new Set(c.types || []), text = c.longText || c.shortText || "";
-    if (types.has("street_number")) number = text;
-    else if (types.has("route")) route = text;
-    else if (types.has("locality") || types.has("postal_town")) out.locality ||= text;
-    else if (types.has("administrative_area_level_1")) out.region = c.shortText || text;
-    else if (types.has("postal_code")) out.postal_code = text;
-    else if (types.has("country")) out.country = c.shortText || text;
-  }
-  out.street = [number, route].filter(Boolean).join(" ");
-  return out;
-}
-
-// Google's regularOpeningHours.periods as schema.org strings ("Mo-Fr 08:00-17:00")
-function listedHours(regular) {
-  const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  const pad = (n) => String(n || 0).padStart(2, "0");
-  const periods = regular?.periods || [];
-  // open around the clock: one period that never closes
-  if (periods.length === 1 && !periods[0].close && !periods[0].open?.hour) return ["Mo-Su 00:00-23:59"];
-  const byDay = new Map();
-  for (const { open, close } of periods) {
-    if (open?.day === undefined) continue;
-    byDay.set(DAYS[(open.day + 6) % 7], close ? `${pad(open.hour)}:${pad(open.minute)}-${pad(close.hour)}:${pad(close.minute)}` : "00:00-23:59");
-  }
-  const out = [];
-  for (let i = 0; i < 7; i++) {
-    const t = byDay.get(DAYS[i]);
-    if (!t) continue;
-    let j = i;
-    while (j + 1 < 7 && byDay.get(DAYS[j + 1]) === t) j++;
-    out.push(`${DAYS[i]}${j > i ? `-${DAYS[j]}` : ""} ${t}`);
-    i = j;
-  }
-  return out;
 }
 
 // What the site left out of the business note, from their own Google listing:
@@ -404,24 +300,22 @@ function fillFromListing(d, src) {
     filled.push(label);
   };
   const drop = (re) => notes.splice(0, notes.length, ...notes.filter((n) => !re.test(n)));
-  const address = listedAddress(d.addressComponents);
+  const address = d.address;
   if ((!note.address?.street || !note.address?.locality) && address.street && address.locality) {
     set("address", address, "address");
     drop(/^the address is one line/);
   }
-  const hours = listedHours(d.regularOpeningHours);
-  if (hours.length && !hoursMarked) {
-    set("opening_hours", hours, "hours");
+  if (d.opening_hours.length && !hoursMarked) {
+    set("opening_hours", d.opening_hours, "hours");
     drop(/^hours found but not in schema\.org form/);
   }
-  if (!note.time_zone && d.timeZone?.id) {
-    set("time_zone", d.timeZone.id, `time zone ${d.timeZone.id}`);
+  if (!note.time_zone && d.time_zone) {
+    set("time_zone", d.time_zone, `time zone ${d.time_zone}`);
     drop(/^time_zone not set/);
   }
-  if (!note.telephone && (d.nationalPhoneNumber || d.internationalPhoneNumber)) set("telephone", d.nationalPhoneNumber || d.internationalPhoneNumber, "phone");
-  if (note.geo?.lat == null && d.location?.latitude != null) set("geo", { lat: d.location.latitude, lng: d.location.longitude }, "map point");
-  const type = schemaType(d);
-  if ((!note.schema_type || note.schema_type === "LocalBusiness") && type) set("schema_type", type, `type ${type}`);
+  if (!note.telephone && d.telephone) set("telephone", d.telephone, "phone");
+  if (note.geo?.lat == null && d.geo?.lat != null) set("geo", d.geo, "map point");
+  if ((!note.schema_type || note.schema_type === "LocalBusiness") && d.schema_type) set("schema_type", d.schema_type, `type ${d.schema_type}`);
   if (!filled.length) return;
   business.set("sources", [...new Set([...(note.sources || []), src])]);
   const body = frontmatter(readFileSync(businessFile, "utf8"))?.body || "";
@@ -497,7 +391,7 @@ if (proofEmpty) {
 const siteTs = readFileSync("src/site.ts", "utf8");
 const noLogo = /logo: \{ file: "", alt: "" \}/;
 if (logo && noLogo.test(siteTs)) {
-  writeFileSync("src/site.ts", siteTs.replace(noLogo, `logo: { file: ${JSON.stringify(logo.file)}, alt: ${JSON.stringify(String(markup.name || host))} }`));
+  writeFileSync("src/site.ts", siteTs.replace(noLogo, `logo: { file: ${JSON.stringify(logo.file)}, alt: ${JSON.stringify(String(card.name || host))} }`));
   wrote.push(`src/site.ts: the logo`);
 } else if (logo) kept.push(`src/site.ts (has a logo already)`);
 
@@ -595,7 +489,7 @@ else {
       if (near !== want) record.setIn(["tokens", "typography", style, "fontWeight"], near);
     }
     record.set("id", "site");
-    record.set("title", markup.name || host);
+    record.set("title", card.name || host);
     record.set("summary", `Seeded from ${host}'s colours and fonts by npm run from-site; the first homepage's design replaces this.`);
     if (record.hasIn(["sections", "overview"])) {
       record.setIn(["sections", "overview"], `Seeded from ${host}'s own colours (${tokens.accent} on ${tokens.canvas})${families.length ? ` and fonts (${families.join(" and ")})` : ""}. The first homepage's design replaces this paragraph.`);

@@ -30,8 +30,7 @@ same_as:
   - https://www.instagram.com/harlowbakery
 area_served: ""
 sources:
-  - raw/site/harlowbakery.com/_index/facts.json
-  - raw/site/harlowbakery.com/structured/business.json
+  - raw/site/harlowbakery.com/_index/business-card.json
   - raw/places/ChIJharlow.json
 ---
 
