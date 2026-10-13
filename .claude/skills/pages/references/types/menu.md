@@ -29,10 +29,7 @@ with a dietary need.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  services    core      Each menu (lunch, dinner, drinks, brunch) with when it is served, and a way to
+services    core      Each menu (lunch, dinner, drinks, brunch) with when it is served, and a way to
                         jump between them.
   items       core      Sections in the restaurant's own order; each item with its name, description
                         and price, verbatim.

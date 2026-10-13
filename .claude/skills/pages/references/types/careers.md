@@ -8,8 +8,6 @@ apply.
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  the person the company most needs to hire, and what they are leaving.
   pain    is this a good place to work, and will it pay.
   offer   what the company actually offers: pay, hours, training, the people, the work itself.
@@ -30,9 +28,6 @@ Decide per page and write in the brief's frontmatter, from this brand's own mate
 </select>
 
 <sections>
-In page order. `core` is on nearly every careers page; everything else is a choice made against
-the material. Each line says what the band holds, then when it earns its place.
-
   roles       core      Each open role with title, place, type, pay and a link to apply; or an honest
                         line that none are open, and how to get in touch anyway.
   offer       optional  Pay, benefits, hours, training. When: the brand states them.

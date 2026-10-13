@@ -34,9 +34,6 @@ off, and name the kind of events on the homepage instead.
 </select>
 
 <sections>
-In page order. `core` is on nearly every events page; everything else is a choice made against the
-material. Each line says what the band holds, then when it earns its place.
-
   upcoming    core      Each event: name, date and time, place, price, status, and how to book.
   regular     optional  Recurring nights or series and their pattern. When: the brand has them.
   spaces      optional  Each space for hire: photograph, capacity per layout, pricing, what is included.

@@ -11,8 +11,6 @@ search features.
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  someone close to choosing, checking whether other people like them were happy.
   pain    will this company do right by me: turn up, do it well, charge what they said.
   offer   the volume, recency and specifics of what customers say, on platforms the reader trusts.
@@ -36,9 +34,6 @@ Decide per page and write in the brief's frontmatter, from this brand's own mate
 </select>
 
 <sections>
-In page order. `core` is on nearly every reviews page; everything else is a choice made against
-the material. Each line says what the band holds, then when it earns its place.
-
   summary     core      Each platform's rating with count, and a link to read them there.
   reviews     core      The chosen reviews, verbatim, each with name, date, platform and the job.
   by service  optional  Reviews grouped under the service they are about.

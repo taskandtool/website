@@ -36,10 +36,7 @@ named spam. The case for retiring is quality and honesty, not a traffic promise.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  title       core      The question it answers, in the searcher's words.
+title       core      The question it answers, in the searcher's words.
   byline      core      A real, named author and labelled dates (published, updated).
   answer      core      The answer itself, first.
   body        core      Sections headed by what each covers; one idea per paragraph.

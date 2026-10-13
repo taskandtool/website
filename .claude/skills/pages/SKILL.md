@@ -51,9 +51,13 @@ out and why. Its page type's guide, `references/types/<type>.md` (and its
 `<variant>`), says what the type can hold; what matters is the choosing:
 
 - **The angle:** a persuasion page's `reader`, `pain`, `offer` and `lead`;
-  a retrieval page's `<reader>`.
+  a retrieval page's `<reader>`, decided for this page from this business's
+  material.
+- **The bands,** from the guide's `<sections>`, in page order: `core` is on
+  nearly every page of the type; the rest earns its place as its line says.
 - **The material,** sorted into the guide's `<inventory>` bins with sources
-  (`public/`, `brand/`, `brand/images.md`, the crawl in `raw/`). A page of
+  (`public/`, `brand/`, `brand/images.md`, and every page, review and
+  listing the crawl saved in `raw/`). A page of
   their site the crawl did not read is one `tt-crawl add <url>` away; fetch
   rather than ask. When the page replaces an old one, the old page is the
   floor for how complete the new one is, not the template for its shape:

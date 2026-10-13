@@ -8,8 +8,6 @@ placeholders, missing photographs or people who have left is worse than none.
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  someone choosing a person, or checking who will turn up.
   pain    will this person be qualified, and will they listen.
   offer   each person's qualifications and what they handle, with a face.
@@ -38,9 +36,6 @@ role for.
 </select>
 
 <sections>
-In page order. `core` is on nearly every team page; everything else is a choice made against the
-material. Each line says what the band holds, then when it earns its place.
-
   intro       optional  One or two lines on who the team is. When: the page needs context.
   people      core      Each person: photograph, name, role, qualifications, what they handle, link.
   groups      optional  The people grouped by what they do or where they work.

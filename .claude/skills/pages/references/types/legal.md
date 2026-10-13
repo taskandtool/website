@@ -30,8 +30,6 @@ page, the page is a NEED. We never draft legal terms.
 </select>
 
 <sections>
-In page order. `core` is on every legal page; the summary is a choice.
-
   summary     optional  A plain-language summary of the key terms.
                         When: the owner supplies or approves it.
   text        core      The terms, verbatim, under headings, with a list of the headings linked at the top when long.

@@ -7,8 +7,6 @@ them to act. One page per service is how a site answers a search for that servic
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  the person who searched for this service, and their situation.
   pain    the problem that sent them looking, in their words.
   offer   why this company for this service: speed, warranty, method, price, coverage.
@@ -16,8 +14,8 @@ Decide per page and write in the brief's frontmatter, from this brand's own mate
 </angle>
 
 <inventory>
-Sort every usable item for THIS service into bins, with its source. An old site often spreads one
-service across several pages; gather from all of them.
+Only what is about this service. An old site often spreads one service across several pages;
+gather from all of them.
 
   problem     the signs and situations that mean a reader needs this service
   included    what the service involves and what the customer gets
@@ -40,10 +38,7 @@ service across several pages; gather from all of them.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  hero        core      The service by its search name, the problem it fixes, where, the action.
+hero        core      The service by its search name, the problem it fixes, where, the action.
   included    core      What the customer gets, as named items.
   proof       core      Reviews about this service, job photographs, results, and every logo in
                         public/proof.md. The strongest sits beside the claim it proves. None:

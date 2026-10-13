@@ -8,8 +8,6 @@ reader onward. It is not a long argument; that is a landing page's job.
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  the main reader, and the one or two others the page must also serve.
   pain    what the main reader arrives needing to know or fix, in their words.
   offer   the company's strongest reason to choose them: the thing only they can say.
@@ -21,9 +19,6 @@ wait, open 24 hours, the owner answers the phone) sits halfway down an old page.
 </angle>
 
 <inventory>
-Sort every usable item into bins, with its source. Look in `public/` and `brand/` (the facts and the
-brand notes), `static/images/` (described in `brand/images.md`), and `raw/` (every crawled page, not just the old homepage, and the
-reviews and places the crawl found).
 
   identity    what they do, named as a customer would search for it; where; who
   offerings   each service or product by its search name, with a real example of it
@@ -52,8 +47,7 @@ reviews and places the crawl found).
 </select>
 
 <sections>
-In page order. `core` is on nearly every homepage; everything else is a choice made against the
-material. A homepage for a business with one service and little material is short; one for a
+A homepage for a business with one service and little material is short; one for a
 company with seven product lines, a guide and a guarantee is long, and should be: leaving its
 material out makes the new site look less complete than the old. Each line says what the
 band holds, then when it earns its place.

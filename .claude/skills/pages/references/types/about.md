@@ -11,8 +11,6 @@ This type does not cover contact, location or team pages: those are
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  someone close to choosing, checking the company out.
   pain    the doubt they hold: are these real people, are they local, will they answer.
   offer   what the people bring: experience, qualifications, being the ones who show up.
@@ -20,8 +18,6 @@ Decide per page and write in the brief's frontmatter, from this brand's own mate
 </angle>
 
 <inventory>
-Sort every usable item into bins, with its source.
-
   people      names and roles as the brand states them; staff named in reviews, with the role
               the reviewer gives
   history     founding, years, why the company exists, in their own words
@@ -40,10 +36,7 @@ Sort every usable item into bins, with its source.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  what        core      What the company does and for whom, in a line or two. The reader should not
+what        core      What the company does and for whom, in a line or two. The reader should not
                         have to read further to know.
   people      core      Who they are: named, with a photograph if the brand has one. With many
                         staff, a preview linking to the team page.

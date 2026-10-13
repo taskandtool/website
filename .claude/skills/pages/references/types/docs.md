@@ -26,10 +26,7 @@ make sense on its own.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  summary     core      One line on what the page covers.
+summary     core      One line on what the page covers.
   content     core      Numbered steps for a task; labels and values for reference.
   related     optional  Links to the other kinds of page rather than pasting them in.
                         When: a reader of this page usually needs one of them next.

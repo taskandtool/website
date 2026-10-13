@@ -29,9 +29,6 @@ someone who needs directions. Which channel each one wants, and whether any of i
 </select>
 
 <sections>
-In page order. `core` is on nearly every contact page; everything else is a choice made against
-the material. Each line says what the band holds, then when it earns its place.
-
   reach       core      The main phone number and email as links, with hours and how fast they reply.
   urgent      optional  The emergency or after-hours line and what it covers.
                         When: the brand offers one. Then it sits beside the main number.

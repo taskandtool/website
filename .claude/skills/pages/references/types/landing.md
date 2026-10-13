@@ -8,9 +8,6 @@ the commonest way to fail.
 </job>
 
 <angle>
-Decide these per page, before choosing any content, and write them in the brief's frontmatter.
-Derive them from this brand's own material; nothing here supplies them.
-
   reader  who this page is for, narrowly. One audience; the page says nothing to anyone else.
   pain    the doubt or problem they arrive with, in words they would use.
   offer   what they get for acting now: the terms that make yes cheap.
@@ -20,9 +17,7 @@ Derive them from this brand's own material; nothing here supplies them.
 </angle>
 
 <inventory>
-Before selecting, sort every usable item into bins, noting its source. Look in
-`public/` and `brand/`, `static/images/` (described in `brand/images.md`), and `raw/` (the crawled pages, reviews and places). What
-the owner asked for gives direction, never a fact.
+What the owner asked for gives direction, never a fact.
 
   outcomes    what the reader ends up with
   offer       warranty, financing, free estimate, speed, guarantees
@@ -54,8 +49,6 @@ An item that serves another audience is not in the inventory at all.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
 "Costly" means an expensive or hard-to-reverse decision.
 
   hero          core      The promise, kept: headline, subtext, a few checks, the action. Who the

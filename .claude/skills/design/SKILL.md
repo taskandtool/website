@@ -86,9 +86,7 @@ page that could be another business with the logo swapped.
 
 ## When the site grows
 
-When the owner wants more than the homepage, the record carries the look to
-every page: `references/growing.md` (fill the record, rebuild it blind,
-check it). The other pages then follow the record (the `pages` skill).
+When the owner wants more than the homepage: `references/growing.md`.
 
 ## Review gate
 

@@ -28,10 +28,7 @@ Who buys this item, for what use, and what they compare it with.
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  buy         core      Name, price, variants as visible choices with stock, the action; delivery
+buy         core      Name, price, variants as visible choices with stock, the action; delivery
                         cost or estimate and the returns policy beside the button.
   images      core      Several views, including one that shows scale and one in use.
   highlights  core      The few features that decide it.

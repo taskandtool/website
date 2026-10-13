@@ -35,9 +35,6 @@ name swapped.
 </select>
 
 <sections>
-In page order. `core` is on nearly every location page; everything else is a choice made against
-the material. Each line says what the band holds, then when it earns its place.
-
   place       core      The location's name, full address, phone, and the action (book, order, call).
   hours       core      Opening hours, with holiday hours and exceptions.
   getting     optional  Map link, parking, transit, entrance, accessibility.

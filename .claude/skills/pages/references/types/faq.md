@@ -32,9 +32,6 @@ questions go on the pages they belong to instead.
 </select>
 
 <sections>
-In page order. `core` is on nearly every FAQ page; everything else is a choice made against the
-material. Each line says what the band holds, then when it earns its place.
-
   topics      optional  The topics, linked to their groups. When: more than about eight questions.
   questions   core      Each question in a customer's words, with its direct answer and a link on.
   still stuck  core      How to ask something else: phone, email, the contact page.

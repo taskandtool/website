@@ -27,10 +27,7 @@ Who is comparing, what they are comparing against, and which option most of them
 </select>
 
 <sections>
-In page order. `core` is on nearly every page of this type; everything else is a choice made
-against the material. Each line says what the band holds, then when it earns its place.
-
-  options     core      Each option with its price, unit, tax status and who it is for.
+options     core      Each option with its price, unit, tax status and who it is for.
   included    core      What each option includes, and what it does not.
   compare     optional  A comparison table. When: two to five real alternatives with shared attributes.
   fees        optional  Extras, minimums, call-out charges, deposits.

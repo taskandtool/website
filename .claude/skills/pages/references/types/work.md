@@ -8,8 +8,6 @@ is only a story.
 </job>
 
 <angle>
-Decide per page and write in the brief's frontmatter, from this brand's own material.
-
   reader  a buyer whose problem resembles this client's, by industry, size or kind of job.
   pain    the problem as the client had it, before.
   offer   what was done, and the result, with numbers where the brand has them.
@@ -32,9 +30,6 @@ Decide per page and write in the brief's frontmatter, from this brand's own mate
 </select>
 
 <sections>
-In page order. `core` is on nearly every work page; everything else is a choice made against the
-material. Each line says what the band holds, then when it earns its place.
-
   summary     core      The client, the job and the result, in a few lines.
   problem     core      What was wrong before.
   work        core      What the company did, named as the services it sells.
