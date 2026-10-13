@@ -37,12 +37,6 @@ service across several pages; gather from all of them.
   - The company's own FAQ answers for this service beat anything you could write.
   - Photographs of this service, being done and finished, beat any other picture.
   - Each item once; the homepage summary is not repeated word for word.
-  - At most one lead figure: the number that best answers the reader's pain, with its source,
-    named in the brief. The design system decides how it is emphasised; with no such number,
-    nothing is emphasised.
-  - Reviews: several sit together in their own band; one may also sit beside the claim it
-    proves. The design system decides how either looks. Each carries its platform's mark and
-    its stars in the brief (the design skill, "Proof, front and centre").
 </select>
 
 <sections>
@@ -80,7 +74,6 @@ against the material. Each line says what the band holds, then when it earns its
     problem it solves in the subtext.
   - Included items are named things, not adjectives.
   - Invite, don't instruct. What happens after they get in touch in one line.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

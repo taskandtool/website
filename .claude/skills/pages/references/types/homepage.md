@@ -46,16 +46,9 @@ reviews and places the crawl found).
     product line, a buying guide, a planning tool, a guarantee, a certification) is carried or
     improved; a drop is a decision named in `omit:`. When the old homepage was thin (a banner and a
     paragraph), don't copy its shape: build from the rest of the old site and the photographs.
-  - Third-party proof beats the company's own claims.
   - One statement of coverage and one main phone number.
   - Cut welcome text, announcements and promotions that crowd out what the company does.
   - Each item once; a service is summarised here and described on its own page.
-  - At most one lead figure: the number that best answers the reader's pain, with its source,
-    named in the brief. The design system decides how it is emphasised; with no such number,
-    nothing is emphasised.
-  - Reviews: several sit together in their own band; one may also sit beside the claim it
-    proves. The design system decides how either looks. Each carries its platform's icon and
-    its stars in the brief (the design skill, "Proof, front and centre").
 </select>
 
 <sections>
@@ -76,7 +69,7 @@ band holds, then when it earns its place.
                         claim it proves. When there are none, the band is a NEED, not filler.
   work        optional  Photographs of real jobs, dishes, rooms or products, captioned.
                         When: the business's photographs have usable ones. With none, the work is set in type.
-  process     optional  Three or four steps from first contact to done.
+  process     optional  The steps from first contact to done.
                         When: the buying process is unfamiliar or feared (legal, medical,
                         remodelling, a first booking). Omit for a purchase everyone understands.
   price       optional  A "from" price or typical-job price, with its unit.
@@ -85,7 +78,7 @@ band holds, then when it earns its place.
                         When: the business travels to its customers. Core for a service-area trade.
   visit       optional  Address, today's hours, map link, parking.
                         When: customers come to them (restaurant, shop, clinic). Core for those.
-  about       optional  Who they are in two or three lines, linking to the about page.
+  about       optional  Who they are, briefly, linking to the about page.
                         When: the people or the story are a reason to choose them.
   latest      optional  The newest posts or events, dated.
                         When: the brand publishes at least quarterly. A stale date costs trust.
@@ -95,12 +88,8 @@ band holds, then when it earns its place.
 <phrase>
   - Headline or tagline: literal and specific about what the company does, unless the name says
     it. Clever lines that a stranger cannot repeat back fail.
-  - Link labels start with the words that carry the meaning; never "click here" or "learn more"
-    alone.
-  - Invite, don't instruct. Never spell out what the reader must say when they call.
   - Services are named, then described. A number is never the whole answer: fifteen towns is a
     heading for the list of fifteen.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

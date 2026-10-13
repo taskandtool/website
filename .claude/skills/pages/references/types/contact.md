@@ -48,8 +48,6 @@ the material. Each line says what the band holds, then when it earns its place.
 
 <phrase>
   - Labels and values, not prose. A number is a number, not a sentence about calling.
-  - Invite, don't instruct. Never spell out what the reader must say.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

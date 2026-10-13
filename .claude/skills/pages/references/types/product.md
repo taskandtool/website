@@ -46,7 +46,6 @@ against the material. Each line says what the band holds, then when it earns its
 
 <phrase>
   - The seller's own product names and facts. Descriptions name what it is and does, not adjectives.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

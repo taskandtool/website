@@ -39,7 +39,6 @@ against the material. Each line says what the band holds, then when it earns its
   - Task headings start with a verb; concept headings are noun phrases.
   - Each numbered step opens with an imperative verb.
   - Questions are written the way a customer would ask them.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

@@ -43,7 +43,6 @@ material. Each line says what the band holds, then when it earns its place.
 <phrase>
   - Questions are written the way a customer would ask them.
   - Answers open with the answer: yes, no, a number, a name.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

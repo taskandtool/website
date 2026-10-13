@@ -85,11 +85,9 @@ up. The body is markdown with a few labelled lines:
 
 - `query`: the one search this page answers, in the customer's words, with
   the town for a local page.
-- `title`: the page's claim or service and where, unique on the site,
-  under 60 characters including the business name the layout adds. When an old page
+- `title`: the page's claim or service and where, unique on the site. When an old page
   ranked, keep its title unless it is wrong.
-- `description`: 70 to 155 characters of specific facts from this brief,
-  unique on the site.
+- `description`: specific facts from this brief, unique on the site.
 - `arrives` (optional): how readers reach the page, when it changes the
   page: an ad's promise, a local search, a question. Leave it off the
   homepage, about, faq and legal.

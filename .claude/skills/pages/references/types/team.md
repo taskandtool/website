@@ -52,7 +52,6 @@ material. Each line says what the band holds, then when it earns its place.
 <phrase>
   - People are named as the brand names them. Qualifications in the form a customer recognises.
   - A personal line only where the brand's own material has one.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

@@ -53,7 +53,6 @@ the material. Each line says what the band holds, then when it earns its place.
 <phrase>
   - Reviews are quoted, never paraphrased or corrected, and never turned into headings.
   - Headings name what the reviews are about, plainly.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

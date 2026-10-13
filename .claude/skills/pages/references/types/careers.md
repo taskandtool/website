@@ -43,7 +43,6 @@ the material. Each line says what the band holds, then when it earns its place.
 
 <phrase>
   - Role titles as the trade or profession names them, not invented ones.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

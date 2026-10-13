@@ -26,8 +26,8 @@ a line.
    old site, its pages are in the ledger already (the `migrate-site` skill)
    and each keep or merge row becomes a page here.
 3. **One row per page in `site-map.md`**, with its job and the notes it
-   draws on, status `planned`. Write the nav under "Architecture" (at most
-   four links, with the action as the button).
+   draws on, status `planned`. Write the nav under "Architecture", with the
+   action as the button.
 4. **Show the plan in one message**, the least that lets them say yes:
 
    ```

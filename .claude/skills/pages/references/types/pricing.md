@@ -47,7 +47,6 @@ against the material. Each line says what the band holds, then when it earns its
     invented tier name.
   - Every price carries its unit and whether tax is included. Terms an outsider would not know
     are defined where they appear.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

@@ -26,27 +26,13 @@ about itself, once, consistently.
 `alt`; `npm run audit` lists missing titles, descriptions and broken links.
 What they cannot judge is yours:
 
-- One `h1`, in the display face, saying what the page is for; `h2`s for
-  sections in order. Never skip a level for looks.
 - `title` (in `page.title`): the page's job first. The layout appends ` · `
-  and the business name, and the whole title stays under 60 characters, so
-  `page.title` gets what is left (the homepage's too: the service and the
-  town, then the name). `description` a real sentence, 70 to 155 characters, that would
-  make sense as the snippet. Keep the intent of the old page's title and
+  and the business name (the homepage's title: the service and the town,
+  then the name). `description` a real sentence that would make sense as
+  the snippet. Keep the intent of the old page's title and
   description when migrating; rewrite the words only when they were bad.
-- Internal links in body copy to the pages in `site-map.md`, with
-  descriptive link text ("our roofing services", not "click here"). Every
-  page reachable from the nav or another page.
-- Images: real `alt` text (what is in the picture, for someone who cannot
-  see it; empty alt only for pure decoration), sized for the web, in
-  `static/images/`.
-- URLs: keep them when migrating. A new URL is lowercase, hyphenated,
-  short, and stable; changing one later means a redirect row.
-- One topic per page. Two thin pages about the same service become one
-  page and a redirect.
-- Do not: keyword-stuff, hide text, invent reviews or counts, add pages
-  for search engines rather than people, or change a URL without a
-  redirect.
+- Link in body copy to the pages in `site-map.md`.
+- URLs: keep them when migrating; changing one later means a redirect row.
 
 ## Ranking for a search
 

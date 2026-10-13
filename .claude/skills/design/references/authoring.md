@@ -66,8 +66,7 @@ because the footer and the shared components use it.
 1. **Every value comes from the homepage the owner liked.** Read
    `src/pages/home.tsx` and the record's tokens: the colours, sizes, radii
    and spacings the page actually uses stay; a token it never uses goes.
-2. **Every rule carries its reason.** At least four dos and four don'ts, one
-   rule per reason. "Don't use shadows" is a preference; "Don't use shadows:
+2. **Every rule carries its reason.** One rule per reason. "Don't use shadows" is a preference; "Don't use shadows:
    depth here is the two paper tones, and a shadow reads as a third surface
    the system does not have" lets the next page apply it to a case you did
    not foresee.

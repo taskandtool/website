@@ -12,7 +12,7 @@ Read when writing or changing a page's code.
    `/<name>`. Add its row to `site-map.md`. Nested paths work the same way:
    `/services/roofing` becomes `dist/services/roofing.html`.
 3. Put it in the header nav through `site.nav` in `src/site.ts` when it
-   belongs there (at most four links; more go in a menu).
+   belongs there.
 4. Build the page from `Section`, the type classes, and the tokens. The
    Tailwind default palette, shadows, radii, blurs, and animations are
    switched off in the theme, so only the site's tokens exist as classes;

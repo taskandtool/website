@@ -49,7 +49,6 @@ material. Each line says what the band holds, then when it earns its place.
 
 <phrase>
   - Labels and values. The event's name as the brand gives it; no invented descriptions.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

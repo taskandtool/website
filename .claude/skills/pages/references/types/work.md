@@ -51,7 +51,6 @@ material. Each line says what the band holds, then when it earns its place.
 <phrase>
   - Headings say what happened, plainly. No "journey" and no "partnership".
   - Numbers carry their unit, their source and their period.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

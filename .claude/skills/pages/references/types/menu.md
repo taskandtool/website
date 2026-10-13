@@ -50,7 +50,6 @@ against the material. Each line says what the band holds, then when it earns its
 
 <phrase>
   - The restaurant's own dish names and descriptions, verbatim. Consistent price formatting.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

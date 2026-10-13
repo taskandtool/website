@@ -26,7 +26,7 @@ skill is what makes it good.
 
 The owner judges the whole site by it, so the work goes here. A short
 headline at scale that says what the business does, one supporting line,
-one action: a visitor names what this is in five seconds, and the owner is
+one action: a visitor names what this is at a glance, and the owner is
 proud to send the link.
 
 - **Lead with a stunning full-bleed photograph** when there is a good
@@ -41,14 +41,14 @@ proud to send the link.
   brand colour against white reads stronger than tints of one hue.
 - **One signature move** that belongs to this business: an oversized word,
   a numeral crossing a photograph's edge, the product lit on black, a live
-  detail (today's hours). One, not five.
+  detail (today's hours).
 - **The form is not the hero.** A form sits beside the promise only when
   a quote or a booking on the first screen is the page's whole job.
 
 ## Making it good
 
-- **Impact, not only clarity.** Beyond the first screen, one or two moments
-  a visitor remembers: a photograph at full width with words over it, a band of deep brand colour, an
+- **Impact, not only clarity.** Beyond the first screen, moments a visitor
+  remembers: a photograph at full width with words over it, a band of deep brand colour, an
   oversized word. Every section still reads at a glance.
 - **Layout.** Sequence, comparison and hierarchy each look different. One
   section is the peak; the rest are quieter. Cards only for comparable
@@ -57,18 +57,15 @@ proud to send the link.
   by ground, they change ground too. Every band's content
   starts on one left edge (the `Section` frame); `npm run shots` names a
   band that does not.
-- **Type.** Display, reading and labels each have a job. Body copy at 18px
-  or more, normal weight; the heaviest weight once. A type personality that
+- **Type.** Display, reading and labels each have a job. A type personality that
   belongs to the subject, not the cliché for the industry: start from the
   business's own fonts or a library record's pairing.
-- **Colour.** Every colour has a job; the accent is for actions. Contrast
-  holds in every state: hover, focus, over a photograph.
+- **Colour.** Every colour has a job; the accent is for actions.
 - **Imagery.** Describe a generated image apart from the layout: its
   subject, composition, light, crop and the space the words need. Words
   stay in HTML, never baked into an image.
-- **Motion.** The first screen's words rise in (`data-rise`) and one or
-  two later bands come into view (`data-reveal`); nothing waits behind
-  it.
+- **Motion.** The first screen's words rise in (`data-rise`); a later band
+  may come into view (`data-reveal`); nothing waits behind it.
 - **Proof, front and centre.** What others say persuades more than
   anything the business says, so use all of `public/proof.md`, on the
   homepage and every service page, and design it as boldly as the rest:
@@ -124,5 +121,4 @@ strips are the same page at full size, top to bottom. Read them in order:
 
 Write the problems as one list, section by section, fix them all in one pass (rewrite
 the file, or one script for several edits; not one edit per problem), then
-`npm run verify` and `npm run shots` once more. Two looks are usually
-enough; a third only for something still broken.
+`npm run verify` and `npm run shots` once more to confirm the fixes.

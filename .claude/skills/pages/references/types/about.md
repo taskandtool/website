@@ -37,12 +37,6 @@ Sort every usable item into bins, with its source.
     credential beats a belief stated.
   - Facts a reader could check beat adjectives. Cut mission-speak any company could say.
   - Reviews that name staff are the strongest proof this page can carry.
-  - At most one lead figure: the number that best answers the reader's pain, with its source,
-    named in the brief. The design system decides how it is emphasised; with no such number,
-    nothing is emphasised.
-  - Reviews: several sit together in their own band; one may also sit beside the claim it
-    proves. The design system decides how either looks. Each carries its platform's mark and
-    its stars in the brief (the design skill, "Proof, front and centre").
 </select>
 
 <sections>
@@ -73,8 +67,6 @@ against the material. Each line says what the band holds, then when it earns its
   - Headings answer "who are these people and why trust them", not "About us".
   - People are named as the brand names them; a role comes from the brand or from a review that
     states it, never guessed. A bio may be personal where the brand's own material is.
-  - Plain language; no jargon.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

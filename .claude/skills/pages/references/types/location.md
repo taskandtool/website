@@ -55,7 +55,6 @@ the material. Each line says what the band holds, then when it earns its place.
 <phrase>
   - Labels and values. The address is written out in full, never only as a map.
   - The place name is the heading. No invented local colour.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

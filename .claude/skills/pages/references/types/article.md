@@ -41,7 +41,7 @@ against the material. Each line says what the band holds, then when it earns its
 
   title       core      The question it answers, in the searcher's words.
   byline      core      A real, named author and labelled dates (published, updated).
-  answer      core      The answer itself, first, in two or three sentences.
+  answer      core      The answer itself, first.
   body        core      Sections headed by what each covers; one idea per paragraph.
   evidence    optional  The job, photographs, numbers or a diagram that show the company has done it.
                         When: `public/` and `brand/` hold them. This is what makes the post worth having.
@@ -61,7 +61,6 @@ against the material. Each line says what the band holds, then when it earns its
   - Excerpts and intros state the finding, not a teaser.
   - Link text names the destination ("roof replacement"), never "click here".
   - No date in a title unless the content is truly time-bound.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>

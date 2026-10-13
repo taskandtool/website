@@ -17,9 +17,6 @@ Derive them from this brand's own material; nothing here supplies them.
   lead    which of reader, pain or offer the headline answers first.
   arrives (when known) the ad, email or search terms that send the traffic. The headline must
           match it: message match is the best-evidenced lever a landing page has.
-
-Two landers for the same company should usually differ in angle. If every page you plan leads the
-same way, you are applying a formula, not reading the business.
 </angle>
 
 <inventory>
@@ -45,8 +42,6 @@ An item that serves another audience is not in the inventory at all.
   - The promise is the biggest thing the reader gets, not a step toward it: an estimate or a call
     is a step; the finished result, and what makes getting it easier here, is the promise.
   - Specific beats general: a number, a name, a platform, a place.
-  - Third-party proof beats the company's own claims; a claim with a customer saying it beats
-    the claim alone.
   - Price, when the brand has it, beats silence: users' first information need is cost, and a
     hidden price reads as expensive and evasive. Where price varies, give typical-job prices.
   - Unique to this company beats true of every competitor.
@@ -56,11 +51,6 @@ An item that serves another audience is not in the inventory at all.
   - When two sources disagree, use the one the reader can check, and leave the other out.
   - A fact the owner gives in chat goes into `public/` with its source first (the `brand` skill);
     a suggestion of yours is direction, never a fact.
-  - At most one lead figure: the number that best answers the reader's pain, with its source,
-    named in the brief. The design system decides how it is emphasised; with no such number,
-    nothing is emphasised.
-  - Reviews: several sit together in their own band; one may also sit beside the claim it
-    proves. The design system decides how either looks.
 </select>
 
 <sections>
@@ -140,13 +130,11 @@ and cost information: removing those costs trust and ad quality, not just exits.
   - Subtext: carries the offer or the proof the headline did not.
   - Band and card titles name what the reader gets, briefly; how it is done goes in the specifics
     beneath. A title is not an action the company takes and not a sentence.
-  - A check or benefit line is a claim, under ten words, with a number or a proper noun where
+  - A check or benefit line is a short claim, with a number or a proper noun where
     the brand has one.
-  - Plain words at a conversational reading level: plainer copy converts better on landing pages.
   - No full stop on a headline or title. Sentence case. Spell for the site's country.
   - Supplier brand names appear where they are the benefit (a certification), not in the options
     the reader chooses between.
-  - Everything in this file describes a shape. Never reuse its wording, or another page's.
 </phrase>
 
 <show>
