@@ -53,7 +53,6 @@ npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<
                              # image to read first and any width where the page scrolls sideways
 npm run show                 # each page whole, one image per width, sent to the chat (what shots took; --retake after a change)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
-npm run system -- set colors.accent=#435331   # change record values in place, then compile
 npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
 npm run audit                # the crawler against dev: broken links, headings, alt text, titles, images over 1.5 MB
 tt-crawl check http://localhost:3000  # every page of the crawled old site answers here (200 or 301); the sitemap lists them
