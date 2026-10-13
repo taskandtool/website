@@ -209,9 +209,7 @@ sections:
     keeps crossing the band's lower edge by {spacing.step-lg}. Buttons are full width and 56px
     tall. Rows of plates become two across, then one below 480px.
   known_gaps: >
-    No all-light theme exists; the white cloth is a band, never the whole page. Photography supplied below about
-    1000px wide cannot run full-bleed on desktop; it is set as a plate or a soft rectangle
-    at up to 6 columns instead. Gloock has one weight, so emphasis inside a heading comes
+    No all-light theme exists; the white cloth is a band, never the whole page. Gloock has one weight, so emphasis inside a heading comes
     from size, never bold. No icon set; a phone number is written out, not iconised.
 
 # Component recipes, by part: not compiled into the theme; read them with sections.components.
@@ -313,7 +311,6 @@ x_imagery:
     frame, at 5–6 columns in the head (crossing the band's lower edge by {spacing.step-lg}) and
     4 columns in a row. Other photographs: {rounded.soft} corners, object-cover, at their
     own ratio, at up to 7 columns. No overlay, no scrim, no filter, no border, no shadow.
-    Never stretch a photograph under about 1000px wide across the full viewport.
   aspect_ratios: ["1/1", "4/3", "3/2"]
   caption: >
     Optional, {typography.caption} in the band's text colour, {spacing.step-sm} beneath the image,
@@ -322,7 +319,6 @@ x_imagery:
     - "a photograph used as a full-bleed background behind text"
     - "a food photograph in a rectangle"
     - "two plates of different sizes side by side in a row"
-    - "a stretched low-resolution photograph"
   no_assets_supplied: >
     With no photographs the page is set in type on the colour fields: the head's plate
     position is taken by the headline running wider (cols 1–11), and rows of plates become
