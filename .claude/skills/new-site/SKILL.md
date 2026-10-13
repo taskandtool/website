@@ -49,15 +49,11 @@ The order matters; how you do each part is yours:
    could not reach (the profiles in `business.md`'s `same_as`, anything the
    owner sent), word for word. `npm run proof` fails while any of it is off
    the page.
-4. **Look before choosing:** their current site (`raw/site/<host>/`), what
-   they linked or said they like (`tt-crawl reference <url>` captures its
-   look), and the design library (the `design` skill's
-   `references/library.md`). Borrow ideas from the closest one or two,
-   never another site's words, pictures or logo.
-5. **Brief, look, page:** the brief in `design/briefs/home.md` (the `pages`
-   skill's `references/brief.md`; the frontmatter and the hero's lines are
-   enough), the look in `design/system.yaml` with the `design` skill, then
-   the page written whole from what `npm run parts` lists
+4. **The look:** shape the skeleton for this business, then the record
+   (`design/system.yaml`), with the `design` skill.
+5. **The page:** the brief in `design/briefs/home.md` (the `pages` skill's
+   `references/brief.md`; the frontmatter and the hero's lines are enough),
+   then the page written whole from what `npm run parts` lists
    (`.claude/skills/pages/references/page-code.md`). `npm run verify` and
    fix its findings. When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so.
