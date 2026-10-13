@@ -67,7 +67,8 @@ here in five mechanical steps:
 - Sending email needs a sender the owner connects (Resend or Postmark,
   through the platform's `connections` skill); Task & Tool sends none.
   `data`'s `send.ts` uses it. Without one, the submission is stored and the
-  owner sees it in `/admin` or the CRM. Say which the site does.
+  owner sees it in `/admin` or the CRM, and `/admin` says email is off.
+  Say which the site does.
 
 ## After launch
 

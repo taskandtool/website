@@ -11,7 +11,8 @@
 // <TableRows> alone (it replaces the Load more row), any other htmx request
 // is the #results block, and a plain request is the whole page.
 import type { Child } from "hono/jsx";
-import { buttonClass, controlClass } from "./status";
+import { listUrl } from "./query";
+import { buttonClass, inputClass, Select } from "./status";
 
 export type Column<T> = { label: string; cell: (row: T) => Child; class?: string };
 
@@ -21,7 +22,7 @@ export type TableSpec<T extends { id: string | number | bigint }> = {
   columns: Column<T>[];
   /** Detail URL; the first column links to it. */
   href?: (row: T) => string;
-  /** A checkbox per row belonging to the BulkForm with this id. */
+  /** A checkbox per row belonging to the bulk form with this id (`form=`), so rows added by Load more join it. */
   select?: { form: string; label: (row: T) => string };
 };
 
@@ -70,8 +71,8 @@ export function DataTable<T extends { id: string | number | bigint }>(props: {
             <TableRows spec={spec} rows={rows} next={next} more={more} />
           ) : (
             <tr>
-              <td colspan={width} class="px-3 py-8 text-center text-ink-3">
-                {empty}
+              <td colspan={width} class="px-4 py-10">
+                {typeof empty === "string" ? <EmptyState title={empty} /> : empty}
               </td>
             </tr>
           )}
@@ -79,6 +80,56 @@ export function DataTable<T extends { id: string | number | bigint }>(props: {
       </table>
     </div>
   );
+}
+
+/**
+ * An empty list, as Tailwind's empty states and HubSpot's say it: what goes
+ * here (the title), how it fills (a line), and the button that makes the
+ * first one. Inside a DataTable's `empty`, or in EmptyCard on its own.
+ */
+export function EmptyState({ title, children, action }: { title: string; children?: Child; action?: Child }) {
+  return (
+    <div class="text-center">
+      <p class="font-semibold text-ink">{title}</p>
+      {children ? <p class="mx-auto mt-1 max-w-md text-ink-2">{children}</p> : null}
+      {action ? <div class="mt-4 flex flex-wrap justify-center gap-2">{action}</div> : null}
+    </div>
+  );
+}
+
+/** EmptyState on a card of its own, where there is no table around it. */
+export function EmptyCard(props: { title: string; children?: Child; action?: Child }) {
+  return (
+    <div class="rounded-card border border-line bg-surface px-4 py-10 shadow-card">
+      <EmptyState {...props} />
+    </div>
+  );
+}
+
+/**
+ * What a section needs before it can do its job (Stripe for invoices, email
+ * for quotes), and the words to ask the AI for it, with a button that copies
+ * them. Sits above the section's own content, which still works for drafts.
+ */
+export function SetupNeeded({ title, children, ask }: { title: string; children: Child; ask: string }) {
+  return (
+    <div role="status" class="mb-4 rounded-card border border-line-strong bg-surface p-4 shadow-card">
+      <p class="font-semibold text-ink">{title}</p>
+      <p class="mt-1 max-w-prose text-ink-2">{children}</p>
+      <div class="mt-3 flex flex-wrap items-center gap-2">
+        <span class="text-label text-ink-2">Ask the AI in this app's chat:</span>
+        <q class="rounded-control bg-panel px-2 py-1 text-label text-ink">{ask}</q>
+        <button type="button" class={buttonClass} onclick={`navigator.clipboard.writeText(${JSON.stringify(ask)}).then(() => { this.textContent = "Copied" })`}>
+          Copy
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** A search or filter that found nothing: say so, and offer the way back. */
+export function NoMatches({ clear }: { clear: string }) {
+  return <EmptyState title="Nothing matches these filters." action={<a href={clear} class={buttonClass}>Clear filters</a>} />;
 }
 
 /** The rows, then a Load more row when there is a next page. Also the htmx answer to "Load more". */
@@ -99,11 +150,29 @@ export function TableRows<T extends { id: string | number | bigint }>(props: {
   );
 }
 
+/**
+ * As Stripe's and Linear's lists: a click anywhere on a row opens it, and
+ * Cmd, Ctrl or the middle button opens it in a new tab. A click on something
+ * of its own (a link, a checkbox, a button, a menu) or one that selects text
+ * is left alone. The first cell's link stays the way there for the keyboard
+ * and screen readers. A handler, not a link stretched over the row: Safari
+ * measures that against the whole table, so every row opened the last one.
+ */
+export function rowClick(href: string) {
+  const go =
+    "if(event.target.closest('a,button,input,select,textarea,label,summary,details')||getSelection().toString())return;" +
+    "if(event.metaKey||event.ctrlKey||event.button===1)window.open(this.dataset.href);else location.assign(this.dataset.href)";
+  return { "data-href": href, onclick: go, onauxclick: `if(event.button===1){${go}}` };
+}
+
+/** The first cell's link: the row's name, no underline (the row shows it can be clicked). */
+export const rowLink = "font-semibold text-ink no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent";
+
 /** One row. Also the htmx answer to a change made in it (target "closest tr"). */
 export function TableRow<T extends { id: string | number | bigint }>({ spec, row }: { spec: TableSpec<T>; row: T }) {
   const href = spec.href?.(row);
   return (
-    <tr id={`${spec.id}-row-${row.id}`} class="group hover:bg-canvas">
+    <tr id={`${spec.id}-row-${row.id}`} class={"group hover:bg-panel/60" + (href ? " cursor-pointer" : "")} {...(href ? rowClick(href) : {})}>
       {spec.select ? (
         <td class={cell + " border-b border-line group-last:border-b-0"}>
           <input type="checkbox" name="id" value={String(row.id)} form={spec.select.form} aria-label={`Select ${spec.select.label(row)}`} />
@@ -112,7 +181,7 @@ export function TableRow<T extends { id: string | number | bigint }>({ spec, row
       {spec.columns.map((c, i) => (
         <td class={cell + " border-b border-line group-last:border-b-0 " + (c.class ?? "")}>
           {i === 0 && href ? (
-            <a href={href} class="font-semibold text-ink no-underline underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent">
+            <a href={href} class={rowLink}>
               {c.cell(row)}
             </a>
           ) : (
@@ -153,8 +222,10 @@ export function SearchBar(props: {
   label?: string;
   placeholder?: string;
   filters?: Filter[];
+  /** Values the search carries unchanged, as a view chosen with tabs above it: { view: "done" }. */
+  keep?: Record<string, string | null | undefined>;
 }) {
-  const { action, target, q, label = "Search", placeholder, filters = [] } = props;
+  const { action, target, q, label = "Search", placeholder, filters = [], keep = {} } = props;
   const active = !!q || filters.some((f) => f.value);
   // Each select's first option ("Any status") says what it filters, so its label is for screen readers.
   return (
@@ -168,9 +239,10 @@ export function SearchBar(props: {
       hx-push-url="true"
       class="mb-4 flex flex-wrap items-center gap-2"
     >
+      {Object.entries(keep).map(([name, value]) => (value ? <input type="hidden" name={name} value={value} /> : null))}
       <label class="relative min-w-48 flex-1">
         <span class="sr-only">{label}</span>
-        <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-ink-3">
+        <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-3">
           <circle cx="7" cy="7" r="4.5" />
           <path d="m10.5 10.5 3 3" />
         </svg>
@@ -183,20 +255,20 @@ export function SearchBar(props: {
           hx-get={action}
           hx-trigger="input changed delay:300ms, search"
           hx-include="closest form"
-          class={controlClass + " w-full pl-8"}
+          class={inputClass + " pl-9"}
         />
       </label>
       {filters.map((f) => (
         <label class="min-w-32 flex-1 sm:flex-none">
           <span class="sr-only">{f.label}</span>
-          <select name={f.name} hx-get={action} hx-trigger="change" hx-include="closest form" class={controlClass + " w-full"}>
+          <Select name={f.name} hx-get={action} hx-trigger="change" hx-include="closest form" class="w-full">
             <option value="">{f.any ?? "All"}</option>
             {f.options.map((o) => (
               <option value={o.value} selected={o.value === f.value}>
                 {o.label}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
       ))}
       {/* htmx applies every change; the button is for a browser without it. */}
@@ -204,7 +276,7 @@ export function SearchBar(props: {
         <button class={buttonClass}>Apply</button>
       </noscript>
       {active ? (
-        <a href={action} class="px-1 text-label text-ink-2">
+        <a href={listUrl(action, keep)} class="px-1 text-sm/6 font-semibold text-ink-2 no-underline hover:text-ink">
           Clear
         </a>
       ) : null}

@@ -141,7 +141,8 @@ test("no sender is recorded and not retried; a failure is reported and not retri
 const JOB = join(dirname(fileURLToPath(import.meta.url)), "..", "reminders-job.ts");
 /** The job's command, with only the environment named (no sender, no database unless given). */
 const job = (args: string[], env: Record<string, string> = {}) =>
-  spawnSync(process.execPath, ["--import", "tsx", JOB, ...args], { encoding: "utf8", env: { PATH: process.env.PATH ?? "", ...env } });
+  // USER too: a local database address may name no user, and Postgres then takes the login's.
+  spawnSync(process.execPath, ["--import", "tsx", JOB, ...args], { encoding: "utf8", env: { PATH: process.env.PATH ?? "", USER: process.env.USER ?? "", ...env } });
 
 test("the job's command: --help, bad options and no database say what to do", () => {
   const help = job(["--help"]);
@@ -168,6 +169,23 @@ test("the job's command: one line of what was sent and what was left alone", asy
     const r = job(["--before=60"], { DATABASE_URL: s.url });
     assert.equal(r.status, 0, r.stderr);
     assert.equal(r.stdout, "booking reminders: 0 sent, 1 not sent (no email sender connected; recorded, not retried)\n");
+  } finally {
+    await s.drop();
+  }
+});
+
+test("an event the team scheduled with no service, nobody assigned or no email is not reminded", async (t) => {
+  const s = await scratch();
+  if (!s) return t.skip(why);
+  try {
+    await setup(s);
+    await s.db.sql`
+      insert into bookings (starts_at, ends_at, title, name, email, location_kind, created_at)
+      values ('2026-03-10 15:00+00', '2026-03-10 16:00+00', 'Boiler service', 'Hank', null, 'their_place', '2026-03-01 00:00+00'),
+             ('2026-03-10 15:00+00', '2026-03-10 16:00+00', 'Boiler service', 'Ann', 'ann@example.com', 'their_place', '2026-03-01 00:00+00')`;
+    const { sent, send } = capture();
+    const run = await sendReminders(s.db, send, { now: T("2026-03-10T14:30:00Z") });
+    assert.deepEqual([run.sent, run.failed, sent.length], [0, 0, 0]);
   } finally {
     await s.drop();
   }

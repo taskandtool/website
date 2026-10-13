@@ -82,8 +82,16 @@ run the same three for that page.
 - `src/business.tsx` mounts forms (with booking and payment steps), `/book`,
   Stripe's webhook and the private `/admin`, all on the project's database;
   until it has one, the forms and `/book` answer 404 and `/admin` tells the
-  team so. The code under
-  `src/data`, `admin`, `forms`, `booking`, `payments` came from those
+  team so. `/admin` is Submissions (every form and booking: Inbox,
+  Archived, Spam; a submission's page reschedules or cancels its booking,
+  refunds its payment, and shows and logs the person's notes on the
+  project's customers, the same rows the CRM shows), Schedule (the week; book for someone), Services (each one's
+  name, length, price, rules and who takes it) and Team (each person's
+  details, hours and time off). When the owner asks you instead, use the
+  same writes in `src/booking/hours.ts` (`createType`, `saveType`,
+  `setHosts`, `createPerson`, `savePerson`) from a script on the machine;
+  they check what you pass and return field errors. The code under
+  `src/data`, `admin`, `forms`, `booking`, `payments`, `customers` came from those
   skills, which say how it works; it is this app's code to change.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served
   as they are.

@@ -1,7 +1,8 @@
 // What the site takes from visitors and what the team reads of it: forms
 // (a contact form, an order, a survey, a paid appointment: a booking and a
 // payment are steps of a form), the booking pages at /book, Stripe's webhook,
-// and the private /admin. Every one reads the project's database
+// and the private /admin: every submission in one place, a booking made at
+// /book among them. Every one reads the project's database
 // (DATABASE_URL: a Worker binding in production, the env in dev); a site
 // without one serves its pages as before and answers 404 here (503 to
 // Stripe, which then delivers again).
@@ -12,18 +13,19 @@
 import { Hono, type Context, type MiddlewareHandler } from "hono";
 import type { Child } from "hono/jsx";
 import { teamOnly, type TeamVars } from "./admin/guard";
-import type { NavItem } from "./admin/layout";
-import { bookingAdmin } from "./booking/admin";
+import { AdminLayout, type NavItem } from "./admin/layout";
+import { bookingAdmin, peopleRoutes, typeRoutes } from "./booking/admin";
 import { confirmFormBooking } from "./booking/confirm";
 import { bookingStep } from "./booking/form-step";
 import { emailSend, emailSender, notifyBooking, type BookingNotice } from "./booking/notify";
 import { bookingPages } from "./booking/public";
 import { envOf, envVar } from "./data/env";
+import type { Db } from "./data/db";
 import { fromNeon } from "./data/neon";
 import { afterResponse } from "./data/send";
 import { formsAdmin } from "./forms/admin";
 import { formRoutes } from "./forms/routes";
-import { completePaidSubmission } from "./forms/store";
+import { BOOKING_PAGE, completePaidSubmission } from "./forms/store";
 import { Layout, render } from "./layout";
 import { paymentsAdmin } from "./payments/admin";
 import { paymentStep } from "./payments/form-step";
@@ -43,6 +45,25 @@ const DOMAIN = site.url ? new URL(site.url).host : "localhost";
 const confirm = (c: Context, e: BookingNotice) => afterResponse(c, notifyBooking(emailSend(envOf(c)), e, { domain: DOMAIN }));
 /** The booking pages' address for a manage link: the site's own once set, else this request's host (a visitor's). */
 const BOOK = site.url ? `${site.url.replace(/\/$/, "")}/book` : null;
+
+/**
+ * A booking made at /book, or by the team on the Schedule, is a submission
+ * too, so the team reads every booking where it reads every form. Once per
+ * booking: one that already belongs to a submission (a form's booking step)
+ * is left alone. `page` is where it was made; null for the team's.
+ */
+export async function bookingSubmission(db: Db, e: Pick<BookingNotice, "booking" | "type" | "host">, page: string | null): Promise<void> {
+  const b = e.booking;
+  const notes = typeof b.answers.notes === "string" ? b.answers.notes : undefined;
+  const data = JSON.stringify({ service: e.type.name, with: e.host.name, ...(notes ? { notes } : {}) });
+  await db.sql`
+    with made as (
+      insert into submissions (form_key, name, email, phone, data, source, page, status, completed_at)
+      select ${BOOKING_PAGE.key}, ${b.name}, ${b.email}, ${b.phone}, ${data}::jsonb, ${SOURCE}, ${page}, 'new', now()
+      where exists (select 1 from bookings where id = ${b.id}::bigint and submission_id is null)
+      returning id)
+    update bookings set submission_id = made.id from made where bookings.id = ${b.id}::bigint`;
+}
 
 /** No database yet: these paths do not exist. */
 const needsDb: MiddlewareHandler = async (c, next) => (hasDb(c) ? next() : c.notFound());
@@ -78,7 +99,6 @@ business.route(
   "/",
   formRoutes(getDb, {
     source: SOURCE,
-    adminPath: "/admin/forms",
     page: async (c, title, body) => String(await page(c.req.path, title, body)),
     steps: {
       booking: bookingStep(getDb, { source: SOURCE }),
@@ -105,46 +125,83 @@ business.route(
         <Shell>{children}</Shell>
       </Layout>
     ),
-    onBooked: confirm,
+    onBooked: async (c, e) => {
+      if (e.event === "booked") await file(c, e, `/book/${e.type.slug}`);
+      confirm(c, e);
+    },
   }),
 );
 
+/** A new booking into the submissions; a failure is logged, and the booking stands (it is on the Schedule). */
+async function file(c: Context, e: BookingNotice, page: string | null) {
+  try {
+    await bookingSubmission(getDb(c), e, page);
+  } catch (err) {
+    console.error(`booking ${e.booking.id}: could not add it to the submissions:`, err);
+  }
+}
+
 // The team's side, private: Task & Tool lets only the team reach /admin
 // (add-private-path, which setup.sh declares) and teamOnly answers 404 to
-// anyone else. One nav across the sections.
+// anyone else. Submissions (every form and booking, a booking rescheduled or
+// cancelled and a payment refunded from its submission), the week's
+// Schedule (and booking for someone), the Services people can book, and the
+// Team who take them (hours, time off). Forms are changed by asking the AI.
 const nav: NavItem[] = [
-  { href: "/admin/forms/submissions", label: "Submissions" },
-  { href: "/admin/forms", label: "Forms" },
-  { href: "/admin/bookings", label: "Bookings" },
-  { href: "/admin/bookings/schedule", label: "Schedule" },
-  { href: "/admin/bookings/types", label: "What can be booked" },
-  { href: "/admin/bookings/people", label: "People and hours" },
-  { href: "/admin/payments", label: "Payments" },
+  { href: "/admin/submissions", label: "Submissions" },
+  { href: "/admin/schedule", label: "Schedule" },
+  { href: "/admin/services", label: "Services" },
+  { href: "/admin/team", label: "Team" },
+  { href: "/", label: "View site" },
 ];
+const sections = { schedule: "/admin/schedule", services: "/admin/services", team: "/admin/team" };
+const toSubmission = (id: string | null) => (id ? { href: `/admin/submissions/${id}`, label: "Back to the submission" } : null);
 const admin = new Hono<{ Variables: TeamVars }>();
 admin.use("*", teamOnly());
 admin.use("*", async (c, next) =>
-  hasDb(c) ? next() : c.text("This site has no database yet. Ask the AI to set one up, and the forms, bookings and payments appear here.", 503),
+  hasDb(c)
+    ? next()
+    : c.html(
+        <AdminLayout title="Submissions" css={CSS} nav={nav} current="/admin/submissions" user={c.get("user")}>
+          <p class="max-w-prose">
+            This site has no database yet, so its forms and booking page are switched off. Ask the AI to set one up, and what people send
+            shows up here.
+          </p>
+        </AdminLayout>,
+        503,
+      ),
 );
-admin.get("/", (c) => c.redirect("/admin/forms/submissions"));
+// Calendar sync and reminders are scheduled jobs the CRM runs; this site has none.
+const team = { css: CSS, source: SOURCE, nav, timeZone: site.timeZone, sections, manageBase: BOOK ?? undefined, calendars: false };
 admin.route(
-  "/forms",
-  formsAdmin(getDb, {
-    base: "/admin/forms", css: CSS, timeZone: site.timeZone, source: SOURCE, nav,
-    links: { booking: (id) => `/admin/bookings/${id}`, payment: (id) => `/admin/payments/${id}` },
-  }),
-);
-admin.route(
-  "/bookings",
+  "/schedule",
   bookingAdmin(getDb, {
-    base: "/admin/bookings", css: CSS, source: SOURCE, nav, timeZone: site.timeZone,
-    manageBase: BOOK ?? undefined,
-    // Calendar sync and reminders are scheduled jobs the CRM runs; this site has none.
-    calendars: false,
-    onBooked: confirm,
+    ...team, base: "/admin/schedule",
+    // A booking the team makes is filed with the rest; every change is told to the booker.
+    onBooked: async (c, e) => {
+      if (e.event === "booked") await file(c, e, null);
+      confirm(c, e);
+    },
+    returnTo: (b) => toSubmission(b.submission_id),
   }),
 );
-admin.route("/payments", paymentsAdmin(getDb, { base: "/admin/payments", css: CSS, timeZone: site.timeZone, nav }));
+admin.route("/services", typeRoutes(getDb, { ...team, base: "/admin/services" }));
+admin.route("/team", peopleRoutes(getDb, { ...team, base: "/admin/team" }));
+admin.route(
+  "/payments",
+  paymentsAdmin(getDb, {
+    base: "/admin/payments", css: CSS, timeZone: site.timeZone, nav,
+    returnTo: (p) => toSubmission(p.ref_type === "submission" ? p.ref_id : null) ?? { href: "/admin/submissions", label: "Submissions" },
+  }),
+);
+admin.get("/", (c) => c.redirect("/admin/submissions"));
+admin.route(
+  "/submissions",
+  formsAdmin(getDb, {
+    base: "/admin/submissions", css: CSS, timeZone: site.timeZone, nav,
+    links: { booking: (id) => `/admin/schedule/${id}`, payment: (id) => `/admin/payments/${id}` },
+  }),
+);
 business.route("/admin", admin);
 
 export default business;

@@ -17,7 +17,7 @@ import { fromPool } from "../src/data/pg";
 import { start } from "./lib.mjs";
 
 /** forms first: a booking and a payment name a submission. */
-const SCHEMAS = ["forms", "booking", "payments"];
+const SCHEMAS = ["forms", "booking", "payments", "customers"];
 
 async function setupDb(db: Db): Promise<void> {
   // The two extensions every project database has, made here too for a
