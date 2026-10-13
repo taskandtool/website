@@ -174,7 +174,7 @@ sections:
     stars on one line, the quote, the name.
   dos_and_donts:
     do:
-      - rule: "Open on the work at full viewport width: a muted, looping landscape video when the brand has one at 720p or better, otherwise its widest sharp photograph (at least 800px wide)."
+      - rule: "Open on the work at full viewport width: a muted, looping landscape video when the brand has one at 720p or better, otherwise its widest sharp photograph."
         why: "A premium service sells a result you can see; the first screen is the proof, and moving work reads as a firm that is busy and real."
       - rule: "Use the split head (words left, quote card right) on purpose: a premium service's reader decides and asks for a quote on the first screen, so the form belongs beside the promise; everything else about the head (the full-bleed work, the fade, the white card) is what makes it this system."
         why: "The split hero is a generated-page default when it is automatic; here it is declared because the landing guide puts the form beside the promise."
@@ -187,7 +187,7 @@ sections:
     dont:
       - rule: "Don't frost the quote card or put the whole frame under a scrim."
         why: "Frosted glass is vesper's device and the generated-page default; a full scrim greys the work the page exists to show."
-      - rule: "Don't run a portrait or captioned social clip as the head video, or a photograph under 800px wide full-bleed."
+      - rule: "Don't run a portrait or captioned social clip as the head video."
         why: "A letterboxed or soft head is the first thing the reader sees and says the opposite of premium."
       - rule: "Don't use a beige or cream ground."
         why: "Warm off-white is the most crowded ground and the generated default; crest's light band is a cool grey."
@@ -199,7 +199,7 @@ sections:
     at 4/3. A head video still plays on a phone, muted and inline; under reduced motion it shows
     its poster frame.
   known_gaps: >
-    A brand with no landscape video and no photograph at least 800px wide cannot carry crest's
+    A brand with no landscape video and no wide photograph cannot carry crest's
     head; use tally. Autoplaying video needs a visible pause control (WCAG 2.2.2), a poster
     frame, and a file under about 10MB. No icon set: checks are the one glyph.
 
@@ -295,7 +295,7 @@ x_imagery:
   density: "a head video or photograph always; a full-width photo break every two or three bands; a photograph per item wherever the brief gives one"
   treatment: >
     Head: a landscape video at 720p or better, muted, looping, inline, with its poster frame and
-    a small pause button at the bottom right; otherwise the widest photograph at least 800px
+    a small pause button at the bottom right; otherwise the widest photograph
     wide, object-cover, full viewport width, square to the edges. A fade over it:
     {colors.graphite} at 90% held flat from the left edge to about 50% of the width, then to transparent by about 70% (from the
     bottom on a phone). Photo breaks: full width, 16/9 or 21/9, square edges, object-cover, no
@@ -307,7 +307,6 @@ x_imagery:
   forbidden:
     - "a portrait or letterboxed social clip as the head video"
     - "a scrim over the whole frame, or a frosted card"
-    - "a photograph under 800px wide set full-bleed"
     - "text on a photo break"
   no_assets_supplied: >
     With no landscape video and no photograph wide enough for the head, crest is the wrong
@@ -348,7 +347,7 @@ x_layout:
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for starts on the first screen, on {colors.paper}; no photo breaks before it" }
     reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column of 7 on 3–9, on {colors.paper}; a wide photograph between sections at full container width" }
   head:
-    statement: "Full viewport width, at least 760px tall on desktop (about 70vh on a phone): the media (a muted looping landscape video with its poster and a pause button at the bottom right, or the widest photograph) object-cover, square to the edges, under a fade of {colors.graphite} at 90% held flat from the left edge to about 50% of the width (under all the words), then to transparent by about 70%. The media needs its subject on the right half (its focal point on the right in brand/images.md, or a wide scene), since the left half goes under the fade; 800px wide or more, or a landscape video at 720p or better. On it, columns 1–7: the headline in {typography.display} {colors.white} (two or three lines); a headline over about eight words steps down to {typography.section} so it holds to four or five lines (a longer headline is a copy problem for the brief, not a layout one), a {typography.lede} {colors.stone} lead {spacing.step-md} below, then up to three checks in {typography.label} {colors.white} with {colors.primary} ticks. Columns 8–12: the {colors.white} quote card at {rounded.card}, vertically centred on the headline block (not dropped to the band's foot), holding the form (or the action and the phone). Below 768px the fade rises from the bottom, the words sit on the media, and the card follows beneath on {colors.graphite}. With no landscape video and no photograph 800px wide: the band is solid {colors.graphite} at the same height with no fade, the words on columns 1–7 and the quote card on 8–12 exactly as above, and the widest photograph the brief has runs at full container width in the band beneath, as a photo break; with none at all the band beneath is the first {colors.paper} band. That is the head's fallback for one page; a brand with no wide media anywhere belongs in tally."
+    statement: "Full viewport width, at least 760px tall on desktop (about 70vh on a phone): the media (a muted looping landscape video with its poster and a pause button at the bottom right, or the widest photograph) object-cover, square to the edges, under a fade of {colors.graphite} at 90% held flat from the left edge to about 50% of the width (under all the words), then to transparent by about 70%. The media needs its subject on the right half (its focal point on the right in brand/images.md, or a wide scene), since the left half goes under the fade. On it, columns 1–7: the headline in {typography.display} {colors.white} (two or three lines); a headline over about eight words steps down to {typography.section} so it holds to four or five lines (a longer headline is a copy problem for the brief, not a layout one), a {typography.lede} {colors.stone} lead {spacing.step-md} below, then up to three checks in {typography.label} {colors.white} with {colors.primary} ticks. Columns 8–12: the {colors.white} quote card at {rounded.card}, vertically centred on the headline block (not dropped to the band's foot), holding the form (or the action and the phone). Below 768px the fade rises from the bottom, the words sit on the media, and the card follows beneath on {colors.graphite}. With no landscape video and no wide photograph: the band is solid {colors.graphite} at the same height with no fade, the words on columns 1–7 and the quote card on 8–12 exactly as above, and the widest photograph the brief has runs at full container width in the band beneath, as a photo break; with none at all the band beneath is the first {colors.paper} band. That is the head's fallback for one page; a brand with no wide media anywhere belongs in tally."
     plain: "A {colors.graphite} band: the title in {typography.section} {colors.paper} on columns 1–8, one {typography.lede} {colors.stone} line under it; a wide photograph beneath at full container width when the brief gives one; the first band starts {spacing.step-lg} below."
   hosted_player: "When the brand's head video is a hosted player (Vimeo or YouTube, embeddable, landscape), use it the way the brand does, never downloaded: an iframe of the recorded embed URL (background mode: muted, looping, no controls) with a title, in the head's frame (the frame carries the utility `media-frame`) with the utility `media-cover` (it fills the frame like object-cover), over its thumbnail as the poster image; the pause button drives it through the provider's player API (https://player.vimeo.com/api/player.js for Vimeo); under reduced motion the iframe is not added and the poster stays."
   close: "A {colors.graphite} band: a 7/5 split, the heading in {typography.heading-lg} {colors.paper} and one {typography.lede} {colors.stone} line on the left, and on the right the {colors.white} quote card again, the form itself, never a button back to the top. The footer follows on {colors.graphite}."

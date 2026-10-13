@@ -29,12 +29,10 @@ headline at scale that says what the business does, one supporting line,
 one action: a visitor names what this is in five seconds, and the owner is
 proud to send the link.
 
-- **Lead with an image when there is a good one:** the business's best
-  photograph of the work, the place or the product, crisp and large. When
-  the business is visual (food, a place, a view, a craft), prefer it
-  full-bleed behind the headline, or a short muted looping video when they
-  have one. Any photograph 800px wide or more can run full-bleed: their
-  own big photographs are the strongest thing the site has.
+- **Lead with a stunning full-bleed photograph** when there is a good
+  one: their best of the work, the place or the product, behind the
+  headline, or a short muted looping video. Their own big photographs are
+  the strongest thing the site has; `brand/images.md` gives each one's size.
 - **Words over a photograph stay readable:** a scrim (`scrim`, `scrim-up`
   on a layer over the image), a band, or placement beside the subject,
   with contrast checked over the image.

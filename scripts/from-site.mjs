@@ -526,7 +526,7 @@ How it looks today:      ${dir}/shots/index/
 Colours by use:          ${palette.slice(0, 8).join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
 Photographs (in static/images/; any can run edge to edge):
-${shown.map((s) => `  ${s}`).join("\n") || "  none 800px or wider"}
+${shown.map((s) => `  ${s}`).join("\n") || "  none found"}
 Proof (public/proof.md): ${proofEmpty ? `${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${ratings.join("; ") || "none yet"}` : "kept as it was"}
 Later, the rest of their site: tt-crawl brand ${manifest().start || url} --resume
 

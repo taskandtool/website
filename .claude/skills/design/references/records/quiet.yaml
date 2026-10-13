@@ -285,8 +285,8 @@ x_imagery:
     below it at caption scale, never on it.
   density: "one photograph per section where supplied, plus a full-width opening photograph on a page in the persuasion register when one is supplied; never two adjacent without text between them"
   treatment: >
-    Full-bleed to the viewport when the photograph is at least 800px wide;
-    otherwise at the container width, centred. Or columns 6 to 12. Square corners, no
+    Full-bleed to the viewport, or at the container width, centred. Or
+    columns 6 to 12. Square corners, no
     border, no shadow, no overlay, no scrim, no filter, no hover state.
     Rendered at intrinsic aspect ratio with width and height attributes.
     Never cropped to a shape. Never placed behind text.
@@ -330,7 +330,7 @@ x_layout:
     caption: "one line, rarely two, at the width of the image above it, in {typography.caption}"
   grid:
     columns: 12
-    container: "1280px, 32px side margins ({spacing.step-md}) → {spacing.step-sm} below 768px; a photograph at least 800px wide may leave it for the full viewport width"
+    container: "1280px, 32px side margins ({spacing.step-md}) → {spacing.step-sm} below 768px; a photograph may leave it for the full viewport width"
     gutter: "{spacing.step-md}"
     text_columns: "1–5 or 7/8–11/12, never centred, never the full width; a quotation may sit at 4–9"
     media_columns: "the full viewport, the full container, or 6/7–12 (1–5/6 when the text is on the right)"
@@ -354,7 +354,7 @@ x_layout:
       type: "{typography.display} h1, {typography.copy} running text, {typography.section} subheads, {typography.caption} captions"
       rhythm: "one column at measure.reading in columns 1–5; photographs sit in 7–12 beside the paragraph they belong to, or full container width between paragraphs, {spacing.step-lg} above and below"
   head:
-    statement: "the brand's single best photograph (sharp, one clear subject, uncluttered, nothing written on it; any orientation, since nothing sits on it) at full viewport width if it is at least 800px wide, otherwise at the container width, its caption {spacing.step-sm} beneath; then, {spacing.step-lg} → {spacing.step-xl} lower, the h1 in {typography.display} in columns 1–6 and a short passage plus the one filled button in columns 8–12; with no photograph the h1 and passage hold the same columns on bare {colors.paper}"
+    statement: "the brand's single best photograph (sharp, one clear subject, uncluttered, nothing written on it; any orientation, since nothing sits on it) at full viewport width, its caption {spacing.step-sm} beneath; then, {spacing.step-lg} → {spacing.step-xl} lower, the h1 in {typography.display} in columns 1–6 and a short passage plus the one filled button in columns 8–12; with no photograph the h1 and passage hold the same columns on bare {colors.paper}"
     plain: "no photograph. The h1 in {typography.display} {colors.ink}, left, columns 1–6, {spacing.step-xl} → {spacing.step-lg} below the nav; one lead line in {typography.copy} in columns 8–12 on the h1's baseline (stacked beneath it below 768px); nothing else before the first band"
   shapes:
     items:
@@ -387,7 +387,7 @@ x_layout:
       counts: "one photograph per band; consecutive media_text bands alternate sides; in retrieval the text column comes first in source order and on a phone"
     gallery:
       as: "stack"
-      look: "each photograph at full container width (or full viewport width for the first, when it is at least 800px wide), square corners, caption {spacing.step-sm} beneath in {typography.caption} {colors.ink-quiet}; {spacing.step-lg} between one caption and the next photograph. Two photographs are never side by side"
+      look: "each photograph at full container width (or full viewport width for the first), square corners, caption {spacing.step-sm} beneath in {typography.caption} {colors.ink-quiet}; {spacing.step-lg} between one caption and the next photograph. Two photographs are never side by side"
       counts: "1–4: a stack of full-width captioned photographs. 5+: the stack alternates between columns 1–8 and 5–12, still one photograph per row, so it reads as a sequence and not a grid. A portrait-format image takes columns 1–6 or 7–12 alone on its row, never paired"
     quote:
       as: "stack"
