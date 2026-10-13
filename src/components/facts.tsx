@@ -89,7 +89,7 @@ export function Stars({ value, size = "size-4" }: { value: number; size?: string
 
 const reviewCount = (r: { count?: number; platform?: string }) => `${Number(r.count).toLocaleString("en-US")} ${r.platform ? `${r.platform} ` : ""}reviews`;
 
-/** Every rating on one line: the platform's icon, the figure, its stars, the count, linked to the source. For a first screen or beside an action. */
+/** Every rating on one line: the platform's icon, the figure, its stars, the count, linked to the source; in its ground's text colour, so it reads on a photograph too. For a first screen or beside an action. */
 export function RatingLine() {
   const items = content.facts.ratings;
   if (!items.length) return null;
@@ -101,7 +101,7 @@ export function RatingLine() {
           <span class="text-title">{r.value}</span>{" "}
           <Stars value={r.value} />{" "}
           {r.count ? (
-            r.url ? <a href={r.url} class="text-ink-2 underline">{reviewCount(r)}</a> : <span class="text-ink-2">{reviewCount(r)}</span>
+            r.url ? <a href={r.url} class="underline">{reviewCount(r)}</a> : <span>{reviewCount(r)}</span>
           ) : null}
         </li>
       ))}

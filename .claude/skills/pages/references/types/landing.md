@@ -137,7 +137,7 @@ and cost information: removing those costs trust and ad quality, not just exits.
     shows it: one photograph per feature is the aim, and the brief names which.
   - Customers' own photographs from reviews and the Google profile, named where the review is.
   - Every review shows its source's square icon and its rating as star graphics, one per star,
-    taken from the review itself (the design skill, "Proof, front and centre"); a rating nobody
+    taken from the review itself; a rating nobody
     recorded is not assumed. The platform icons and gold stars need a ground they read on:
     a light one or a card (`ReviewsSection`), never a strong colour of the stars' own hue.
   - Finished jobs, captioned by job and place; before and after only as real pairs of one job.

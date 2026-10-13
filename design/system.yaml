@@ -2,14 +2,16 @@
 # into styles/theme.css (the tokens Tailwind turns into classes), DESIGN.md
 # (the readable contract) and src/fonts.ts; never edit those two by hand, `npm run check` says
 # when they no longer match this file. The shape is the design library's
-# (.claude/skills/design/references/authoring.md); this one is the neutral
-# starting point. The first homepage replaces its tokens; the rest of the
-# record is filled when the site grows (the design skill).
+# (.claude/skills/design/references/authoring.md); this one is the working
+# default. The first homepage makes it the business's own: its tokens and
+# identity, and its layout wherever their material calls for another
+# (the design skill).
 id: starter
 title: Starter
 summary: >
-  A neutral starting point, not a style: a warm off-white page, one accent for
-  every action, large and few headings, and a different shape for each section.
+  A warm off-white page that opens on the business's best photograph at full
+  width, with one accent for every action, large and few headings, and a
+  different shape for each section.
 
 # What makes this site this site, filled when the site grows past its
 # homepage; "to fill" marks a site that is still a template.
@@ -105,15 +107,14 @@ tokens:
 
 sections:
   overview: >
-    A warm, quiet page that lets one thing be loud at a time. The ground is a
-    warm off-white, not pure white; the text is a near-black with brown in it;
-    one saturated accent does every action. Headings are large and few, set at
-    nine to twelve characters per line, so hierarchy comes from size and space
-    rather than from weight or decoration. Every section is composed
-    differently from the one before it. Colour and energy belong to the
-    content (photos, work, the brand's own material), not to the chrome
-    around it. This is the starting point, not a brand: the site's own system
-    replaces it.
+    A warm, quiet page where one thing is loud at a time, starting with the
+    first screen: the business's best photograph edge to edge behind the
+    headline. The ground is a warm off-white; the text is a near-black with
+    brown in it; one saturated accent does every action. Headings are large
+    and few, set at nine to twelve characters per line, so hierarchy comes
+    from size and space. Every section is composed differently from the one
+    before it. Colour and energy come from the content: photographs, the
+    work, the brand's own material.
   colors: >
     {colors.canvas} is the page ground; most sections sit on it.
     {colors.surface} is a raised card or framed visual on the canvas.
@@ -143,7 +144,10 @@ sections:
     goes above 700 and body copy is always 400. No tracking-* or leading-* on
     text that has a size token; the token carries both.
   components: >
-    Buttons (Button in src/components): 48px minimum, px-5,
+    The first screen is Hero (src/components): the photograph or a short
+    muted video full-bleed behind the words, under a scrim, with the
+    headline, one line, one action and the RatingLine; with no photograph
+    good enough, the words on {colors.night}. Buttons (Button): 48px minimum, px-5,
     {rounded.control}, 16px semibold. Primary is {colors.accent} under
     {colors.accent-ink}, hover {colors.accent-hover}; secondary is a
     {colors.line-strong} outline with a {colors.panel} hover. One primary per
@@ -165,7 +169,13 @@ sections:
     sm:px-8 at the sides (Section does this), so the header, each section
     and the footer start on one left edge; a reading section narrows its
     column inside the frame to max-w-content ({containers.content}), left
-    aligned. A photograph or colour field runs edge to edge behind the frame.
+    aligned. A photograph or colour field runs edge to edge behind the frame:
+    the first screen's always, when the business has one, and later a
+    photograph at full width where it is the section's point. The business's
+    own photographs are chosen by looking at them (brand/images.md); one is
+    never shown twice on a page. Add a section whenever the material has
+    something a visitor would look for: a gallery, the team, the process,
+    the area served.
     Compose from the content: a sequence, a comparison, a hierarchy
     and a change of thought each look different. No two adjacent sections
     share a composition; where bands are separated by ground, they change
@@ -182,7 +192,7 @@ sections:
   motion: >
     The first screen's words rise in once on load (data-rise on their
     wrapper), and one or two later bands as they come into view
-    (data-reveal); reviews, and a wall of logos if wanted, run as a marquee
+    (data-reveal); a long row of reviews or logos may run as a marquee
     (data-marquee); nothing else moves. Hover and focus transitions are 150ms
     with {easing.soft}. Reduced motion shows the finished page
     (styles/input.css).
@@ -214,9 +224,15 @@ sections:
         why: "One fake detail spoils every true one beside it."
       - rule: "Don't use gradients, blur, glass or glow to make up for a weak idea."
         why: "Effects date fast and hide that the section has nothing to show."
+      - rule: "Don't put a form beside the first headline, or a small tracked-caps label above every heading."
+        why: "Both are the generated-page look; the first screen's job is the photograph and the promise."
+      - rule: "Don't reach for cream with a soft serif, or Inter with Playfair, by default."
+        why: "They are what generated sites pick; the type and colour come from the business or a library record."
+      - rule: "Don't leave a section that would fit another business with the logo swapped."
+        why: "It tells the visitor nothing about this one; their own facts, photographs and proof do."
   known_gaps: >
-    No photography rules and no layout rules per kind of content: those come
-    with the site's own system.
+    No layout rules per kind of content: those come with the site's own
+    system when it grows past the homepage.
 
 x_declares: []
 x_declares_reasons: {}

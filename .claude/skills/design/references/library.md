@@ -1,8 +1,7 @@
 # The design library
 
-Fourteen design systems, each a different answer to the same question:
-fourteen studios, not fourteen colourways (who each suits: the design
-skill's table). A preview
+Fourteen design systems, each built from a different idea of a site (who
+each suits: the design skill's table). A preview
 (`library/<id>.webp` beside this file) is the top of the system's reference
 page, built blind from its record on a real business, with the business
 swapped for a made-up one.

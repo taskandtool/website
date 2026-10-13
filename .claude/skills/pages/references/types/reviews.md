@@ -53,7 +53,7 @@ search features.
 <show>
   - Customer photographs where the platform carries them and the brand has them.
   - Platform icons, with the count beside them.
-  - Every review with its platform's icon and its stars (the design skill, "Proof, front and centre").
+  - Every review with its platform's icon and its stars.
 </show>
 
 <links>

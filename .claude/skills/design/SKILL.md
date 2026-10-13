@@ -5,26 +5,21 @@ description: "Designs this website's look: the first screen, the design system r
 
 # Design
 
-The site's design system is one record, `design/system.yaml`: its tokens,
-its rules with their reasons, and how each kind of content is laid out.
-Edit it, then `npm run system` compiles it into `styles/theme.css` and
-`DESIGN.md` (never edit those two by hand) and refuses a broken record.
-Read `DESIGN.md` and the notes in `brand/` before designing.
+The look is one record, `design/system.yaml`, compiled by `npm run system`
+into `styles/theme.css` and `DESIGN.md` (never edit those two by hand); the
+compile refuses a broken record. The starter's record is a working default:
+read `DESIGN.md`, then make it this business's.
 
-Make the page unmistakably this business, for its customers, doing its one
-job. A new palette on a familiar template is not a design. When the owner
-asks for a faithful copy of an existing design, fidelity wins.
+## Making it theirs
 
-## Shape the skeleton first
-
-Every site starts from the same skeleton: the header and footer in
-`src/layout.tsx`, the components `npm run parts` lists, the starter record.
-Change it for this business before building the page: the header, the
-footer, how sections are framed and how proof is shown. If the owner
-mentioned sites they like or want to use, shape it from those (`tt-crawl
-reference <url>` captures a site's look); otherwise look through the design
-library below and take from the closest one or two. Never another site's
-words, pictures or logo.
+- **Tokens** from their brand (`brand/`, the colours and fonts `from-site`
+  read), or from a site the owner likes or a library record.
+- **Components and the skeleton** (`src/components`, the header and footer
+  in `src/layout.tsx`): restyle or replace them to match, and add sections
+  the material calls for (a gallery, the team, the process, the area).
+- **A site the owner mentioned** liking or wanting to use: take its shape
+  (`tt-crawl reference <url>` captures its look), never its words, pictures
+  or logo. Otherwise borrow from the library record that suits them:
 
 | Suits | Preview | Record |
 |---|---|---|
@@ -43,32 +38,15 @@ words, pictures or logo.
 | manufacturers, industrial technology, B2B, public companies | [keystone](references/library/keystone.webp) | [`keystone.yaml`](references/records/keystone.yaml) |
 | premium services whose best media is wide: tree care, roofing, landscaping, pools, remodelling | [crest](references/library/crest.webp) | [`crest.yaml`](references/records/crest.yaml) |
 
-`references/library.md` says how to show directions to the owner.
 
-## What makes it good
+`references/library.md` has each look in a line and how to show the owner
+a few directions.
 
-- **Stunning heroes and full-bleed photographs:** prefer their best
-  photograph filling the first screen behind the headline. Their own
-  photographs are the strongest thing the site has; `brand/images.md` says
-  what each shows and its size.
-- **One signature move** that belongs to this business: an oversized word,
-  the product lit on black, a live detail (today's hours).
-- **A colour world and a type personality of its own,** from the business's
-  own colours and fonts or a library record's.
-- **Proof, front and centre:** all of `public/proof.md` on the homepage and
-  every service page, designed as boldly as the rest (`RatingLine`,
-  `ReviewsSection`, `LogosSection`, `PeopleSection`, `NumbersSection`, or
-  your own from `content.facts`). `npm run proof` fails while any is
-  missing.
-- **Motion:** the first screen's words rise in (`data-rise`); a later band
-  may come into view (`data-reveal`).
-
-Refuse the generated-page defaults unless the brief gives a reason: a
-centred headline over a glow; three feature cards, pricing, FAQ and a
-final call to action whatever the content; a split hero with a form; a small tracked-caps label above every
-heading; cream with a soft serif; Inter with Playfair; icons in coloured
-circles; gradients, blur or glass to make up for a weak idea; fake proof; a
-page that could be another business with the logo swapped.
+Done when the first screen is their best photograph at full width with the
+promise and one action (`Hero`), all their proof is on the page (`npm run
+proof`), a stranger could tell whose site it is, and the review gate below
+finds nothing left to fix. When the owner asks for a copy of an existing
+design, copy it.
 
 ## When the site grows
 

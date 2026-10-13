@@ -52,5 +52,5 @@ const rest = [["people", (r) => r.name], ["numbers", (r) => r.figure], ["posts",
   return `${kind} ${shown.length}/${items.length}`;
 });
 const counts = `logos ${logos.length - missingLogos.length}/${logos.length}, ratings ${ratings.length - missingRatings.length}/${ratings.length}, reviews ${shownReviews.length}/${reviews.length}, ${rest.join(", ")}`;
-if (findings.length) fail(`proof: the homepage shows ${counts}\n  - ${findings.join("\n  - ")}\n  Put it on the page: the design skill's "Proof, front and centre".`, "npm run build && npm run proof");
+if (findings.length) fail(`proof: the homepage shows ${counts}\n  - ${findings.join("\n  - ")}\n  Put it on the page: RatingLine, ReviewsSection, LogosSection, PeopleSection and NumbersSection (npm run parts), or your own from content.facts.`, "npm run build && npm run proof");
 console.log(`proof: the homepage shows ${counts}`);

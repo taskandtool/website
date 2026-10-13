@@ -501,7 +501,7 @@ else {
     record.set("title", card.name || host);
     record.set("summary", `Seeded from ${host}'s colours and fonts by npm run from-site; the first homepage's design replaces this.`);
     if (record.hasIn(["sections", "overview"])) {
-      record.setIn(["sections", "overview"], `Seeded from ${host}'s own colours (${tokens.accent} on ${tokens.canvas})${families.length ? ` and fonts (${families.join(" and ")})` : ""}. The first homepage's design replaces this paragraph.`);
+      record.setIn(["sections", "overview"], `The page opens on the business's best photograph at full width behind the headline. Seeded from ${host}'s own colours (${tokens.accent} on ${tokens.canvas})${families.length ? ` and fonts (${families.join(" and ")})` : ""}. The first homepage's design replaces this paragraph.`);
     }
     writeFileSync(recordFile, record.toString());
     execFileSync("node", ["scripts/system.mjs"], { stdio: "ignore" });

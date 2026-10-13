@@ -5,13 +5,9 @@ description: "Builds a business's new website like a good agency: a striking hom
 
 # New site
 
-Work like a good agency: do the best you can with what the owner gave you
-and what you can find, and show them something real soon. Owners say
-little; "build me a homepage" and a link is a whole brief.
-
-Prefer the homepage first. Build it for real, show it, and let the owner
-react, rather than planning the site: most owners judge a design by
-looking at it. The rest of the site follows when they want it.
+Owners say little: "build me a homepage" and a link is enough to start.
+Build the homepage first and show it; most owners judge a design by
+looking at it, and the rest of the site follows when they want it.
 
 ## Where things stand
 
@@ -25,11 +21,8 @@ Read the folders and carry on from where they are:
 
 ## The homepage
 
-Done when it is plainly this business's page: its words from their own
-material, all their proof on it, a look of its own, and the owner proud to
-send the link. They are deciding whether to trust you with the rest of the
-site, on its first screen above all.
-
+Done when its words come from their own material, all their proof is on
+it, its look is theirs (the `design` skill), and `npm run verify` passes.
 The order matters; how you do each part is yours:
 
 1. **Start from their site:** `npm run from-site -- <url>` (about a minute)
@@ -37,25 +30,18 @@ The order matters; how you do each part is yours:
    With a name and no link, their Google listing names the website (the
    `brand` skill's listing row); say in one line who you found, and ask for
    the link when it names none.
-2. **The facts, as notes:** `public/services.md` from the services page
-   `from-site` names, one `## <service>` per service, cited, with `updated`
-   and `sources` set and no "to fill" left (it reads as empty); each
-   photograph described once in `brand/images.md` from the numbered
-   `raw/photos.png`, so you read that file from then on, not the pictures.
-   The page reads facts from the notes (`ServicesSection`, `content`), never
-   typed into the markup.
-3. **All the proof:** name each logo in `public/proof.md` from
-   `raw/logos.png` and delete what is not a logo; then add what `from-site`
-   could not reach (the profiles in `business.md`'s `same_as`, anything the
-   owner sent), word for word. `npm run proof` fails while any of it is off
-   the page.
-4. **The look:** shape the skeleton for this business, then the record
-   (`design/system.yaml`), with the `design` skill.
-5. **The page:** the brief in `design/briefs/home.md` (the `pages` skill's
-   `references/brief.md`; the frontmatter and the hero's lines are enough),
-   then the page written whole from what `npm run parts` lists
-   (`.claude/skills/pages/references/page-code.md`). `npm run verify` and
-   fix its findings. When the owner asked for something the lint flags, put
+2. **The notes:** `public/services.md` from their services page, one
+   `## <service>` each, cited; each photograph described in
+   `brand/images.md` after looking at `raw/photos.png`. Pages read facts
+   from the notes, never typed into the markup.
+3. **All the proof** in `public/proof.md`, word for word: what `from-site`
+   found, the logos in `raw/logos.png` that really are others' logos, and
+   what it could not reach (the profiles in `business.md`'s `same_as`,
+   anything the owner sent).
+4. **The look,** with the `design` skill.
+5. **The page,** written whole from what `npm run parts` lists
+   (`.claude/skills/pages/references/page-code.md`), then `npm run verify`
+   and fix its findings. When the owner asked for something the lint flags, put
    `data-lint-allow="<rule>"` on that element and say so.
 6. **Review:** the `writing` skill's cold read (a sub-agent) and the
    `design` skill's review gate together; fix both lists in one pass.
