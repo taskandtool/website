@@ -21,7 +21,7 @@ Photography:        to fill: real photos the owner has, or the honest slot until
 
 ## Visual Theme & Atmosphere
 
-A warm, quiet page where one thing is loud at a time, starting with the first screen: the business's best photograph edge to edge behind the headline. The ground is a warm off-white; the text is a near-black with brown in it; one saturated accent does every action. Headings are large and few, set at nine to twelve characters per line, so hierarchy comes from size and space. Every section is composed differently from the one before it. Colour and energy come from the content: photographs, the work, the brand's own material.
+A warm, quiet page where one thing is loud at a time. It opens on the business's best photograph edge to edge behind the headline. The ground is a warm off-white, the text a near-black with brown in it, and one saturated accent does every action. Headings are large and few, so hierarchy comes from size and space; colour and energy come from the business's own photographs and material. `npm run lint` flags the generated-page patterns and `npm run check` the contrast.
 
 ## Color Palette & Roles
 
@@ -43,7 +43,7 @@ A warm, quiet page where one thing is loud at a time, starting with the first sc
 | `line-strong` | rgb(25 22 18 / 0.32) |
 | `line-on-night` | rgb(246 243 236 / 0.16) |
 
-`canvas` is the page ground; most sections sit on it. `surface` is a raised card or framed visual on the canvas. `panel` is one step down, a tinted band: at most two per page, never adjacent. `night` is the dark ground: the footer and at most one statement band, never a card. `ink` is headings and body on light grounds, `ink-2` secondary text, `ink-3` captions and metadata (never a border); on night, `night-ink` and `night-ink-2`. `accent` is the one action colour: primary buttons, links in body copy, the focus ring; `accent-ink` is text on it and `accent-hover` its hover. `line` is every hairline on light grounds, `line-strong` input edges and table frames, `line-on-night` hairlines on night. Text meets 4.5:1 on its ground; focus rings and input edges 3:1. Photographs and the brand's own artwork carry colour; the interface around them stays in this palette.
+`canvas` is the page ground, `surface` a card or framed visual on it, `panel` a tinted band, `night` the dark ground (the first screen without a photograph, a statement band, the footer). `ink` is text on light grounds, `ink-2` secondary text, `ink-3` captions; on night, `night-ink` and `night-ink-2`. `accent` is the one action colour (buttons, links in copy, the focus ring), with `accent-ink` on it and `accent-hover` its hover. `line` is a hairline, `line-strong` an input edge, `line-on-night` a hairline on night.
 
 ## Typography Rules
 
@@ -57,52 +57,46 @@ A warm, quiet page where one thing is loud at a time, starting with the first sc
 | `text-specimen` | Bricolage Grotesque | clamp(6rem, 18vw, 11rem) | 1 | -0.03em | 600 |
 | `text-label` | Inter | 0.8125rem | 1.4 | 0.04em | 600 |
 
-Two families: a display face for headings, a text face for reading. `text-display` is the h1 of the home page or a landing page, one per page, 9 to 12 characters per line. `text-section` is every h2; beside a visual it wraps at 10 to 16ch. `text-title` is the h3 of a row, a card or a callout. `text-lede` is the supporting thought under a heading, max-w-xl, in `ink-2`. `text-copy` is body copy, the default, under 70 characters a line. `text-label` is the one small label style, for metadata; nothing renders smaller. `text-specimen` is one giant glyph or word inside a visual (role="img"), never a heading. Headings use font-display; a heading never goes above 700 and body copy is always 400. No tracking-* or leading-* on text that has a size token; the token carries both.
+A display face for headings, a text face for reading. `text-display` is the page's h1, on two or three lines; `text-section` every h2; `text-title` the h3 of a row or a card; `text-lede` the line under a heading, in `ink-2`; `text-copy` body text, under 70 characters a line; `text-label` metadata such as a date or a caption; `text-specimen` one giant glyph or word inside a visual. Each size carries its own line height and tracking.
 
 ## Component Stylings
 
-The first screen is Hero (src/components): the photograph or a short muted video full-bleed behind the words, under a scrim, with the headline, one line, one action and the RatingLine; with no photograph good enough, the words on `night`. Buttons (Button): 48px minimum, px-5, `rounded-control`, 16px semibold. Primary is `accent` under `accent-ink`, hover `accent-hover`; secondary is a `line-strong` outline with a `panel` hover. One primary per section; the label says what happens next ("Book a call", never "Learn more"). Links in copy are underlined, 1px, offset, in `accent`. Nav links are `ink-2`, `ink` on hover, with aria-current="page" on the current page. Cards only for discrete, comparable objects (a service, a person, a plan, a review): `rounded-card`, `line` edge, `surface`; never around a single paragraph. Inputs are 48px tall, `rounded-control`, a `line-strong` edge, the label above in 16px semibold, help text in `ink-3`. Lists of rows: divide-y with generous py-8, a numeral or small object on the left, a title and a sentence on the right; prefer rows to three cards in a grid. Images at `rounded-card` or `rounded-frame`, real alt text, object-cover.
+The first screen is Hero: the photograph, or a short muted video, full-bleed behind the headline, one line, one action and the RatingLine; with no photograph good enough, the words on `night`. One primary Button per section, labelled with what happens next. Cards hold discrete, comparable things (a service, a person, a review); a list reads better as rows. Images sit at `rounded-card` or `rounded-frame`. The rest are in src/components (npm run parts).
 
 ## Layout Principles
 
-The base unit is 4px. Sections take py-section (clamp(5rem, 10vw, 8.5rem)); a heading group to what it introduces is mt-lead (clamp(2.5rem, 4vw, 3.5rem)). Every band shares one frame, max-w-wide (80rem) with px-5 sm:px-8 at the sides (Section does this), so the header, each section and the footer start on one left edge; a reading section narrows its column inside the frame to max-w-content (72rem), left aligned. A photograph or colour field runs edge to edge behind the frame: the first screen's always, when the business has one, and later a photograph at full width where it is the section's point. The business's own photographs are chosen by looking at them (brand/images.md); one is never shown twice on a page. Add a section whenever the material has something a visitor would look for: a gallery, the team, the process, the area served. Compose from the content: a sequence, a comparison, a hierarchy and a change of thought each look different. No two adjacent sections share a composition; where bands are separated by ground, they change ground too. One section is the peak; everything else is quieter. Prefer document flow; absolute positioning is for one deliberate layer, never the skeleton.
+Every band shares one frame, max-w-wide with px-5 sm:px-8 (Section does this), so the header, sections and footer start on one left edge; reading text narrows to max-w-content. Sections take py-section, and a heading sits mt-lead above what it introduces. Photographs run edge to edge where they are the point: the first screen's always, when the business has one, chosen by looking at them (brand/images.md). Add a section whenever the material has something a visitor would look for: a gallery, the team, the process, the area served. Compose each from its content, so a sequence, a comparison and a story look different and no two neighbours share a shape. One section is the peak; the rest are quieter.
 
 ## Depth & Elevation
 
-Three levels. Flat: sections, rows, text, most of the page. Lifted: a card or framed visual on the canvas, a `line` edge plus `shadow-lift`, for the one visual that should feel like an object. Overlay: a menu or dialog on `surface` with `shadow-lift` at `rounded-card`. The team's admin pages give a card or a control `shadow-card`. No inner shadows, no glass or blur, no gradients on interface elements.
+Mostly flat. A card or framed visual that should feel like an object gets a `line` edge and `shadow-lift`; a menu or dialog sits on `surface` with `shadow-lift`; the team's admin cards get `shadow-card`.
 
 ## Motion
 
-The first screen's words rise in once on load (data-rise on their wrapper), and one or two later bands as they come into view (data-reveal); a long row of reviews or logos may run as a marquee (data-marquee); nothing else moves. Hover and focus transitions are 150ms with `ease-soft`. Reduced motion shows the finished page (styles/input.css).
+The first screen's words rise in once (data-rise), and one or two later bands as they come into view (data-reveal); a long row of reviews or logos may run as a marquee (data-marquee). Hover and focus take 150ms with `ease-soft`. Reduced motion shows the finished page (styles/input.css).
 
 ## Responsive Behavior
 
-Mobile and desktop are two compositions of the same content. Type sizes are fluid, so headings need no mobile overrides. Below 1024px a split stacks with the text first unless the visual is the point; rows stay rows; cards go to one column below 640px. Touch targets are at least 44px, buttons 48px. The header is one row at every width; past four nav links the rest go into a menu. Check 390px and 1280px and one width between, with a long word and a long label. Semantic landmarks, one h1, visible focus and useful alt text are part of it.
+Phone and desktop are two compositions of the same content. Type is fluid, so headings need no phone sizes. Below 1024px a split stacks, text first unless the visual is the point; cards go to one column below 640px. The header stays one row; past four links the rest go into a menu.
 
 ## Do's and Don'ts
 
 Do:
 
-- Start from the brief and the real content; lock the words before the layout.
-  A layout drawn before the words fits placeholder lengths, and real copy then breaks it or gets cut to fit.
 - Spend boldness in one place per page.
   When every section is loud, none is; the peak is what a visitor remembers.
-- Use the tokens; add a token to this record when one is missing.
+- Use the tokens; add one to this record when one is missing.
   A one-off value in markup is a second design system that nobody maintains.
-- Keep body copy at 18px with a measure under 70 characters.
-  Small text and long lines are the first things that make a page tiring to read on a phone.
 
 Don't:
 
 - Don't default to a centred hero over a glow, three feature cards, pricing, an FAQ and a final call to action whatever the content.
   It is the generated-page template; a visitor has seen it a hundred times and it says nothing about this business.
-- Don't use icons in coloured circles as the visual language.
-  They fill space without showing anything real about the work.
 - Don't show proof that is not real: invented customers, quotes, counts, awards or prices.
   One fake detail spoils every true one beside it.
 - Don't use gradients, blur, glass or glow to make up for a weak idea.
   Effects date fast and hide that the section has nothing to show.
-- Don't put a form beside the first headline, or a small tracked-caps label above every heading.
+- Don't put a form beside the first headline, or a small label above the headline or above every heading.
   Both are the generated-page look; the first screen's job is the photograph and the promise.
 - Don't reach for cream with a soft serif, or Inter with Playfair, by default.
   They are what generated sites pick; the type and colour come from the business or a library record.

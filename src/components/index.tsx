@@ -70,7 +70,7 @@ export function Hero({
         </>
       ) : null}
       <div class="mx-auto w-full max-w-wide px-5 py-section sm:px-8">
-        <div class="max-w-2xl" data-rise>{children}</div>
+        <div class="max-w-4xl" data-rise>{children}</div>
       </div>
     </section>
   );
