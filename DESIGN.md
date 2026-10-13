@@ -54,14 +54,13 @@ A warm, quiet page where one thing is loud at a time. It opens on the business's
 | `text-title` | Bricolage Grotesque | clamp(1.5rem, 2.4vw, 2rem) | 1.1 | -0.015em | 600 |
 | `text-lede` | Inter | clamp(1.125rem, 1.4vw, 1.375rem) | 1.5 |  | 400 |
 | `text-copy` | Inter | 1.125rem | 1.6 |  | 400 |
-| `text-specimen` | Bricolage Grotesque | clamp(6rem, 18vw, 11rem) | 1 | -0.03em | 600 |
 | `text-label` | Inter | 0.8125rem | 1.4 | 0.04em | 600 |
 
-A display face for headings, a text face for reading. `text-display` is the page's h1, on two or three lines; `text-section` every h2; `text-title` the h3 of a row or a card; `text-lede` the line under a heading, in `ink-2`; `text-copy` body text, under 70 characters a line; `text-label` metadata such as a date or a caption; `text-specimen` one giant glyph or word inside a visual. Each size carries its own line height and tracking.
+A display face for headings, a text face for reading. `text-display` is the page's h1, on two or three lines; `text-section` every h2; `text-title` the h3 of a row or a card; `text-lede` the line under a heading, in `ink-2`; `text-copy` body text, under 70 characters a line; `text-label` metadata such as a date or a caption. Each size carries its own line height and tracking.
 
 ## Component Stylings
 
-The first screen is Hero: the photograph, or a short muted video, full-bleed behind the headline, one line, one action and the RatingLine; with no photograph good enough, the words on `night`. One primary Button per section, labelled with what happens next. Cards hold discrete, comparable things (a service, a person, a review); a list reads better as rows. Images sit at `rounded-card` or `rounded-frame`. The rest are in src/components (npm run parts).
+The first screen is Hero: the photograph, or a short muted video, full-bleed behind the headline, one line, one action and the RatingLine; with no photograph good enough, the words on `night`. One primary Button per section, labelled with what happens next. Cards hold discrete, comparable things (a service, a person, a review); a list reads better as rows. Images sit at `rounded-card`. The rest are in src/components (npm run parts).
 
 ## Layout Principles
 
@@ -92,8 +91,6 @@ Don't:
 
 - Don't default to a centred hero over a glow, three feature cards, pricing, an FAQ and a final call to action whatever the content.
   It is the generated-page template; a visitor has seen it a hundred times and it says nothing about this business.
-- Don't show proof that is not real: invented customers, quotes, counts, awards or prices.
-  One fake detail spoils every true one beside it.
 - Don't use gradients, blur, glass or glow to make up for a weak idea.
   Effects date fast and hide that the section has nothing to show.
 - Don't put a form beside the first headline, or a small label above the headline or above every heading.
@@ -116,8 +113,8 @@ Nothing declared.
 ## Agent Prompt Guide
 
 - Colours (as `bg-`, `text-`, `border-`): `canvas`, `surface`, `panel`, `night`, `ink`, `ink-2`, `ink-3`, `night-ink`, `night-ink-2`, `accent`, `accent-ink`, `accent-hover`, `line`, `line-strong`, `line-on-night`.
-- Families: `font-display`, `font-body`. Sizes: `text-display`, `text-section`, `text-title`, `text-lede`, `text-copy`, `text-specimen`, `text-label`.
-- Edges: `rounded-control`, `rounded-card`, `rounded-frame`; `shadow-lift`, `shadow-card`.
+- Families: `font-display`, `font-body`. Sizes: `text-display`, `text-section`, `text-title`, `text-lede`, `text-copy`, `text-label`.
+- Edges: `rounded-control`, `rounded-card`; `shadow-lift`, `shadow-card`.
 - Spacing (with `p`, `m`, `gap` and their sides): `section`, `lead`.
 - Widths: `max-w-content`, `max-w-wide`.
 

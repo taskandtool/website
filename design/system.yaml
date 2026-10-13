@@ -77,12 +77,6 @@ tokens:
       fontSize: 1.125rem
       fontWeight: 400
       lineHeight: 1.6
-    specimen:
-      fontFamily: "Bricolage Grotesque"
-      fontSize: clamp(6rem, 18vw, 11rem)
-      fontWeight: 600
-      lineHeight: 1
-      letterSpacing: -0.03em
     label:
       fontFamily: "Inter"
       fontSize: 0.8125rem
@@ -92,7 +86,6 @@ tokens:
   rounded:
     control: 0.5rem
     card: 1rem
-    frame: 1.5rem
   shadows:
     lift: "0 1px 2px rgb(25 22 18 / 0.06), 0 12px 32px -12px rgb(25 22 18 / 0.18)"
     card: "0 1px 2px rgb(25 22 18 / 0.06)"
@@ -131,8 +124,7 @@ sections:
     {typography.section} every h2; {typography.title} the h3 of a row or a
     card; {typography.lede} the line under a heading, in {colors.ink-2};
     {typography.copy} body text, under 70 characters a line;
-    {typography.label} metadata such as a date or a caption;
-    {typography.specimen} one giant glyph or word inside a visual. Each size
+    {typography.label} metadata such as a date or a caption. Each size
     carries its own line height and tracking.
   components: >
     The first screen is Hero: the photograph, or a short muted video,
@@ -140,7 +132,7 @@ sections:
     with no photograph good enough, the words on {colors.night}. One primary
     Button per section, labelled with what happens next. Cards hold
     discrete, comparable things (a service, a person, a review); a list
-    reads better as rows. Images sit at {rounded.card} or {rounded.frame}.
+    reads better as rows. Images sit at {rounded.card}.
     The rest are in src/components (npm run parts).
   layout: >
     Every band shares one frame, max-w-wide with px-5 sm:px-8 (Section does
@@ -180,8 +172,6 @@ sections:
     dont:
       - rule: "Don't default to a centred hero over a glow, three feature cards, pricing, an FAQ and a final call to action whatever the content."
         why: "It is the generated-page template; a visitor has seen it a hundred times and it says nothing about this business."
-      - rule: "Don't show proof that is not real: invented customers, quotes, counts, awards or prices."
-        why: "One fake detail spoils every true one beside it."
       - rule: "Don't use gradients, blur, glass or glow to make up for a weak idea."
         why: "Effects date fast and hide that the section has nothing to show."
       - rule: "Don't put a form beside the first headline, or a small label above the headline or above every heading."
