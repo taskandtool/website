@@ -42,8 +42,6 @@ records), never another site's words, pictures or logo.
   missing.
 - **Motion:** the first screen's words rise in (`data-rise`); a later band
   may come into view (`data-reveal`).
-- **A generated image** is described apart from the layout (subject, light,
-  crop, room for the words); words stay in HTML, never in the image.
 
 Refuse the generated-page defaults unless the brief gives a reason: a
 centred headline over a glow; three feature cards, pricing, FAQ and a
