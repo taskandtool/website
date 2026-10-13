@@ -58,7 +58,7 @@ test("a logo already in brand/logo/ is the one the site uses, and the crawl's is
   try {
     writeFileSync(join(dir, "brand/logo/owner-logo.svg"), "<svg xmlns='http://www.w3.org/2000/svg'/>");
     const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir, GOOGLE_PLACES_API_KEY: "" };
-    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/from-site.mjs", "https://harlowbakery.com", "--only-homepage"],
+    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/from-site.mjs", "https://harlowbakery.com", "--max-pages", "1"],
       { cwd: dir, env, encoding: "utf8", timeout: 120_000 });
     assert.equal(run.status, 0, run.stderr);
     assert.ok(!existsSync(join(dir, "brand/logo/harlow-bakery-logo-11aa22bb.png")), "the crawl's logo was copied beside the owner's");
@@ -66,6 +66,23 @@ test("a logo already in brand/logo/ is the one the site uses, and the crawl's is
     assert.match(run.stdout, /brand\/logo\/owner-logo\.svg \(already there\)/);
   } finally {
     rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("with no crawl yet, from-site reads twelve pages, or as many as --max-pages says", () => {
+  for (const [extra, pages] of [[[], "12"], [["--max-pages", "1"], "1"]]) {
+    const dir = workspace();
+    try {
+      rmSync(join(dir, "raw/site"), { recursive: true });
+      // a crawl that fails once it has written down what it was asked
+      writeFileSync(join(dir, "bin/tt-crawl"), `#!/bin/sh\necho "$@" > "${join(dir, "asked")}"\nexit 1\n`);
+      const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir };
+      const run = spawnSync(process.execPath, ["scripts/from-site.mjs", "https://harlowbakery.com", ...extra], { cwd: dir, env, encoding: "utf8", timeout: 60_000 });
+      assert.equal(run.status, 1, run.stderr);
+      assert.equal(readFileSync(join(dir, "asked"), "utf8").trim(), `brand https://harlowbakery.com --max-pages ${pages}`);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   }
 });
 
@@ -82,10 +99,12 @@ for (const { name, expected, key } of CASES) test(`from-site ${name} writes the 
   const dir = workspace();
   try {
     const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir, GOOGLE_PLACES_API_KEY: key };
-    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/from-site.mjs", "https://harlowbakery.com", "--only-homepage"],
+    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/from-site.mjs", "https://harlowbakery.com", "--max-pages", "1"],
       { cwd: dir, env, encoding: "utf8", timeout: 120_000 });
     assert.equal(run.status, 0, run.stderr);
     assert.match(run.stdout, /^from-site: harlowbakery\.com\n/);
+    assert.match(run.stdout, /raw\/site\/harlowbakery\.com\/: the crawl already there, as it was read \(--max-pages reads nothing more\)/);
+    assert.match(run.stdout, /\nNext: describe each photograph and video once in brand\/images\.md/);
     const actual = Object.fromEntries([
       ...WRITTEN.map((f) => [f, masked(readFileSync(join(dir, f), "utf8"))]),
       ...LISTED.map((f) => [`${f}/`, listing(dir, f).join("\n") + "\n"]),

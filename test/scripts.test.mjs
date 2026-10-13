@@ -56,6 +56,8 @@ test("from-site, images and shots refuse wrong input with exit 2 before any work
     ["from-site.mjs", ["https://"], /full URL/],
     ["from-site.mjs", ["https://www.facebook.com/harlowjoinery"], /not their own site/],
     ["from-site.mjs", ["https://maps.app.goo.gl/abc"], /not their own site/],
+    ["from-site.mjs", ["https://harlowbakery.com", "--max-pages", "all"], /--max-pages needs a number/],
+    ["from-site.mjs", ["https://harlowbakery.com", "--max-pages", "0"], /--max-pages needs a number/],
     ["images.mjs", [], /name the picture/],
     ["images.mjs", ["a.jpg", "b.jpg", "--as", "hero"], /--as names one file/],
     ["shots.mjs", ["--width", "wide"], /--width needs a number/],

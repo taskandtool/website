@@ -54,7 +54,7 @@ const findings = [];
 const HINTS = new Set(["same-hue-text", "dark-bands", "adjacent-ground", "card-in-card", "side-stripe",
   "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unknown", "we-over-you",
   "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", "title-length", "description-length",
-  "duplicate-title", "tinted-grounds", "default-font", ...HINT_RULES]);
+  "duplicate-title", "tinted-grounds", "default-font", "repeated-photo", ...HINT_RULES]);
 const allowed = (el, rule) => {
   for (let e = el; e; e = e.parentNode) if (e.getAttribute?.("data-lint-allow")?.split(/\s+/).includes(rule)) return true;
   return false;
@@ -151,6 +151,8 @@ for (const file of pages) {
     if (title) (titles.get(title) || titles.set(title, []).get(title)).push(page);
   }
 
+  // each photograph's first <img> on the page, for one shown twice (logos and platform marks repeat by design)
+  const photos = new Map();
   for (const el of all) {
     const tag = el.rawTagName?.toLowerCase();
     const cls = classes(el);
@@ -178,6 +180,10 @@ for (const file of pages) {
       if (!el.hasAttribute("alt")) report("img-alt", page, el, 'an image with no alt; describe it, or alt="" when it is decoration');
       const src = el.getAttribute("src") || "";
       if (src && !/^(https?:|data:|\/\/)/.test(src) && !existsSync(join("dist", src.split(/[?#]/)[0]))) report("img-src", page, el, `${src} is not in dist/; put the file in static/ or fix the path`);
+      if (/^\/images\/(?!logos\/|platforms\/)[^?#]+\.(jpe?g|png|webp|avif)/i.test(src)) {
+        if (photos.has(src)) report("repeated-photo", page, el, `${src} is on this page twice; a photograph shown again reads as having nothing else, so use another (tt-crawl add <page> reads more of their site) or leave one out`);
+        else photos.set(src, el);
+      }
     }
     if (["input", "select", "textarea"].includes(tag) && !["hidden", "submit", "button"].includes(el.getAttribute("type"))) {
       const id = el.getAttribute("id");

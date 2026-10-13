@@ -33,9 +33,8 @@ proud to send the link.
   photograph of the work, the place or the product, crisp and large. When
   the business is visual (food, a place, a view, a craft), prefer it
   full-bleed behind the headline, or a short muted looping video when they
-  have one. A photograph runs full-bleed from 1600px wide; never enlarge one
-  past its own width. A photograph too small to be sharp is set
-  at its own size, framed, or left out, and the head becomes type-led.
+  have one. Any photograph 800px wide or more can run full-bleed: their
+  own big photographs are the strongest thing the site has.
 - **Words over a photograph stay readable:** a scrim (`scrim`, `scrim-up`
   on a layer over the image), a band, or placement beside the subject,
   with contrast checked over the image.

@@ -170,8 +170,6 @@ sections:
         why: "Album prints are cut square or nearly so; a softer corner makes the photograph a social tile."
       - rule: "Don't use a beige, cream or pink ground."
         why: "Beige is the generated default and pink is bloom's; vow is white and cool sage."
-      - rule: "Don't enlarge a photograph past its own pixel size."
-        why: "The photography is what the page is selling; a soft cover says the work is soft."
   responsive_behavior: >
     Below 768px the cover keeps its order (first line, photograph, second line, action) with the
     headline at {typography.display-md} and the photograph full width minus margins at 4/5. Pairs
@@ -243,7 +241,7 @@ x_imagery:
     frames carry the story (the couple, the place, the table, the details).
   density: "the cover always; a pair or a single wide frame in most bands"
   treatment: >
-    Cover: a portrait photograph (4/5 or 2/3), 1600px tall or more, sharp, one clear subject (the
+    Cover: a portrait photograph (4/5 or 2/3), 800px tall or more, sharp, one clear subject (the
     couple, a bride), centred on columns 4–9, square-cornered, object-cover, no filter, no overlay.
     Pairs: two tall frames (4/5 or 2/3) side by side on 1–6 and 7–12, the second dropped by
     {spacing.step-lg}. A landscape photograph runs alone at full container width between pairs.
@@ -254,7 +252,6 @@ x_imagery:
   forbidden:
     - "words on a photograph"
     - "a rule, frame or gold line around a photograph"
-    - "a photograph enlarged past its own pixel size"
   no_assets_supplied: >
     With no portrait photograph, vow is the wrong system.
 
@@ -292,7 +289,7 @@ x_layout:
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the facts or prices start on the first screen" }
     reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column centred on 4–9; a pair between sections" }
   head:
-    statement: "At least one screen tall on {colors.white}: the headline's first line in {typography.display} italic {colors.olive} centred across the full width at the top; beneath it, {spacing.step-md} below, the brand's single best portrait photograph (4/5 or 2/3, 1600px tall or more, sharp, one clear subject such as the couple or a bride, looking natural rather than posed at camera if the brand has the choice) centred on columns 4–9, square-cornered; beneath the photograph, {spacing.step-md} below, the headline's second line in the same size; then one {typography.lede} {colors.olive-soft} line and the {colors.primary} pill (the inquiry), centred. Size the two lines together, by the longer one: {typography.display} only when it has 14 characters or fewer (132px fits about 14 in the 1200px container); longer, both lines at {typography.section}, and both stay one line each. The two lines are always the same size. No words on the photograph. With no portrait photograph: the two lines stand together, centred, over a single wide frame beneath."
+    statement: "At least one screen tall on {colors.white}: the headline's first line in {typography.display} italic {colors.olive} centred across the full width at the top; beneath it, {spacing.step-md} below, the brand's single best portrait photograph (4/5 or 2/3, 800px tall or more, sharp, one clear subject such as the couple or a bride, looking natural rather than posed at camera if the brand has the choice) centred on columns 4–9, square-cornered; beneath the photograph, {spacing.step-md} below, the headline's second line in the same size; then one {typography.lede} {colors.olive-soft} line and the {colors.primary} pill (the inquiry), centred. Size the two lines together, by the longer one: {typography.display} only when it has 14 characters or fewer (132px fits about 14 in the 1200px container); longer, both lines at {typography.section}, and both stay one line each. The two lines are always the same size. No words on the photograph. With no portrait photograph: the two lines stand together, centred, over a single wide frame beneath."
     plain: "A {colors.white} band: the title in {typography.section} {colors.olive} centred on 3–10, one {typography.lede} {colors.olive-soft} line under it; the first band starts {spacing.step-lg} below."
   close: "The {colors.sage} band: the ask in {typography.display-md} italic {colors.olive} centred on 3–10, one line beneath, then the pill (or the inquiry form on 4–9 when the brief gives its fields and where it sends); {spacing.step-xl} padding; then the {colors.olive} footer."
   shapes:

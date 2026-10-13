@@ -46,7 +46,7 @@ The machine's one browser is tt-crawl's (shots, check, audit); install no other.
 npm run from-site -- <url>   # a first homepage's start (a minute): their facts, logo, photos, colours, fonts and proof
                              # into the notes and the record; prints what it wrote and what to read next
 npm run parts                # what a page is built from: components, classes, facts, photos; read it, not the source
-npm run images -- <file>...  # photos into static/images/ at web size (<=2560px, ~600 KB); prints their pixels
+npm run images -- <file>...  # photos into static/images/ at web size (<=3000px, ~600 KB); prints their pixels
 npm run verify               # content, check, typecheck, test, build, proof, trace, lint (design rules; each page's
                              # title, description, one h1): lists every failure at once
 npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page); prints which

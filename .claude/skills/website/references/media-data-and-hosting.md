@@ -23,7 +23,7 @@ here in five mechanical steps:
 ## Images and media
 
 - `npm run images -- <file>…` puts photographs in `static/images/` at web
-  size (at most 2560px wide, under 600 KB where the quality allows) and
+  size (at most 3000px wide, under 600 KB where the quality allows) and
   prints each one's pixels. Real `alt` text always. Use photographs
   generously: big, full-bleed where they hold up, several per page.
 - Video: muted h264 mp4 (plus webm). Read it with `ffprobe` first; for a

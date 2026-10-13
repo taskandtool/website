@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // A first homepage's starting point from the business's current site:
-// `npm run from-site -- https://theirsite.com [--only-homepage]`.
+// `npm run from-site -- https://theirsite.com [--max-pages N]`.
 //
-// Reads the homepage and the pages its menu links to (tt-crawl brand, twelve
-// pages at most: their biggest photographs are rarely all on the homepage),
+// Reads the page given and the pages its menu links to (tt-crawl brand, twelve
+// pages unless --max-pages says: their biggest photographs are rarely all on
+// the homepage),
 // then any page it links to that holds photographs (gallery, photos,
 // portfolio, projects, our work: two at most), its services page and a page
 // of proof (testimonials, reviews, clients, partners) not read yet
-// (tt-crawl add). --only-homepage reads the homepage alone. Then it does by script what needs no judgement: the
+// (tt-crawl add). Then it does by script what needs no judgement: the
 // business note's facts (cited to the crawl), the logo into brand/logo/,
 // their photographs at web size into static/images/, the proof (their
 // reviews and ratings, Google's too, and every logo of others) into
@@ -21,28 +22,29 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFi
 import { homedir } from "node:os";
 import { basename, join } from "node:path";
 import YAML from "yaml";
-import { fail, has, machineEnv, misused } from "../src/data/cli.mjs";
+import { fail, flag, has, machineEnv, misused } from "../src/data/cli.mjs";
 import { MAX_WIDTH, webSize } from "./images.mjs";
 import { frontmatter, start } from "./lib.mjs";
 import { TEXT_PAIRS, chromaHue, isHex, luminance, ratio } from "./theme.mjs";
 
-const a = start("from-site", `usage: npm run from-site -- https://theirsite.com [--only-homepage]
+const a = start("from-site", `usage: npm run from-site -- https://theirsite.com [--max-pages N]
 
-Reads their homepage and the pages its menu links to (and its gallery,
+Reads the page given and the pages its menu links to (and its gallery,
 services page and a page of reviews or clients), then writes the business note, the logo, their photographs at
 web size, and design tokens from their colours and fonts, public/proof.md
 (their reviews, Google's rating and reviews, logos) and numbered sheets of
 photos and logos to name.
 Prints what it wrote, what it kept, and what to read next. Safe to run
 again: a note, logo or record already filled in is kept.
-  --only-homepage   read the homepage alone: quicker, with fewer photographs`, { bools: ["only-homepage"], args: true });
+  --max-pages N   pages to read (default 12); 1 reads the page given alone.
+                  The rest of their site later: tt-crawl brand <url> --resume`, { flags: ["max-pages"], args: true });
 if (a._.length > 1) misused(`from-site: one site at a time (given ${a._.join(" ")})`, "npm run from-site -- https://theirsite.com");
 const given = a._[0];
 // a bare domain is their site too
 const url = given && !/^https?:\/\//.test(given) && /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(given) ? `https://${given}` : given;
-const onlyHomepage = has(a, "only-homepage");
 // the homepage and the pages its menu links to, where the big photographs are
-const MENU_PAGES = 12;
+const maxPages = flag(a, "max-pages") ?? "12";
+if (!/^[1-9]\d*$/.test(maxPages)) misused(`from-site: --max-pages needs a number of pages, e.g. --max-pages 1`, "npm run from-site -- https://theirsite.com --max-pages 1");
 if (!/^https?:\/\//.test(url || "") || !URL.canParse(url)) misused("from-site: it needs the business's site as a full URL", "npm run from-site -- https://theirsite.com");
 const host = new URL(url).hostname.replace(/^www\./, "");
 // a profile or listing is not their site: its colours and facts would seed the note and the tokens for good
@@ -67,12 +69,14 @@ const kept = [];
 const notes = [];
 
 // ── reading their site ────────────────────────────────────────────────────
+const crawled = existsSync(join(dir, "_index/business-card.json"));
 try {
-  if (!existsSync(join(dir, "_index/business-card.json"))) crawl(["brand", url, "--max-pages", onlyHomepage ? "1" : String(MENU_PAGES)]);
+  if (!crawled) crawl(["brand", url, "--max-pages", maxPages]);
 } catch (e) {
   if (e.code === "ENOENT") fail("from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
   fail(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
 }
+if (crawled) kept.push(`${dir}/: the crawl already there, as it was read${has(a, "max-pages") ? " (--max-pages reads nothing more)" : ""}; more of their site: tt-crawl brand ${url} --resume, or tt-crawl add <page>`);
 const manifest = () => read("_index/manifest.json", {});
 const inventory = read("_index/inventory.json", {}).records || [];
 const pathOf = (u) => new URL(u).pathname;
@@ -80,7 +84,7 @@ const photoPages = inventory.map((r) => r.url).filter((u) => /\/(gallery|photos?
 const servicesPage = inventory.map((r) => r.url).find((u) => /\/(services?|what-we-do)\/?$/i.test(pathOf(u)));
 const proofPage = inventory.map((r) => r.url).find((u) => /\/(testimonials?|reviews?|clients?|partners?|our-clients|customers|case-studies)\/?$/i.test(pathOf(u)));
 const isRead = (u) => (manifest().pages || []).some((p) => p.url === u);
-const unread = (onlyHomepage ? [] : [...photoPages, servicesPage, proofPage]).filter((u) => u && !isRead(u));
+const unread = (maxPages === "1" ? [] : [...photoPages, servicesPage, proofPage]).filter((u) => u && !isRead(u));
 if (unread.length) {
   try {
     crawl(["add", "--out", dir, ...unread]);
@@ -165,7 +169,7 @@ const shown = photos.flatMap((it) => {
   const where = it.heading ? ` beside "${it.heading}"` : "";
   const alt = realAlt(it.alt);
   photoRows.push({ file: dest, source: fileOf(it), width, height });
-  return [`/images/${name}  ${width}x${height}${width >= 1600 ? "  full width" : ""}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
+  return [`/images/${name}  ${width}x${height}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
 });
 if (shown.length > photosThere) wrote.push(`static/images/: ${shown.length - photosThere} photographs at web size`);
 if (photosThere) kept.push(`static/images/: ${photosThere} photographs already there`);
@@ -208,6 +212,7 @@ if (videosThere) kept.push(`static/videos/: ${videosThere} videos already there`
 // (raw/photos.png) and a row for each in brand/images.md, which the AI fills
 // from the sheet; later work reads the file, not the pictures.
 let photoSheet = "";
+let describe = "";
 const imagesNote = "brand/images.md";
 if ((photoRows.length || videoRows.length) && existsSync(imagesNote) && /\| to fill \|/.test(readFileSync(imagesNote, "utf8"))) {
   const pictures = [...photoRows.map((r) => r.file), ...videoRows.filter((v) => v.frame).map((v) => v.frame)];
@@ -222,7 +227,7 @@ if ((photoRows.length || videoRows.length) && existsSync(imagesNote) && /\| to f
   ].join("\n");
   writeFileSync(imagesNote, readFileSync(imagesNote, "utf8").replace(/^\| to fill \|.*$/m, rows));
   wrote.push(`${imagesNote}: a row for each photograph${photoSheet ? `, numbered in ${photoSheet}` : ""}`);
-  notes.push(`describe each photograph and video once in ${imagesNote}${photoSheet ? ` from ${photoSheet} (numbered in the table's order)` : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`);
+  describe = `${photoSheet ? `look at ${photoSheet} and ` : ""}describe each photograph and video once in ${imagesNote}${photoSheet ? " (numbered in the table's order)" : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`;
 }
 
 // ── the proof: what others say ────────────────────────────────────────────
@@ -509,6 +514,7 @@ const pageFile = (u) => (manifest().pages || []).find((p) => p.url === u)?.file;
 const services = servicesPage && pageFile(servicesPage);
 const ratings = ratingRows.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`);
 const next = [
+  ...(describe ? [describe] : []),
   services ? `write public/services.md from ${dir}/${services}` : "write public/services.md from the homepage's words",
   "find the rest of the proof, then design and build the homepage with all of it on it (the new-site skill's homepage, from 'All the proof')",
 ];
@@ -519,7 +525,7 @@ The homepage's words:    ${dir}/pages/index.md${services ? `\nThe services page:
 How it looks today:      ${dir}/shots/index/
 Colours by use:          ${palette.slice(0, 8).join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
-Photographs (in static/images/; "full width" ones can run edge to edge):
+Photographs (in static/images/; any can run edge to edge):
 ${shown.map((s) => `  ${s}`).join("\n") || "  none 800px or wider"}
 Proof (public/proof.md): ${proofEmpty ? `${reviewRows.length} reviews, ${logoRows.length} logos${sheet ? ` (numbered in ${sheet})` : ""}, ratings: ${ratings.join("; ") || "none yet"}` : "kept as it was"}
 Later, the rest of their site: tt-crawl brand ${manifest().start || url} --resume

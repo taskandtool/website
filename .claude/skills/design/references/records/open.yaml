@@ -184,7 +184,7 @@ sections:
     date at 56px to the left of the name. Bands go to one column with 20px margins; section
     padding {spacing.step-xl} → {spacing.step-lg}.
   known_gaps: >
-    A brand with no clean landscape video uses its widest sharp photograph (1600px+) the same
+    A brand with no clean landscape video uses its widest sharp photograph (800px+) the same
     way; with neither, open is the wrong system. The signup needs its real fields and where it
     sends; without them it is a button to the brand's own signup page. No icon set.
 
@@ -273,7 +273,6 @@ x_imagery:
   forbidden:
     - "a video with burned-in titles as the head"
     - "a form over the video"
-    - "a photograph enlarged past its own pixel width"
   no_assets_supplied: >
     No video: the widest sharp photograph fills the head the same way. Neither: open is the wrong
     system.

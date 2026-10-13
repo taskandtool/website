@@ -162,7 +162,7 @@ sections:
     pill, 52px tall, hovering to {colors.primary-deep}.
   dos_and_donts:
     do:
-      - rule: "Open on a real class: the studio's own landscape video (720p+, no burned-in text) or its widest sharp photograph (1600px+), people moving, the right half clear."
+      - rule: "Open on a real class: the studio's own landscape video (720p+, no burned-in text) or its widest sharp photograph (800px+), people moving, the right half clear."
         why: "A wellness page sells how a class feels; the studio's own people in motion show it, and the right half stays clear for the card."
       - rule: "Carry the hero's words in {colors.plum} on a half-transparent {colors.blush-veil} gradient from the left, never white on pink."
         why: "The gradient is the system's softness; dark plum on blush holds contrast (11:1) where white would wash out."
@@ -262,7 +262,7 @@ x_imagery:
   density: "the hero always; a photograph beside most bands; the teachers as portraits"
   treatment: >
     Hero: a landscape video (720p+, muted, looping, inline, poster, pause button at the bottom
-    right, no burned-in text) or the widest sharp photograph (1600px+), object-cover, full width,
+    right, no burned-in text) or the widest sharp photograph (800px+), object-cover, full width,
     under a {colors.blush-veil} gradient at 88% held flat from the left edge to about 45% of
     the width, then to transparent by about 62% (from the bottom on a phone). A hosted player (Vimeo or YouTube)
     runs in the same frame with the utility `media-cover`, its thumbnail as the poster, paused
@@ -275,7 +275,6 @@ x_imagery:
   forbidden:
     - "a pink tint over the whole photograph, or over the people moving"
     - "white text on the blush veil"
-    - "a photograph enlarged past its own pixel width"
   no_assets_supplied: >
     With no class photograph or video, bloom is the wrong system.
 
@@ -313,7 +312,7 @@ x_layout:
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the schedule or prices start on the first screen" }
     reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads", rhythm: "one column of 7 on 3–9; photographs between sections at {rounded.card}" }
   head:
-    statement: "Full viewport width, at least 720px tall (about 75vh on a phone): the studio's own class, a landscape video (720p+, no burned-in text, muted, looping, inline, poster, pause button bottom right) or its widest sharp photograph (1600px+), object-cover, with the people moving on the right half and the left half calmer (sand, sky, the room). Over it a {colors.blush-veil} gradient held at 88% from the left edge to about 45% of the width (under all the words on 1–6), then to transparent by about 62%, so {colors.plum} holds 11:1. On 1–6: the headline in {typography.display} {colors.plum} (two or three lines; the serif's italic may set one word), a {typography.lede} {colors.plum} lead beneath (the veil's secondary text steps down from the headline by size, never to {colors.plum-soft}, which is a mid tint of the veil's own hue there). On 8–12, vertically centred: the {colors.white} class card at {rounded.card} with the next classes as rows (day and time, class, teacher) when the brief gives them with dates, and the {colors.primary} pill to book; a form inside only when the brief gives its fields and where it sends. Below 768px the veil rises from the bottom and the card follows the media on {colors.petal}. No class video or photograph: bloom is the wrong system."
+    statement: "Full viewport width, at least 720px tall (about 75vh on a phone): the studio's own class, a landscape video (720p+, no burned-in text, muted, looping, inline, poster, pause button bottom right) or its widest sharp photograph (800px+), object-cover, with the people moving on the right half and the left half calmer (sand, sky, the room). Over it a {colors.blush-veil} gradient held at 88% from the left edge to about 45% of the width (under all the words on 1–6), then to transparent by about 62%, so {colors.plum} holds 11:1. On 1–6: the headline in {typography.display} {colors.plum} (two or three lines; the serif's italic may set one word), a {typography.lede} {colors.plum} lead beneath (the veil's secondary text steps down from the headline by size, never to {colors.plum-soft}, which is a mid tint of the veil's own hue there). On 8–12, vertically centred: the {colors.white} class card at {rounded.card} with the next classes as rows (day and time, class, teacher) when the brief gives them with dates, and the {colors.primary} pill to book; a form inside only when the brief gives its fields and where it sends. Below 768px the veil rises from the bottom and the card follows the media on {colors.petal}. No class video or photograph: bloom is the wrong system."
     plain: "A {colors.petal} band: the title in {typography.section} {colors.plum} on 1–8 and one {typography.lede} {colors.plum-soft} line; the first band starts {spacing.step-lg} below."
   hosted_player: "When the hero's video is a hosted player (Vimeo or YouTube, embeddable, landscape), use it the way the studio does, never downloaded: an iframe of the recorded embed URL with a title, in the hero's frame (the frame carries the utility `media-frame`) with the utility `media-cover`, over its thumbnail as the poster; the pause button drives it through the provider's player API; under reduced motion the iframe is not added."
   close: "The one {colors.rose} band: the ask again in {typography.section} {colors.plum} centred on 3–10, the {colors.primary} pill beneath, {spacing.step-xl} padding; then the {colors.plum} footer."
