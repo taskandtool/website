@@ -121,6 +121,8 @@ const pageBands = [];
 const pages = walk("dist").filter((f) => f.endsWith(".html"));
 // each title and the pages that carry it, for a duplicate across pages
 const titles = new Map();
+// each photograph on the site and where it first appears, for one brand/images.md does not describe
+const sitePhotos = new Map();
 for (const file of pages) {
   const page = "/" + file.slice("dist/".length).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "");
   const root = parse(readFileSync(file, "utf8"), { comment: false });
@@ -183,6 +185,7 @@ for (const file of pages) {
       if (/^\/images\/(?!logos\/|platforms\/)[^?#]+\.(jpe?g|png|webp|avif)/i.test(src)) {
         if (photos.has(src)) report("repeated-photo", page, el, `${src} is on this page twice; a photograph shown again reads as having nothing else, so use another (tt-crawl add <page> reads more of their site) or leave one out`);
         else photos.set(src, el);
+        if (!sitePhotos.has(src)) sitePhotos.set(src, { page, el });
       }
     }
     if (["input", "select", "textarea"].includes(tag) && !["hidden", "submit", "button"].includes(el.getAttribute("type"))) {
@@ -400,6 +403,17 @@ if (tints.length === 3 && tints.every((t) => t.chroma > 0.04 && hueGap(t.hue, ti
 const DEFAULT_FONTS = /^(Inter|Roboto|Arial|Helvetica|Open Sans|Lato|Montserrat|Poppins|DM Sans|DM Serif Display|Fraunces|Playfair Display|Space Grotesk)$/;
 for (const [, role, family] of readTheme().source.matchAll(/--font-(display|body):\s*"([^"]+)"/g))
   if (DEFAULT_FONTS.test(family)) report("default-font", "design/system.yaml", null, `the ${role} font "${family}" is one generated sites reach for by default; choose one for this business (its own, or a library record's pairing), or declare default-font with the reason it fits`);
+// a photograph is chosen by looking at it: its row in brand/images.md says what it shows
+const described = new Set();
+if (existsSync("brand/images.md")) for (const row of readFileSync("brand/images.md", "utf8").split("\n")) {
+  const cells = row.split("|").slice(1, -1).map((c) => c.trim());
+  const file = cells[0]?.match(/([\w.-]+\.(?:jpe?g|png|webp|avif))/i)?.[1];
+  if (file && cells[1] && !/^to fill$/i.test(cells[1])) described.add(file.replace(/\.[a-z]+$/i, ""));
+}
+for (const [src, { page, el }] of sitePhotos) {
+  const name = src.split(/[?#]/)[0].split("/").pop().replace(/\.[a-z]+$/i, "");
+  if (!described.has(name)) report("photo-undescribed", page, el, `${src} is on the page but brand/images.md does not say what it shows; look at it (raw/photos.png numbers them) and fill its row before choosing where it goes`);
+}
 for (const [title, on] of titles) if (on.length > 1) for (const page of on.slice(1)) report("duplicate-title", page, null, `"${title}" is also the title of ${on[0]}; each page needs its own, or search shows two alike`);
 const byRule = new Map();
 for (const f of findings) byRule.set(f.rule, [...(byRule.get(f.rule) || []), f]);
