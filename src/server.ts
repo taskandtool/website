@@ -11,8 +11,8 @@ import { devFiles } from "./forms/files";
 const port = Number(process.env.PORT ?? 3000);
 
 const server = new Hono();
-// While the site is being built, site.css changes on every edit: the browser
-// asks again each time (a 304 when nothing changed) instead of keeping a copy
+// While the site is being built, its files change (site.css on every edit):
+// the browser asks again each time (a 304 when nothing changed) instead of keeping a copy
 // whose classes the new pages do not have.
 const fresh = (_path: string, c: Context) => c.header("Cache-Control", "no-cache");
 // Static files win over routes, exactly as they do at the edge.

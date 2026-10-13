@@ -23,8 +23,8 @@ Which skill to read, by what the owner asks:
   and URLs: `migrate-site`; the cutover and the weekly audit: `cutover-check`
 - "is it ready to go live": the website skill's checklist before each
   deploy; a migrated site also `cutover-check`
-- a form, a private `/admin`, a booking page, a report or chart: `forms`,
-  `admin`, `booking`, `reports`, all on `data` (what they store is in the
+- a form, a private `/admin`, a booking page, a customer's notes, a report
+  or chart: `forms`, `admin`, `booking`, `customers`, `reports`, all on `data` (what they store is in the
   project's database, which the project's other apps read too)
 - "take orders", "an order page", a form with steps, "a paid appointment
   with a few questions": `forms` (an order is a form: its items, a booking
@@ -85,12 +85,13 @@ run the same three for that page.
   team so. `/admin` is Submissions (every form and booking: Inbox,
   Archived, Spam; a submission's page reschedules or cancels its booking,
   refunds its payment, and shows and logs the person's notes on the
-  project's customers, the same rows the CRM shows), Schedule (the week; book for someone), Services (each one's
-  name, length, price, rules and who takes it) and Team (each person's
-  details, hours and time off). When the owner asks you instead, use the
-  same writes in `src/booking/hours.ts` (`createType`, `saveType`,
-  `setHosts`, `createPerson`, `savePerson`) from a script on the machine;
-  they check what you pass and return field errors. The code under
+  project's customers, the same rows the CRM shows), Schedule (the week;
+  book for someone), Services (each one's name, length, price, rules and
+  who takes it) and Team (each person's details, hours and time off). When
+  the owner asks you instead, use the same writes in `src/booking/hours.ts`
+  (`createType`, `saveType`, `setHosts`, `createPerson`, `savePerson`,
+  `addWindow`, `addTimeOff`) from a script on the machine; they check what
+  you pass and return field errors. The code under
   `src/data`, `admin`, `forms`, `booking`, `payments`, `customers` came from those
   skills, which say how it works; it is this app's code to change.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served

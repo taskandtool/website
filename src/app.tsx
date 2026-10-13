@@ -66,7 +66,8 @@ app.get("/robots.txt", (c) =>
 // run on the machine and, after deploying, in the production Worker.
 
 // Forms, booking, payments and the private /admin (src/business.tsx): live
-// once the project has a database, 404 until then.
+// once the project has a database; until then the forms and /book are 404
+// and /admin says so.
 app.route("/", business);
 
 app.notFound((c) => c.html(render(NotFound.page, <NotFound.Body />), 404));

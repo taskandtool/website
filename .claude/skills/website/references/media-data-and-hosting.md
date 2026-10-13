@@ -49,8 +49,9 @@ here in five mechanical steps:
   from the business skills beside this one, on `data` (the database
   handle, settings, email, spam checks). `forms` (any form a visitor sends,
   stored in `submissions`, where a CRM finds them; an order or a booking
-  is a form with steps), `booking`, `payments` and `admin` (the private
-  `/admin`, kept for the team by setup) are already here: their code is in
+  is a form with steps), `booking`, `payments`, `customers` (the people
+  who got in touch and their notes, the rows the CRM shows) and `admin`
+  (the private `/admin`, kept for the team by setup) are already here: their code is in
   `src/<skill>/` and `src/business.tsx` mounts it. `reports` (charts and
   report pages) is copied into `src/reports/` as its skill says when the
   site needs it, its tests with it. Here the handle is

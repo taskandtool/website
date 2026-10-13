@@ -4,10 +4,10 @@
 // and the private /admin: every submission in one place, a booking made at
 // /book among them. Every one reads the project's database
 // (DATABASE_URL: a Worker binding in production, the env in dev); a site
-// without one serves its pages as before and answers 404 here (503 to
-// Stripe, which then delivers again).
+// without one serves its pages as before; its forms and /book answer 404,
+// /admin says so (503), and Stripe gets 503 and delivers again.
 //
-// The code under src/data, admin, forms, booking and payments is the skills'
+// The code under src/data, admin, forms, booking, payments and customers is the skills'
 // (each skill's SKILL.md says how to use it); this file only mounts it.
 // Mounted in src/app.tsx below the pages, so a page of the same path wins.
 import { Hono, type Context, type MiddlewareHandler } from "hono";
@@ -64,6 +64,17 @@ export async function bookingSubmission(db: Db, e: Pick<BookingNotice, "booking"
       returning id)
     update bookings set submission_id = made.id from made where bookings.id = ${b.id}::bigint`;
 }
+
+/**
+ * Every change is told to the booker; a new booking is filed with the
+ * submissions too (`page` is where it was made). Told first, so a filing
+ * that fails (the caller logs it) never stops the confirmation; the booking
+ * stands either way.
+ */
+const filed = (page: (e: BookingNotice) => string | null) => async (c: Context, e: BookingNotice) => {
+  confirm(c, e);
+  if (e.event === "booked") await bookingSubmission(getDb(c), e, page(e));
+};
 
 /** No database yet: these paths do not exist. */
 const needsDb: MiddlewareHandler = async (c, next) => (hasDb(c) ? next() : c.notFound());
@@ -125,21 +136,9 @@ business.route(
         <Shell>{children}</Shell>
       </Layout>
     ),
-    onBooked: async (c, e) => {
-      if (e.event === "booked") await file(c, e, `/book/${e.type.slug}`);
-      confirm(c, e);
-    },
+    onBooked: filed((e) => `/book/${e.type.slug}`),
   }),
 );
-
-/** A new booking into the submissions; a failure is logged, and the booking stands (it is on the Schedule). */
-async function file(c: Context, e: BookingNotice, page: string | null) {
-  try {
-    await bookingSubmission(getDb(c), e, page);
-  } catch (err) {
-    console.error(`booking ${e.booking.id}: could not add it to the submissions:`, err);
-  }
-}
 
 // The team's side, private: Task & Tool lets only the team reach /admin
 // (add-private-path, which setup.sh declares) and teamOnly answers 404 to
@@ -147,14 +146,14 @@ async function file(c: Context, e: BookingNotice, page: string | null) {
 // cancelled and a payment refunded from its submission), the week's
 // Schedule (and booking for someone), the Services people can book, and the
 // Team who take them (hours, time off). Forms are changed by asking the AI.
+const sections = { schedule: "/admin/schedule", services: "/admin/services", team: "/admin/team" };
 const nav: NavItem[] = [
   { href: "/admin/submissions", label: "Submissions" },
-  { href: "/admin/schedule", label: "Schedule" },
-  { href: "/admin/services", label: "Services" },
-  { href: "/admin/team", label: "Team" },
+  { href: sections.schedule, label: "Schedule" },
+  { href: sections.services, label: "Services" },
+  { href: sections.team, label: "Team" },
   { href: "/", label: "View site" },
 ];
-const sections = { schedule: "/admin/schedule", services: "/admin/services", team: "/admin/team" };
 const toSubmission = (id: string | null) => (id ? { href: `/admin/submissions/${id}`, label: "Back to the submission" } : null);
 const admin = new Hono<{ Variables: TeamVars }>();
 admin.use("*", teamOnly());
@@ -171,30 +170,28 @@ admin.use("*", async (c, next) =>
         503,
       ),
 );
+admin.get("/", (c) => c.redirect("/admin/submissions"));
 // Calendar sync and reminders are scheduled jobs the CRM runs; this site has none.
 const team = { css: CSS, source: SOURCE, nav, timeZone: site.timeZone, sections, manageBase: BOOK ?? undefined, calendars: false };
 admin.route(
   "/schedule",
   bookingAdmin(getDb, {
-    ...team, base: "/admin/schedule",
-    // A booking the team makes is filed with the rest; every change is told to the booker.
-    onBooked: async (c, e) => {
-      if (e.event === "booked") await file(c, e, null);
-      confirm(c, e);
-    },
+    ...team, base: sections.schedule,
+    onBooked: filed(() => null),
     returnTo: (b) => toSubmission(b.submission_id),
   }),
 );
-admin.route("/services", typeRoutes(getDb, { ...team, base: "/admin/services" }));
-admin.route("/team", peopleRoutes(getDb, { ...team, base: "/admin/team" }));
+admin.route("/services", typeRoutes(getDb, { ...team, base: sections.services }));
+admin.route("/team", peopleRoutes(getDb, { ...team, base: sections.team }));
+// A payment opens from its submission; the list is not in the nav, and one
+// paid for anything else (a booking's deposit) refunds from its own page.
 admin.route(
   "/payments",
   paymentsAdmin(getDb, {
     base: "/admin/payments", css: CSS, timeZone: site.timeZone, nav,
-    returnTo: (p) => toSubmission(p.ref_type === "submission" ? p.ref_id : null) ?? { href: "/admin/submissions", label: "Submissions" },
+    returnTo: (p) => toSubmission(p.ref_type === "submission" ? p.ref_id : null),
   }),
 );
-admin.get("/", (c) => c.redirect("/admin/submissions"));
 admin.route(
   "/submissions",
   formsAdmin(getDb, {

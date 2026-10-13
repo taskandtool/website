@@ -1,5 +1,5 @@
-// The Website's /admin as src/business.tsx puts it together: a booking made at
-// /book becomes a submission, and its page reschedules or cancels it and
+// The Website's /admin, wired here as src/business.tsx wires it (that file
+// reads its database from the env): a booking made at /book becomes a submission, and its page reschedules or cancels it and
 // comes back. Needs TEST_DATABASE_URL, like the skills' database tests.
 import { test } from "node:test";
 import assert from "node:assert/strict";

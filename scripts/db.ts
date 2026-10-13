@@ -1,4 +1,4 @@
-// The project database's tables for this site's forms, bookings and payments:
+// The project database's tables for this site's forms, bookings, payments and customers:
 // the skills' schema.sql files through applySchema (additive only, safe to
 // re-run, behind the lock every app on the project shares). Machine only.
 //

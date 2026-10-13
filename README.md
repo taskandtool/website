@@ -46,9 +46,10 @@ Beside the site, the two conventions Task & Tool reads:
   new-site/      the agency flow: a striking homepage first, then the system, the pages, the launch
   pages/         the page plan, a brief per page, the 18 page-type guides, search fields, a page's code
   website/       the mechanics: the dev loop, checks, screenshots, deploy; search, posts, media and data
-  forms/ admin/ booking/ payments/ reports/ data/
+  forms/ admin/ booking/ payments/ customers/ reports/ data/
                  business skills from github.com/taskandtool/skills: forms, the private
-                 /admin, a booking page, Stripe payments, reports, and the database handle they share
+                 /admin, a booking page, Stripe payments, customers' notes, reports, and the
+                 database handle they share
   design/        the look: the first screen, the system record as the site grows, the review
                  gate; the design library's 14 systems as references
   writing/       the words in the owner's voice, the editing passes, the cold read
