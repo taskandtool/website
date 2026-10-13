@@ -52,10 +52,6 @@
   --text-copy: 1.125rem;
   --text-copy--line-height: 1.6;
   --text-copy--font-weight: 400;
-  --text-specimen: clamp(6rem, 18vw, 11rem);
-  --text-specimen--line-height: 1;
-  --text-specimen--letter-spacing: -0.03em;
-  --text-specimen--font-weight: 600;
   --text-label: 0.8125rem;
   --text-label--line-height: 1.4;
   --text-label--letter-spacing: 0.04em;
@@ -64,7 +60,6 @@
   /* rounded */
   --radius-control: 0.5rem;
   --radius-card: 1rem;
-  --radius-frame: 1.5rem;
 
   /* shadows */
   --shadow-lift: 0 1px 2px rgb(25 22 18 / 0.06), 0 12px 32px -12px rgb(25 22 18 / 0.18);

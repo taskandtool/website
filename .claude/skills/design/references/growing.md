@@ -6,11 +6,11 @@ every page:
 1. **Fill the rest of the record** by `references/authoring.md`: the rules
    with their reasons, the imagery, the motion, `x_layout` for every shape
    of content (not only what the homepage shows), and `identity` from the
-   brief. `references/records/` holds the library's fourteen as worked examples,
+   homepage and what the owner said. `references/records/` holds the library's fourteen as worked examples,
    and `references/authoring.md` ends with a filled identity. Then
    `npm run system`.
 2. **Rebuild it blind.** Give a sub-agent with a fresh context only
-   `design/briefs/home.md`, `public/`, `brand/` and `design/system.yaml`,
+   `public/`, `brand/` and `design/system.yaml`,
    and have it build the homepage as a scratch page at `/rebuild`
    (`src/pages/rebuild.tsx`, listed in `src/pages/index.ts`). Screenshot both (`npm run shots -- /rebuild`).
    Where the two differ in a way the owner would notice, the record left

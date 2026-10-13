@@ -427,7 +427,7 @@ async function googleWeights(family) {
     return null;
   }
 }
-const HEAD_STYLES = ["display", "section", "title", "specimen"];
+const HEAD_STYLES = ["display", "section", "title"];
 const served = new Map();
 for (const f of new Set([headFont, bodyFont].filter(Boolean))) served.set(f, await googleWeights(f));
 const families = [...served].filter(([, w]) => w?.length).map(([f]) => f);

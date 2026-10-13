@@ -256,7 +256,7 @@ for (const file of pages) {
       const prev = el.previousElementSibling;
       // a dateline (a <time> above a post's title) is metadata, not an eyebrow
       if (prev && /^(p|span|div)$/.test(prev.rawTagName?.toLowerCase()) && !prev.querySelector("time") && classes(prev).some((x) => /^(uppercase|text-label)$/.test(variantless(x)))) {
-        report("eyebrow", page, prev, "a small uppercase label above the heading; fold its words into the heading, or drop it");
+        report("eyebrow", page, prev, "a small label above the heading; fold its words into the heading, or drop it");
       }
     }
     const kids = el.childNodes.filter((n) => n.nodeType === 1);

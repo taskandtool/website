@@ -14,7 +14,7 @@ bars) to borrow.
 ```
 id, title, summary          the system's name and one sentence of what it is
 identity                    subject, audience, one_job, direction, source, signature,
-                            rejection, photography: from the brief and the homepage
+                            rejection, photography: from the homepage and the owner
 tokens                      colors, typography, rounded, shadows, spacing, containers, easing
 sections                    overview, colors, typography, components, layout,
                             elevation_and_depth, motion, responsive_behavior,
@@ -120,7 +120,7 @@ example.
 
 ## When the record is done
 
-A fresh builder, given only `design/briefs/home.md`, the facts and this record,
+A fresh builder, given only the notes (`public/`, `brand/`) and this record,
 should produce the homepage again (the blind rebuild in the design
 skill's "When the site grows"). Where the rebuild differs, the record left
 something out; add it to the record, not to the page.

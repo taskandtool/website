@@ -6,8 +6,7 @@ description: "Designs this website's look: the first screen, the design system r
 # Design
 
 The look is one record, `design/system.yaml`, compiled by `npm run system`
-into `styles/theme.css` and `DESIGN.md` (never edit those two by hand); the
-compile refuses a broken record. The starter's record is a working default:
+into `styles/theme.css` and `DESIGN.md`; the compile refuses a broken record. The starter's record is a working default:
 read `DESIGN.md`, then make it this business's.
 
 ## Making it theirs
@@ -54,11 +53,12 @@ When the owner wants more than the homepage: `references/growing.md`.
 
 ## Review gate
 
-Look at the rendered page, never the code: `npm run shots` writes, per
-width (1280, 390), `uploads/home-<width>/overview.png` (the whole page) and
-the strips `01.png`, `02.png` … at full size. Check the page's shape, then
-each section, then the phone; set it beside the page it replaces
+Look at the rendered page, never the code: `npm run shots`, then the
+images it names, in its order. Check the page's shape, then each section,
+then the phone; set it beside the page it replaces
 (`raw/site/<host>/shots/`) or the one the owner pointed at: is it clearly
-better, and would the owner send it to someone? Write every problem in one
-list, fix them in one pass, then `npm run verify` and `npm run shots` once
-more.
+better, and would the owner send it to someone? Each lint hint `npm run
+verify` printed is fixed, or kept on purpose with
+`data-lint-allow="<rule>"` on its element and said so. Write every problem
+in one list, fix them in one pass, then `npm run verify` and `npm run shots`
+once more.

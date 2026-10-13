@@ -41,10 +41,9 @@ The order matters; how you do each part is yours:
 4. **The look,** with the `design` skill.
 5. **The page,** written whole from what `npm run parts` lists
    (`.claude/skills/pages/references/page-code.md`), then `npm run verify`
-   and fix its findings. When the owner asked for something the lint flags, put
-   `data-lint-allow="<rule>"` on that element and say so.
-6. **Review:** the `writing` skill's cold read (a sub-agent) and the
-   `design` skill's review gate together; fix both lists in one pass.
+   and fix its errors.
+6. **Review:** the `design` skill's review gate, with the `writing`
+   skill's cold read (a sub-agent) in the same list.
 7. **Commit, then show** (one plain line, so any version the owner saw
    comes back with `git checkout`). Name the one or two things that would
    make it better: their own sharp photographs, a fact the site does not
