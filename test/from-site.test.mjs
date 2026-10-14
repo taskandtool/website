@@ -105,6 +105,7 @@ for (const { name, expected, key } of CASES) test(`from-site ${name} writes the 
     assert.match(run.stdout, /^from-site: harlowbakery\.com\n/);
     assert.match(run.stdout, /raw\/site\/harlowbakery\.com\/: the crawl already there, as it was read \(--max-pages reads nothing more\)/);
     assert.match(run.stdout, /\nNext: describe each photograph and video once in brand\/images\.md/);
+    assert.match(run.stdout, /\nIts sections, by heading: 1: Harlow Bakery\n/);
     const actual = Object.fromEntries([
       ...WRITTEN.map((f) => [f, masked(readFileSync(join(dir, f), "utf8"))]),
       ...LISTED.map((f) => [`${f}/`, listing(dir, f).join("\n") + "\n"]),

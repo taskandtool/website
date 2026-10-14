@@ -1,7 +1,9 @@
 // Sections that render from the notes (src/content.ts, FACTS.md) and render
 // nothing when the note is empty, so a page can include them before the
 // facts exist and they appear as the notes fill in. Each takes an id for the
-// section and a heading; the composition around them is the page's.
+// section and a heading; the composition around them is the page's. The
+// proof ones mark what they show (data-proof), which is what check:facts counts:
+// restyle them to fit, rather than writing their facts out by hand.
 import { raw } from "hono/html";
 import { Section } from "./index";
 import { content } from "../content";
@@ -94,7 +96,7 @@ export function RatingLine() {
   const items = content.facts.ratings;
   if (!items.length) return null;
   return (
-    <ul class="flex flex-wrap items-center gap-x-8 gap-y-3">
+    <ul class="flex flex-wrap items-center gap-x-8 gap-y-3" data-proof="ratings">
       {items.map((r) => (
         <li class="flex items-center gap-2">
           {platformIcon(r.platform) ? <img src={platformIcon(r.platform)} alt={r.platform} class="size-6" /> : null}{" "}
@@ -159,7 +161,7 @@ export function ReviewsSection({ id = "reviews", heading = "What customers say",
       <h2 id={`${id}-title`} class="max-w-[20ch] text-section">{heading}</h2>
       <div class="mt-6"><RatingLine /></div>
       {marquee && items.length >= 4 ? (
-        <div class="-mx-5 mt-lead flex flex-col gap-4 sm:-mx-8">
+        <div class="-mx-5 mt-lead flex flex-col gap-4 sm:-mx-8" data-proof="reviews">
           {rows.map((row, i) => (
             // the cards twice, so the row loops; the copy is hidden from readers and keys
             <div data-marquee={i % 2 ? "right" : "left"} style={`--marquee-time: ${row.length * 8}s`}>
@@ -172,7 +174,7 @@ export function ReviewsSection({ id = "reviews", heading = "What customers say",
         </div>
       ) : (
         // a row to swipe on a phone, a grid of one height from 640px
-        <ul class="-mx-5 mt-lead flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:grid sm:auto-rows-fr sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3" data-reveal>
+        <ul class="-mx-5 mt-lead flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 sm:mx-0 sm:grid sm:auto-rows-fr sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3" data-reveal data-proof="reviews">
           {items.map((r) => <ReviewCard r={r} class="w-[85%] shrink-0 snap-start sm:w-auto" />)}
         </ul>
       )}
@@ -187,7 +189,7 @@ export function LogosSection({ id = "logos", heading }: { id?: string; heading?:
   return (
     <Section id={id} labelledBy={heading ? `${id}-title` : undefined}>
       {heading ? <h2 id={`${id}-title`} class="text-title">{heading}</h2> : null}
-      <ul class="mt-6 flex flex-wrap items-center gap-x-12 gap-y-8">
+      <ul class="mt-6 flex flex-wrap items-center gap-x-12 gap-y-8" data-proof="logos">
         {items.map((l) => (
           <li>
             <img src={l.file} alt={l.name} class="h-12 w-auto max-w-48 object-contain" loading="lazy" />
@@ -204,7 +206,7 @@ export function NumbersSection({ id = "numbers" }: { id?: string }) {
   if (!items.length) return null;
   return (
     <Section id={id}>
-      <dl class="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
+      <dl class="grid gap-8 sm:grid-cols-2 md:grid-cols-4" data-proof="numbers">
         {items.map((n) => (
           <div>
             <dt class="text-section">{n.figure}</dt>
@@ -223,7 +225,7 @@ export function PeopleSection({ id = "people", heading = "Who you will work with
   return (
     <Section id={id} labelledBy={`${id}-title`}>
       <h2 id={`${id}-title`} class="max-w-[14ch] text-section">{heading}</h2>
-      <ul class="mt-lead grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+      <ul class="mt-lead grid gap-6 sm:grid-cols-2 md:grid-cols-4" data-proof="people">
         {items.map((p) => (
           <li>
             {p.photo ? <img src={p.photo} alt={p.name} class="aspect-square w-full rounded-card object-cover" loading="lazy" /> : null}

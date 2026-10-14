@@ -92,7 +92,7 @@ tokens:
       letterSpacing: 0.2px
     label:
       fontFamily: "EB Garamond"
-      fontSize: 12px
+      fontSize: 14px
       fontWeight: 500
       lineHeight: 1.4
       letterSpacing: 2.4px
@@ -313,7 +313,7 @@ x_declares_reasons:
   eyebrow: >
     A plinth names the object it carries in letterspaced capitals cut into the stone, and a title
     page carries its imprint line above the title in the same voice; the inscription is the system's
-    one typographic device, not a template label. So it is confined to {typography.label} at 12px,
+    one typographic device, not a template label. So it is confined to {typography.label} at 14px,
     on labels, buttons, table headers and attributions, and never applied to a heading: kept small
     and rare, it reads as an inscription, not a shout.
 

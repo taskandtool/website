@@ -22,7 +22,9 @@ Read the folders and carry on from where they are:
 ## The homepage
 
 Done when its words come from their own material, all their proof is on
-it, its look is theirs (the `design` skill), and `npm run check` passes.
+it, every section their homepage has is on it or left out for a reason you
+can name (`from-site` lists them), its look is theirs (the `design` skill),
+and `npm run check` passes.
 The order matters; how you do each part is yours:
 
 1. **Start from their site:** `npm run from-site -- <url>` (about a minute)

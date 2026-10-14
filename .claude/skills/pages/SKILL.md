@@ -52,9 +52,9 @@ out and why. Its page type's guide, `references/types/<type>.md` (and its
 - **The angle:** the guide's `<angle>` (reader, pain, offer, lead) or
   `<reader>`, decided for this page from this business's material.
 - **The bands,** from the guide's `<sections>`, in page order: the `core`
-  ones, then only those the material answers well. A good page is usually
-  shorter than the guide's menu; what you left out goes in `omit:`, one
-  clause each.
+  ones, every section the old page had (its words in `raw/site/<host>/pages/`),
+  and any other the material answers well; what you left out goes in
+  `omit:`, one clause each.
 - **The material,** sorted into the guide's `<inventory>` bins with sources
   (`public/`, `brand/`, `brand/images.md`, and every page, review and
   listing the crawl saved in `raw/`). A page of

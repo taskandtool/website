@@ -4,15 +4,20 @@
 //   code    the TypeScript, the tests, the build, page paths, the edge rule
 //   facts   the notes compile, the brand notes, photo notes, the proof on the homepage
 //   copy    the words: the tropes rules, calls to action, every number and quote traced to the notes
-//   design  the record and its contrast, the refuse list, no CSS of the site's own
+//   design  the record and its contrast, the refuse list, no CSS of the site's own,
+//           and in a browser at 390, 900, 1280 and 1600 wide: one left edge, no
+//           text under 14px, room inside a panel, no sideways scrolling
 //   seo     titles, descriptions, headings, alt text, links, the sitemap, image
 //           weight, and every old page the crawl read still answering
 // Pages named after the area check only those (`npm run check:copy -- /about`);
 // the whole-site parts (the record, the sitemap, the old pages) always run.
 // Every finding is printed at once, by area, so all are fixed in one pass;
 // hints never fail, two per rule. The parts live in scripts/checks/.
-import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+import { existsSync, statSync } from "node:fs";
+import { readFile } from "node:fs/promises";
+import { createServer } from "node:http";
+import { extname, join } from "node:path";
 import { done, fail, misused } from "../src/data/cli.mjs";
 import { start, walk } from "./lib.mjs";
 import { pageFindings } from "./checks/pages.mjs";
@@ -21,6 +26,8 @@ import { proofFindings } from "./checks/proof.mjs";
 import { traceFindings } from "./checks/trace.mjs";
 
 const AREAS = ["code", "facts", "copy", "design", "seo"];
+// how many pages the browser measures: each takes about three seconds
+const MEASURED = 21;
 const WHOLE = new Set(["code", "facts"]);
 const HELP = `usage: npm run check [-- <page>…]
        npm run check:<area> [-- <page>…]     areas: ${AREAS.join(", ")}
@@ -29,7 +36,10 @@ Builds the site, then checks it: every area, or the one named.
   code    the TypeScript, the tests, the build, page paths, the edge rule
   facts   the notes compile, the brand notes, photo notes, the proof on the homepage
   copy    the words: the tropes rules, calls to action, numbers and quotes traced to the notes
-  design  the design record and its contrast, the refuse list, no CSS of the site's own
+  design  the design record and its contrast, the refuse list, no CSS of the site's own;
+          then in a browser at 390, 900, 1280 and 1600 wide (the homepage and up to
+          ${MEASURED - 1} more): one left edge, no text under 14px, room inside a panel,
+          no sideways scrolling
   seo     titles, descriptions, headings, alt text, links, the sitemap, image weight,
           and every old page the crawl read still answering
 Name pages (/, /about) to check only those; code and facts check the whole
@@ -84,6 +94,18 @@ if (built) {
   say("copy", `${trace.checked} facts traced to the notes`);
 }
 
+// the look in a browser: the built pages served here, measured by tt-crawl
+const pathOfFile = (f) => "/" + f.slice(5).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "");
+if (built && areas.includes("design")) {
+  const all = walk("dist").filter((f) => f.endsWith(".html")).map(pathOfFile).filter((p) => p !== "/404").sort((a, b) => (a === "/" ? -1 : b === "/" ? 1 : a.localeCompare(b)));
+  const chosen = (pages.length ? pages : all).slice(0, MEASURED);
+  if (!pages.length && all.length > MEASURED) project.notes.push(`measured ${MEASURED} of ${all.length} pages in a browser; name the others to measure them (npm run check:design -- /page)`);
+  const measured = await measure(chosen);
+  if (measured.note) project.notes.push(measured.note);
+  else say("design", `${chosen.length} page(s) measured in a browser at 390, 900, 1280 and 1600 wide`);
+  findings.push(...(measured.findings ?? []));
+}
+
 // what to print: the areas asked for, on the pages asked for (a whole-site finding always)
 const builtPages = new Set(built ? walk("dist").filter((f) => f.endsWith(".html")).map((f) => "/" + f.slice(5).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, "")) : []);
 for (const p of pages) if (built && !builtPages.has(p)) misused(`check: no page ${p} in the build; pages: ${[...builtPages].sort().join(" ")}`, tryCmd);
@@ -99,7 +121,7 @@ for (const area of areas) {
   const errors = mine.filter((f) => f.level === "error").length;
   const hints = mine.length - errors;
   const skipped = !built && area !== "code" && area !== "facts";
-  const what = skipped ? "skipped until the build passes" : [errors && `${errors} error(s)`, hints && `${hints} hint(s)`].filter(Boolean).join(", ") || (lines[area] ?? []).join("; ") || "ok";
+  const what = skipped ? "skipped until the build passes" : [errors && `${errors} error(s)`, hints && `${hints} hint(s)`, ...(errors ? [] : lines[area] ?? [])].filter(Boolean).join("; ") || "ok";
   console.log(`  ${errors ? "!!" : skipped ? "--" : "ok"}  ${area}: ${what}`);
 }
 for (const n of project.notes) console.log(`  note: ${n}`);
@@ -132,3 +154,39 @@ if (out.length) console.log(out.join("\n"));
 done("check", `${areas.length === AREAS.length ? "every area" : areas[0]} passed${hints.length ? `, ${hints.length} hint(s) to weigh` : ""}`, {
   next: areas.includes("design") ? `npm run shots${pages.length ? ` -- ${pages.join(" ")}` : ""}, and look at every image it names` : undefined,
 });
+
+/** The built pages served on a free local port, measured by `tt-crawl measure`: `{ findings }`, or `{ note }` when it cannot run. */
+async function measure(paths) {
+  if (spawnSync("tt-crawl", ["--version"], { encoding: "utf8" }).status !== 0) return { note: "the browser checks need tt-crawl (tt-crawl setup); skipped" };
+  const TYPES = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".json": "application/json", ".mp4": "video/mp4" };
+  const server = createServer(async (req, res) => {
+    const p = decodeURIComponent((req.url || "/").split("?")[0]);
+    for (const f of [p, `${p}.html`, `${p}/index.html`].map((x) => join("dist", x))) {
+      try {
+        if (!statSync(f).isFile()) continue;
+        res.writeHead(200, { "content-type": TYPES[extname(f)] ?? "application/octet-stream" });
+        return res.end(await readFile(f));
+      } catch {}
+    }
+    res.writeHead(404).end();
+  });
+  await new Promise((ok) => server.listen(0, "127.0.0.1", ok));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const out = await new Promise((ok) => {
+    let text = "";
+    const child = spawn("tt-crawl", ["measure", ...paths.map((p) => base + p), "--json"]);
+    child.stdout.on("data", (d) => (text += d));
+    child.on("close", () => ok(text));
+  });
+  server.close();
+  let pages;
+  try {
+    pages = JSON.parse(out);
+  } catch {
+    return { note: "tt-crawl measure gave no answer; the browser checks were skipped (tt-crawl measure --help)" };
+  }
+  return {
+    findings: pages.flatMap(({ url, problems }) =>
+      problems.map(({ rule, line }) => ({ area: "design", rule, level: "error", page: url.slice(base.length) || "/", where: "", message: line }))),
+  };
+}

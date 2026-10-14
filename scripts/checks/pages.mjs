@@ -25,7 +25,7 @@ import { chromaHue, luminance, ratio, readTheme } from "../theme.mjs";
 
 /** Which area each rule belongs to; any other is one of the tropes skill's, so copy. */
 const AREA = {
-  copy: ["em-dash", "cta-labels", "arrow-cta", "long-h1", "phrase-across-pages"],
+  copy: ["em-dash", "cta-labels", "arrow-cta", "long-h1", "phrase-across-pages", "old-builder"],
   design: ["refused-class", "unknown-utility", "custom-css", "raw-style", "phone-grid", "video-autoplay", "contrast", "same-hue-text", "dark-bands", "adjacent-ground", "entrance-everywhere", "card-in-card", "side-stripe", "italic-heading-word", "eyebrow", "icon-card-row", "numbered-markers", "repeated-photo", "tinted-grounds", "default-font", "declared-unknown"],
   seo: ["html-lang", "single-h1", "heading-order", "missing-title", "title-length", "missing-description", "description-length", "duplicate-title", "img-alt", "img-src", "input-label"],
   facts: ["unsourced-stars", "photo-undescribed"],
@@ -184,6 +184,13 @@ export function pageFindings() {
       if (tag === "style" && el.parentNode?.rawTagName?.toLowerCase() !== "head") report("raw-style", page, el, "a <style> block in the page bypasses the theme; use utilities, or add a token to design/system.yaml");
       const style = el.getAttribute?.("style");
       if (style && /(#[0-9a-f]{3,6}\b|rgb|hsl|\d(px|rem|em)\b)/i.test(style) && !/^--[\w-]+:/.test(style.trim())) report("raw-style", page, el, `style="${style.slice(0, 40)}" sets a colour or length inline; use a utility (a dynamic value goes in a CSS variable)`);
+
+      // the old site's builder credit, anywhere on the page (it lives in footers)
+      // the element whose own words hold "powered by", so a linked name ("by <a>Wix</a>") counts once
+      const credit = /\b(?:powered by|built with|made with|website by)\b/i.test(el.childNodes.filter((n) => n.nodeType === 3).map((n) => n.text).join(" "));
+      const builder = credit && el.text.replace(/\s+/g, " ")
+        .match(/\b(?:powered by|built with|made with|website by)\s+(squarespace|wix|wordpress|shopify|godaddy|weebly|webflow|duda|jimdo|square online|carrd|hostinger)\b/i);
+      if (builder) report("old-builder", page, el, `"${builder[0]}" is the old site's builder credit, and this site is not built on ${builder[1]}; take it out`);
 
       // what a reader needs
       if (tag === "img") {

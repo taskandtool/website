@@ -8,11 +8,12 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { pageFindings } from "../scripts/checks/pages.mjs";
+import { proofFindings } from "../scripts/checks/proof.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 
 /** The page findings for one page, with brand/images.md's rows and extra CSS when given. */
-function check(body, { rows = "", css = "" } = {}) {
+function check(body, { rows = "", css = "", proof = "", run = pageFindings } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "check-"));
   const back = process.cwd();
   try {
@@ -26,9 +27,10 @@ function check(body, { rows = "", css = "" } = {}) {
     for (const f of ["images/a.jpg", "images/b.jpg", "images/logos/acme.png"]) writeFileSync(join(dir, "dist", f), "");
     if (rows) writeFileSync(join(dir, "brand/images.md"), `| File | What it shows |\n|---|---|\n${rows}\n`);
     if (css) appendFileSync(join(dir, "styles/input.css"), css);
+    if (proof) writeFileSync(join(dir, "public/proof.md"), `---\n${proof}\n---\n`);
     writeFileSync(join(dir, "dist/index.html"), `<!doctype html><html lang="en"><head><title>Harlow Bakery</title></head><body><main><h1>Bread</h1>${body}</main></body></html>`);
     process.chdir(dir);
-    return pageFindings();
+    return run();
   } finally {
     process.chdir(back);
     rmSync(dir, { recursive: true, force: true });
@@ -61,4 +63,14 @@ test("each finding names its area: search, copy, design", () => {
   const out = said(check(`<img src="/images/b.jpg"><p>We offer unparalleled, world-class quality — always.</p>`));
   assert.match(out, /error seo img-alt/);
   assert.match(out, /error copy em-dash/);
+  assert.match(said(check("<footer><p>Original shop powered by <a href=\"https://squarespace.com\">Squarespace</a></p></footer>")), /error copy old-builder "powered by Squarespace" is the old site's builder credit/);
+});
+
+test("reviews count only through ReviewsSection; typed out by hand they are named", () => {
+  const proof = "reviews:\n  - quote: Delicious and addictive, the key lime is our favourite\n    name: Chris B.\n    platform: Google";
+  const byHand = said(check("<p>Delicious and addictive, the key lime is our favourite</p>", { proof, run: () => proofFindings().findings }));
+  assert.match(byHand, /error facts proof 1 on the page, but not through ReviewsSection/);
+  const shown = check('<ul data-proof="reviews"><li><blockquote>Delicious and addictive, the key lime is our favourite</blockquote></li></ul>', { proof, run: proofFindings });
+  assert.deepEqual(shown.findings, []);
+  assert.match(shown.shows, /reviews 1\/1/);
 });

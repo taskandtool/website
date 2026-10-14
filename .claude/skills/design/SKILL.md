@@ -14,8 +14,10 @@ read `DESIGN.md`, then make it this business's.
 - **Tokens** from their brand (`brand/`, the colours and fonts `from-site`
   read), or from a site the owner likes or a library record.
 - **Components and the skeleton** (`src/components`, the header and footer
-  in `src/layout.tsx`): restyle or replace them to match, and add sections
-  the material calls for (a gallery, the team, the process, the area).
+  in `src/layout.tsx`): restyle them to match, with Tailwind utilities in
+  the tokens, and add sections the material calls for (a gallery, the team,
+  the process, the area), each in `Section`. The proof components
+  (`RatingLine`, `ReviewsSection`, `LogosSection`…) stay, restyled.
 - **A site the owner mentioned** liking or wanting to use: take its shape
   (`tt-crawl reference <url>` captures its look), never its words, pictures
   or logo. Otherwise borrow from the library record that suits them:
@@ -34,8 +36,8 @@ When the owner wants more than the homepage: `references/growing.md`.
 
 ## Review gate
 
-Look at the rendered page, never the code: `npm run shots`, then the
-images it names, in its order. Check the page's shape, then each section,
+Look at the rendered page, never the code: `npm run shots`, then every
+image it names, in its order, at full size (never a sheet you scale down). Check the page's shape, then each section,
 then the phone; set it beside the page it replaces
 (`raw/site/<host>/shots/`) or the one the owner pointed at: is it clearly
 better, and would the owner send it to someone? Each hint `npm run

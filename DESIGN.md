@@ -54,7 +54,7 @@ A warm, quiet page where one thing is loud at a time. It opens on the business's
 | `text-title` | Bricolage Grotesque | clamp(1.5rem, 2.4vw, 2rem) | 1.1 | -0.015em | 600 |
 | `text-lede` | Inter | clamp(1.125rem, 1.4vw, 1.375rem) | 1.5 |  | 400 |
 | `text-copy` | Inter | 1.125rem | 1.6 |  | 400 |
-| `text-label` | Inter | 0.8125rem | 1.4 | 0.04em | 600 |
+| `text-label` | Inter | 0.875rem | 1.4 | 0.04em | 600 |
 
 A display face for headings, a text face for reading. `text-display` is the page's h1, on two or three lines; `text-section` every h2; `text-title` the h3 of a row or a card; `text-lede` the line under a heading, in `ink-2`; `text-copy` body text, under 70 characters a line; `text-label` metadata such as a date or a caption. Each size carries its own line height and tracking.
 

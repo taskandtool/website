@@ -78,7 +78,7 @@ tokens:
       lineHeight: 1.6
     label:
       fontFamily: "Inter"
-      fontSize: 0.8125rem
+      fontSize: 0.875rem
       fontWeight: 700
       lineHeight: 1.4
       letterSpacing: 0.04em

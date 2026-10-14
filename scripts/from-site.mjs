@@ -519,10 +519,14 @@ const next = [
   "find the rest of the proof, then design and build the homepage with all of it on it (the new-site skill's homepage, from 'All the proof')",
 ];
 const list = (title, items) => (items.length ? `${title}\n${items.map((d) => `  ${d}`).join("\n")}\n` : "");
+// the old homepage's sections, by their headings: the first screen's h1, then each h2
+const homeMd = existsSync(join(dir, "pages/index.md")) ? readFileSync(join(dir, "pages/index.md"), "utf8") : "";
+const sections = [...homeMd.matchAll(/^#{1,2} +(.+)$/gm)].map((m) => m[1].replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").trim()).filter(Boolean);
 console.log(`from-site: ${host}
 ${list("Wrote:", wrote)}${list("Kept:", kept)}${list("Check:", notes)}
 The homepage's words:    ${dir}/pages/index.md${services ? `\nThe services page:       ${dir}/${services}` : ""}
 How it looks today:      ${dir}/shots/index/
+Its sections, by heading: ${sections.length ? `${sections.length}: ${sections.join(" · ")}` : "none read"}
 Colours by use:          ${palette.slice(0, 8).join(" ") || "none read"}
 Fonts:                   ${fonts.join(", ") || "none read"}
 Photographs (in static/images/; any can run edge to edge):
