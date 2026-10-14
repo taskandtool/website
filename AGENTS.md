@@ -55,7 +55,7 @@ npm run deploy               # production, only when the owner asks (the website
 
 Each one with options takes `--help`. While working, check what you
 changed, naming its pages: words, `check:copy`; the look, `check:design`,
-then `npm run shots` and look; notes, `check:facts`; code, `check:code`.
+then the design skill's review gate; notes, `check:facts`; code, `check:code`.
 Before showing work or committing: `npm run check`, `npm run shots`, then
 `npm run show`. A small edit is fixed at its source (the note, the brief or
 the page).

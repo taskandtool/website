@@ -61,7 +61,7 @@ const files = folders.flatMap((d) => {
   const names = readdirSync(d);
   // create_deliverables takes images under 8 MB; a longer page goes as strips
   if (names.includes("page.png") && statSync(join(d, "page.png")).size < 7.5 * 1024 * 1024) return [join(d, "page.png")];
-  return names.filter((f) => /^\d+\.jpg$/.test(f)).sort().map((f) => join(d, f));
+  return names.filter((f) => /^\d+\.webp$/.test(f)).sort().map((f) => join(d, f));
 });
 const sent = files.slice(0, MAX_ITEMS);
 const items = sent.map((f) => {

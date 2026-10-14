@@ -34,8 +34,9 @@ The order matters; how you do each part is yours:
    the link when it names none.
 2. **The notes:** `public/services.md` from their services page, one
    `## <service>` each, cited; each photograph described in
-   `brand/images.md` after looking at `raw/photos.png`. Pages read facts
-   from the notes, never typed into the markup.
+   `brand/images.md` by a sub-agent that looks at `raw/photos.png`, so the
+   pictures stay out of your turn. Pages read facts from the notes, never
+   typed into the markup.
 3. **All the proof** in `public/proof.md`, word for word: what `from-site`
    found, the logos in `raw/logos.png` that really are others' logos, and
    what it could not reach (the profiles in `business.md`'s `same_as`,
@@ -45,8 +46,8 @@ The order matters; how you do each part is yours:
 5. **The page,** written whole from what `npm run parts` lists
    (`.claude/skills/pages/references/page-code.md`), then `npm run check`
    and fix its errors.
-6. **Review:** the `design` skill's review gate, with the `writing`
-   skill's cold read (a sub-agent) in the same list.
+6. **Review:** the `design` skill's review gate and the `writing` skill's
+   cold read, each a sub-agent; fix both lists in one pass.
 7. **Commit, then show** (one plain line, so any version the owner saw
    comes back with `git checkout`). Name the one or two things that would
    make it better: their own sharp photographs, a fact the site does not

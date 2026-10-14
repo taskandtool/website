@@ -8,9 +8,9 @@ import { devUp, shootFlags, start } from "./lib.mjs";
 const a = start("shots", `usage: npm run shots [-- /path ... | --all] [--first-screen] [--width N ...]
 
 The page at desktop (1280) and phone (390) width: uploads/<page>-<width>/
-overview.jpg (the whole page in one image, for its shape, when it is
-longer than one image), then 01.jpg,
-02.jpg … (the page at full size, read in order), and page.png (the whole
+overview.webp (the whole page in one image, for its shape, when it is
+longer than one image), then 01.webp,
+02.webp … (the page at full size, read in order), and page.png (the whole
 page at full size, what npm run show sends). /path defaults to /; give
 several to shoot several pages. Prints each width's folder and which
 image to read first. What a browser can measure (left edges, text size,

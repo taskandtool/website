@@ -227,7 +227,7 @@ if ((photoRows.length || videoRows.length) && existsSync(imagesNote) && /\| to f
   ].join("\n");
   writeFileSync(imagesNote, readFileSync(imagesNote, "utf8").replace(/^\| to fill \|.*$/m, rows));
   wrote.push(`${imagesNote}: a row for each photograph${photoSheet ? `, numbered in ${photoSheet}` : ""}`);
-  describe = `${photoSheet ? `look at ${photoSheet} and ` : ""}describe each photograph and video once in ${imagesNote}${photoSheet ? " (numbered in the table's order)" : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`;
+  describe = `${photoSheet ? `have a sub-agent look at ${photoSheet} and ` : ""}describe each photograph and video once in ${imagesNote}${photoSheet ? " (numbered in the table's order)" : ""}: what it shows, who, the focal point, its best use (hero, feature, gallery, or skip: a flyer, collage, watermark or blur)`;
 }
 
 // ── the proof: what others say ────────────────────────────────────────────
