@@ -20,7 +20,7 @@ sections                    overview, colors, typography, components, layout,
                             elevation_and_depth, motion, responsive_behavior,
                             dos_and_donts (do/dont, each {rule, why}), known_gaps
 x_invariants                the non-negotiables, split into style and accessible
-x_declares                  the lint hints this site uses on purpose
+x_declares                  the design hints this site uses on purpose
 x_declares_reasons          one paragraph per declared name
 x_imagery                   role, density, treatment, aspect ratios, captions, forbidden,
                             what happens with no photographs
@@ -38,7 +38,7 @@ The library names colours per system (`claret`, `cloth`, `wine`). The site
 names them by role, because the layout, the components and
 `styles/input.css` use these classes on every page. The record defines
 every role: `npm run system` names any role the base stylesheet reads that
-the record lacks, and `npm run lint` names any class a page uses that no
+the record lacks, and `npm run check:design` names any class a page uses that no
 token makes.
 
 | Role | What it is | Claret would map |
@@ -75,7 +75,7 @@ because the footer and the shared components use it.
    value. Text on a coloured ground is the neutral, or a deep shade of the
    ground's hue at 7:1 that reads as ink, never a mid tint of the same
    family. The accent is a fill on a dark or coloured ground, never text
-   there. `npm run lint` hints at all three.
+   there. `npm run check:design` hints at all three.
 4. **The head is a shot list.** `x_layout.head.statement` says the media it
    needs (subject, orientation, where the subject sits, room left for the
    words), where the words go and how they stay readable, and the fallback

@@ -75,7 +75,7 @@ starter-app.json       the manifest: what "ready" means, and the suggestions an
   both to the platform. Static paths are served as
   assets, free and always on; paths that match no file (a redirect, a
   form post, a dynamic route, the 404) reach the Worker. Whatever `src/worker.ts` reaches must run on
-  Cloudflare, with no Node built-in; `npm run check` enforces it.
+  Cloudflare, with no Node built-in; `npm run check:code` enforces it.
 - **Who can open production** is the owner's setting in the dashboard:
   the first deploy opens it to the team, and only the owner makes it
   public.
@@ -131,7 +131,7 @@ state (`starter-app.json`'s `when` conditions).
 ## Developing this Starter App
 
 - **Tests:** the crawler's tests live in its own repo. Here:
-  `npm install && npm run verify` (`npm test` alone for the tests).
+  `npm install && npm run check` (`npm test` alone for the tests).
   `node_modules/`, `dist/`, `build/` and `static/site.css` are ignored and
   never committed.
 - **Try the skills:** clone it as above and drive Claude Code in the clone.

@@ -15,11 +15,11 @@ words before the layout, so the design fits them.
   repeat.
 - **Specific beats general:** a real number, place, step or name from the
   notes, and the words customers use in their reviews.
-- **Others' words** stay exactly as written, in a `<blockquote>` (the lint
+- **Others' words** stay exactly as written, in a `<blockquote>` (the check
   leaves them alone), shortened only with "…", credited as the source gives
   them, never used as a heading.
 
-`npm run lint` runs the `tropes` skill on every built page, with the fix for
+`npm run check:copy` runs the `tropes` skill on every built page, with the fix for
 each finding. Rewrite the whole passage it flags, and never flatten a
 sentence the owner wrote.
 

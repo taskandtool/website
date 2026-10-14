@@ -105,8 +105,8 @@ sections:
     is a warm off-white, the text a near-black with brown in it, and one
     saturated accent does every action. Headings are large and few, so
     hierarchy comes from size and space; colour and energy come from the
-    business's own photographs and material. `npm run lint` flags the
-    generated-page patterns and `npm run check` the contrast.
+    business's own photographs and material. `npm run check:design` flags the
+    generated-page patterns and the contrast.
   colors: >
     {colors.canvas} is the page ground, {colors.surface} a card or framed
     visual on it, {colors.panel} a tinted band, {colors.night} the dark

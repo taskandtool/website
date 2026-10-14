@@ -1,7 +1,7 @@
 // The machine entry: serves static/ and brand/logo/ as static files, then the
 // app. `npm run dev` runs this under a watcher beside the Tailwind watcher, so
 // an edit is live on the next refresh. Node only where src/worker.ts does not
-// reach (npm run check).
+// reach (npm run check:code).
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono, type Context } from "hono";

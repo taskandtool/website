@@ -22,7 +22,7 @@ Read the folders and carry on from where they are:
 ## The homepage
 
 Done when its words come from their own material, all their proof is on
-it, its look is theirs (the `design` skill), and `npm run verify` passes.
+it, its look is theirs (the `design` skill), and `npm run check` passes.
 The order matters; how you do each part is yours:
 
 1. **Start from their site:** `npm run from-site -- <url>` (about a minute)
@@ -40,7 +40,7 @@ The order matters; how you do each part is yours:
    anything the owner sent).
 4. **The look,** with the `design` skill.
 5. **The page,** written whole from what `npm run parts` lists
-   (`.claude/skills/pages/references/page-code.md`), then `npm run verify`
+   (`.claude/skills/pages/references/page-code.md`), then `npm run check`
    and fix its errors.
 6. **Review:** the `design` skill's review gate, with the `writing`
    skill's cold read (a sub-agent) in the same list.

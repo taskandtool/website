@@ -17,7 +17,7 @@ here in five mechanical steps:
    `.map()` over `content`, or the matching section from
    `src/components/facts.tsx`, so each fact lives once, in its note.
 5. Classes stay as they are when they use the site's tokens. Run `npm run
-   verify`; a class the theme does not have is the lint's finding to fix,
+   check:design`; a class the theme does not have is its finding to fix,
    not something to add a token for silently.
 
 ## Images and media
@@ -57,7 +57,7 @@ here in five mechanical steps:
   no database, `python3 ~/tools/taskandtool.py request-capability postgres`
   asks the owner for one.
 - Dynamic routes go in `src/app.tsx` below the page loop; they run in the
-  Worker, so `npm run check` flags a Node import.
+  Worker, so `npm run check:code` flags a Node import.
 - Sending email needs a sender the owner connects (Resend or Postmark,
   through the platform's `connections` skill); Task & Tool sends none.
   `data`'s `send.ts` uses it. Without one, the submission is stored and the

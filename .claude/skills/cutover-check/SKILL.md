@@ -11,18 +11,11 @@ crawls the new site against it.
 
 ## Before deploying (in dev)
 
-```bash
-npm run verify
-tt-crawl check http://localhost:3000    # the inventory is the one raw/site/<host>; the report goes to raw/audit/<host>/launch-<date>.md
-```
-
-Every old URL must answer 200, or 301 to a page that answers 200, on the
-new site; a `missing` row is a page the map forgot or a redirect not
-written; a `chain` row is a redirect pointing at a redirect (point it at
-the end). Every kept page has a title, one h1, and a description; the
-sitemap lists every route and nothing else; the home page's JSON-LD
-parses. Fix, rebuild, re-run until the report is clean, then show the
-owner the report as a table.
+`npm run check` passes. Its seo area holds the old site to the new one,
+with the inventory in `raw/site/<host>/` as the ledger: every old URL
+answers, as a page or a 301 straight to one; every page has a title, one
+h1 and a description; the sitemap lists every page; the homepage's JSON-LD
+parses. Then show the owner what moved where, as a table.
 
 ## Deploying and the cutover
 

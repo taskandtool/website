@@ -18,9 +18,9 @@
 
 ## By hand, on every page
 
-`npm run lint` fails a page without exactly one `h1` or an image without
-`alt`; `npm run audit` lists missing titles, descriptions and broken links.
-What they cannot judge is yours:
+`npm run check:seo` fails a page without a title, a description, exactly
+one `h1` or an image's `alt`, and a link that goes nowhere. What it cannot
+judge is yours:
 
 - `title` (in `page.title`): the page's job first. The layout appends ` · `
   and the business name (the homepage's title: the service and the town,

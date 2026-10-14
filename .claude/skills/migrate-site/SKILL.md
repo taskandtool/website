@@ -35,7 +35,7 @@ hit, forms and embeds, and the tracking IDs.
 Every note in `public/` and `brand/`, from the crawl, with the `brand`
 skill; legal text verbatim into `legal/` with `path` and `title`. Then
 apply the brand (`BRAND.md`, "What the AI sets from them") and copy the
-tracking IDs into `src/site.ts`. `npm run verify` names a brand note that is
+tracking IDs into `src/site.ts`. `npm run check:facts` names a brand note that is
 missing or a fact note that does not read.
 
 ## 3. Plan: `site-map.md`
@@ -85,9 +85,8 @@ site at once: then build every page in this turn and show them together.
 
 The build generates the plumbing (`.claude/skills/website/references/seo.md`,
 "Generated"); when something generated is wrong, the note or the map is
-wrong. The SEO pass is `npm run verify` (each page's title, description
-and h1) and `tt-crawl check http://localhost:3000` (every old URL, the
-sitemap); `npm run shots -- --all` names any page that scrolls sideways.
+wrong. The SEO pass is `npm run check:seo`: each page's title, description and
+h1, every old URL answering, redirects that chain, the sitemap.
 
 ## 7. Launch
 

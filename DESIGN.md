@@ -4,7 +4,7 @@
 
 **Starter.** A warm off-white page that opens on the business's best photograph at full width, with one accent for every action, large and few headings, and a different shape for each section.
 
-The tokens are compiled into `styles/theme.css`; the lint (`npm run lint`) reads the Declared section.
+The tokens are compiled into `styles/theme.css`; `npm run check:design` reads the Declared section.
 
 ## Identity
 
@@ -21,7 +21,7 @@ Photography:        to fill: real photos the owner has, or the honest slot until
 
 ## Visual Theme & Atmosphere
 
-A warm, quiet page where one thing is loud at a time. It opens on the business's best photograph edge to edge behind the headline. The ground is a warm off-white, the text a near-black with brown in it, and one saturated accent does every action. Headings are large and few, so hierarchy comes from size and space; colour and energy come from the business's own photographs and material. `npm run lint` flags the generated-page patterns and `npm run check` the contrast.
+A warm, quiet page where one thing is loud at a time. It opens on the business's best photograph edge to edge behind the headline. The ground is a warm off-white, the text a near-black with brown in it, and one saturated accent does every action. Headings are large and few, so hierarchy comes from size and space; colour and energy come from the business's own photographs and material. `npm run check:design` flags the generated-page patterns and the contrast.
 
 ## Color Palette & Roles
 
@@ -106,7 +106,7 @@ No layout rules per kind of content: those come with the site's own system when 
 
 ## Declared
 
-The patterns `npm run lint` hints at that this site uses on purpose; the lint is quiet about them.
+The patterns `npm run check:design` hints at that this site uses on purpose; it is quiet about them.
 
 Nothing declared.
 
@@ -120,6 +120,6 @@ Nothing declared.
 
 ## Changing the design
 
-Edit `design/system.yaml` and run `npm run system`; then `npm run verify`.
+Edit `design/system.yaml` and run `npm run system`; then `npm run check:design`.
 A new brand colour or font goes into the record's tokens by role, never into markup. How a record is
 written, and how it grows from the first homepage, is the `design` skill.

@@ -35,7 +35,7 @@ Two files, in this order, whenever the brand changes:
    secondary ink), the two font families, and any rule the brand's
    do-and-don't adds or removes; then `npm run system`, which writes
    `styles/theme.css` and `DESIGN.md`. A brand colour that fails 4.5:1 as
-   text gets a different role, never a squint; `npm run check` measures the
+   text gets a different role, never a squint; `npm run check:design` measures the
    pairs.
 2. **`src/site.ts`**: the tagline, description, locale and logo file,
    from `positioning.md` and `visual-identity.md`. The name, contact

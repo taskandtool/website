@@ -36,7 +36,7 @@ run("css", "npm", ["run", "--silent", "css"]);
 // Imported after the content is generated, so the routes see it. A page that
 // throws as it loads is named here, not left as a stack trace.
 const loaded = await Promise.all([import("../src/app"), import("../src/redirects"), import("../src/site")]).catch((e: unknown) =>
-  fail(`build: the app did not load: ${e instanceof Error ? e.message : String(e)}`, "npm run typecheck, which names the file"),
+  fail(`build: the app did not load: ${e instanceof Error ? e.message : String(e)}`, "npm run check:code, which names the file"),
 );
 const [{ default: app, routes }, { redirects }, { site }] = loaded;
 
@@ -54,7 +54,7 @@ if (existsSync("brand/logo")) {
 
 const routePaths = new Set<string>();
 for (const r of routes) {
-  if (routePaths.has(r.path)) fail(`build: two routes claim ${r.path} (a page, a post or a legal page share a path)`, "npm run check, which names the files");
+  if (routePaths.has(r.path)) fail(`build: two routes claim ${r.path} (a page, a post or a legal page share a path)`, "npm run check:code, which names the files");
   routePaths.add(r.path);
 }
 
@@ -112,7 +112,7 @@ try {
     logLevel: "silent",
   });
 } catch (e) {
-  fail(`build: the Worker did not bundle\n${e instanceof Error ? e.message : String(e)}`, "npm run check, which finds a Node import the Worker reaches");
+  fail(`build: the Worker did not bundle\n${e instanceof Error ? e.message : String(e)}`, "npm run check:code, which finds a Node import the Worker reaches");
 }
 
 done("build", `${routes.length} route${routes.length === 1 ? "" : "s"} + 404 to ${dist}/, Worker to ${out}/worker.mjs`, {

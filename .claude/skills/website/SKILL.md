@@ -37,9 +37,7 @@ compose around them, never retype a fact.
 
 This is the site's part, every time:
 
-1. **The checks pass.** `npm run verify`, then `npm run audit` (broken
-   links, headings, alt text, labels, link text, titles and descriptions,
-   page weight, the sitemap). Fix what they list.
+1. **The checks pass.** `npm run check`. Fix what it lists.
 2. **The voice holds.** The copy on a changed page reads in
    `brand/voice.md`'s voice (the `writing` skill's pass).
 3. **You looked at it.** The changed pages in dev, at desktop and phone

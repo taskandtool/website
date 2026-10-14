@@ -24,7 +24,7 @@ read `DESIGN.md`, then make it this business's.
 
 Done when the first screen is their best photograph at full width with the
 promise and one action (`Hero`), all their proof is on the page (`npm run
-proof`), a stranger could tell whose site it is, and the review gate below
+check:facts`), a stranger could tell whose site it is, and the review gate below
 finds nothing left to fix. When the owner asks for a copy of an existing
 design, copy it.
 
@@ -38,8 +38,8 @@ Look at the rendered page, never the code: `npm run shots`, then the
 images it names, in its order. Check the page's shape, then each section,
 then the phone; set it beside the page it replaces
 (`raw/site/<host>/shots/`) or the one the owner pointed at: is it clearly
-better, and would the owner send it to someone? Each lint hint `npm run
-verify` printed is fixed, or kept on purpose with
+better, and would the owner send it to someone? Each hint `npm run
+check` printed is fixed, or kept on purpose with
 `data-lint-allow="<rule>"` on its element and said so. Write every problem
-in one list, fix them in one pass, then `npm run verify` and `npm run shots`
+in one list, fix them in one pass, then `npm run check` and `npm run shots`
 once more.

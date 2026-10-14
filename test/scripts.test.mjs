@@ -13,7 +13,7 @@ const LIBRARIES = new Set(["lib.mjs", "run.mjs", "theme.mjs"]);
 const TS_ENTRIES = ["build.ts", "db.ts"];
 const scripts = [...readdirSync(`${root}scripts`).filter((f) => f.endsWith(".mjs") && !LIBRARIES.has(f)), ...TS_ENTRIES];
 /** The ones that take arguments, so a stray word is not misuse for them. */
-const TAKES_ARGS = new Set(["forms.mjs", "from-site.mjs", "images.mjs", "shots.mjs", "show.mjs"]);
+const TAKES_ARGS = new Set(["check.mjs", "forms.mjs", "from-site.mjs", "images.mjs", "shots.mjs", "show.mjs"]);
 
 const run = (script, args) =>
   new Promise((done) => {
@@ -49,8 +49,10 @@ for (const script of scripts) {
   }
 }
 
-test("from-site, images and shots refuse wrong input with exit 2 before any work", async () => {
+test("check, from-site, images and shots refuse wrong input with exit 2 before any work", async () => {
   for (const [script, args, said] of [
+    ["check.mjs", ["about"], /not a page; name pages by their path/],
+    ["check.mjs", ["code", "/about"], /check:code checks the whole site; it takes no pages/],
     ["from-site.mjs", [], /full URL/],
     ["from-site.mjs", ["a.com", "b.com"], /one site at a time/],
     ["from-site.mjs", ["https://"], /full URL/],

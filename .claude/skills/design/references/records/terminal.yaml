@@ -327,7 +327,7 @@ x_components:
     textColor: "{colors.ash-faint}"
     typography: "{typography.caption}"
 
-# The website's lint hints this system uses on purpose (scripts/lint.mjs).
+# The website's design hints this system uses on purpose (npm run check:design).
 x_declares:
   - dark-bands
 x_declares_reasons:

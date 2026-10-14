@@ -33,31 +33,31 @@ Read the one that fits the ask rather than working from memory.
 
 The work is in these scripts; run them rather than doing the same by hand or
 writing a checker of your own. Each prints what it did and what to read next.
-The machine's one browser is tt-crawl's (shots, check, audit); install no other.
+The machine's one browser is tt-crawl's (shots, show); install no other.
 
 ```bash
 npm run from-site -- <url>   # a first homepage's start (a minute): their facts, logo, photos, colours, fonts and proof
                              # into the notes and the record; prints what it wrote and what to read next
 npm run parts                # what a page is built from: components, classes, facts, photos; read it, not the source
 npm run images -- <file>...  # photos into static/images/ at web size (<=3000px, ~600 KB); prints their pixels
-npm run verify               # content, check, typecheck, test, build, proof, trace, lint (design rules; each page's
-                             # title, description, one h1): lists every failure at once
-npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page); prints which
-                             # image to read first and any width where the page scrolls sideways
+npm run check [-- /path]     # is anything wrong: builds, then checks every area and lists every finding at once
+npm run check:<area>         # one area: copy (the words), design (the look), seo (search and readers),
+                             # facts (the notes, the proof), code (TypeScript, tests, build)
+npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page), to look at;
+                             # prints which image to read first
 npm run show                 # each page whole, one image per width, sent to the chat (what shots took; --retake after a change)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
-npm test                     # the tests in src/ (they arrive with the skills' code), test/ and the tropes skill
-npm run audit                # the crawler against dev: broken links, headings, alt text, titles, images over 1.5 MB
-tt-crawl check http://localhost:3000  # every page of the crawled old site answers here (200 or 301); the sitemap lists them
 node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
 npm run db:setup             # the forms, booking, payments and customers tables (dev and deploy run it)
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)
 ```
 
-Each one with options takes `--help`. Before showing work: `npm run verify`,
-`npm run shots`, then `npm run show`. For a small edit, fix it at its
-source (the note, the brief or the page), then run the same three for that
-page.
+Each one with options takes `--help`. While working, check what you
+changed, naming its pages: words, `check:copy`; the look, `check:design`,
+then `npm run shots` and look; notes, `check:facts`; code, `check:code`.
+Before showing work or committing: `npm run check`, `npm run shots`, then
+`npm run show`. A small edit is fixed at its source (the note, the brief or
+the page).
 
 ## Where things are
 
@@ -93,11 +93,12 @@ page.
 
 - Code the Worker reaches from `src/worker.ts` must run on Cloudflare (no
   Node built-ins, no filesystem, no per-request state); `src/server.ts`, a
-  skill's command code and tests are machine only (`npm run check`). Files and
+  skill's command code and tests are machine only (`npm run check:code`). Files and
   heavy work happen at build time, on this machine.
-- Colours and fonts live in `design/system.yaml`, set from the brand
-  notes. Markup never carries a hex value or a Tailwind
-  default colour; `npm run lint` refuses both.
+- Style with Tailwind utilities on the markup, in the tokens: colours and
+  fonts live in `design/system.yaml`, set from the brand notes, and a value
+  the tokens lack is added there. No hex value or Tailwind default colour in
+  markup, and no classes of the site's own in `styles/` (`check:design`).
 - Real content only. No invented customers, quotes, numbers, awards, or
   prices; reserve an honest slot when the material does not exist yet.
-  `npm run trace` fails on a number or quote the notes do not hold.
+  `check:copy` fails on a number or quote the notes do not hold.

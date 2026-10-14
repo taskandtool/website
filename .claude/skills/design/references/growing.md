@@ -14,7 +14,7 @@ every page:
    Where the two differ in a way the owner would notice, the record left
    something out: add it, rebuild once more, then delete the scratch page. Without a
    sub-agent, skip this and say so.
-3. **Check it:** `npm run verify`.
+3. **Check it:** `npm run check`.
 
 The other pages then follow the record (the `pages` skill). A later change
 to the look is a change to the record.

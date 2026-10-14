@@ -1,0 +1,64 @@
+// The checks on a built page of their own: this repository's tracked files in
+// a temp folder, node_modules linked, dist/ holding only that page.
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { appendFileSync, cpSync, existsSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { pageFindings } from "../scripts/checks/pages.mjs";
+
+const root = fileURLToPath(new URL("..", import.meta.url));
+
+/** The page findings for one page, with brand/images.md's rows and extra CSS when given. */
+function check(body, { rows = "", css = "" } = {}) {
+  const dir = mkdtempSync(join(tmpdir(), "check-"));
+  const back = process.cwd();
+  try {
+    for (const f of execFileSync("git", ["ls-files"], { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean)) {
+      if (f.startsWith("test/fixtures/") || !existsSync(join(root, f))) continue;
+      mkdirSync(join(dir, dirname(f)), { recursive: true });
+      cpSync(join(root, f), join(dir, f));
+    }
+    symlinkSync(join(root, "node_modules"), join(dir, "node_modules"));
+    mkdirSync(join(dir, "dist/images/logos"), { recursive: true });
+    for (const f of ["images/a.jpg", "images/b.jpg", "images/logos/acme.png"]) writeFileSync(join(dir, "dist", f), "");
+    if (rows) writeFileSync(join(dir, "brand/images.md"), `| File | What it shows |\n|---|---|\n${rows}\n`);
+    if (css) appendFileSync(join(dir, "styles/input.css"), css);
+    writeFileSync(join(dir, "dist/index.html"), `<!doctype html><html lang="en"><head><title>Harlow Bakery</title></head><body><main><h1>Bread</h1>${body}</main></body></html>`);
+    process.chdir(dir);
+    return pageFindings();
+  } finally {
+    process.chdir(back);
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+const said = (findings) => findings.map((f) => `${f.level} ${f.area} ${f.rule} ${f.message}`).join("\n");
+
+test("a photograph shown twice on a page is a design hint; a logo shown twice is not", () => {
+  const twice = said(check(`<img src="/images/a.jpg" alt="The counter"><img src="/images/b.jpg" alt="Loaves"><img src="/images/a.jpg" alt="The counter">`));
+  assert.match(twice, /hint design repeated-photo \/images\/a\.jpg is on this page twice/);
+  assert.doesNotMatch(twice, /\/images\/b\.jpg is on this page twice/);
+  assert.doesNotMatch(said(check(`<img src="/images/logos/acme.png" alt="Acme"><img src="/images/logos/acme.png" alt="Acme">`)), /on this page twice/);
+});
+
+test("a photograph on a page that brand/images.md does not describe is a facts error", () => {
+  const out = said(check(`<img src="/images/a.jpg" alt="The counter"><img src="/images/b.jpg" alt="Loaves">`, {
+    rows: "| static/images/a.jpg (1600x1067) | The counter at opening, bread on the shelves |\n| static/images/b.jpg (1600x2400) | |",
+  }));
+  assert.match(out, /error facts photo-undescribed \/images\/b\.jpg is on the page but brand\/images\.md does not say what it shows/);
+  assert.doesNotMatch(out, /\/images\/a\.jpg is on the page but/);
+});
+
+test("a class of the site's own in styles/ is a design error; the starter's are not", () => {
+  assert.doesNotMatch(said(check("<p>Fresh daily.</p>")), /custom-css/);
+  const out = said(check("<p>Fresh daily.</p>", { css: "\n.bakery-hero { font-size: 11px; }\n.bakery-hero .note, .club-band { padding: 0; }\n" }));
+  assert.match(out, /error design custom-css styles\/input\.css defines its own classes \(\.bakery-hero, \.note, \.club-band\)/);
+});
+
+test("each finding names its area: search, copy, design", () => {
+  const out = said(check(`<img src="/images/b.jpg"><p>We offer unparalleled, world-class quality — always.</p>`));
+  assert.match(out, /error seo img-alt/);
+  assert.match(out, /error copy em-dash/);
+});

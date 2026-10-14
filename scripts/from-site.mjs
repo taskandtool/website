@@ -14,7 +14,7 @@
 // reviews and ratings, Google's too, and every logo of others) into
 // public/proof.md, the logo in
 // src/site.ts, and design tokens in design/system.yaml seeded from the site's
-// own colours and fonts, written only when every text pair npm run check
+// own colours and fonts, written only when every text pair npm run check:design
 // measures reaches 4.5:1. A note, logo or record already filled in is kept,
 // and it says which.
 import { execFileSync } from "node:child_process";
