@@ -36,17 +36,12 @@ When the owner wants more than the homepage: `references/growing.md`.
 
 ## Review gate
 
-A fresh pair of eyes judges a page better than the one that built it, and
-the screenshots then stay out of your turn. After `npm run check` and
-`npm run shots`, give a fresh sub-agent (not a fork) the images `shots`
-names, the page it replaces (`raw/site/<host>/shots/`) or the one the
-owner pointed at, and `DESIGN.md`. Ask it to look at every image at full
-size, the page's shape first, then each section, then the phone, and to
-return `| page, width, section | what is wrong | the fix |`: anything
-broken, cramped, out of line, hard to read or generic, and last, whether
-the page is clearly better than the one it replaces and the owner would
-send it to someone. Without a sub-agent, look yourself and say so.
-
-Fix its list in one pass, with each hint `npm run check` printed fixed or
-kept on purpose (`data-lint-allow="<rule>"` on its element, said so), then
+Look at the rendered page, never the code: after `npm run check`, run
+`npm run shots` and look at every image it names, in its order, at full
+size. The page's shape first, then each section, then the phone, beside the
+page it replaces (`raw/site/<host>/shots/`) or the one the owner pointed at:
+is it clearly better, and would the owner send it to someone? List every
+problem (broken, cramped, out of line, hard to read, generic), then fix the
+list in one pass, with each hint `npm run check` printed fixed or kept on
+purpose (`data-lint-allow="<rule>"` on its element, said so), and run
 `npm run check` once more.
