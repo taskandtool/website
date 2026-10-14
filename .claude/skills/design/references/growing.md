@@ -6,9 +6,7 @@ every page:
 1. **Fill the rest of the record** by `references/authoring.md`: the rules
    with their reasons, the imagery, the motion, `x_layout` for every shape
    of content (not only what the homepage shows), and `identity` from the
-   homepage and what the owner said. `references/records/` holds the library's fourteen as worked examples,
-   and `references/authoring.md` ends with a filled identity. Then
-   `npm run system`.
+   homepage and what the owner said. Then `npm run system`.
 2. **Rebuild it blind.** Give a sub-agent with a fresh context only
    `public/`, `brand/` and `design/system.yaml`,
    and have it build the homepage as a scratch page at `/rebuild`

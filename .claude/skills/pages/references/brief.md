@@ -55,7 +55,7 @@ up. The body is markdown with a few labelled lines:
 | `Heading:` / `Lead:` | a band's visible heading, and the line under it that answers the band's question |
 | `Action:` | a button or link label; `→ /path` when it goes to another page |
 | `### group` | a group inside a band: a menu's courses, a topic of questions |
-| lists, prose | the copy itself: named items as `- **Name**: line`; a quote as `"Words" — Name, platform, date`, exactly as the source gives it |
+| lists, prose | the copy itself: named items as `- **Name**: line`; a quote as `"Words", Name, platform, date`, exactly as the source gives it |
 | `> note` | an instruction for building the page: an attribution, a caveat. Never copy |
 | `![alt](path)` | a photograph, by its path in the repository, with alt text written after looking at it, never from its filename |
 | `NEED: x` | a fact we do not have; the band is built without it or left out |

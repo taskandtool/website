@@ -1,7 +1,7 @@
 <page_type name="location" mode="retrieval" goals="is this place right for me, and how do I get there" nav="full">
 
 <job>
-One place: a branch, an office, a clinic, a shop, or an area a service business genuinely works in.
+One place: a branch, an office, a clinic, a shop, or an area a service business works in.
 The reader asks whether it is near them, whether it is open, how to get there, and what this one
 offers. A location page exists only because some facts are true of this place and no other.
 Google names pages that differ only by the city name as doorway abuse.

@@ -1,9 +1,6 @@
-// The site's small set of shared pieces (the first screen is Hero; the sections that render from the
-// notes are in facts.tsx: ServicesSection, FaqSection, ContactSection, and the
-// proof: RatingLine, Stars, ReviewsSection, LogosSection, PeopleSection,
-// NumbersSection). Add to this file as pages need
-// them; keep each one a plain function that returns markup. DESIGN.md says
-// how each should look and behave.
+// The site's shared pieces (Hero is the first screen; the sections that render
+// from the notes are in facts.tsx). Keep each a plain function that returns
+// markup; DESIGN.md says how each looks.
 import type { Child } from "hono/jsx";
 
 /** A section with the standard vertical rhythm and a ground, on the site's one frame (its left edge lines up with the header's). */

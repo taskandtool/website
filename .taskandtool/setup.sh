@@ -5,15 +5,6 @@
 #
 #     bash ~/app/.taskandtool/setup.sh
 #
-# What it does, each step skipped when already done:
-#   1. makes sure the working copy is a git repo with a commit in it
-#   2. installs the npm dependencies and builds the CSS once
-#   3. installs tt-crawl (the site reader) and its browsers
-#   4. keeps /admin for the team in production (the forms, bookings and
-#      payments the site takes are read there)
-#   5. registers the `web` service (`npm run dev`) so the site runs in dev on the
-#      machine's URL, or restarts it after a replacement
-#
 # The app's own files are not this script's business: they arrive with the
 # clone.
 set -euo pipefail
@@ -81,11 +72,7 @@ if [ -f "$HOME/tools/taskandtool.py" ]; then
   python3 "$HOME/tools/taskandtool.py" add-private-path /admin || true
 fi
 
-# 5. The web service: the site runs in dev on this machine from now on.
-# `npm run dev` rebuilds the CSS and restarts the server on every change.
-# This is what the manifest's `ready` check looks for, so a failure here is a
-# failure of the setup: an app that reports installed and serves nothing is
-# the one outcome worth exiting non-zero for.
+# 5. The web service, which the manifest's `ready` check looks for: a failure here fails the setup.
 if [ -f "$HOME/tools/taskandtool.py" ] && [ -f package.json ]; then
   echo "== serving dev (npm run dev on port 3000)"
   python3 "$HOME/tools/taskandtool.py" serve "npm run dev" --port 3000

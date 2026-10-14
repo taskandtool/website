@@ -57,7 +57,7 @@ their own names, and get a sentence in `sections.colors`. Typography needs
 `display`, `section`, `title`, `lede`, `copy` and `label`; the family of
 `display` becomes `font-display`, and the family of `copy` becomes
 `font-body`. Spacing needs
-`section` and `block`, containers `content` and `wide`, rounded `control`
+`section` and `lead`, containers `content` and `wide`, rounded `control`
 and `card`. A role the system has no use for still gets the nearest value,
 because the footer and the shared components use it.
 
@@ -65,7 +65,7 @@ because the footer and the shared components use it.
 
 1. **Every value comes from the homepage the owner liked.** Read
    `src/pages/home.tsx` and the record's tokens: the colours, sizes, radii
-   and spacings the page actually uses stay; a token it never uses goes.
+   and spacings the page uses stay; a token it never uses goes.
 2. **Every rule carries its reason.** One rule per reason. "Don't use shadows" is a preference; "Don't use shadows:
    depth here is the two paper tones, and a shadow reads as a third surface
    the system does not have" lets the next page apply it to a case you did
@@ -118,13 +118,6 @@ each come out right, and a count that divides badly (four people in three
 columns) says what to do instead. Tally's `shapes` block is the fullest
 example.
 
-## When the record is done
-
-A fresh builder, given only the notes (`public/`, `brand/`) and this record,
-should produce the homepage again (the blind rebuild in the design
-skill's "When the site grows"). Where the rebuild differs, the record left
-something out; add it to the record, not to the page.
-
 ## A worked example: the identity
 
 The identity, filled, for a made-up business (a cabinetry workshop):
@@ -142,5 +135,5 @@ Photography:        Three finished kitchens from this year
 
 Everything on the page follows from those lines: the h1 is the owner's
 claim in their words, the process is four rows because there are four
-steps, and the one motion is the button press. An identity with "premium"
-or "modern" in it has not been written yet.
+steps, and the one motion is the button press. An identity that says "premium"
+or "modern" needs rewriting.

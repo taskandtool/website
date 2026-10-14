@@ -24,7 +24,7 @@ with a dietary need.
   - Every item verbatim with its price. Nothing the menu does not itself say.
   - Dietary and allergen marks only where the brand states them, with their key. Where food is
     sold for delivery or collection, allergen information before ordering can be a legal duty
-    (UK), so it is correctness, not decoration.
+    (UK).
   - Hours are current, with exceptions.
 </select>
 
@@ -50,8 +50,8 @@ services    core      Each menu (lunch, dinner, drinks, brunch) with when it is 
 </phrase>
 
 <show>
-  - The menu page itself needs few pictures; density is the service. The room and the food carry
-    the rest of the site: a restaurant is a place.
+  - The menu page needs few pictures; keep it dense. The room and the food carry the rest of
+    the site.
 </show>
 
 <variant name="site" label="the rest of a restaurant site">

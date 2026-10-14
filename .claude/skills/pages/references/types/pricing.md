@@ -56,7 +56,7 @@ In from the service pages and homepage; out to the matching service page and to 
 </links>
 
 <industry>
-Where the law requires price disclosure it is correctness, not choice: total price including
+Where the law requires price disclosure, the page carries it: total price including
 mandatory fees for US lodging; price information for listed services for UK solicitors
 (industries.md).
 </industry>

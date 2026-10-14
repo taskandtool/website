@@ -8,9 +8,9 @@
 // rather than a choice. Each finding says what to do instead. Every error is
 // printed and at most two hints per rule, so the hints are cues, not a wall.
 //
-// A hint the design uses on purpose is declared in DESIGN.md under
-// "## Declared", one line each: `- rule-id: the reason`. Then the rule is
-// quiet. One element can opt out of one rule with data-lint-allow="rule-id"
+// A hint the design uses on purpose is declared in design/system.yaml
+// (`x_declares` + `x_declares_reasons`), which `npm run system` writes into
+// DESIGN.md's "## Declared". Then the rule is quiet. One element can opt out of one rule with data-lint-allow="rule-id"
 // (an owner who insists on a phrase, a decorative exception), on it or an
 // ancestor. Legal pages are verbatim and exempt from the copy rules.
 //

@@ -1,8 +1,8 @@
 <industries>
 
 <model>
-Industries do not differ in design principles; they differ in the doubt the visitor arrives with,
-and so in the proof that answers it. Answer five questions
+Industries differ in the doubt the visitor arrives with and the proof that answers it, not in
+design principles. Answer five questions
 once per site, before planning pages:
 
   1. What does the visitor doubt, in their words? Is it trust (are you real, good, safe) or
@@ -20,7 +20,7 @@ once per site, before planning pages:
   3. Decision cost × reversibility → how much proof, how long the page.
   4. Retrieval or persuasion → the shape of the text.
   5. What does the law require, or forbid, on this page in this jurisdiction? Required elements
-     are correctness, not convention. The brand folder must record the jurisdiction.
+     go on the page. The brand folder must record the jurisdiction.
 
 Two more that hold everywhere:
   - Proof is increasingly checked off the site: reviews are read across several platforms and in

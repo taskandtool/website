@@ -10,7 +10,7 @@ apply.
 <angle>
   reader  the person the company most needs to hire, and what they are leaving.
   pain    is this a good place to work, and will it pay.
-  offer   what the company actually offers: pay, hours, training, the people, the work itself.
+  offer   what the company offers: pay, hours, training, the people, the work itself.
   lead    usually the open roles; with none, what working here is like, then how to apply anyway.
 </angle>
 
@@ -23,7 +23,7 @@ apply.
 
 <select>
   - Real pay ranges where the brand states them, or where the law requires them.
-  - Benefits the brand actually offers, named; no culture adjectives.
+  - Benefits the brand offers, named; no culture adjectives.
   - Only current roles, dated.
 </select>
 

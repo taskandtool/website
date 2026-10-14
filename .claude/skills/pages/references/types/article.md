@@ -13,7 +13,7 @@ Who searched for this question, in their words, and which service page they need
 
 <exists>
 Decide first whether the post, or the blog, should exist. Keep a post only when `public/` and `brand/`
-hold first-hand material for it: a job the company did, a question customers really ask, a local
+hold first-hand material for it: a job the company did, a question customers have asked, a local
 fact, the owner's own view. Otherwise: improve a post that has traffic or links; merge overlapping
 weak posts into one and redirect the rest; retire posts with no traffic, links or first-hand
 material. Retiring a whole blog is legitimate when nothing survives. Mass-produced AI posts are
@@ -25,7 +25,7 @@ named spam. The case for retiring is quality and honesty, not a traffic promise.
   experience  the job, photographs, numbers that prove they have done it
   author      a real, named person and the facts the brand holds about them
   service     the service page this topic leads to
-  related     other posts that genuinely continue the reader's question
+  related     other posts that continue the reader's question
 </inventory>
 
 <select>
@@ -49,15 +49,15 @@ title       core      The question it answers, in the searcher's words.
   author      optional  A short bio of the author, linking to the about page.
                         When: the author's qualifications are part of why to believe the post.
                         Core for health, money, legal and safety topics.
-  related     optional  Directly below, only genuinely related posts; with none, the service action.
-                        When: other posts really continue this reader's question.
+  related     optional  Directly below, only related posts; with none, the service action.
+                        When: other posts continue this reader's question.
 </sections>
 
 <phrase>
   - Headings name what the section is about, plainly, not cleverly.
   - Excerpts and intros state the finding, not a teaser.
   - Link text names the destination ("roof replacement"), never "click here".
-  - No date in a title unless the content is truly time-bound.
+  - No date in a title unless the content is time-bound.
 </phrase>
 
 <show>
@@ -71,7 +71,7 @@ title       core      The question it answers, in the searcher's words.
 Post → service page in the body, with the service named in the link. Service page → the posts that
 answer its customers' questions. Related posts directly under the article, chosen by hand, labelled
 by what they are. Series: previous and next, and the whole series listed. Breadcrumbs only where
-the structure really is a hierarchy.
+the structure is a hierarchy.
 </links>
 
 <variant name="index" label="blog index and category archive" mode="retrieval">

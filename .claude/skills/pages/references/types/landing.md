@@ -115,7 +115,7 @@ never a form a builder made up, which submits nowhere and loses the lead.
 Beside every form: what happens after it is sent (who replies, how soon), when the brand says.
 Keep the form fields that describe the reader's job; cut the administrative ones.
 Remove links that lead away from the action. Keep who the company is, its phone and address,
-and cost information: removing those costs trust and ad quality, not just exits.
+and cost information: removing them costs trust and ad quality.
 </sections>
 
 <phrase>

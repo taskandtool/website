@@ -10,19 +10,15 @@ framework. **Dev** is this machine: the `web` service at dev's address
 (the platform instructions name it), where every edit shows on refresh. **Production** is the site
 deployed to Cloudflare (below, and the platform's `deploy` skill): every
 page pre-rendered to HTML, with a small Worker behind it for anything
-dynamic. `AGENTS.md` in the app root lists the commands and where things
-are; `DESIGN.md` and `brand/` say how it should look and sound.
+dynamic.
 
-This skill is the mechanics. A new homepage or site is the `new-site`
-skill; the look is `design`; the pages a site needs, what each says and
-its code are `pages`; and a site to replace page for page is `migrate-site`.
 In `references/`, read when the request needs it:
 
 - `seo.md`: what the build generates, the per-page search rules, ranking
-  for a search, and launch.
+  for a search, and Search Console.
 - `posts.md`: the blog collection.
 - `media-data-and-hosting.md`: turning an HTML page into a page here, images and
-  video, interactivity, forms and data, after launch, off the platform.
+  video, interactivity, forms and data, off the platform.
 
 ## The facts
 
@@ -33,23 +29,13 @@ the pages, the footer and the JSON-LD read. Each fact lives once, in a
 note. Every page that shows it is listed in `site-map.md`'s notes column,
 so a change to the note points at the pages.
 
-Sections that render from the notes are ready in `src/components/facts.tsx`:
-`ServicesSection`, `FaqSection`, `ContactSection`, and for the proof
-`RatingLine`, `ReviewsSection`, `LogosSection`, `PeopleSection`,
-`NumbersSection`. Each
-renders nothing while its note is empty, so a page can include them before
-the facts exist. Compose around them; do not retype a fact into markup.
-`npm run parts` prints the components, their props and the facts there are.
-
-Colours and fonts are set from `brand/` into `design/system.yaml` by role
-("What the AI sets from them" in `BRAND.md`), then `npm run system`
-compiles the theme, `DESIGN.md` and the font link; the tagline and logo go
-in `src/site.ts` (the name comes from `public/business.md`).
+Sections that render from the notes are in `src/components/facts.tsx`
+(`npm run parts` lists them) and render nothing while their note is empty;
+compose around them, never retype a fact.
 
 ## Before each deploy
 
-The platform's `deploy` skill says what production is and when to deploy;
-this is the site's part, every time:
+This is the site's part, every time:
 
 1. **The checks pass.** `npm run verify`, then `npm run audit` (broken
    links, headings, alt text, labels, link text, titles and descriptions,
@@ -60,6 +46,5 @@ this is the site's part, every time:
    width.
 4. **A migrated site** has passed the `cutover-check` skill.
 
-Then `npm run deploy`: it builds the site (every page pre-rendered, a small
-Worker for dynamic routes) and deploys it. Read what the build prints
-before it deploys.
+Then `npm run deploy` (it builds, then deploys); read what the build prints.
+What production is, and when: the platform's `deploy` skill.

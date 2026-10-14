@@ -1,9 +1,5 @@
 # SEO, per page
 
-The rules the build enforces or generates, and the ones you apply by hand.
-Nothing here is a trick; it is the site telling search engines the truth
-about itself, once, consistently.
-
 ## Generated (do not hand-write)
 
 - `sitemap.xml` and `robots.txt` from the route list, with `site.url` as
@@ -43,11 +39,9 @@ pages that answer the search, one per service and per place it truly serves
 name, address and phone everywhere. The profile and reviews are the owner's
 to tend: say so plainly. Then build or improve those pages.
 
-## Before launch
+## Search Console
 
-`npm run verify`; a site that replaces an old one then passes the
-`cutover-check` skill, which also schedules the weekly audit. Once the site
-has a Search Console connection, check its key pages with the URL Inspection
+Once the site has a Search Console connection, check its key pages with the URL Inspection
 API (the Page indexing report, once called Coverage, is not in the API: ask
 the owner to read it) and fix any page left out of the index for a reason
 the site controls: not found, a redirect error, or blocked by `robots.txt`

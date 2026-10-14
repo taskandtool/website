@@ -34,8 +34,7 @@ wait, open 24 hours, the owner answers the phone) sits halfway down an old page.
   - Which fact leads the first screen follows the industry (industries.md): a restaurant's menu,
     hours and booking; a trade's area and credentials; software's product and price.
   - Examples of the offerings beat category names: a real job, dish or product per offering.
-    The homepage samples the site; it does not reproduce it. Sampling means one line per
-    offering, not three offerings out of seven: every product line or main service the company
+    The homepage samples the site with one line per offering (not three offerings out of seven): every product line or main service the company
     sells is named on the homepage, with its line and, when the business's photographs have one, its photograph.
   - The old homepage is a floor, not a template. What it carried that still answers a reader (each
     product line, a buying guide, a planning tool, a guarantee, a certification) is carried or
@@ -55,7 +54,7 @@ band holds, then when it earns its place.
   hero        core      What they do, for whom, where; the primary action; the best line. A real
                         photograph of the work when the business's photographs have one that can hold a hero.
   trust       core      Everything in public/proof.md that is not a review: every logo,
-                        ratings with platform and count, people, numbers. All of it, boldly.
+                        ratings with platform and count, people, numbers: all of it, boldly.
   offerings   core      Each service, product line or menu by its search name, with a real example
                         and a link to its page. For a restaurant this is the menu's route: what they
                         cook, a few named dishes, and the link.

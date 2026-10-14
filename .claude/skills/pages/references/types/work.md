@@ -3,8 +3,8 @@
 <job>
 One real job, told so a buyer can see themselves in it. It says who it was for, what was wrong, what
 the company did, and what changed. This covers the case study, the project page and the before-and-after.
-For a considered purchase it is the strongest proof a site can carry. Without an outcome it
-is only a story.
+For a considered purchase it is the strongest proof a site can carry. It needs
+an outcome.
 </job>
 
 <angle>

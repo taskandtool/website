@@ -60,8 +60,8 @@ export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   start("db", `usage: npm run db:setup
 
-Brings the project database's forms, booking and payments tables up to
-date. Safe to re-run; without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
+Brings the project database's forms, booking, payments and customers
+tables up to date. Safe to re-run; without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
   if (!databaseUrl()) {
     done("db", "no DATABASE_URL, nothing to set up", { lines: ["until there is one, the forms and booking pages answer 404 and /admin says so"] });
     process.exit(0);

@@ -1,12 +1,9 @@
 # This app: a website on Hono
 
-A business website. It runs in **dev** on this machine while it is being
-built, and in **production** on Cloudflare once deployed, as pre-rendered
-HTML plus a small Worker. This
-repository *is* the app: the site at the root, the skills that know how to
-work on it in `.claude/skills/`, and `.taskandtool/setup.sh` for what the
-machine needs (dependencies, the site reader, the `web` service). All of it
-is the owner's to change.
+A business website: dev on this machine while it is built, production on
+Cloudflare (pre-rendered HTML plus a small Worker) once deployed. The
+repository is the app: the site, its skills in `.claude/skills/`, and
+`.taskandtool/setup.sh`; all of it is the owner's to change.
 
 Which skill to read, by what the owner asks:
 
@@ -23,14 +20,10 @@ Which skill to read, by what the owner asks:
   and URLs: `migrate-site`; the cutover and the weekly audit: `cutover-check`
 - "is it ready to go live": the website skill's checklist before each
   deploy; a migrated site also `cutover-check`
-- a form, a private `/admin`, a booking page, a customer's notes, a report
-  or chart: `forms`, `admin`, `booking`, `customers`, `reports`, all on `data` (what they store is in the
-  project's database, which the project's other apps read too)
-- "take orders", "an order page", a form with steps, "a paid appointment
-  with a few questions": `forms` (an order is a form: its items, a booking
-  step, a payment step), then `payments` for the Stripe key and webhook
-- "take payment", a deposit, a refund: `payments`, with `forms` or
-  `booking` for what is paid for
+- a form, an order, a booking page, payments, `/admin`, customers' notes,
+  a report or chart: `forms`, `booking`, `payments`, `admin`, `customers`,
+  `reports`, all on `data`. An order or a paid appointment is a form with
+  steps; `payments` adds the Stripe key and webhook.
 - a small edit (a typo, a line), running, code, deploying: `website`; what production is:
   the platform's `deploy` skill
 
@@ -53,18 +46,18 @@ npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<
                              # image to read first and any width where the page scrolls sideways
 npm run show                 # each page whole, one image per width, sent to the chat (what shots took; --retake after a change)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
-npm test                     # the tests: the skills' in src/ (they arrive with the code), the scripts' in test/, tropes'
+npm test                     # the tests in src/ (they arrive with the skills' code), test/ and the tropes skill
 npm run audit                # the crawler against dev: broken links, headings, alt text, titles, images over 1.5 MB
 tt-crawl check http://localhost:3000  # every page of the crawled old site answers here (200 or 301); the sitemap lists them
 node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
-npm run db:setup             # the forms, booking and payments tables (dev start and deploy run it)
+npm run db:setup             # the forms, booking, payments and customers tables (dev and deploy run it)
 npm run deploy               # production, only when the owner asks (the website skill's checklist first)
 ```
 
-Each one with options takes `--help`. Before showing work, run `npm run verify`,
-look at the page with `npm run shots`, then run `npm run show`.
-For a small edit, fix it at its source (the note, the brief or the page), then
-run the same three for that page.
+Each one with options takes `--help`. Before showing work: `npm run verify`,
+`npm run shots`, then `npm run show`. For a small edit, fix it at its
+source (the note, the brief or the page), then run the same three for that
+page.
 
 ## Where things are
 
@@ -76,35 +69,25 @@ run the same three for that page.
   by hand. Read `DESIGN.md` before designing.
 - `src/site.ts` the tagline, logo, nav and real domain (the name and
   contact details come from `public/business.md`);
-  `src/pages/*.tsx` the pages, listed in `src/pages/index.ts`;
-  `src/layout.tsx` the head, header and footer; `src/components/` the shared
-  pieces; `src/app.tsx` the Hono app.
-- `src/business.tsx` mounts forms (with booking and payment steps), `/book`,
-  Stripe's webhook and the private `/admin`, all on the project's database;
-  until it has one, the forms and `/book` answer 404 and `/admin` tells the
-  team so. `/admin` is Submissions (every form and booking: Inbox,
-  Archived, Spam; a submission's page reschedules or cancels its booking,
-  refunds its payment, and shows and logs the person's notes on the
-  project's customers, the same rows the CRM shows), Schedule (the week;
-  book for someone), Services (each one's name, length, price, rules and
-  who takes it) and Team (each person's details, hours and time off). When
-  the owner asks you instead, use the same writes in `src/booking/hours.ts`
-  (`createType`, `saveType`, `setHosts`, `createPerson`, `savePerson`,
-  `addWindow`, `addTimeOff`) from a script on the machine; they check what
-  you pass and return field errors. The code under
-  `src/data`, `admin`, `forms`, `booking`, `payments`, `customers` came from those
-  skills, which say how it works; it is this app's code to change.
+  `src/pages/*.tsx` the pages, listed in `src/pages/index.ts`.
+- `src/business.tsx` mounts the forms, `/book`, Stripe's webhook and the
+  private `/admin` (Submissions, Schedule, Services, Team), all on the
+  project's database; without one, the forms and `/book` answer 404 and
+  `/admin` says so. To change services, people, hours or time off for the
+  owner, call the writes in `src/booking/hours.ts` (`createType`,
+  `saveType`, `setHosts`, `createPerson`, `savePerson`, `addWindow`,
+  `addTimeOff`) from a script; they return field errors.
+  `src/{data,admin,forms,booking,payments,customers}` came from those
+  skills and is this app's code to change.
 - `site-map.md` the page plan; `raw/` a crawled site; `static/` files served
   as they are.
 
 ## The loop
 
-- `npm run dev` is what the `web` service runs: Tailwind rebuilds the CSS
-  and the server restarts on every change, so an edit is in dev on refresh.
-  If the service is not running, re-run `bash ~/app/.taskandtool/setup.sh`
-  (it is safe to run again).
-- Commit at milestones. Never commit `dist/`, `build/`, `node_modules/`, or
-  any credential. Pushing to GitHub is the owner's call.
+- The `web` service runs `npm run dev`, so an edit is in dev on refresh;
+  if it is not running, re-run `bash ~/app/.taskandtool/setup.sh`.
+- Commit at milestones, never a credential (.gitignore keeps the build
+  out). Pushing is the owner's call.
 
 ## Rules
 

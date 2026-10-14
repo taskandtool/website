@@ -9,7 +9,7 @@ Done when every old URL answers on the new site (a page or a redirect),
 every fact the old site stated lives once in a note, and `cutover-check`
 passes. The rule: **facts first, pages second, URLs preserved.** Converting
 the old pages one by one carries over dead sections, duplicated facts and
-the old design. The steps below are in the order they depend on each other.
+the old design.
 
 ## 0. Two questions, first
 
@@ -23,20 +23,12 @@ the redirect carries its search ranking.
 
 ## 1. Inventory
 
-One crawl reads the site into `raw/site/<host>/`; its ledger,
-`_index/inventory.json`, holds one record per URL. The "Read" section of
-`tt-crawl playbook rebuild` lists the files to read.
-
-The crawler carries the recipes (`tt-crawl playbook rebuild`, `survey` for
-a big site first, `import` for WordPress, RSS or Shopify collections); print
-the one you need rather than guessing flags.
-
-For a migration, add `--styles --screenshots` to the rebuild's `tt-crawl
-pages` run: step 2 reads `_index/styles.json` and `shots/`, which only
-those flags write. Then `tt-crawl docs` for the documents the pages link to.
-
-Read `_index/inventory.md` and the screenshots; report pages found, the
-limit if it was hit, forms and embeds seen, and the tracking IDs.
+One crawl reads the site into `raw/site/<host>/`: run what `tt-crawl
+playbook rebuild` prints (`import` covers WordPress, RSS and Shopify
+collections), adding `--styles --screenshots` to its `tt-crawl pages` run,
+since later steps read `_index/styles.json` and `shots/`. Read what its
+"Read" section lists and the screenshots; report pages found, the limit if
+hit, forms and embeds, and the tracking IDs.
 
 ## 2. Facts and brand (the `brand` skill)
 
@@ -70,8 +62,8 @@ check` holds the map and the table to each other.
 A faithful rebuild keeps the old site's look: its colours and fonts are in
 the record from step 2; fill the rest of it from how the old pages are laid
 out (the `design` skill's "When the site grows"). A redesign starts with
-the `new-site` skill's homepage (from "Look before choosing"), shown to the owner,
-then the `design` skill's "When the site grows".
+the `new-site` skill's homepage, shown to the owner, then the `design`
+skill's "When the site grows".
 
 ## 5. Pages, one per turn
 

@@ -35,8 +35,9 @@
       "prompt": "Build the rest of the site in the same style as the homepage.",
       "when": [
         {
-          "path": "design/briefs/home.md",
-          "is": "present"
+          "path": "raw/site/_sites.json",
+          "is": "contains",
+          "text": "\"profile\": \"brand\""
         },
         {
           "path": "site-map.md",

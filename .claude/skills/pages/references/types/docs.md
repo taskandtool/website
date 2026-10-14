@@ -20,7 +20,7 @@ make sense on its own.
 
 <select>
   - One type per page: tutorial (learn by doing), how-to (finish a task), reference (facts),
-    explanation (why). Mixing them is the root of most documentation problems.
+    explanation (why).
   - Each page stands alone and says what it covers in its first line.
   - Write an FAQ only when readers need it, not for search features.
 </select>

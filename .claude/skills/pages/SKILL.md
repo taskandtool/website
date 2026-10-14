@@ -10,8 +10,7 @@ type decides what can go on it, and the brief decides the words. All the
 judgement happens in the brief, where the owner can see it and the page can
 be held to it; building the page then lays out approved words.
 
-Read the `writing` skill with this one, and `brand/voice.md` before writing
-a line.
+Read the `writing` skill with this one.
 
 ## 1. Plan the site
 
@@ -48,13 +47,14 @@ For each planned page, `design/briefs/<slug>.md` in the format of
 `references/brief.md`. A brief is done when the owner could approve the
 page from it alone: its angle, every band's real words, and what was left
 out and why. Its page type's guide, `references/types/<type>.md` (and its
-`<variant>`), says what the type can hold; what matters is the choosing:
+`<variant>`), says what the type can hold; you choose:
 
-- **The angle:** a persuasion page's `reader`, `pain`, `offer` and `lead`;
-  a retrieval page's `<reader>`, decided for this page from this business's
-  material.
-- **The bands,** from the guide's `<sections>`, in page order: `core` is on
-  nearly every page of the type; the rest earns its place as its line says.
+- **The angle:** the guide's `<angle>` (reader, pain, offer, lead) or
+  `<reader>`, decided for this page from this business's material.
+- **The bands,** from the guide's `<sections>`, in page order: the `core`
+  ones, then only those the material answers well. A good page is usually
+  shorter than the guide's menu; what you left out goes in `omit:`, one
+  clause each.
 - **The material,** sorted into the guide's `<inventory>` bins with sources
   (`public/`, `brand/`, `brand/images.md`, and every page, review and
   listing the crawl saved in `raw/`). A page of
@@ -62,12 +62,7 @@ out and why. Its page type's guide, `references/types/<type>.md` (and its
   rather than ask. When the page replaces an old one, the old page is the
   floor for how complete the new one is, not the template for its shape:
   each of its sections is carried, improved, or dropped in `omit:` with the
-  reason. A page the owner names to be like (theirs, a competitor's):
-  `tt-crawl reference <url>` captures its look; borrow its structure and
-  ideas, never its words, pictures or logo.
-- **The bands:** the `core` ones, then only those the material answers
-  well. A good page is usually shorter than the guide's full menu; what you
-  considered and left out goes in `omit:`, one clause each.
+  reason. A page the owner names to be like: the `design` skill.
 - **The copy,** in the business's voice and plainer where their voice is
   marketese, from this business's material alone, never wording from a
   guide or another page; then the search fields.
@@ -102,8 +97,7 @@ From its brief, in the record:
 
 ## Changing a page later
 
-What a page says changes in its brief first, then on the page. How it looks
-changes in the record (the `design` skill), never on one page. A page that
-needs a pattern the site does not have yet (a photograph banner per menu
+How a page looks changes in the record (the `design` skill), never on one
+page. A page that needs a pattern the site does not have yet (a photograph banner per menu
 section) gets it as a component in `src/components`, in the record's
 tokens, so the next page can use it too.
