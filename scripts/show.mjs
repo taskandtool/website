@@ -58,10 +58,10 @@ for (const path of paths) {
 
 // the whole page in one image when shoot made one, else its strips in order
 const files = folders.flatMap((d) => {
-  const pngs = readdirSync(d).filter((f) => f.endsWith(".png"));
+  const names = readdirSync(d);
   // create_deliverables takes images under 8 MB; a longer page goes as strips
-  if (pngs.includes("page.png") && statSync(join(d, "page.png")).size < 7.5 * 1024 * 1024) return [join(d, "page.png")];
-  return pngs.filter((f) => /^\d+\.png$/.test(f)).sort().map((f) => join(d, f));
+  if (names.includes("page.png") && statSync(join(d, "page.png")).size < 7.5 * 1024 * 1024) return [join(d, "page.png")];
+  return names.filter((f) => /^\d+\.jpg$/.test(f)).sort().map((f) => join(d, f));
 });
 const sent = files.slice(0, MAX_ITEMS);
 const items = sent.map((f) => {

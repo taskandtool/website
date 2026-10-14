@@ -14,7 +14,8 @@ and prints one line: passed, failed, skipped. A failure prints its details
 on stderr first. Tests that need a database skip without TEST_DATABASE_URL.`);
 
 const files = ["src", "test", ".claude/skills/tropes/test"].filter(existsSync).flatMap(walk).filter((f) => /\.test\.(tsx?|mjs)$/.test(f));
-const run = spawnSync("node", ["--import", "tsx", "--test", ...files], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+// TAP whatever the Node: newer ones default to another reporter, whose counts this would not read
+const run = spawnSync("node", ["--import", "tsx", "--test", "--test-reporter=tap", ...files], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
 const tap = `${run.stdout || ""}${run.stderr || ""}`;
 const n = (k) => Number((tap.match(new RegExp(`^# ${k} (\\d+)`, "m")) || [])[1] || 0);
 const [passed, failed, skipped] = [n("pass"), n("fail"), n("skipped")];
