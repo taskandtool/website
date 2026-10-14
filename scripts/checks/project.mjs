@@ -1,7 +1,8 @@
 // The project's own rules, for `npm run check`: the files the pages are made
 // from, read without a browser. Each finding names its area:
 //   facts   the brand notes BRAND.md lists exist; public/ holds only notes;
-//           posts carry a real date; the phone and time zone read
+//           posts carry a real date; the phone and time zone read; proof is
+//           marked only by the proof components
 //   design  styles/theme.css, DESIGN.md and src/fonts.ts match
 //           design/system.yaml, and the role pairs the layout uses (accent on
 //           canvas, ink-2 on panel…) meet 4.5:1
@@ -85,6 +86,9 @@ export function projectFindings({ built = true } = {}) {
   if (existsSync("site-map.md")) {
     const map = readFileSync("site-map.md", "utf8");
     const known = new Set(paths.map((p) => p.path));
+    // a page made from data (a product per note) has no path of its own in
+    // src/pages; once built, the built pages say which exist
+    if (built) for (const f of walk("dist").filter((f) => f.endsWith(".html"))) known.add("/" + f.slice(5).replace(/(^|\/)index\.html$/, "").replace(/\.html$/, ""));
     const redirectsSrc = existsSync("src/redirects.ts") ? readFileSync("src/redirects.ts", "utf8") : "";
     const redirectFroms = new Set([...redirectsSrc.matchAll(/\[\s*"([^"]+)"\s*,\s*"[^"]+"\s*\]/g)].map((m) => m[1]));
     let generated = { posts: [], legal: [] };
@@ -106,6 +110,14 @@ export function projectFindings({ built = true } = {}) {
   }
 
   area = "facts";
+  // proof is shown by the proof components, which mark it (data-proof) for
+  // check:facts; the marker anywhere else is plain text passed off as proof
+  const PROOF_HOME = "src/components/facts.tsx";
+  for (const file of walk("src").filter((f) => /\.(tsx?|jsx?)$/.test(f) && f !== PROOF_HOME && !/\/test\//.test(f))) {
+    if (readFileSync(file, "utf8").includes("data-proof"))
+      push(file, `${file} writes data-proof itself; show proof with RatingLine, ReviewsSection, LogosSection, PeopleSection or NumbersSection from ${PROOF_HOME}, restyled to fit, so it carries the platform, the stars and the date`);
+  }
+
   // public/ is the facts folder, not the web root: an image or a stylesheet
   // there is a misplaced asset (they belong in static/)
   if (existsSync("public")) {

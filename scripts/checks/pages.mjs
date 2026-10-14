@@ -410,11 +410,11 @@ export function pageFindings() {
   for (const id of declared.keys()) if (!HINTS.has(id)) findings.push({ area: "design", rule: "declared-unknown", level: "hint", page: "DESIGN.md", where: "", message: `"${id}" is declared but no hint by that name exists; check the spelling (only hints can be declared)` });
 
   // ── the report ───────────────────────────────────────────────────────────
-  // the record as a whole: grounds that are all tints of one hue, and the
-  // fonts generated sites reach for by default
-  const tints = ["canvas", "surface", "panel"].filter((k) => colours[k]).map((k) => ({ v: colours[k], ...chromaHue(colours[k]) }));
-  if (tints.length === 3 && tints.every((t) => t.chroma > 0.04 && hueGap(t.hue, tints[0].hue) < 30))
-    report("tinted-grounds", "design/system.yaml", null, `canvas, surface and panel are all tints of one hue (${tints.map((t) => t.v).join(" ")}); make one white or near it, so the deep brand colour and the photographs carry the colour`);
+  // the record as a whole: a page ground with a colour of its own, and the
+  // fonts generated sites reach for by default. Most of a page sits on the
+  // canvas, so a tinted one (a cream, not a warm off-white) colours all of it.
+  if (colours.canvas && chromaHue(colours.canvas).chroma > 0.08)
+    report("tinted-grounds", "design/system.yaml", null, `the page ground, canvas (${colours.canvas}), is a tint, so the whole page reads as that colour; make canvas white or near it and keep the tint for panel, a band or two, so the brand colour and the photographs carry the colour`);
   const DEFAULT_FONTS = /^(Inter|Roboto|Arial|Helvetica|Open Sans|Lato|Montserrat|Poppins|DM Sans|DM Serif Display|Fraunces|Playfair Display|Space Grotesk)$/;
   for (const [, role, family] of readTheme().source.matchAll(/--font-(display|body):\s*"([^"]+)"/g))
     if (DEFAULT_FONTS.test(family)) report("default-font", "design/system.yaml", null, `the ${role} font "${family}" is one generated sites reach for by default; choose one for this business (its own, or a library record's pairing), or declare default-font with the reason it fits`);

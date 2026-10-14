@@ -446,11 +446,15 @@ const readable = (fg, bg, min = 4.5) => {
 };
 
 function colours() {
-  const canvas = solid(styles.roles.body?.background) || palette.find((c) => luminance(c) > 0.85) || "#ffffff";
-  const dark = luminance(canvas) < 0.18;
+  const ground = solid(styles.roles.body?.background) || palette.find((c) => luminance(c) > 0.85) || "#ffffff";
+  const dark = luminance(ground) < 0.18;
+  // a light page ground with a colour of its own (a cream, a mint) would tint
+  // the whole new page: the canvas starts near white and the tint is the panel
+  const tint = !dark && chromaHue(ground).chroma > 0.08;
+  const canvas = tint ? mix(ground, "#ffffff", 0.8) : ground;
   const ink = readable(solid(styles.roles.body?.color) || (dark ? "#f2f2f2" : "#111111"), canvas, 7);
   const surface = dark ? mix(canvas, ink, 0.08) : mix(canvas, "#ffffff", 0.5);
-  const panel = mix(canvas, ink, 0.05);
+  const panel = tint ? ground : mix(canvas, ink, 0.05);
   const strong = palette.find((c) => chromaHue(c).chroma > 0.35);
   if (!strong) notes.push(`no strong colour on their site, so the accent is a shade of the ink: choose one in design/system.yaml`);
   const accent = readable(strong || mix(ink, canvas, 0.2), canvas);

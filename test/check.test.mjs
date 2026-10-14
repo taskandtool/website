@@ -9,11 +9,12 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { pageFindings } from "../scripts/checks/pages.mjs";
 import { proofFindings } from "../scripts/checks/proof.mjs";
+import { projectFindings } from "../scripts/checks/project.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 
 /** The page findings for one page, with brand/images.md's rows and extra CSS when given. */
-function check(body, { rows = "", css = "", proof = "", run = pageFindings } = {}) {
+function check(body, { rows = "", css = "", proof = "", page = "", run = pageFindings } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "check-"));
   const back = process.cwd();
   try {
@@ -27,6 +28,7 @@ function check(body, { rows = "", css = "", proof = "", run = pageFindings } = {
     for (const f of ["images/a.jpg", "images/b.jpg", "images/logos/acme.png"]) writeFileSync(join(dir, "dist", f), "");
     if (rows) writeFileSync(join(dir, "brand/images.md"), `| File | What it shows |\n|---|---|\n${rows}\n`);
     if (css) appendFileSync(join(dir, "styles/input.css"), css);
+    if (page) writeFileSync(join(dir, "src/pages/reviews.tsx"), page);
     if (proof) writeFileSync(join(dir, "public/proof.md"), `---\n${proof}\n---\n`);
     writeFileSync(join(dir, "dist/index.html"), `<!doctype html><html lang="en"><head><title>Harlow Bakery</title></head><body><main><h1>Bread</h1>${body}</main></body></html>`);
     process.chdir(dir);
@@ -80,4 +82,10 @@ test("a rating or review under 4 stars is not asked for", () => {
   const { findings, shows } = check("<p>Windows and doors.</p>", { proof, run: proofFindings });
   assert.deepEqual(findings, []);
   assert.match(shows, /ratings 0\/0, reviews 0\/0/);
+});
+
+test("proof marked by hand outside the proof components fails check:facts", () => {
+  const byHand = check("<p>Bread.</p>", { page: 'export const R = () => <figure data-proof="reviews">Lovely</figure>;\n', run: () => projectFindings({ built: false }).findings });
+  assert.ok(byHand.some((f) => f.area === "facts" && f.page === "src/pages/reviews.tsx" && /writes data-proof itself/.test(f.message)));
+  assert.ok(!check("<p>Bread.</p>", { run: () => projectFindings({ built: false }).findings }).some((f) => /data-proof/.test(f.message)));
 });
