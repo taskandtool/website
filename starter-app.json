@@ -2,6 +2,11 @@
   "schema_version": 1,
   "slug": "website",
   "version": "0.1.0",
+  "needs": {
+    "connections": [
+      { "provider": "taskandtool", "strength": "suggested", "why": "Email you and your team about new form submissions and bookings" }
+    ]
+  },
   "ready": {
     "service": "web"
   },

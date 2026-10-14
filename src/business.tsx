@@ -22,10 +22,11 @@ import { bookingPages } from "./booking/public";
 import { envOf, envVar } from "./data/env";
 import type { Db } from "./data/db";
 import { fromNeon } from "./data/neon";
-import { afterResponse } from "./data/send";
+import { afterResponse, sendEmail } from "./data/send";
 import { formsAdmin } from "./forms/admin";
 import { formRoutes } from "./forms/routes";
-import { BOOKING_PAGE, completePaidSubmission } from "./forms/store";
+import { BOOKING_PAGE, completePaidSubmission, recordNotified } from "./forms/store";
+import { formatSlot } from "./booking/slots";
 import { Layout, render } from "./layout";
 import { paymentsAdmin } from "./payments/admin";
 import { paymentStep } from "./payments/form-step";
@@ -50,30 +51,57 @@ const BOOK = site.url ? `${site.url.replace(/\/$/, "")}/book` : null;
  * A booking made at /book, or by the team on the Schedule, is a submission
  * too, so the team reads every booking where it reads every form. Once per
  * booking: one that already belongs to a submission (a form's booking step)
- * is left alone. `page` is where it was made; null for the team's.
+ * is left alone. `page` is where it was made; null for the team's. The new
+ * submission's id, or null when there was none to make.
  */
-export async function bookingSubmission(db: Db, e: Pick<BookingNotice, "booking" | "type" | "host">, page: string | null): Promise<void> {
+export async function bookingSubmission(db: Db, e: Pick<BookingNotice, "booking" | "type" | "host">, page: string | null): Promise<string | null> {
   const b = e.booking;
   const notes = typeof b.answers.notes === "string" ? b.answers.notes : undefined;
   const data = JSON.stringify({ service: e.type.name, with: e.host.name, ...(notes ? { notes } : {}) });
-  await db.sql`
+  const [made] = await db.sql<{ id: string }>`
     with made as (
       insert into submissions (form_key, name, email, phone, data, source, page, status, completed_at)
       select ${BOOKING_PAGE.key}, ${b.name}, ${b.email}, ${b.phone}, ${data}::jsonb, ${SOURCE}, ${page}, 'new', now()
       where exists (select 1 from bookings where id = ${b.id}::bigint and submission_id is null)
       returning id)
-    update bookings set submission_id = made.id from made where bookings.id = ${b.id}::bigint`;
+    update bookings set submission_id = made.id from made where bookings.id = ${b.id}::bigint
+    returning made.id::text as id`;
+  return made?.id ?? null;
+}
+
+/**
+ * Whoever takes a booking made at /book hears of it (team mail: Task & Tool
+ * email reaches them when they can open this site in Task & Tool), and the
+ * submission keeps who it reached. The team's own bookings tell nobody.
+ */
+async function tellHost(c: Context, db: Db, id: string, e: BookingNotice): Promise<void> {
+  const b = e.booking;
+  const to = [e.host.email!];
+  const when = formatSlot({ start: b.starts_at, end: b.ends_at }, e.host.time_zone || site.timeZone);
+  const sent = await sendEmail(envOf(c), {
+    to,
+    subject: `New booking: ${e.type.name} with ${b.name || b.email}`,
+    text: `${b.name || b.email} booked ${e.type.name} with ${e.host.name}.\n\n${when}\n\n${new URL(`/admin/submissions/${id}`, c.req.url).href}`,
+    replyTo: b.email,
+    team: true,
+  });
+  await recordNotified(db, id, to, sent);
 }
 
 /**
  * Every change is told to the booker; a new booking is filed with the
  * submissions too (`page` is where it was made). Told first, so a filing
  * that fails (the caller logs it) never stops the confirmation; the booking
- * stands either way.
+ * stands either way. A booking made at /book tells its host (`tellHost`).
+ * `dbOf` is the project's database unless a test gives its own.
  */
-const filed = (page: (e: BookingNotice) => string | null) => async (c: Context, e: BookingNotice) => {
+export const filed = (page: (e: BookingNotice) => string | null, dbOf: (c: Context) => Db = getDb) => async (c: Context, e: BookingNotice) => {
   confirm(c, e);
-  if (e.event === "booked") await bookingSubmission(getDb(c), e, page(e));
+  if (e.event !== "booked") return;
+  const db = dbOf(c);
+  const where = page(e);
+  const id = await bookingSubmission(db, e, where);
+  if (id && where && e.host.email) afterResponse(c, tellHost(c, db, id, e));
 };
 
 /** No database yet: these paths do not exist. */

@@ -13,7 +13,7 @@ import { addWindow, createPerson, createType, setHosts } from "../src/booking/ho
 import { bookingPages } from "../src/booking/public";
 import { formsAdmin } from "../src/forms/admin";
 import { paymentsAdmin } from "../src/payments/admin";
-import { bookingSubmission } from "../src/business";
+import { bookingSubmission, filed } from "../src/business";
 
 const schema = (skill: string) => readFileSync(new URL(`../src/${skill}/schema.sql`, import.meta.url), "utf8");
 const team = { "x-tasktool-user": "owner@example.com", origin: "http://localhost", host: "localhost" };
@@ -113,6 +113,46 @@ test("a booking at /book is a submission; its page reschedules and cancels it an
     page = await (await app.request(`/admin/payments/${pay.id}/refund`, { headers: team })).text();
     assert.equal((page.match(new RegExp(`href="/admin/submissions/${sub.id}"`, "g")) ?? []).length, 2, "the way back and Keep the payment");
   } finally {
+    await s.drop();
+  }
+});
+
+test("a booking at /book emails its host through Task & Tool email, and the submission says so", async (t) => {
+  const s = await scratch();
+  if (!s) return t.skip(why);
+  const real = globalThis.fetch;
+  const sent: { url: string; body: any }[] = [];
+  globalThis.fetch = (async (url: string, init: RequestInit) => {
+    sent.push({ url: String(url), body: JSON.parse(String(init.body)) });
+    return Response.json({ sent: ["pat@example.com"], skipped: [], failed: [] });
+  }) as typeof fetch;
+  try {
+    await setUp(s);
+    const app = new Hono();
+    app.route("/book", bookingPages(() => s.db, {
+      base: "/book", domain: "acme.com", css: "/site.css", source: "website",
+      onBooked: filed((e) => `/book/${e.type.slug}`, () => s.db),
+    }));
+    const env = { TASKANDTOOL_EMAIL_API_KEY: "ttk_test", TASKANDTOOL_API_URL: "https://tt.example" };
+    const html = await (await app.request("/book/intro?tz=UTC", {}, env)).text();
+    const link = /href="(\/book\/intro\/confirm\?start=[^"]+)"/.exec(html)![1].replace(/&amp;/g, "&");
+    const start = new URL(link, "http://x").searchParams.get("start")!;
+    const _started = await makeStamp("booking:intro", Date.now() - 10_000);
+    const res = await app.request("/book/intro", form({ start, tz: "UTC", name: "Ann", email: "ann@example.com", phone: "555 010 0001", _started }), env);
+    assert.equal(res.status, 303);
+
+    let notified: string | null = null;
+    for (let i = 0; i < 100 && !notified; i++) {
+      await new Promise((r) => setTimeout(r, 10));
+      notified = (await s.db.sql`select notified from submissions`)[0]?.notified ?? null;
+    }
+    assert.equal(notified, "Emailed pat@example.com");
+    const host = sent.find((m) => m.url === "https://tt.example/api/email/emails")!;
+    assert.deepEqual(host.body.to, ["pat@example.com"]);
+    assert.match(host.body.subject, /New booking: Intro call with Ann/);
+    assert.equal(sent.length, 1, "the booker's confirmation needs Resend or Postmark: it never reached Task & Tool");
+  } finally {
+    globalThis.fetch = real;
     await s.drop();
   }
 });
