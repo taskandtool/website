@@ -9,6 +9,9 @@ import { Section } from "./index";
 import { content } from "../content";
 import { site, formatHours } from "../site";
 
+// Under 4 stars hurts more than it helps: the note keeps it, the page leaves it out
+const shown = (stars?: number) => !(Number(stars) < 4);
+
 /** The offerings, as ruled rows: title, summary, price when stated. */
 export function ServicesSection({ id = "services", heading = "What we do" }: { id?: string; heading?: string }) {
   const items = content.facts.offerings;
@@ -93,7 +96,7 @@ const reviewCount = (r: { count?: number; platform?: string }) => `${Number(r.co
 
 /** Every rating on one line: the platform's icon, the figure, its stars, the count, linked to the source; in its ground's text colour, so it reads on a photograph too. For a first screen or beside an action. */
 export function RatingLine() {
-  const items = content.facts.ratings;
+  const items = content.facts.ratings.filter((r) => shown(r.value));
   if (!items.length) return null;
   return (
     <ul class="flex flex-wrap items-center gap-x-8 gap-y-3" data-proof="ratings">
@@ -153,7 +156,7 @@ function ReviewCard({ r, class: cls = "", copy = false }: { r: Record<string, an
  * marquee={false}: a grid, a row to swipe on a phone.
  */
 export function ReviewsSection({ id = "reviews", heading = "What customers say", ground = "panel", marquee = true }: { id?: string; heading?: string; ground?: "canvas" | "panel" | "night"; marquee?: boolean }) {
-  const items = [...content.facts.reviews, ...content.facts.posts.map((p) => ({ quote: p.text || "", platform: p.platform, date: p.date, url: p.url }))].filter((r) => r.quote);
+  const items = [...content.facts.reviews.filter((r) => shown(r.stars)), ...content.facts.posts.map((p) => ({ quote: p.text || "", platform: p.platform, date: p.date, url: p.url }))].filter((r) => r.quote);
   if (!items.length) return null;
   const rows = items.length >= 8 ? [items.slice(0, Math.ceil(items.length / 2)), items.slice(Math.ceil(items.length / 2))] : [items];
   return (
