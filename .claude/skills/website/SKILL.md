@@ -1,6 +1,6 @@
 ---
 name: website
-description: "Runs, changes and deploys this business website: the Hono app, its components, the dev loop, the checks, screenshots, images, search basics and the pre-deploy checklist. Use for a small edit, a change to the site's code, or deploying. A new homepage or site is new-site; a page is pages; the look is design."
+description: "Runs, changes, deploys and launches this business website: the Hono app, the dev loop, the checks, screenshots, search basics, the pre-deploy checklist, and going live on their domain with a weekly audit. Use for a small edit, the site's code, deploying, going live, or an audit alert. A new homepage or site is new-site; a page is pages; the look is design."
 ---
 
 # Website
@@ -19,6 +19,8 @@ In `references/`, read when the request needs it:
 - `posts.md`: the blog collection.
 - `media-data-and-hosting.md`: turning an HTML page into a page here, images and
   video, interactivity, forms and data, off the platform.
+- `launch.md`: going live on their domain: the cutover, email, the old
+  site's addresses, the weekly audit and its alerts.
 
 ## The facts
 
@@ -42,7 +44,8 @@ This is the site's part, every time:
    `brand/voice.md`'s voice (the `writing` skill's pass).
 3. **You looked at it.** The changed pages in dev, at desktop and phone
    width.
-4. **A migrated site** has passed the `cutover-check` skill.
+4. **Going live on their domain** follows `references/launch.md`: the
+   cutover, email, the old addresses, the weekly audit.
 
 Then `npm run deploy` (it builds, then deploys); read what the build prints.
 What production is, and when: the platform's `deploy` skill.

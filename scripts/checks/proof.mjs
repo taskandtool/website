@@ -5,7 +5,8 @@
 // data-proof): a review typed out by hand has no stars, platform or date, so
 // it does not count. It finds a logo, rating, person, number or post in the
 // note missing from them, a note with reviews they show none of, and a logo
-// with no name.
+// with no name. A rating or review under 4 stars is not asked for: it stays
+// in the note, off the page, and the owner is told.
 import { existsSync, readFileSync } from "node:fs";
 import { parse } from "node-html-parser";
 import YAML from "yaml";
@@ -55,12 +56,14 @@ export function proofFindings() {
   if (missingLogos.length) add("logos", `${missingLogos.length} of ${logos.length} are not in LogosSection (${missingLogos.map((l) => l.name || l.file).join(", ")}); show every one with LogosSection (npm run parts)`);
 
   const ratingText = shown("ratings").text;
-  const ratings = list("ratings").filter((r) => r?.value);
+  // under 4 stars hurts more than it helps; the note keeps it, the page need not show it
+  const good = (stars) => !(Number(stars) < 4);
+  const ratings = list("ratings").filter((r) => r?.value && good(r.value));
   const missingRatings = ratings.filter((r) => !ratingText.includes(bare(r.value)) || (r.count && !ratingText.includes(bare(r.count))));
   if (missingRatings.length) add("ratings", `${missingRatings.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`).join("; ")}: not through RatingLine, which shows the platform, the stars and the count; put RatingLine on the page (npm run parts)`);
 
   const reviewText = shown("reviews").text;
-  const reviews = list("reviews").filter((r) => r?.quote);
+  const reviews = list("reviews").filter((r) => r?.quote && good(r.stars));
   const shownReviews = reviews.filter((r) => reviewText.includes(opening(r.quote)));
   if (reviews.length && !shownReviews.length) say("reviews", reviews, (r) => r.quote);
 

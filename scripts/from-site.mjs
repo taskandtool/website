@@ -524,7 +524,7 @@ const homeMd = existsSync(join(dir, "pages/index.md")) ? readFileSync(join(dir, 
 const sections = [...homeMd.matchAll(/^#{1,2} +(.+)$/gm)].map((m) => m[1].replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").trim()).filter(Boolean);
 console.log(`from-site: ${host}
 ${list("Wrote:", wrote)}${list("Kept:", kept)}${list("Check:", notes)}
-The homepage's words:    ${dir}/pages/index.md${services ? `\nThe services page:       ${dir}/${services}` : ""}
+Their homepage, as text: ${dir}/pages/index.md (its content's words, links and pictures, in order)${services ? `\nThe services page:       ${dir}/${services}` : ""}
 How it looks today:      ${dir}/shots/index/
 Its sections, by heading: ${sections.length ? `${sections.length}: ${sections.join(" · ")}` : "none read"}
 Colours by use:          ${palette.slice(0, 8).join(" ") || "none read"}

@@ -39,7 +39,8 @@ The order matters; how you do each part is yours:
 3. **All the proof** in `public/proof.md`, word for word: what `from-site`
    found, the logos in `raw/logos.png` that really are others' logos, and
    what it could not reach (the profiles in `business.md`'s `same_as`,
-   anything the owner sent).
+   anything the owner sent). A rating under 4 stars, and a review under 4,
+   stays in the note and off the page; tell the owner so in one line.
 4. **The look,** with the `design` skill.
 5. **The page,** written whole from what `npm run parts` lists
    (`.claude/skills/pages/references/page-code.md`), then `npm run check`
@@ -75,4 +76,4 @@ When the owner wants the rest, or brings a whole site to replace:
 ## Launch
 
 When the owner asks: the `website` skill's "Before each deploy" (which
-includes `cutover-check` for a replaced site), then `npm run deploy`.
+includes going live on their domain), then `npm run deploy`.

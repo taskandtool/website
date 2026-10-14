@@ -1,12 +1,12 @@
 ---
 name: migrate-site
-description: "Moves an existing website here page for page: an inventory, the facts and brand as notes, every old URL mapped to a page, the pages, the redirects, then cutover-check. Use for migrate, move, clone or rebuild my site and keep its pages. Not for a new design from the homepage (new-site)."
+description: "Moves an existing website here page for page: an inventory, the facts and brand as notes, every old URL mapped to a page, the pages, the redirects, then the launch. Use for migrate, move, clone or rebuild my site and keep its pages. Not for a new design from the homepage (new-site)."
 ---
 
 # Migrate a site
 
 Done when every old URL answers on the new site (a page or a redirect),
-every fact the old site stated lives once in a note, and `cutover-check`
+every fact the old site stated lives once in a note, and `npm run check`
 passes. The rule: **facts first, pages second, URLs preserved.** Converting
 the old pages one by one carries over dead sections, duplicated facts and
 the old design.
@@ -90,4 +90,4 @@ h1, every old URL answering, redirects that chain, the sitemap.
 
 ## 7. Launch
 
-The `cutover-check` skill.
+The `website` skill's `references/launch.md`.

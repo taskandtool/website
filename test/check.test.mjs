@@ -74,3 +74,10 @@ test("reviews count only through ReviewsSection; typed out by hand they are name
   assert.deepEqual(shown.findings, []);
   assert.match(shown.shows, /reviews 1\/1/);
 });
+
+test("a rating or review under 4 stars is not asked for", () => {
+  const proof = "ratings:\n  - value: 3.1\n    count: 691\n    platform: Google\nreviews:\n  - quote: Took three months and nobody called back\n    stars: 1\n    platform: Google";
+  const { findings, shows } = check("<p>Windows and doors.</p>", { proof, run: proofFindings });
+  assert.deepEqual(findings, []);
+  assert.match(shows, /ratings 0\/0, reviews 0\/0/);
+});

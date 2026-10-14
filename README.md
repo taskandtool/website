@@ -45,7 +45,7 @@ Beside the site, the two conventions Task & Tool reads:
 .claude/skills/
   new-site/      the agency flow: a striking homepage first, then the system, the pages, the launch
   pages/         the page plan, a brief per page, the 18 page-type guides, search fields, a page's code
-  website/       the mechanics: the dev loop, checks, screenshots, deploy; search, posts, media and data
+  website/       the mechanics: the dev loop, checks, screenshots, deploy and the launch; search, posts, media and data
   forms/ admin/ booking/ payments/ customers/ reports/ data/
                  business skills from github.com/taskandtool/skills: forms, the private
                  /admin, a booking page, Stripe payments, customers' notes, reports, and the
@@ -53,11 +53,10 @@ Beside the site, the two conventions Task & Tool reads:
   design/        the look: the first screen, the system record as the site grows, the review
                  gate; the design library's 14 systems as references
   writing/       the words in the owner's voice, the editing passes, the cold read
-  tropes/        the tells of generated copy, checked by lint (shared from the skills repo)
+  tropes/        the tells of generated copy, pictures and video; check:copy runs its script (shared from the skills repo)
   migrate-site/  replace an existing site page for page: inventory, facts, brand, look, page map, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
-  cutover-check/  the old URLs against the new site, before deploying and after the cutover
 .taskandtool/setup.sh  npm install, the CSS, tt-crawl and its browsers, /admin kept for the team, the `web` service
 starter-app.json       the manifest: what "ready" means, and the suggestions an
                        empty chat offers
@@ -110,8 +109,8 @@ redesign?), one crawl with the shared crawler
 the header and footer as structure, media, styles, screenshots, linked
 documents, the site's own structured data), the facts and brand as notes
 (the `brand` skill), a page map against the old URLs in `site-map.md`, pages one
-per turn, generated redirects and structured data, and `cutover-check`
-before deploying and after the domain cutover, then `tt-crawl audit` as a
+per turn, generated redirects and structured data, `npm run check` before deploying,
+the domain cutover (the website skill's `references/launch.md`), then `tt-crawl audit` as a
 weekly scheduled job that alerts the owner when the live site has broken
 links or SEO problems. The chat suggests the next step from the folder
 state (`starter-app.json`'s `when` conditions).

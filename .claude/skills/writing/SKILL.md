@@ -1,6 +1,6 @@
 ---
 name: writing
-description: "Writes this site's words in the owner's voice: headlines, sections, calls to action, and the cold read before a page is shown. Use when copy is written or rewritten, or the owner says it sounds generic, salesy or like AI."
+description: "Writes this site's words in the owner's voice: headlines, sections, calls to action, and the cold read before a page is shown. Use when copy is written or rewritten, or the owner says it sounds generic or salesy. Not for the tells of AI-made copy (tropes)."
 ---
 
 # Writing

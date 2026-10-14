@@ -17,9 +17,10 @@ Which skill to read, by what the owner asks:
 - a blog post: the website skill's `references/posts.md`, with `writing`
 - "help us rank for …": the website skill's `references/seo.md` ("Ranking for a search")
 - "migrate", "move", "clone" or "rebuild" a site they have, keeping its pages
-  and URLs: `migrate-site`; the cutover and the weekly audit: `cutover-check`
+  and URLs: `migrate-site`
 - "is it ready to go live": the website skill's checklist before each
-  deploy; a migrated site also `cutover-check`
+  deploy; going live on their domain and the weekly audit: its
+  `references/launch.md`
 - a form, an order, a booking page, payments, `/admin`, customers' notes,
   a report or chart: `forms`, `booking`, `payments`, `admin`, `customers`,
   `reports`, all on `data`. An order or a paid appointment is a form with
