@@ -1,8 +1,15 @@
-// The project database's tables for this site's forms, bookings, payments and customers:
+// The project database's tables for this site's forms, bookings, payments and customers
+// (and the data skill's: the business, email opt-outs):
 // the skills' schema.sql files through applySchema (additive only, safe to
 // re-run, behind the lock every app on the project shares). Machine only.
 //
 //   npm run db:setup        `npm run dev` runs it before the server starts; `npm run deploy` before the build
+//
+// It also fills in what the project's business row (data/business.ts: the
+// name texts, quotes and the texting box use, set in the CRM's Settings,
+// Business) lacks, from this site's notes: the name and address
+// (public/business.md) and, once the site has its address, its privacy and
+// terms pages (legal/). Only what is empty: the row is the owner's.
 //
 // Without DATABASE_URL (this shell's or ~/.env's) it says so and
 // exits 0: a site with no database is a site of pages.
@@ -12,12 +19,13 @@ import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { done, fail, machineEnv } from "../src/data/cli.mjs";
 import type { Db } from "../src/data/db";
+import { businessOf, saveBusiness, type Business } from "../src/data/business";
 import { applySchema } from "../src/data/migrate";
 import { fromPool } from "../src/data/pg";
 import { start } from "./lib.mjs";
 
-/** forms first: a booking and a payment name a submission. */
-const SCHEMAS = ["forms", "booking", "payments", "customers"];
+/** data first (the business, email opt-outs), then forms: a booking and a payment name a submission. */
+const SCHEMAS = ["data", "forms", "booking", "payments", "customers"];
 
 async function setupDb(db: Db): Promise<void> {
   // The two extensions every project database has, made here too for a
@@ -26,6 +34,35 @@ async function setupDb(db: Db): Promise<void> {
   await db.sql`create extension if not exists citext`.catch(() => {});
   await db.sql`create extension if not exists pg_trgm`.catch(() => {});
   for (const s of SCHEMAS) await applySchema(db, readFileSync(fileURLToPath(new URL(`../src/${s}/schema.sql`, import.meta.url)), "utf8"));
+}
+
+/** What this site's notes say of the business, for the row's empty parts: nothing before `npm run content` has run. */
+async function fromNotes(): Promise<Partial<Business>> {
+  const { site } = await import("../src/site").catch(() => ({ site: null }));
+  const { content } = await import("../src/content").catch(() => ({ content: null }));
+  const b = content?.facts.business;
+  if (!site || !b) return {};
+  const origin = /^https:\/\//.test(site.url) ? new URL(site.url).origin : null;
+  const page = (re: RegExp) => {
+    const l = content.legal.find((x) => re.test(x.path) || re.test(x.title));
+    return origin && l ? `${origin}${l.path}` : undefined;
+  };
+  return { name: b.name, address: site.contact.address || undefined, privacyUrl: page(/privacy/i), termsUrl: page(/terms/i) };
+}
+
+/** Fill the business row's empty parts from the notes; what differs is said, never changed. What it did, in lines. */
+export async function fillBusiness(db: Db, notes: Partial<Business>): Promise<string[]> {
+  const had = await businessOf(db);
+  const empty = Object.fromEntries(Object.entries(notes).filter(([k, v]) => v && !had[k as keyof Business]));
+  const said: string[] = [];
+  if (Object.keys(empty).length) {
+    const r = await saveBusiness(db, empty, "website");
+    said.push(r.ok ? `the business row was missing ${Object.keys(empty).join(", ")}: filled from this site's notes` : `note: the business row's empty parts were not filled from this site's notes: ${r.why}`);
+  }
+  if (had.name && notes.name && had.name !== notes.name) {
+    said.push(`note: texts, quotes and the texting box say "${had.name}" (Settings, Business in the CRM); this site's header says "${notes.name}" (public/business.md). Make them the same, in one or the other.`);
+  }
+  return said;
 }
 
 const databaseUrl = () => machineEnv().DATABASE_URL || undefined;
@@ -61,11 +98,14 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   start("db", `usage: npm run db:setup
 
 Brings the project database's forms, booking, payments and customers
-tables up to date. Safe to re-run; without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
+tables up to date, and fills the business row's empty parts (name,
+address, privacy and terms pages) from this site's notes. Safe to re-run;
+without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
   if (!databaseUrl()) {
     done("db", "no DATABASE_URL, nothing to set up", { lines: ["until there is one, the forms and booking pages answer 404 and /admin says so"] });
     process.exit(0);
   }
-  await withDb(async () => {});
-  done("db", `tables up to date (${SCHEMAS.join(", ")})`);
+  const notes = await fromNotes();
+  const lines = await withDb((db) => fillBusiness(db, notes));
+  done("db", `tables up to date (${SCHEMAS.join(", ")})`, { lines });
 }

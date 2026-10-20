@@ -33,11 +33,8 @@ import { paymentStep } from "./payments/form-step";
 import { stripeFrom } from "./payments/stripe";
 import { stripeWebhook } from "./payments/webhook";
 import { site } from "./site";
-import { consentWords } from "./phone/flows";
-import { unsubscribeRoutes } from "./phone/unsubscribe";
-import { onBooked as textBooked, onSubmitted } from "./phone/follow";
-import { bookingKey, followShort, type PhoneCtx } from "./phone/send";
-import { canText } from "./phone/store";
+import { unsubscribeRoutes } from "./data/unsubscribe";
+import { textingBox } from "./forms/consent";
 
 /** This app's slug, stored on every row it writes. */
 const SOURCE = "website";
@@ -112,20 +109,12 @@ export const filed = (page: (e: BookingNotice) => string | null, dbOf: (c: Conte
 /** No database yet: these paths do not exist. */
 const needsDb: MiddlewareHandler = async (c, next) => (hasDb(c) ? next() : c.notFound());
 
-// The phone skill's automatic texts, when the project has the CRM's business
-// number: a form or a booking here only schedules its text, on this site's
-// own address, and the CRM's job sends it (by email where a text can't go).
-// Without the CRM the tables are not there, and nothing here asks for them.
-const phoneCtx = (c: Context): PhoneCtx => ({
-  db: getDb(c), env: {}, provider: null, business: site.name, zone: site.timeZone, address: site.contact.address || null,
-  links: async () => ({ base: site.url ? new URL(site.url).origin : new URL(c.req.url).origin, prefix: "" }),
-});
-/** The texting box's words, once the business number can text. */
-const consentHere = (about: "request" | "booking") => async (c: Context) => {
-  const n = await canText(getDb(c)).catch(() => null);
-  return n ? consentWords(site.name, about, n.registration.input ?? {}) : null;
-};
-const later = (c: Context, work: Promise<unknown>) => afterResponse(c, work.catch((e) => console.error("phone:", e)));
+// Texts are the CRM's: a form or a booking here writes its row, and the
+// CRM's job finds it and texts (or emails) within 15 minutes. This site only
+// shows the texting box, once the project has a business number (the
+// CRM's) and the business's name (forms/consent.ts).
+const consentHere = (about: "request" | "booking") => (c: Context) => textingBox(getDb(c), about);
+const later = (c: Context, work: Promise<unknown>) => afterResponse(c, work.catch((e) => console.error("after the response:", e)));
 
 /** A form's or a booking's page in the site's own layout. */
 const Shell = ({ children }: { children?: Child }) => <section class="mx-auto max-w-xl px-4 py-12">{children}</section>;
@@ -148,14 +137,13 @@ business.route(
       if (!id) return;
       const sent = await confirmFormBooking(getDb(c), id, emailSender(envOf(c)), { domain: DOMAIN, manageBase: BOOK });
       if (sent.status === "failed") throw new Error(`booking confirmation for submission ${id}: ${sent.error}`);
-      later(c, onSubmitted(phoneCtx(c), id, { send: false }));
     },
   }),
 );
 
 // A follow-up email's unsubscribe link (the CRM's job sends the emails, with links on this site).
 business.use("/unsubscribe", needsDb);
-business.route("/", unsubscribeRoutes(getDb, { business: site.name, page: async (c, title, body) => String(await page(c.req.path, title, body)) }));
+business.route("/", unsubscribeRoutes(getDb, { page: async (c, title, body) => String(await page(c.req.path, title, body)) }));
 
 // Forms, with the booking and payment steps a form may have.
 business.use("/forms/*", needsDb);
@@ -168,10 +156,9 @@ business.route(
       booking: bookingStep(getDb, { source: SOURCE }),
       payment: paymentStep(getDb, (c) => stripeFrom(envOf(c)), { source: SOURCE }),
     },
-    // A booking in a form is confirmed when the whole form is done; then its text is scheduled (Booked, or the thank-you).
+    // A booking in a form is confirmed when the whole form is done.
     onComplete: (c, id) => {
-      later(c, confirmFormBooking(getDb(c), id, emailSender(envOf(c)), { domain: DOMAIN, manageBase: BOOK ?? new URL("/book", c.req.url).href })
-        .then(() => onSubmitted(phoneCtx(c), id, { send: false })));
+      later(c, confirmFormBooking(getDb(c), id, emailSender(envOf(c)), { domain: DOMAIN, manageBase: BOOK ?? new URL("/book", c.req.url).href }));
     },
     textConsent: consentHere("request"),
   }),
@@ -192,24 +179,10 @@ business.route(
         <Shell>{children}</Shell>
       </Layout>
     ),
-    onBooked: async (c, e) => {
-      await filed((ev) => `/book/${ev.type.slug}`)(c, e);
-      later(c, textBooked(phoneCtx(c), e, { send: false }));
-    },
+    onBooked: filed((ev) => `/book/${ev.type.slug}`),
     textConsent: consentHere("booking"),
-    // A text's booking link fills in who it is for, and joins the booking to their lead.
-    prefill: async (c, key) => {
-      const k = await bookingKey(getDb(c), key).catch(() => null);
-      return k ? { name: k.name, email: k.email, phone: k.phone, leadId: k.lead_id } : null;
-    },
   }),
 );
-
-// A text's short link (the phone skill's): /t/<code> to the page it stands for, on this site.
-business.get("/t/:code", needsDb, async (c) => {
-  const to = await followShort(getDb(c), c.req.param("code")).catch(() => null);
-  return to && to.startsWith("/") && !to.startsWith("//") ? c.redirect(to, 302) : c.notFound();
-});
 
 // The team's side, private: Task & Tool lets only the team reach /admin
 // (add-private-path, which setup.sh declares) and teamOnly answers 404 to
