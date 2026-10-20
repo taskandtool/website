@@ -2,8 +2,7 @@
 
 The cutover is the moment the owner's domain starts serving this site, and,
 when they had one, stops serving their old site. Done when the domain serves
-this site, email still works, every old address still answers, and the
-weekly audit is set up.
+this site, email still works, and every old address still answers.
 
 ## Before deploying
 
@@ -29,27 +28,29 @@ straight to one; show the owner what moved where, as a table.
    tt-crawl check https://theirdomain.com
    ```
 
-5. Set up the weekly audit as a team-only **scheduled job**, and tell the
-   owner what it checks and that they can see or remove it on the app's
-   Jobs tab. It exits non-zero on any finding, which alerts the owner;
-   `raw/audit/_latest.json` names the report, and the chat offers "Fix the
-   site audit issues":
+5. Offer a regular site audit, weekly or monthly, as a team-only
+   **scheduled job**. How often, and whether it runs at all, is the
+   owner's: they change or remove it on the app's Jobs tab. A run that
+   finds anything exits 1, which puts a note in the app's chat and its
+   activity (once, until a run passes again); `raw/audit/_latest.json`
+   names the latest report. Weekly, Mondays at 07:00 UTC:
 
    ```bash
-   python3 ~/tools/taskandtool.py schedule-job weekly-site-audit --when "0 7 * * 1" \
-     --command "tt-crawl audit https://theirdomain.com --inventory raw/site/<host>/_index/inventory.json" --team-only
+   python3 ~/tools/taskandtool.py schedule-job site-audit --when "0 7 * * 1" \
+     --command "tt-crawl audit https://theirdomain.com" --team-only
    ```
 
    `tt-crawl audit` crawls production for broken links, missing titles and
-   h1s, redirect chains and sitemap drift, and with `--inventory` the old
-   site's addresses too (leave it off when there was no old site).
+   h1s, redirect chains and sitemap drift. After a move from an old site,
+   `--inventory raw/site/<host>/_index/inventory.json` checks the old
+   addresses too; suggest it for the first weeks.
 
 ## Telling the owner
 
 In plain words: how many old addresses still work, how many redirect,
 anything missing and what you did about it, and that rankings usually
-settle within two to four weeks after a clean move. When the weekly audit
-alerts them, read the latest report, fix what is in the site's control (a
+settle within a few weeks after a clean move. When the audit alerts
+them, read the latest report, fix what is in the site's control (a
 broken internal link, a missing description, a page that lost its h1),
 tell the owner about what is not (a partner's site that went away), and
 offer to deploy the fix.

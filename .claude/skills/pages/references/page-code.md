@@ -20,6 +20,6 @@ the next turn can change them safely.
 
 - Logic stays small: a `.map()` over a list, a condition around a block.
   Anything bigger belongs in `src/content.ts`, typed, where `npm run
-  typecheck` checks it.
+  check:code` checks it.
 - JSX escapes text by default. `raw()` is only for markup the site
   generates itself (JSON-LD, a post's rendered markdown).

@@ -2,8 +2,7 @@
 
 `posts/*.md` is the collection; one file per post, rendered by
 `src/pages/blog.tsx` into `/blog/<slug>` and listed at `/blog`, all
-pre-rendered at build. `npm run content` regenerates it (the dev loop does
-this on its own when a file changes).
+pre-rendered at build.
 
 ```markdown
 ---
@@ -27,6 +26,5 @@ Keep the words, edited only through the writing skill's passes, and keep
 the date. The `/blog` index appears automatically once a post exists; add it
 to the nav in `src/site.ts` when the business wants it there.
 
-Writing a new post: read the `writing` skill and `brand/voice.md` first;
-write a description that reads as the snippet; use a real photo when there
-is one.
+Writing a new post: the `writing` skill first; a description that reads as
+the search snippet; a real photo when there is one.

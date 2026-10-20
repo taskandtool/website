@@ -41,8 +41,8 @@ to tend: say so plainly. Then build or improve those pages.
 
 ## Search Console
 
-Once the site has a Search Console connection, check its key pages with the URL Inspection
-API (the Page indexing report, once called Coverage, is not in the API: ask
-the owner to read it) and fix any page left out of the index for a reason
+Once the site has a Search Console connection, check its key pages with
+the URL Inspection API (the Page indexing report is not in the API: ask the
+owner to read it) and fix any page left out of the index for a reason
 the site controls: not found, a redirect error, or blocked by `robots.txt`
 or `noindex`.

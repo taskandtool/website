@@ -65,17 +65,20 @@ because the footer and the shared components use it.
 
 1. **Every value comes from the homepage the owner liked.** Read
    `src/pages/home.tsx` and the record's tokens: the colours, sizes, radii
-   and spacings the page uses stay; a token it never uses goes.
-2. **Every rule carries its reason.** One rule per reason. "Don't use shadows" is a preference; "Don't use shadows:
-   depth here is the two paper tones, and a shadow reads as a third surface
-   the system does not have" lets the next page apply it to a case you did
-   not foresee.
+   and spacings the page uses stay; a token it never uses goes, except the
+   roles above.
+2. **Every rule carries its reason** (`npm run system` refuses a do or
+   don't without its `why`). "Don't use shadows" is a preference; "Don't
+   use shadows: depth here is the two paper tones, and a shadow reads as a
+   third surface the system does not have" lets the next page apply it to a
+   case you did not foresee.
 3. **Colour has relief, and text is neutral.** A dark or saturated ground
    runs about half the bands at most; at least one band sits on the opposite
    value. Text on a coloured ground is the neutral, or a deep shade of the
    ground's hue at 7:1 that reads as ink, never a mid tint of the same
    family. The accent is a fill on a dark or coloured ground, never text
-   there. `npm run check:design` hints at all three.
+   there. `npm run check:design` hints at the first two (`dark-bands`,
+   `same-hue-text`).
 4. **The head is a shot list.** `x_layout.head.statement` says the media it
    needs (subject, orientation, where the subject sits, room left for the
    words), where the words go and how they stay readable, and the fallback

@@ -1,7 +1,5 @@
 # Media, interactivity, data, and hosting
 
-The parts of the website skill a page change rarely needs.
-
 ## From an HTML page to a page here
 
 A page designed as plain HTML (one the owner hands over) becomes a page
@@ -16,9 +14,9 @@ here in five mechanical steps:
 4. Repeated blocks with facts in them (services, reviews, FAQ) become a
    `.map()` over `content`, or the matching section from
    `src/components/facts.tsx`, so each fact lives once, in its note.
-5. Classes stay as they are when they use the site's tokens. Run `npm run
-   check:design`; a class the theme does not have is its finding to fix,
-   not something to add a token for silently.
+5. Classes stay as they are when they use the site's tokens. `npm run
+   check:design` names any other: map it to a token, or add the value to
+   `design/system.yaml` and say so.
 
 ## Images and media
 
@@ -29,9 +27,9 @@ here in five mechanical steps:
 - Video: muted h264 mp4 (plus webm). Read it with `ffprobe` first; for a
   background loop, trim it and drop the audio, and re-encode only a heavy
   file, keeping the source's resolution and a quality that stays sharp at
-  full width (look at it). A loop of 10 to 20 MB is fine. Cloudflare serves each static
-  file up to 25 MB, so a longer film embeds from the owner's platform.
-  Keep files over 100 MB out of git (`.gitignore`).
+  full width (look at it). A loop of 10 to 20 MB is fine. Cloudflare serves
+  each static file up to 25 MB, so a longer film embeds from the owner's
+  platform (YouTube, Vimeo).
 
 ## Interactivity, forms, and data
 
@@ -39,30 +37,18 @@ here in five mechanical steps:
   JavaScript in `static/js/`, or Alpine.js from a CDN `<script>` in the
   layout. Server round-trips (a filter, a search) can use htmx the same way.
   No client framework unless a view needs one.
-- Forms, the private side and data the project's other apps share come
-  from the business skills beside this one, on `data` (the database
-  handle, settings, email, spam checks). `forms` (any form a visitor sends,
-  stored in `submissions`, where a CRM finds them; an order or a booking
-  is a form with steps), `booking`, `payments`, `customers` (the people
-  who got in touch and their notes, the rows the CRM shows) and `admin`
-  (the private `/admin`, kept for the team by setup) are already here: their code is in
-  `src/<skill>/` and `src/business.tsx` mounts it. `reports` (charts and
-  report pages) is copied into `src/reports/` as its skill says when the
-  site needs it, its tests with it. Here the handle is
-  `fromNeon(envVar(c, "DATABASE_URL"))`, since production runs on the Neon
-  HTTP driver. Where a skill asks for the business's time zone, pass
-  `site.timeZone` (`src/site.ts`, from the business note's `time_zone`).
-  Another private view on a public site is kept for the team with
-  `python3 ~/tools/taskandtool.py add-private-path <path>`. If the app has
-  no database, `python3 ~/tools/taskandtool.py request-capability postgres`
-  asks the owner for one.
+- Forms, bookings, payments, customers and the private `/admin` are
+  already here, from the business skills beside this one (all on `data`):
+  their code is in `src/<skill>/`, mounted by `src/business.tsx`. `reports`
+  is copied into `src/reports/` when the site needs it, as its skill says.
+  Where a skill asks for the business's time zone, pass `site.timeZone`
+  (`src/site.ts`, from the business note's `time_zone`).
 - Dynamic routes go in `src/app.tsx` below the page loop; they run in the
   Worker, so `npm run check:code` flags a Node import.
-- Sending email needs a sender the owner connects (Resend or Postmark,
-  through the platform's `connections` skill); Task & Tool sends none.
-  `data`'s `send.ts` uses it. Without one, the submission is stored and the
-  owner sees it in `/admin` or the CRM, and `/admin` says email is off.
-  Say which the site does.
+- Email goes through `data`'s `send.ts`: a notice to the team can go by
+  Task & Tool email, and anything to a customer needs a sender the owner
+  connects (Resend or Postmark). Without one, a submission is still stored
+  for `/admin` and the CRM. Tell the owner which the site does.
 
 ## Off the platform
 

@@ -19,7 +19,7 @@ Which skill to read, by what the owner asks:
 - "migrate", "move", "clone" or "rebuild" a site they have, keeping its pages
   and URLs: `migrate-site`
 - "is it ready to go live": the website skill's checklist before each
-  deploy; going live on their domain and the weekly audit: its
+  deploy; going live on their domain and the site audit: its
   `references/launch.md`
 - a form, an order, a booking page, payments, `/admin`, customers' notes,
   a report or chart: `forms`, `booking`, `payments`, `admin`, `customers`,
@@ -56,9 +56,9 @@ npm run deploy               # production, only when the owner asks (the website
 Each one with options takes `--help`. While working, check what you
 changed, naming its pages: words, `check:copy`; the look, `check:design`,
 then the design skill's review gate; notes, `check:facts`; code, `check:code`.
-Before showing work or committing: `npm run check`, `npm run shots`, then
-`npm run show`. A small edit is fixed at its source (the note, the brief or
-the page).
+Before committing or showing work: `npm run check` and `npm run shots`;
+`npm run show` sends the result. A small edit is fixed at its source (the
+note, the brief or the page).
 
 ## Where things are
 

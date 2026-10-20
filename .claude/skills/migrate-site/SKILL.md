@@ -33,7 +33,7 @@ hit, forms and embeds, and the tracking IDs.
 ## 2. Facts and brand (the `brand` skill)
 
 Every note in `public/` and `brand/`, from the crawl, with the `brand`
-skill; legal text verbatim into `legal/` with `path` and `title`. Then
+skill; legal text verbatim into `legal/` with `path`, `title` and `updated`. Then
 apply the brand (`BRAND.md`, "What the AI sets from them") and copy the
 tracking IDs into `src/site.ts`. `npm run check:facts` names a brand note that is
 missing or a fact note that does not read.

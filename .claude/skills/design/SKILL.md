@@ -6,8 +6,9 @@ description: "Designs this website's look: the first screen, the design system r
 # Design
 
 The look is one record, `design/system.yaml`, compiled by `npm run system`
-into `styles/theme.css`, `DESIGN.md` and `src/fonts.ts`; the compile refuses a broken record. The starter's record is a working default:
-read `DESIGN.md`, then make it this business's.
+into `styles/theme.css`, `DESIGN.md` and `src/fonts.ts`; it refuses a
+broken record. The starter's record is a working default: read `DESIGN.md`,
+then make it this business's.
 
 ## Making it theirs
 
@@ -20,15 +21,15 @@ read `DESIGN.md`, then make it this business's.
   (`RatingLine`, `ReviewsSection`, `LogosSection`…) stay, restyled.
 - **A site the owner mentioned** liking or wanting to use: take its shape
   (`tt-crawl reference <url>` captures its look), never its words, pictures
-  or logo. Otherwise borrow from the library record that suits them:
+  or logo; when they ask for a copy of a design, copy it. Otherwise borrow
+  from the library record that suits them:
   `references/library.md` lists who each suits, its look and its preview,
   and how to show the owner a few.
 
 Done when the first screen is their best photograph at full width with the
 promise and one action (`Hero`), all their proof is on the page (`npm run
-check:facts`), a stranger could tell whose site it is, and the review gate below
-finds nothing left to fix. When the owner asks for a copy of an existing
-design, copy it.
+check:facts`), a stranger could tell whose site it is, and the review gate
+below finds nothing left to fix.
 
 ## When the site grows
 
