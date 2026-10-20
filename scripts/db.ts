@@ -1,7 +1,7 @@
 // The project database's tables for this site's forms, bookings, payments and customers
 // (and the data skill's: the business, email opt-outs):
-// the skills' schema.sql files through applySchema (additive only, safe to
-// re-run, behind the lock every app on the project shares). Machine only.
+// the skills' schema.sql files through applySchema (safe to re-run, behind
+// the lock every app on the project shares). Machine only.
 //
 //   npm run db:setup        `npm run dev` runs it before the server starts; `npm run deploy` before the build
 //
