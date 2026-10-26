@@ -13,6 +13,10 @@ words before the layout, so the design fits them.
 - **Each section answers its reader's question in its first line,** and the
   headline says what the business does, plainly enough for a stranger to
   repeat.
+- **A heading is one plain sentence or a plain label,** never fragments
+  joined by a comma or a colon: "Fall cleanup in Larkfield starts at $90.",
+  not "Fall cleanup in Larkfield, from $90."; "What each job costs", not
+  "What we do, and what it costs". A list's commas are fine.
 - **Specific beats general:** a real number, place, step or name from the
   notes, and the words customers use in their reviews.
 - **Others' words** stay exactly as written, in a `<blockquote>` (the check
