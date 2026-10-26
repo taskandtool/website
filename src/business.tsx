@@ -22,6 +22,7 @@ import { bookingPages } from "./booking/public";
 import { envOf, envVar } from "./data/env";
 import type { Db } from "./data/db";
 import { fromNeon } from "./data/neon";
+import { pushAfterWrites } from "./booking/sync";
 import { afterResponse, sendEmail } from "./data/send";
 import { formsAdmin } from "./forms/admin";
 import { formRoutes } from "./forms/routes";
@@ -121,6 +122,11 @@ const Shell = ({ children }: { children?: Child }) => <section class="mx-auto ma
 const page = (path: string, title: string, body: Child) => render({ path, title, description: title }, <Shell>{body}</Shell>);
 
 const business = new Hono();
+
+// A booking any write here changed reaches its calendar after the response,
+// when the owner has granted this site the calendar's connection; otherwise
+// the CRM's calendar sync takes it (booking/jobs.ts).
+business.use("*", pushAfterWrites((c) => (hasDb(c) ? { db: getDb(c) } : null)));
 
 // Stripe's events: the only thing that marks a payment paid. Each app that
 // takes payments has its own endpoint (stripe_events dedupes an event two

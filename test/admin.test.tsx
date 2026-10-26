@@ -133,7 +133,7 @@ test("a booking at /book emails its host through Task & Tool email, and the subm
       base: "/book", domain: "acme.com", css: "/site.css", source: "website",
       onBooked: filed((e) => `/book/${e.type.slug}`, () => s.db),
     }));
-    const env = { TASKANDTOOL_EMAIL_API_KEY: "ttk_test", TASKANDTOOL_API_URL: "https://tt.example" };
+    const env = { PHOENIX_URL: "https://tt.example", MACHINE_TOKEN: "mt" };
     const html = await (await app.request("/book/intro?tz=UTC", {}, env)).text();
     const link = /href="(\/book\/intro\/confirm\?start=[^"]+)"/.exec(html)![1].replace(/&amp;/g, "&");
     const start = new URL(link, "http://x").searchParams.get("start")!;
@@ -147,7 +147,7 @@ test("a booking at /book emails its host through Task & Tool email, and the subm
       notified = (await s.db.sql`select notified from submissions`)[0]?.notified ?? null;
     }
     assert.equal(notified, "Emailed pat@example.com");
-    const host = sent.find((m) => m.url === "https://tt.example/api/email/emails")!;
+    const host = sent.find((m) => m.url === "https://tt.example/api/machine/gateway/taskandtool-email/emails")!;
     assert.deepEqual(host.body.to, ["pat@example.com"]);
     assert.match(host.body.subject, /New booking: Intro call with Ann/);
     assert.equal(sent.length, 1, "the booker's confirmation needs Resend or Postmark: it never reached Task & Tool");
