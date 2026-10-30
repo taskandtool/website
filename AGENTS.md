@@ -44,7 +44,8 @@ npm run images -- <file>...  # photos into static/images/ at web size (<=3000px,
 npm run check [-- /path]     # is anything wrong: builds, then checks every area and lists every finding at once
 npm run check:<area>         # one area: copy (the words), design (the look), seo (search and readers),
                              # facts (the notes, the proof), code (TypeScript, tests, build)
-npm run shots [-- /path]     # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page), to look at;
+npm run shots [-- /path|url] # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page; a full
+                             # address, production too, opens as the person you work for sees it), to look at;
                              # prints which image to read first
 npm run show                 # each page whole, one image per width, sent to the chat (what shots took; --retake after a change)
 npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change

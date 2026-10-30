@@ -10,7 +10,7 @@
   "compatibility_date": "2026-08-01",
   "assets": {
     "directory": "./dist",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    // No not_found_handling: a page with no file must reach the Worker.
+    "html_handling": "auto-trailing-slash"
   }
 }
