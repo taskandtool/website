@@ -1,4 +1,4 @@
-# Tally — the lead-generation arm. Studied from contractor quote pages that
+# Tally: the lead-generation arm. Studied from contractor quote pages that
 # convert: checked claims that scan at a glance, photographs of the work, cards
 # and tap tiles, and proof shown with the marks of whoever gave it.
 # The one idea: every rating, review and certification carries its source's own
@@ -354,7 +354,7 @@ x_motion:
 
 x_layout:
   measure:
-    reading: "50–60ch, never over 60 — {typography.copy}, {typography.lede} for a lead line"
+    reading: "50–60ch, never over 60, in {typography.copy}, {typography.lede} for a lead line"
     caption: "the width of the photograph above it; {typography.caption} {colors.ink-muted}"
   grid:
     columns: 12
@@ -367,7 +367,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md} between rows and cards"
     element: "{spacing.step-xs} title to line; {spacing.step-sm} between checked lines"
-    separator: "surface — bands alternate {colors.canvas} and {colors.panel}, with {colors.night} for the closing band only; inside a band, rows open on a 1px {colors.line} top rule; no hairline between bands of the same ground — change the ground instead"
+    separator: "surface: bands alternate {colors.canvas} and {colors.panel}, with {colors.night} for the closing band only; inside a band, rows open on a 1px {colors.line} top rule; no hairline between bands of the same ground; change the ground instead"
   registers:
     persuasion:
       head: statement
@@ -392,7 +392,7 @@ x_layout:
     table:
       as: "table on the band's ground"
       look: "column heads in {typography.caption} {colors.ink-muted}, row heads in {typography.label} {colors.ink}, values in {typography.copy} and numbers with tabular numerals, a 1px {colors.line} rule between rows; the row that matters may take {colors.panel}; on a {colors.panel} band the table sits in a {colors.canvas} card at {rounded.card}"
-      counts: "2–8 rows: across 7 beside a card, or 12. 9–30: across 12. 30+: one table per group under {typography.heading-sm} heads. 3+ columns below 768px: each row becomes a {colors.canvas} card — row head in {typography.label}, the other columns as caption label/value pairs — never a sideways scroll."
+      counts: "2–8 rows: across 7 beside a card, or 12. 9–30: across 12. 30+: one table per group under {typography.heading-sm} heads. 3+ columns below 768px: each row becomes a {colors.canvas} card (row head in {typography.label}, the other columns as caption label/value pairs), never a sideways scroll."
     facts:
       as: "a grid of cells, each on a 1px {colors.line} top rule"
       look: "the key in {typography.label} {colors.ink}, the value in {typography.copy} {colors.ink-muted}; a phone number or address that is tapped is a link in {colors.ink}, underlined, 48px tall"
@@ -428,7 +428,7 @@ x_layout:
     form:
       as: "a card; stepped when it asks choices"
       look: "a {colors.canvas} card at {rounded.card} with a 1px {colors.line} border and {spacing.step-md}–{spacing.step-lg} padding. Stepped: 'Step n of m' in {typography.caption} {colors.ink-muted} over a {colors.line} progress track with a {colors.primary} fill, one question per step in {typography.heading-sm}, answers as {colors.panel} tiles at {rounded.tight}, 2-up, 56px tall, in {typography.label}; a tap advances; Back is a text button. Text fields: a label in {typography.label} above, the input {colors.canvas} with a 1px {colors.line} border at {rounded.tight}, 48px tall. The submit is button-primary, full width, 56px tall; a reassurance line in {typography.caption} {colors.ink-muted} centred beneath."
-      counts: "1–3 fields: one step, no track. 4+ fields with choices: stepped — choices first, one per step, the text fields together on the last step. 2–4 choices: 2-up tiles; 5–6: 2-up in three rows; 7+: a select. Placement: the right 5 of a 7/5 split, sticky beside a long list; alone, 6 columns; below 768px full width, following the text."
+      counts: "1–3 fields: one step, no track. 4+ fields with choices: stepped, choices first, one per step, the text fields together on the last step. 2–4 choices: 2-up tiles; 5–6: 2-up in three rows; 7+: a select. Placement: the right 5 of a 7/5 split, sticky beside a long list; alone, 6 columns; below 768px full width, following the text."
     index:
       as: "a grid of rows or cards"
       look: "the title as the link in {typography.heading-sm} {colors.ink}, one line in {typography.copy} {colors.ink-muted}, a date in {typography.caption}; each on a 1px {colors.line} top rule, or as a {colors.canvas} card at {rounded.card} with its photograph when entries have one"
@@ -437,9 +437,9 @@ x_layout:
   focal: "Each band leads with its heading in {typography.section} ({typography.heading-lg} on a phone), left-aligned. The check marks are the next thing the eye finds; in a proof band, the platform marks in colour, the figures in {typography.tally} and the stars. The {colors.primary} button is the one strong colour on screen; a form's progress fill is the only other place it appears."
   never:
     - "a rating or review without its source's mark, or proof on {colors.night}: the mark in colour is how the reader knows whose it is"
-    - "a pill, or a radius other than {rounded.tight} and {rounded.card} — the two radii tell pressed things from containers"
-    - "text over a photograph, or a photograph faded into a colour — the head's photograph is a strip beneath the words"
-    - "claims as running paragraphs — the check is the unit of scanning"
-    - "photographs four across, or a 3 + 1 row — an orphan reads as a leftover"
-    - "logo marks on {colors.night} — they are drawn for white, and on dark they need chips and look like stickers"
-    - "a shadow or a gradient — depth is the light/dark band split"
+    - "a pill, or a radius other than {rounded.tight} and {rounded.card}; the two radii tell pressed things from containers"
+    - "text over a photograph, or a photograph faded into a colour; the head's photograph is a strip beneath the words"
+    - "claims as running paragraphs; the check is the unit of scanning"
+    - "photographs four across, or a 3 + 1 row; an orphan reads as a leftover"
+    - "logo marks on {colors.night}; they are drawn for white, and on dark they need chips and look like stickers"
+    - "a shadow or a gradient; depth is the light/dark band split"

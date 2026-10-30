@@ -1,4 +1,4 @@
-# quiet — the minimal arm. Everything the other systems add, this one
+# quiet: the minimal arm. Everything the other systems add, this one
 # leaves out: no second colour, no second typeface, no rules, no surfaces, no
 # shadows, no radii, no motion. One weight change. The photograph is the page;
 # the type is its caption.
@@ -326,7 +326,7 @@ x_motion:
 
 x_layout:
   measure:
-    reading: "50–62ch in {typography.copy} — five columns of the grid, never wider"
+    reading: "50–62ch in {typography.copy}, five columns of the grid, never wider"
     caption: "one line, rarely two, at the width of the image above it, in {typography.caption}"
   grid:
     columns: 12
@@ -339,7 +339,7 @@ x_layout:
     group: "{spacing.step-lg}"
     item: "{spacing.step-md} between items; {spacing.step-sm} between paragraphs"
     element: "{spacing.step-sm} image to caption; {spacing.step-xs} label to input"
-    separator: "space — empty {colors.paper} is the only divider; no rule, band or surface ever separates two bands"
+    separator: "space: empty {colors.paper} is the only divider; no rule, band or surface ever separates two bands"
   registers:
     persuasion:
       head: statement
@@ -408,9 +408,9 @@ x_layout:
   close: "No band: the same {colors.paper}, {spacing.step-xxl} → {spacing.step-xl} of empty space above it and below it. The words take columns 7–11 (stacked full width below 768px): the heading in {typography.section} {colors.ink}, one {typography.copy} {colors.ink} line {spacing.step-sm} below, the phone number {spacing.step-md} lower as an underlined {typography.section} {colors.ink} link, and the action {spacing.step-sm} beneath it as an underlined {typography.copy} link. Then the footer, on {colors.paper} with no rule."
   focal: "In persuasion a band is led by its photograph and the words step down beside it at caption scale; in retrieval and reading the words lead and the photograph follows. Size is the only ladder: {typography.figure} once, then {typography.display}, {typography.section}, {typography.lede}, {typography.copy}, {typography.caption}"
   never:
-    - "a photograph above the plain head — the reader of a retrieval page came for the words, and a picture first pushes them off the first screen"
-    - "the same photograph-then-band skeleton on every page — the statement head is for persuasion only"
-    - "text in the centre columns or across the full width — the offset column is the identity"
-    - "a rule, tint or surface to separate bands — distance is the only divider"
-    - "two photographs side by side at equal size, or a thumbnail grid — the photograph is the largest thing in its row"
-    - "a contact value or name set in {typography.figure} — the figure is for one statistic"
+    - "a photograph above the plain head; the reader of a retrieval page came for the words, and a picture first pushes them off the first screen"
+    - "the same photograph-then-band skeleton on every page; the statement head is for persuasion only"
+    - "text in the centre columns or across the full width; the offset column is the identity"
+    - "a rule, tint or surface to separate bands; distance is the only divider"
+    - "two photographs side by side at equal size, or a thumbnail grid; the photograph is the largest thing in its row"
+    - "a contact value or name set in {typography.figure}; the figure is for one statistic"

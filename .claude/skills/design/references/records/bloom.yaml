@@ -306,7 +306,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md}"
     element: "{spacing.step-sm}"
-    separator: "surface — bands alternate {colors.white} and {colors.petal}; the one {colors.rose} band repeats the ask near the end; the footer is {colors.plum}; never a rule between bands"
+    separator: "surface: bands alternate {colors.white} and {colors.petal}; the one {colors.rose} band repeats the ask near the end; the footer is {colors.plum}; never a rule between bands"
   registers:
     persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; generous air" }
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the schedule or prices start on the first screen" }

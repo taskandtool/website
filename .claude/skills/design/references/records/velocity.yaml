@@ -142,7 +142,7 @@ sections:
     grey surface anywhere; a grey band would be a fourth surface and the
     system has three.
 
-    With the brand's own colour: a brand colour becomes the flood — whole bands, the actions, and every figure on white — so it must be a saturated mid-to-dark hue that carries {colors.white} text at 4.5:1 and whose white text still clears 4.5:1; a pale, muted or near-black brand colour cannot flood and the system keeps ultramarine.
+    With the brand's own colour: a brand colour becomes the flood (whole bands, the actions, and every figure on white), so it must be a saturated mid-to-dark hue that carries {colors.white} text at 4.5:1 and whose white text still clears 4.5:1; a pale, muted or near-black brand colour cannot flood and the system keeps ultramarine.
   typography: >
     Two families from one superfamily. Barlow Condensed at 800 for every
     numeral and headline, at 700 for actions and small headings, and at 600
@@ -395,7 +395,7 @@ x_emphasis:
 # and the mode, the brief fills them, this says how each shape sits on the board.
 x_layout:
   measure:
-    reading: "56–64ch — {typography.lede} on {colors.primary} or {colors.black}, {typography.copy} on {colors.white}; running text past three paragraphs is {typography.copy} on white"
+    reading: "56–64ch: {typography.lede} on {colors.primary} or {colors.black}, {typography.copy} on {colors.white}; running text past three paragraphs is {typography.copy} on white"
     caption: "under 48ch, {typography.caption} ({typography.label} when it names a figure)"
   grid:
     columns: 12
@@ -408,10 +408,10 @@ x_layout:
     group: "{spacing.step-xl} → {spacing.step-lg}"
     item: "{spacing.step-md}"
     element: "{spacing.step-sm}"
-    separator: "surface — each band changes ground among {colors.primary}, {colors.white} and {colors.black}, edge to edge; inside a band, rows split on a 1px rule ({colors.line} on white, {colors.white} on flood, {colors.graphite} on black); one band edge per page is cut at 3 degrees"
+    separator: "surface: each band changes ground among {colors.primary}, {colors.white} and {colors.black}, edge to edge; inside a band, rows split on a 1px rule ({colors.line} on white, {colors.white} on flood, {colors.graphite} on black); one band edge per page is cut at 3 degrees"
   registers:
     persuasion: { head: statement, type: "{typography.display} italic head, {typography.figure-xl} for the page's one figure, {typography.figure-lg} for one figure per band, {typography.section} band headings, {typography.lede}", rhythm: "{spacing.step-xxl} band padding; surfaces alternate; a figure crosses its band's photograph; the slanted edge on the exit from the head; the rise on every band" }
-    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads and row names, {typography.copy} rows, {typography.label} keys and table heads", rhythm: "one step denser: {spacing.step-xl} band padding, {spacing.step-sm} rows; fewer, longer bands — tables on black, facts on white; a figure only where a number is the answer; no overlap, no slant" }
+    retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads and row names, {typography.copy} rows, {typography.label} keys and table heads", rhythm: "one step denser: {spacing.step-xl} band padding, {spacing.step-sm} rows; fewer, longer bands, tables on black, facts on white; a figure only where a number is the answer; no overlap, no slant" }
     reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading on white, {typography.title} subheads, {typography.caption} for sources", rhythm: "one white band, one column at measure.reading from column 1; a photograph the text refers to breaks out to 8 columns; the rise on the head band only, no ticker" }
   head:
     statement: "Full viewport width, at least 720px tall (80vh on a phone): one action photograph, the sharpest the brand has, of a person mid-effort (a punch, a lift, a sprint) with the subject on one side of the frame and the other side free (brand/images.md gives the focal point), object-cover, square edges, no filter. Over the free side, a solid {colors.primary} block, no fade and no transparency, covering about 45% of the width and running off the edge, its inner edge a steep diagonal (a skew-x-12 parallelogram, the content inside un-skewed), so the subject is never covered. On the block: the headline in {typography.display} {colors.white} italic uppercase, four lines at most ({typography.section} below 1024px), the lead in {typography.lede} {colors.white}, then the parallelogram action in white with {colors.primary} text. The one figure (an offer's price, a count) may cross the block's diagonal onto the photograph in {typography.figure-xl} {colors.white}. A ticker band on {colors.black} runs directly under the head when the brief gives short items. With the subject centred, the block becomes a diagonal band across the lower third instead. No action photograph: a {colors.primary} band with the headline in {typography.display} {colors.white} italic uppercase on 8 columns and the lead and action on the 4 beside it, and the one figure alone at {typography.figure-xl} beside the headline, the band exiting through the 3-degree slant."
@@ -447,9 +447,9 @@ x_layout:
       look: "the photograph on 7 at 16/9, caption below it; text on 5 bottom-aligned; when the band has a figure, it sits on the 5 and crosses the photograph's near edge"
       counts: "1: 7/5. Several: the photograph flips side band to band and the surface alternates. A 1/1 photograph takes 5, with text on 7. Below 1024px the figure sits in flow above the photograph."
     gallery:
-      as: "stack of full-width images and unequal overlapping pairs — never a grid"
+      as: "stack of full-width images and unequal overlapping pairs, never a grid"
       look: "hard-cropped, no border, caption below each in {typography.caption}; in a pair, the smaller image overlaps the larger's lower corner, the only layering the system has"
-      counts: "1: 12 columns at 3/1 or 16/9. 2: an unequal pair — the first at 12 and 16/9, the second on 7 columns offset to the right and overlapping its lower edge by {spacing.step-xl}. 3: the pair, then one at 12 and 3/1. 4: two pairs, the smaller image on the right then the left. 5–8: pairs in turn, an odd last image at 12 and 3/1. 9+: the same, split across two bands of different surface. Never equal thumbnails side by side."
+      counts: "1: 12 columns at 3/1 or 16/9. 2: an unequal pair, the first at 12 and 16/9, the second on 7 columns offset to the right and overlapping its lower edge by {spacing.step-xl}. 3: the pair, then one at 12 and 3/1. 4: two pairs, the smaller image on the right then the left. 5–8: pairs in turn, an odd last image at 12 and 3/1. 9+: the same, split across two bands of different surface. Never equal thumbnails side by side."
     quote:
       as: "reviews on a {colors.white} band; one pull quote may be a {colors.black} block"
       look: "each review a {colors.white} block with a 2px {colors.black} top rule, square: the platform's square mark in colour (24px) and the review's stars as star graphics on one line, the quote in {typography.title} upright, the name and date in {typography.caption} {colors.graphite}. A single pull quote (the club's own words) may sit in a {colors.black} block in {typography.section} uppercase, attribution in {colors.smoke}"
@@ -468,10 +468,10 @@ x_layout:
       counts: "1–6: rows on 8 columns. 7+: rows at 12 in two columns split at the midpoint. With images: each row a 1/1 image on 3 columns beside its text, images stacked down the page, never side by side."
   focal: "A band with a figure leads with it, larger than its headline; without one the headline leads in {typography.section}; then the photograph, then prose, then labels. One lead per band, and at most one figure."
   never:
-    - "Sit a figure politely in its own column when its band has a photograph — it crosses the photograph's edge."
-    - "Run a ticker because the system has one — only a list of short items runs as a ticker, and its items never wrap to two lines."
+    - "Sit a figure politely in its own column when its band has a photograph; it crosses the photograph's edge."
+    - "Run a ticker because the system has one. Only a list of short items runs as a ticker, and its items never wrap to two lines."
     - "Put two photographs side by side at equal size, or a grid of equal thumbnails."
-    - "Contain a band as a box on a grey or tinted page — every band is full-bleed."
+    - "Contain a band as a box on a grey or tinted page; every band is full-bleed."
     - "Cut more than one band edge on the slant."
     - "Put a figure or a photograph in a plain head."
-    - "Keep the overlap below 1024px — the figure drops into flow above the photograph."
+    - "Keep the overlap below 1024px; the figure drops into flow above the photograph."

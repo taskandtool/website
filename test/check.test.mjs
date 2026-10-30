@@ -62,7 +62,7 @@ test("a class of the site's own in styles/ is a design error; the starter's are 
 });
 
 test("each finding names its area: search, copy, design", () => {
-  const out = said(check(`<img src="/images/b.jpg"><p>We offer unparalleled, world-class quality — always.</p>`));
+  const out = said(check(`<img src="/images/b.jpg"><p>We offer unparalleled, world-class quality — always.</p>`)); // tropes-allow
   assert.match(out, /error seo img-alt/);
   assert.match(out, /error copy em-dash/);
   assert.match(said(check("<footer><p>Original shop powered by <a href=\"https://squarespace.com\">Squarespace</a></p></footer>")), /error copy old-builder "powered by Squarespace" is the old site's builder credit/);

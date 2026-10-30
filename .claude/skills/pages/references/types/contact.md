@@ -63,7 +63,7 @@ route and how quickly someone replies.
 </industry>
 
 <variant name="sent" label="after a form is sent" mode="retrieval">
-The page a reader lands on after sending a form. It says the message arrived, who will reply and
+The page a reader sees after sending a form. It says the message arrived, who will reply and
 how soon when the brand says, the phone number for anything urgent, and one route back into the site.
 Nothing else: no second form, no pitch.
 </variant>

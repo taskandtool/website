@@ -76,6 +76,11 @@ if (areas.includes("code")) {
   const names = [...new Set([...tests.out.matchAll(/^\s*not ok \d+ - (.+)$/gm)].map((m) => m[1]))];
   if (!tests.ok) findings.push({ area: "code", rule: "tests", level: "error", page: "", where: "", message: `${names.length ? names.map((n) => `failing: ${n}`).join("\n        ") : tail(tests.out)}\n        (node --import tsx --test <file> shows one file's whole output)` });
   say("code", tests.out.split("\n").filter(Boolean).pop()?.replace(/^test: /, "tests: ") ?? "");
+  // every line of the code, its comments and copy, and the skills: no tells of AI-written text
+  const scan = run("node", [".claude/skills/tropes/tropes.mjs", "--scan", "--json", "src", "scripts", "test", ".claude", "AGENTS.md"]);
+  const scanned = scan.ok || scan.out.startsWith("[") ? JSON.parse(scan.out.split("\n")[0] || "[]") : null;
+  if (!scanned) failed("code", "tropes", scan.out, "the code's words could not be scanned");
+  else for (const f of scanned) findings.push({ area: "code", rule: f.rule, level: "error", page: "", where: `${f.file}:${f.line}`, message: `"${f.match}": ${f.fix}` });
 }
 
 const build = content.ok ? run("npx", ["tsx", "scripts/build.ts"]) : { ok: false, out: "" };

@@ -283,7 +283,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md}"
     element: "{spacing.step-sm}"
-    separator: "space and surface — {colors.white} bands with generous space between; the one {colors.sage} band for relief (a dedication, the facts, a form); the footer {colors.olive}; never a rule"
+    separator: "space and surface: {colors.white} bands with generous space between; the one {colors.sage} band for relief (a dedication, the facts, a form); the footer {colors.olive}; never a rule"
   registers:
     persuasion: { head: statement, type: "{typography.display} italic cover, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; a pair or a wide frame in most bands" }
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; the facts or prices start on the first screen" }

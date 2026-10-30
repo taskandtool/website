@@ -257,7 +257,7 @@ function placesEnv() {
     const places = (JSON.parse(listed)?.connections || []).find((c) => c.provider === "google-places" && c.gateway_url);
     if (places) return { ...env, GOOGLE_PLACES_API_URL: places.gateway_url.replace(/\/$/, "") + "/v1", GOOGLE_PLACES_API_KEY: env.MACHINE_TOKEN };
   } catch {
-    // No bridge here (off the platform): the key, if any, is the whole story.
+    // No bridge here (off the platform): only the key, if any, counts.
   }
   return env;
 }

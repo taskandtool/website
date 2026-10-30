@@ -305,7 +305,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md}"
     element: "{spacing.step-sm}"
-    separator: "surface — after the head and the white signup band, bands alternate {colors.white} and {colors.cloud}; the one {colors.primary} band repeats the ask near the end; the footer is {colors.ink}; never a rule between bands"
+    separator: "surface: after the head and the white signup band, bands alternate {colors.white} and {colors.cloud}; the one {colors.primary} band repeats the ask near the end; the footer is {colors.ink}; never a rule between bands"
   registers:
     persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body, {typography.date} dates", rhythm: "as rhythm" }
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows, {typography.date} dates", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for (the calendar, the facts) starts on the first screen" }

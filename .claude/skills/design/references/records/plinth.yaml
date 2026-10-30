@@ -1,6 +1,6 @@
 # Plinth is the still, light, classical arm of the library: where vesper is
 # nocturnal and layered, plinth is ivory, flat and symmetrical. The whole
-# argument is restraint — a museum object label, a title page, an engraved
+# argument is restraint: a museum object label, a title page, an engraved
 # plate. Nothing floats, nothing glows, nothing is rounded except a seal.
 id: plinth
 title: Plinth
@@ -366,7 +366,7 @@ x_imagery:
 # How this system emphasises ONE figure. The renderer reads this; it must never
 # hardcode a token name, because tokens are per-system.
 x_emphasis:
-  device: "the figure on its plinth — `text-figure` in `text-ink`, centred, standing on a `border-t border-b border-gold` pair of hairlines"
+  device: "the figure on its plinth: `text-figure` in `text-ink`, centred, standing on a `border-t border-b border-gold` pair of hairlines"
   applies_to: "at most one statistic per page"
   why: "A plinth carries one object. The rules above and below are the plinth; a second figure on the page would need a second plinth, and the room has one."
 
@@ -379,20 +379,20 @@ x_motion:
 
 x_layout:
   measure:
-    reading: "55–70ch in {typography.copy} or {typography.lede} — a centred 640px column, text left-aligned inside it"
+    reading: "55–70ch in {typography.copy} or {typography.lede}, in a centred 640px column, text left-aligned inside it"
     caption: "centred beneath the plate, at the plate's width, in {typography.caption} {colors.ink-faint}, opening with its plate number"
   grid:
     columns: 12
     container: "1120px, 24px side margins"
     gutter: "{spacing.step-lg}"
     text_columns: "the centred 640px column for running text; headings, figures, labels and actions centred on the page axis at any width up to 8 columns"
-    media_columns: "12, 8 centred (3–10), two of 6, or a 1/1 plate of 4 (5–8) or 6 (4–9) centred — never off the axis"
+    media_columns: "12, 8 centred (3–10), two of 6, or a 1/1 plate of 4 (5–8) or 6 (4–9) centred; never off the axis"
   rhythm:
     section: "{spacing.step-xxl} → {spacing.step-xl}, with the lozenge rule midway"
     group: "{spacing.step-xl} → {spacing.step-lg}"
     item: "{spacing.step-md} between rows and entries"
     element: "{spacing.step-sm} label to value and plate to caption; {spacing.step-md} inscription to heading"
-    separator: "rule — the {colors.gold} lozenge rule between bands; {colors.gold} hairlines between rows; a band on {colors.stone} only where the register changes"
+    separator: "rule: the {colors.gold} lozenge rule between bands; {colors.gold} hairlines between rows; a band on {colors.stone} only where the register changes"
   registers:
     persuasion:
       head: statement
@@ -461,8 +461,8 @@ x_layout:
   close: "On {colors.ivory}, after the lozenge rule: a centred stack on the page axis, the heading in {typography.section} {colors.ink}, one line of {typography.lede} {colors.ink-soft} {spacing.step-md} below in the 576px column, then {spacing.step-lg} lower the one {colors.primary} button with its {typography.label} capitals in {colors.ivory}, and the phone number {spacing.step-sm} beneath it as a {typography.lede} {colors.primary} link underlined in {colors.gold}. Bottom padding {spacing.step-xxl} → {spacing.step-xl}, then the {colors.stone} footer under a {colors.gold} hairline."
   focal: "Everything leads from the axis: in persuasion a band's heading, then its plate; in retrieval and reading the heading, then the rows or the text. Steps down through {typography.section}, {typography.title}, {typography.lede}, {typography.copy}, {typography.label}; the one figure on its plinth outranks all but the h1"
   never:
-    - "a plate above the plain head — the reader of a retrieval page came for the rows"
-    - "text beside an image in a sidebar, or any element off the axis — symmetry is the identity"
+    - "a plate above the plain head; the reader of a retrieval page came for the rows"
+    - "text beside an image in a sidebar, or any element off the axis; symmetry is the identity"
     - "a plate without its frame and number, or a lone plate pushed to one side"
-    - "cards, zebra stripes or vertical rules in a table — the catalogue table is hairlines only"
-    - "{colors.stone} on alternate bands — it marks a change of register, not a stripe"
+    - "cards, zebra stripes or vertical rules in a table; the catalogue table is hairlines only"
+    - "{colors.stone} on alternate bands; it marks a change of register, not a stripe"

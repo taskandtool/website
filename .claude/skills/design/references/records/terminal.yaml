@@ -133,7 +133,7 @@ sections:
     step on the dark; there is no third depth. Once per page a man-page band
     turns the lights on: {colors.ash} ground, {colors.glass} text,
     {colors.manpage-ink-soft} for its secondary lines. {colors.scanline} draws every hairline,
-    table rule and border, and fills state cells marked off — it is never a
+    table rule and border, and fills state cells marked off. It is never a
     text colour. {colors.ash} is the text colour for headings, table rows and
     controls; {colors.ash-dim} carries prose and status bars; {colors.ash-faint}
     carries captions and table heads and is the lightest text permitted on
@@ -142,7 +142,7 @@ sections:
     reverse video: a {colors.primary} fill swaps to {colors.ash} with
     {colors.glass} text. No colour is ever set at reduced opacity.
 
-    With the brand's own colour: a brand colour replaces the amber phosphor on the one action, state cells marked on and the one emphasised figure; it must be a light chromatic colour that carries {colors.glass} text at 4.5:1 and reads at 4.5:1 as text on {colors.raster}, and by invariant it may not be green, cyan or red — a brand whose colour is any of those, or too dark to glow, keeps amber. Hover is reverse video to {colors.ash}, so nothing is derived from it.
+    With the brand's own colour: a brand colour replaces the amber phosphor on the one action, state cells marked on and the one emphasised figure; it must be a light chromatic colour that carries {colors.glass} text at 4.5:1 and reads at 4.5:1 as text on {colors.raster}, and by invariant it may not be green, cyan or red. A brand whose colour is any of those, or too dark to glow, keeps amber. Hover is reverse video to {colors.ash}, so nothing is derived from it.
   typography: >
     Spline Sans at 400 and 500 for prose and headings; Spline Sans Mono at 400
     for everything measured or named. Display sizes take negative tracking
@@ -170,8 +170,8 @@ sections:
     it sits on {colors.glass}. There is no third step and none should be
     invented.
   components: >
-    Two radii: {rounded.cell} (3px) on buttons, inputs, badges and grid cells —
-    the softening of a character cell, no more — and {rounded.square} (0px) on
+    Two radii: {rounded.cell} (3px) on buttons, inputs, badges and grid cells
+    (the softening of a character cell, no more), and {rounded.square} (0px) on
     every panel, table, image and section. No pill exists in this system. A
     rounded panel or a rounded photograph is a mistake, not a variant.
 
@@ -224,7 +224,7 @@ sections:
     Tap targets are never below 44px. The hover inversion is retained on
     focus-visible.
   known_gaps: >
-    No light theme exists and none should be invented — the system's identity
+    No light theme exists and none should be invented: the system's identity
     is the lit-screen tone pair. No chart palette is defined beyond
     {colors.primary} against {colors.scanline}; a single-series chart may use
     them, a multi-series chart should ask. Spline Sans and Spline Sans Mono
@@ -405,13 +405,13 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-sm} row padding inside a panel, {spacing.step-md} between panels"
     element: "{spacing.step-xs} → {spacing.step-sm}"
-    separator: "rule — a full-width {colors.scanline} hairline closes each band and a status bar on {colors.raster} opens the next; rows inside a panel split on the same hairline. Once per page, the relief: a man-page band on {colors.ash} with {colors.glass} text (14.4:1) and {colors.manpage-ink-soft} secondary text (7.9:1), set like printed documentation (the install command, a quick start, the facts), so the dark room has a lit page in it"
+    separator: "rule: a full-width {colors.scanline} hairline closes each band and a status bar on {colors.raster} opens the next; rows inside a panel split on the same hairline. Once per page, the relief: a man-page band on {colors.ash} with {colors.glass} text (14.4:1) and {colors.manpage-ink-soft} secondary text (7.9:1), set like printed documentation (the install command, a quick start, the facts), so the dark room has a lit page in it"
   registers:
     persuasion: { head: statement, type: "{typography.display} head, {typography.section} band headings, {typography.lede} lead, {typography.figure} in {colors.primary} for the one emphasised figure", rhythm: "{spacing.step-xxl} band padding; 7/5 splits with the working panel on the five; one capture per band" }
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.data} for rows, keys, values and controls", rhythm: "one step denser: {spacing.step-xl} band padding, {spacing.step-sm} rows; tables and key/value panels at 7 or 12 columns; the status bar carries each group's heading; captures only where the brief gives one to a group" }
     reading: { head: plain, type: "{typography.section} title, {typography.copy} at measure.reading, {typography.title} subheads, {typography.data} for any figure or name in the text", rhythm: "one column at measure.reading from column 1; a table, figure or capture the text refers to breaks out to 7 columns as a panel; paragraphs {spacing.step-md} apart" }
   head:
-    statement: "A 7/5 split at {spacing.step-xxl} top padding: on the seven, the statement in {typography.display} ({typography.section} below 768px), the lead in {typography.lede} at {spacing.step-lg} beneath, then the primary and secondary buttons; on the five, a {colors.raster} panel opening with a status bar that names the program the way a terminal title does (`crush — ~/src`), holding the product running. Best: the company's own screen recording of the product at work (a terminal session or its interface, 16/9, muted, looped, inline, its first frame as the poster, a pause control in the status bar), edge to edge under the status bar with no border radius; a promo cut that mixes title cards with the product is fine here, because the statement sits beside it, never on it. Then a still capture of the interface at the same size; then the working thing the brief gives (a form, a key/value readout, state cells). The statement is short (eight words or fewer), so a 7/5 split holds it in three lines at {typography.display}. Below 768px the panel follows the statement. With nothing for the panel, the statement takes 8 columns and the lead photograph follows at 12 as a capture."
+    statement: "A 7/5 split at {spacing.step-xxl} top padding: on the seven, the statement in {typography.display} ({typography.section} below 768px), the lead in {typography.lede} at {spacing.step-lg} beneath, then the primary and secondary buttons; on the five, a {colors.raster} panel opening with a status bar that names the program the way a terminal title does (`crush — ~/src`), holding the product running. Best: the company's own screen recording of the product at work (a terminal session or its interface, 16/9, muted, looped, inline, its first frame as the poster, a pause control in the status bar), edge to edge under the status bar with no border radius; a promo cut that mixes title cards with the product is fine here, because the statement sits beside it, never on it. Then a still capture of the interface at the same size; then the working thing the brief gives (a form, a key/value readout, state cells). The statement is short (eight words or fewer), so a 7/5 split holds it in three lines at {typography.display}. Below 768px the panel follows the statement. With nothing for the panel, the statement takes 8 columns and the lead photograph follows at 12 as a capture."  # tropes-allow
     plain: "A status bar row carrying the title's subject or a stated fact (omitted with neither), then the title in {typography.section} and one lead line in {typography.lede} across 7 columns at {spacing.step-xl} top padding; no panel, no image, no figure. The first table, facts panel or form starts {spacing.step-lg} beneath, on the first screen."
   close: "A {colors.raster} panel across 12 columns: its status bar, the ask in {typography.section} {colors.ash} on 7, one {typography.lede} {colors.ash-dim} line, and on 5 the {colors.primary} button above the install command in a {colors.glass} well in {typography.data} with a copy control; {spacing.step-xl} padding; the footer follows on {colors.glass} below a {colors.scanline} hairline."
   shapes:
@@ -463,16 +463,16 @@ x_layout:
       as: "table of links, or a stack of hairline rows"
       look: "title in {typography.title} at {colors.ash} with a {colors.scanline} underline that turns {colors.primary} on hover, its line in {typography.copy} at {colors.ash-dim}, a date in {typography.data}"
       counts: "1–6: hairline rows at 7 columns. 7+: a table at 12 (title, line, date). With images: 5/7 rows, the capture at 3/2 on the five."
-  focal: "Each band leads with its status bar and its heading in {typography.section}; the working panel — table, readout, form — is the largest object after it; {colors.primary} marks at most the one action and the one figure, so the eye's second stop is amber and its third is data."
+  focal: "Each band leads with its status bar and its heading in {typography.section}; the working panel (table, readout, form) is the largest object after it; {colors.primary} marks at most the one action and the one figure, so the eye's second stop is amber and its third is data."
   never:
     - "Put a statement over a photograph, or open a band on a full-width image with text on it."
-    - "Leave the five of a 7/5 split as an empty panel — with nothing for it, the text takes 8 and the band runs single-column."
-    - "Reflow a table into cards on a narrow screen — it scrolls inside its panel."
+    - "Leave the five of a 7/5 split as an empty panel. With nothing for it, the text takes 8 and the band runs single-column."
+    - "Reflow a table into cards on a narrow screen; it scrolls inside its panel."
     - "Set a gallery as a grid of equal square thumbnails."
-    - "Stack two status bars with nothing between them — a bar heads a panel's contents, not another bar."
-    - "Show on and off by colour alone — every state cell writes its state."
-    - "Separate bands by whitespace alone — each ends on a {colors.scanline} hairline."
-    - "Run the whole page dark — one man-page band on {colors.ash} is the relief a dark room needs."
+    - "Stack two status bars with nothing between them; a bar heads a panel's contents, not another bar."
+    - "Show on and off by colour alone; every state cell writes its state."
+    - "Separate bands by whitespace alone; each ends on a {colors.scanline} hairline."
+    - "Run the whole page dark; one man-page band on {colors.ash} is the relief a dark room needs."
     - "Autoplay more than the head's one recording."
 
 x_motion:

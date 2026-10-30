@@ -340,7 +340,7 @@ x_motion:
 
 x_layout:
   measure:
-    reading: "55–65ch in {typography.copy} — never wider than 6 columns"
+    reading: "55–65ch in {typography.copy}, never wider than 6 columns"
     caption: "one line at the width of its image, in {typography.caption}"
   grid:
     columns: 12
@@ -353,7 +353,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md}"
     element: "{spacing.step-sm}"
-    separator: "surface — dark ({colors.claret}) and white cloth ({colors.cloth}) alternate: head dark, then cloth, then dark, and so on; the closing action dark and the footer {colors.claret-deep}; the one {colors.primary} band sits where the statement is and counts as neither; never a rule"
+    separator: "surface: dark ({colors.claret}) and white cloth ({colors.cloth}) alternate: head dark, then cloth, then dark, and so on; the closing action dark and the footer {colors.claret-deep}; the one {colors.primary} band sits where the statement is and counts as neither; never a rule"
   registers:
     persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} section heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; one idea and at most one photograph per band" }
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for starts on the first screen; photographs follow the rows they belong to" }
@@ -377,8 +377,8 @@ x_layout:
   close: "A {colors.claret} band, centred: the heading in {typography.section} {colors.cream}, one {typography.lede} line {spacing.step-md} below, then the blush pill with the phone number as a {typography.title} cream link {spacing.step-md} beneath it. Section padding {spacing.step-xl}, then the {colors.claret-deep} footer."
   focal: "In each band one thing leads: the plate, or the heading when there is no plate. The one blush band is the page's loudest moment and holds only the figure or the statement."
   never:
-    - "a beige or cream ground — the light room is plain white cloth"
-    - "tinted text on the red — pink, blush or pink-grey type on claret reads muddy; step down by size, not tint"
+    - "a beige or cream ground; the light room is plain white cloth"
+    - "tinted text on the red: pink, blush or pink-grey type on claret reads muddy; step down by size, not tint"
     - "rules, numbered sections or tracked-capital labels as decoration"
-    - "a source line under every figure — say it once, beside the one figure"
+    - "a source line under every figure; say it once, beside the one figure"
     - "more than one photograph per band, outside a row of plates"

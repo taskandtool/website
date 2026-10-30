@@ -137,7 +137,7 @@ sections:
   typography: >
     Playfair Display at 400 for every heading and every number; Inter at 300
     for prose and at 400 for captions. Display sizes take heavy negative
-    tracking (-2.2px at 84px). Captions take positive tracking (+0.4px) — the
+    tracking (-2.2px at 84px). Captions take positive tracking (+0.4px), the
     only place letter-spacing opens up. Prose measure stays under 68 characters.
   layout: >
     A centred 1200px column. Bands alternate {colors.midnight} and {colors.mist} full width,
@@ -149,7 +149,7 @@ sections:
     one-pixel top edge in {colors.pearl} at 12% opacity to read as a lit rim; only the head's
     booking bar and the nav carry a backdrop blur (about 72% opacity), because they sit over the
     photograph. Shadows are large,
-    soft and very dark — never grey. Three depth steps only: ground, panel,
+    soft and very dark, never grey. Three depth steps only: ground, panel,
     raised panel.
   components: >
     Generous and consistent: {rounded.panel} (24px) for every panel and card,
@@ -266,7 +266,7 @@ x_invariants:
 
 # The DESIGN.md spec has no imagery section and no imagery tokens, so this is
 # ours. Without it a design system says nothing about pictures and the model
-# defaults to none — which is exactly what happened on the first run.
+# defaults to none, which is exactly what happened on the first run.
 x_imagery:
   role: >
     Atmospheric and structural. Imagery carries the hour and the weather; it is
@@ -279,7 +279,7 @@ x_imagery:
   aspect_ratios: ["16/9", "3/2", "1/1", "4/5"]
   caption: >
     Captions are optional and, when present, sit in {typography.caption} on the
-    panel below the image — never overlaid. Its words come from the brand
+    panel below the image, never overlaid. Its words come from the brand
     folder (see standards/copy.md).
   forbidden:
     - "a square-cornered image inside a band (the hero alone meets the edges square)"
@@ -297,7 +297,7 @@ x_imagery:
 # hardcode a token name, because tokens are per-system. Vesper has no brass and
 # gold is locked to the action, so emphasis is carried by depth.
 x_emphasis:
-  device: "the raised depth step — `bg-veil-high` panel at `text-section`"
+  device: "the raised depth step: `bg-veil-high` panel at `text-section`"
   applies_to: "at most one statistic per page"
   why: "Gold is reserved for the action, so emphasis must come from layering, not colour."
 
@@ -314,7 +314,7 @@ x_motion:
 # components prose above is short; the table, quote and form treatments live here.
 x_layout:
   measure:
-    reading: "56–68ch, never over 68 — {typography.lede} at weight 300 on {colors.veil}; {typography.copy} only for short lines"
+    reading: "56–68ch, never over 68: {typography.lede} at weight 300 on {colors.veil}; {typography.copy} only for short lines"
     caption: "the width of the image's panel; {typography.caption} {colors.pearl-faint}, {spacing.step-md} in from the panel edge"
   grid:
     columns: 12
@@ -327,7 +327,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md} between panels in a group; {spacing.step-sm} between rows inside a panel"
     element: "{spacing.step-xs} label to value; {spacing.step-md} heading to first line"
-    separator: "surface — bands alternate {colors.midnight} and {colors.mist} (reviews, prices and facts on {colors.mist}; people and work on {colors.midnight}); never more than two dark bands together; never a rule between bands"
+    separator: "surface: bands alternate {colors.midnight} and {colors.mist} (reviews, prices and facts on {colors.mist}; people and work on {colors.midnight}); never more than two dark bands together; never a rule between bands"
   registers:
     persuasion:
       head: statement
@@ -348,12 +348,12 @@ x_layout:
   shapes:
     items:
       as: "a grid inside one panel"
-      look: "each name in {typography.title} {colors.pearl} (the serif), its line in {typography.copy} {colors.pearl-dim}; no rules and no inner boxes — the panel is the container; a card per item only when each item carries its own action or image"
-      counts: "1–2: prose on the panel. 3–4: two columns inside an 8-column panel, beside an image panel of 4. 5–6: two columns inside the panel beside the image, the odd one left alone at the end of the left column. 7–12: three columns inside a 12-column panel. 13+: names only, three columns of {typography.copy} {colors.pearl} lines. Items with their own action: one {colors.veil} card each at {rounded.panel} — 2 at 6 + 6, 3 at 4 + 4 + 4, 4 as 6 + 6 twice, 5 as 4 + 4 + 4 then 6 + 6 — each card its own gold action."
+      look: "each name in {typography.title} {colors.pearl} (the serif), its line in {typography.copy} {colors.pearl-dim}; no rules and no inner boxes (the panel is the container); a card per item only when each item carries its own action or image"
+      counts: "1–2: prose on the panel. 3–4: two columns inside an 8-column panel, beside an image panel of 4. 5–6: two columns inside the panel beside the image, the odd one left alone at the end of the left column. 7–12: three columns inside a 12-column panel. 13+: names only, three columns of {typography.copy} {colors.pearl} lines. Items with their own action: one {colors.veil} card each at {rounded.panel} (2 at 6 + 6, 3 at 4 + 4 + 4, 4 as 6 + 6 twice, 5 as 4 + 4 + 4 then 6 + 6), each card its own gold action."
     table:
       as: "table on a {colors.mist} band"
       look: "on {colors.mist}: column heads in {typography.caption} {colors.slate} with its open tracking; rows split by 1px {colors.midnight} at 12%; row heads (a service, a drink) in the serif at {typography.lede} {colors.midnight}; prices and numbers in the serif with tabular numerals, right-aligned; no row fills"
-      counts: "2–8 rows: one panel of 8 columns. 9–30 rows: one panel of 12. 30+: one panel per group, each headed in {typography.title}. 4+ columns below 768px: each row becomes a block — row head, then caption label/value pairs two across — never a sideways scroll."
+      counts: "2–8 rows: one panel of 8 columns. 9–30 rows: one panel of 12. 30+: one panel per group, each headed in {typography.title}. 4+ columns below 768px: each row becomes a block (row head, then caption label/value pairs two across), never a sideways scroll."
     facts:
       as: "definition list in a grid, on a {colors.mist} band (a short pair beside a dark card may sit in that card)"
       look: "on {colors.mist}: key in {typography.caption} {colors.slate} above the value in {typography.copy} {colors.midnight}; inside a dark panel: {colors.pearl-faint} over {colors.pearl}; numbers in the serif; no rules"
@@ -380,12 +380,12 @@ x_layout:
       counts: "1: one panel of 8. 2: 7 + 5, the smaller dropped {spacing.step-lg}. 3: 7 + 5, then one of 8 pulled up {spacing.step-lg} across the seam. 4: 7 + 5, then 5 + 7. 5–8: continue the mirrored 7/5 rows; an odd n ends on a single panel of 8. 9+: rows of three 4-column panels in 1/1 or 4/5, the middle column dropped {spacing.step-lg}."
     quote:
       as: "grid of panels; for many, a switcher of two stacks of panels"
-      look: "the quotation in the serif — {typography.title} {colors.pearl} for one to three sentences, {typography.lede} {colors.pearl-dim} for longer — attribution beneath in {typography.caption} {colors.pearl-faint}; on {colors.veil}, the lit rim above; no quote-mark ornament"
+      look: "the quotation in the serif ({typography.title} {colors.pearl} for one to three sentences, {typography.lede} {colors.pearl-dim} for longer), attribution beneath in {typography.caption} {colors.pearl-faint}; on {colors.veil}, the lit rim above; no quote-mark ornament"
       counts: "1: a panel of 5 beside an image of 7, or alone at 8. 2: 7 + 5, the second dropped {spacing.step-lg}. 3: a panel of 7 (with the band's image at its top if there is one) beside two stacked panels of 5. 4: 7 + 5, then 5 + 7. 5–9: two columns of stacked panels, 6 + 6, longer quotations on the left. 10+: the same two columns, shorter quotations in {typography.copy}."
     prose:
       as: "stack on one panel"
       look: "{typography.lede} {colors.pearl-dim} at measure.reading, weight 300; headings in the serif; numbers lifted out into {typography.figure}"
-      counts: "1–3 paragraphs: one panel of 5–8 beside an image or figure panel. Longer: registers.reading — one panel of 8, centred."
+      counts: "1–3 paragraphs: one panel of 5–8 beside an image or figure panel. Longer: registers.reading, one panel of 8, centred."
     form:
       as: "stack of labelled inputs on a raised panel"
       look: "a {colors.veil-high} panel at {rounded.panel}, heading in {typography.title}; labels in {typography.caption} {colors.pearl-faint} above; inputs {colors.veil} at {rounded.soft} with no border until focus, which brings a {colors.primary} ring; text in {typography.copy} {colors.pearl}; the submit is the {colors.primary} pill, full width of the panel, the panel's one gold thing"
@@ -397,8 +397,8 @@ x_layout:
   focal: "Each band leads with its heading in the serif, set straight on the band's ground (never boxed in a panel of its own); panels hold content: cards, a figure, a form. The next step down is the raised {colors.veil-high} panel when the band has a figure to lift, then images, then the quieter panels. The only warm thing on a band is its one {colors.primary} action."
   never:
     - "a band heading boxed in a panel of its own, or a panel taller than its content: panels hold cards, a figure, a form; headings sit on the ground"
-    - "a rule between bands — space and depth separate things here; a line flattens the stack"
-    - "two {colors.primary} things in one band or card — gold is an instruction and a second one halves it"
-    - "a square corner or a letterboxed image — against 24px panels it reads as a mistake"
-    - "more than one full-bleed image on a page — the head owns it"
+    - "a rule between bands; space and depth separate things here; a line flattens the stack"
+    - "two {colors.primary} things in one band or card; gold is an instruction and a second one halves it"
+    - "a square corner or a letterboxed image; against 24px panels it reads as a mistake"
+    - "more than one full-bleed image on a page; the head owns it"
     - "a grey shadow, or a fourth depth step beyond ground, panel and raised panel"

@@ -341,7 +341,7 @@ x_layout:
     group: "{spacing.step-lg} → {spacing.step-md}"
     item: "{spacing.step-md}"
     element: "{spacing.step-sm}"
-    separator: "surface — bands alternate {colors.graphite} and {colors.paper}, with a full-width photo break (no text) every two or three bands; two dark bands in a row are split by the photo break or take {colors.graphite-2}; never a rule between bands"
+    separator: "surface: bands alternate {colors.graphite} and {colors.paper}, with a full-width photo break (no text) every two or three bands; two dark bands in a row are split by the photo break or take {colors.graphite-2}; never a rule between bands"
   registers:
     persuasion: { head: statement, type: "{typography.display} head, {typography.heading-lg} band heads, {typography.lede} leads, {typography.copy} body", rhythm: "as rhythm; a photo break every two or three bands" }
     retrieval: { head: plain, type: "{typography.section} title, {typography.title} group heads, {typography.copy} rows", rhythm: "one step denser: section {spacing.step-lg}; what the reader came for starts on the first screen, on {colors.paper}; no photo breaks before it" }
