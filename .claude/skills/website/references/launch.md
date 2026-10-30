@@ -36,8 +36,8 @@ straight to one; show the owner what moved where, as a table.
    names the latest report. Weekly, Mondays at 07:00 UTC:
 
    ```bash
-   python3 ~/tools/taskandtool.py schedule-job site-audit --when "0 7 * * 1" \
-     --command "tt-crawl audit https://theirdomain.com" --team-only
+   python3 ~/tools/taskandtool.py schedule-job "Site audit" --when "0 7 * * 1" \
+     --command "tt-crawl audit https://theirdomain.com"
    ```
 
    `tt-crawl audit` crawls production for broken links, missing titles and
