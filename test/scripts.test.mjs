@@ -10,10 +10,10 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 /** The entry points: every .mjs but the shared modules, and the .ts scripts npm runs directly. */
 const LIBRARIES = new Set(["lib.mjs", "run.mjs", "theme.mjs"]);
-const TS_ENTRIES = ["build.ts", "db.ts"];
+const TS_ENTRIES = ["build.ts", "migrate.ts"];
 const scripts = [...readdirSync(`${root}scripts`).filter((f) => f.endsWith(".mjs") && !LIBRARIES.has(f)), ...TS_ENTRIES];
 /** The ones that take arguments, so a stray word is not misuse for them. */
-const TAKES_ARGS = new Set(["check.mjs", "forms.mjs", "from-site.mjs", "images.mjs", "shots.mjs", "show.mjs"]);
+const TAKES_ARGS = new Set(["check.mjs", "forms.mjs", "brand-from-site.mjs"]);
 
 const run = (script, args) =>
   new Promise((done) => {
@@ -49,21 +49,19 @@ for (const script of scripts) {
   }
 }
 
-test("check, from-site, images and shots refuse wrong input with exit 2 before any work", async () => {
+test("check and brand-from-site refuse wrong input with exit 2 before any work", async () => {
   for (const [script, args, said] of [
-    ["check.mjs", ["about"], /not a page; name pages by their path/],
+    ["check.mjs", ["about"], /not a page or an area/],
+    ["check.mjs", ["copy", "about"], /not a page; name pages by their path/],
     ["check.mjs", ["code", "/about"], /check:code checks the whole site; it takes no pages/],
-    ["from-site.mjs", [], /full URL/],
-    ["from-site.mjs", ["a.com", "b.com"], /one site at a time/],
-    ["from-site.mjs", ["https://"], /full URL/],
-    ["from-site.mjs", ["https://www.facebook.com/harlowjoinery"], /not their own site/],
-    ["from-site.mjs", ["https://maps.app.goo.gl/abc"], /not their own site/],
-    ["from-site.mjs", ["https://harlowbakery.com", "--max-pages", "all"], /--max-pages needs a number/],
-    ["from-site.mjs", ["https://harlowbakery.com", "--max-pages", "0"], /--max-pages needs a number/],
-    ["images.mjs", [], /name the picture/],
-    ["images.mjs", ["a.jpg", "b.jpg", "--as", "hero"], /--as names one file/],
-    ["shots.mjs", ["--width", "wide"], /--width needs a number/],
-    ["show.mjs", ["--width"], /show: --width needs a value/],
+    ["brand-from-site.mjs", [], /full URL/],
+    ["brand-from-site.mjs", ["a.com", "b.com"], /one site at a time/],
+    ["brand-from-site.mjs", ["https://"], /full URL/],
+    ["brand-from-site.mjs", ["https://www.facebook.com/harlowjoinery"], /not their own site/],
+    ["brand-from-site.mjs", ["https://maps.app.goo.gl/abc"], /not their own site/],
+    ["brand-from-site.mjs", ["https://harlowbakery.com", "--max-pages", "all"], /--max-pages needs a number/],
+    ["brand-from-site.mjs", ["https://harlowbakery.com", "--max-pages", "0"], /--max-pages needs a number/],
+    ["check.mjs", ["cpy"], /"cpy" is not a page or an area; areas: code, facts, copy, design, seo/],
   ]) {
     const r = await run(script, args);
     assert.equal(r.status, 2, `${script} ${args.join(" ")}: ${r.stderr}`);
@@ -71,12 +69,4 @@ test("check, from-site, images and shots refuse wrong input with exit 2 before a
     assert.match(r.stderr, said);
     assert.match(r.stderr, /Try: /);
   }
-});
-
-test("a file that is not there fails with exit 1 and names it", async () => {
-  const r = await run("images.mjs", ["uploads/no-such-picture.jpg"]);
-  assert.equal(r.status, 1, r.stderr);
-  assert.equal(r.stdout, "");
-  assert.match(r.stderr, /no-such-picture\.jpg: not found/);
-  assert.match(r.stderr, /Try: /);
 });

@@ -2,6 +2,6 @@
 // site's database and zone. `--help` for usage.
 import { formsCli } from "../src/forms/cli";
 import { site } from "../src/site";
-import { withDb } from "./db";
+import { withDb } from "./migrate";
 
 await formsCli(process.argv.slice(2), { withDb, source: "website", timeZone: site.timeZone });

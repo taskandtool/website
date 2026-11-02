@@ -5,14 +5,14 @@ description: "Designs this website's look: the first screen, the design system r
 
 # Design
 
-The look is one record, `design/system.yaml`, compiled by `npm run system`
+The look is one record, `design/system.yaml`, compiled by `npm run apply-design`
 into `styles/theme.css`, `DESIGN.md` and `src/fonts.ts`; it refuses a
 broken record. The starter's record is a working default: read `DESIGN.md`,
 then make it this business's.
 
 ## Making it theirs
 
-- **Tokens** from their brand (`brand/`, the colours and fonts `from-site`
+- **Tokens** from their brand (`brand/`, the colours and fonts `brand-from-site`
   read), or from a site the owner likes or a library record.
 - **Components and the skeleton** (`src/components`, the header and footer
   in `src/layout.tsx`): restyle them to match, with Tailwind utilities in
@@ -38,7 +38,7 @@ When the owner wants more than the homepage: `references/growing.md`.
 ## Review gate
 
 Look at the rendered page, never the code: after `npm run check`, run
-`npm run shots` and look at every image it names, in its order, at full
+`tt-crawl shoot /` (and each other page changed) and look at every image it names, in its order, at full
 size. The page's shape first, then each section, then the phone, beside the
 page it replaces (`raw/site/<host>/shots/`) or the one the owner pointed at:
 is it clearly better, and would the owner send it to someone? List every

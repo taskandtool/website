@@ -13,7 +13,7 @@
 //           lists every page; no image over 1.5 MB; the homepage's JSON-LD parses
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { DESIGN, FONTS, RECORD, THEME, designMd, fontsTs, problems, readRecord, themeCss } from "../system.mjs";
+import { DESIGN, FONTS, RECORD, THEME, designMd, fontsTs, problems, readRecord, themeCss } from "../apply-design.mjs";
 import { pagePaths, walk } from "../lib.mjs";
 import { TEXT_PAIRS, isHex, ratio, readTheme } from "../theme.mjs";
 
@@ -210,7 +210,7 @@ export function projectFindings({ built = true } = {}) {
     // what a phone downloads, and what search reads on the homepage
     for (const f of walk("dist").filter((f) => /\.(jpe?g|png|webp|avif|gif)$/i.test(f))) {
       const mb = statSync(f).size / 1024 / 1024;
-      if (mb > 1.5) push(f.slice("dist".length), `is ${mb.toFixed(1)} MB; npm run images -- <its source> makes it web size`);
+      if (mb > 1.5) push(f.slice("dist".length), `is ${mb.toFixed(1)} MB; python3 .claude/skills/brand/web_photos.py <its source> --to static/images makes it web size`);
     }
     for (const [, json] of readFileSync("dist/index.html", "utf8").matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       try {

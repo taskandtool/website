@@ -24,7 +24,7 @@ const content = () => spawnSync("node", ["scripts/content.mjs"], { stdio: "inher
 content();
 // The database's tables for forms, bookings and payments, once, before the
 // server starts; a failure is printed and the pages still serve.
-spawnSync("node_modules/.bin/tsx", ["scripts/db.ts"], { stdio: "inherit" });
+spawnSync("node_modules/.bin/tsx", ["scripts/migrate.ts"], { stdio: "inherit" });
 // A cheap poll over the note folders (a folder replaced whole, as a copy
 // from elsewhere does, kills directory watchers).
 const stamp = () => {

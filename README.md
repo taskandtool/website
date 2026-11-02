@@ -29,10 +29,9 @@ DESIGN.md        the design system to read, compiled from the record: identity, 
                  composition, do and don't
 static/          static files, served as-is
 scripts/         dev.mjs (the machine loop) · content.mjs (notes → data) · build.ts (pre-render, sitemap, redirects, bundle)
-                 · system.mjs (the record → theme.css, DESIGN.md, src/fonts.ts) · check.mjs · lint.mjs · test.mjs
-                 · proof.mjs (all the proof on the homepage) · trace.mjs (every fact on the pages is in the notes)
-                 · verify.mjs (all of them) · from-site.mjs · parts.mjs · images.mjs · shots.mjs · show.mjs
-                 · db.ts (the database's tables) · forms.mjs (the forms skill's command, through run.mjs)
+                 · apply-design.mjs (the record → theme.css, DESIGN.md, src/fonts.ts) · check.mjs · test.mjs
+                 · brand-from-site.mjs (a first homepage's start from their site) · list-parts.mjs (what a page is built from)
+                 · migrate.ts (the database's tables) · forms.mjs (the forms skill's command, through run.mjs)
                  · theme.mjs (a theme's colours and contrast) · lib.mjs (what they share)
 test/            the scripts' own tests: --help, and misuse refused
 wrangler.jsonc   deploy to your own Cloudflare account, off the platform

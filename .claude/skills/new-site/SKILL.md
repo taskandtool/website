@@ -23,11 +23,11 @@ Read the folders and carry on from where they are:
 
 Done when its words come from their own material, all their proof is on
 it, every section their homepage has is on it or left out for a reason you
-can name (`from-site` lists them), its look is theirs (the `design` skill),
+can name (`brand-from-site` lists them), its look is theirs (the `design` skill),
 and `npm run check` passes.
 The order matters; how you do each part is yours:
 
-1. **Start from their site:** `npm run from-site -- <url>` (about a minute)
+1. **Start from their site:** `npm run brand-from-site -- <url>` (about a minute)
    does the mechanical part and prints what it wrote and what to read next.
    With a name and no link, their Google listing names the website (the
    `brand` skill's listing row); say in one line who you found, and ask for
@@ -35,25 +35,27 @@ The order matters; how you do each part is yours:
 2. **The notes:** `public/services.md` from their services page, one
    `## <service>` each, cited; each photograph described in
    `brand/images.md` after looking at `raw/photos.png`.
-3. **All the proof** in `public/proof.md`, word for word: what `from-site`
+3. **All the proof** in `public/proof.md`, word for word: what `brand-from-site`
    found, the logos in `raw/logos.png` that really are others' logos, and
    what it could not reach (the profiles in `business.md`'s `same_as`,
    anything the owner sent). The proof sections leave a rating or review
    under 4 stars off the page; when one is left off, tell the owner in one
    line.
 4. **The look,** with the `design` skill.
-5. **The page,** written whole from what `npm run parts` lists
+5. **The page,** written whole from what `npm run list-parts` lists
    (`.claude/skills/pages/references/page-code.md`), then `npm run check`
    and fix its errors.
 6. **Review:** the `design` skill's review gate, with the `writing`
    skill's cold read (a sub-agent) in the same list; fix it in one pass.
-7. **Commit, then `npm run show`** (commit first, so any version the owner
-   saw comes back with `git checkout`). Name the one or two things that
+7. **Commit, then show it:** `create-deliverables` (the `work` skill) with
+   each width's `page.jpg` from `tt-crawl shoot /` (commit first, so any
+   version the owner saw comes back with `git checkout`). Name the one or two things that
    would make it better: their own sharp photographs, a fact the site does
    not state.
 
-Then follow the owner. A small change gets an edit, `npm run shots` and
-one look, then `npm run show`; a new section or page gets the full review.
+Then follow the owner. A small change gets an edit, `tt-crawl shoot` of the
+page and one look, then the same deliverables; a new section or page gets
+the full review.
 When they want options, or a change worth comparing, build each option as
 the real page in turn, commit each, show them side by side, and keep the
 one they pick.

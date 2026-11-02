@@ -1,5 +1,5 @@
 // The project's business row (data/business.ts) gets its empty parts from
-// this site's notes at `npm run db:setup`, and only those: the owner's
+// this site's notes at `npm run migrate`, and only those: the owner's
 // name, set in the CRM, stays, and a name that differs is said.
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -7,9 +7,9 @@ import { readFileSync } from "node:fs";
 import { applySchema } from "../src/data/migrate";
 import { businessOf, saveBusiness } from "../src/data/business";
 import { scratch, why } from "../src/data/test/scratch";
-import { fillBusiness } from "../scripts/db";
+import { fillBusiness } from "../scripts/migrate";
 
-test("db:setup fills the business row's empty parts from the notes, and never overwrites the owner's", async (t) => {
+test("migrate fills the business row's empty parts from the notes, and never overwrites the owner's", async (t) => {
   const s = await scratch();
   if (!s) return t.skip(why);
   try {

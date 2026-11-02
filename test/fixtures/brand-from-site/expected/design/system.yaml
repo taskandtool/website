@@ -1,4 +1,4 @@
-# The website's design system, as one record. `npm run system` compiles it
+# The website's design system, as one record. `npm run apply-design` compiles it
 # into styles/theme.css (the tokens Tailwind turns into classes), DESIGN.md
 # (the readable contract) and src/fonts.ts; never edit those two by hand, `npm run check` says
 # when they no longer match this file. The shape is the design library's
@@ -9,8 +9,8 @@
 id: site
 title: Harlow Bakery
 summary: >-
-  Seeded from harlowbakery.com's colours and fonts by npm run from-site; the
-  first homepage's design replaces this.
+  Seeded from harlowbakery.com's colours and fonts by npm run brand-from-site;
+  the first homepage's design replaces this.
 
 # What makes this site this site, filled when the site grows past its
 # homepage; "to fill" marks a site that is still a template.
@@ -127,7 +127,7 @@ sections:
     photograph good enough, the words on {colors.night}. One primary Button per
     section, labelled with what happens next. Cards hold discrete, comparable
     things (a service, a person, a review); a list reads better as rows. Images
-    sit at {rounded.card}. The rest are in src/components (npm run parts).
+    sit at {rounded.card}. The rest are in src/components (npm run list-parts).
   layout: >
     Every band shares one frame, max-w-wide with px-5 sm:px-8 (Section does
     this), so the header, sections and footer start on one left edge; reading

@@ -49,8 +49,8 @@ if [ -f package.json ]; then
   fi
 fi
 
-# 3. tt-crawl (github.com/taskandtool/crawler), the site reader from-site,
-# shots and the skills use, and the browsers it drives.
+# 3. tt-crawl (github.com/taskandtool/crawler), the site reader and
+# screenshots brand-from-site and the skills use, and the browsers it drives.
 CRAWLER_REF="${CRAWLER_REF:-main}"
 CRAWLER="git+https://github.com/taskandtool/crawler@$CRAWLER_REF"
 echo "== tt-crawl $CRAWLER_REF"
@@ -59,6 +59,7 @@ echo "== tt-crawl $CRAWLER_REF"
 python3 -m pip install --quiet --upgrade "ttcrawl @ $CRAWLER" 2>&1 | tail -2 || true
 python3 -m pip install --quiet --force-reinstall --no-deps "ttcrawl @ $CRAWLER" 2>&1 | tail -2 || true
 python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is unavailable until it does"
+python3 -c "import PIL" 2>/dev/null || python3 -m pip install --quiet pillow 2>&1 | tail -1 || echo "== warning: Pillow did not install; the brand skill's web_photos.py needs it"
 
 # tt-crawl on the PATH, then the browsers it drives: Chrome reads pages and
 # takes screenshots, Obscura is the small fallback. Done here so a first crawl
@@ -78,4 +79,4 @@ if [ -f "$HOME/tools/taskandtool.py" ] && [ -f package.json ]; then
   python3 "$HOME/tools/taskandtool.py" serve "npm run dev" --port 3000
 fi
 
-echo "== website starter app setup done. Next: dev answers at localhost:3000; for a first homepage, npm run from-site -- <their site>"
+echo "== website starter app setup done. Next: dev answers at localhost:3000; for a first homepage, npm run brand-from-site -- <their site>"

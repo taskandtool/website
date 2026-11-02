@@ -51,6 +51,8 @@ const [first, ...rest] = a._;
 const areas = AREAS.includes(first) ? [first] : AREAS;
 const pages = AREAS.includes(first) ? rest : a._;
 const tryCmd = `npm run check${areas.length === 1 ? `:${areas[0]}` : ""}`;
+// No area named and a first word that is not a path: most likely a mistyped area.
+if (first && !AREAS.includes(first) && !first.startsWith("/")) misused(`check: "${first}" is not a page or an area; areas: ${AREAS.join(", ")}; pages by their path (/, /about)`, `npm run check:copy, or ${tryCmd} -- /about`);
 for (const p of pages) if (!p.startsWith("/")) misused(`check: "${p}" is not a page; name pages by their path (/, /about)`, `${tryCmd} -- /about`);
 if (pages.length && areas.every((x) => WHOLE.has(x))) misused(`check:${areas[0]} checks the whole site; it takes no pages`, tryCmd);
 
@@ -157,7 +159,7 @@ if (errors.length) {
 }
 if (out.length) console.log(out.join("\n"));
 done("check", `${areas.length === AREAS.length ? "every area" : areas[0]} passed${hints.length ? `, ${hints.length} hint(s) to weigh` : ""}`, {
-  next: areas.includes("design") ? `npm run shots${pages.length ? ` -- ${pages.join(" ")}` : ""}, and look at every image it names` : undefined,
+  next: areas.includes("design") ? `tt-crawl shoot ${pages.length ? pages.join(" ") : "/"}, and look at every image it names` : undefined,
 });
 
 /** The built pages served on a free local port, measured by `tt-crawl measure`: `{ findings }`, or `{ note }` when it cannot run. */

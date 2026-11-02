@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // What a page is built from, read from the files themselves so it is never
-// stale: `npm run parts`. The components and their props, the design
+// stale: `npm run list-parts`. The components and their props, the design
 // system's classes, the shape of a page module, the facts the notes hold,
 // and the photographs in static/images/. Read it instead of opening the
 // source to learn the same.
@@ -8,14 +8,15 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { imageSizes, start } from "./lib.mjs";
 
-start("parts", `usage: npm run parts
+start("list-parts", `usage: npm run list-parts
 
 What a page is built from: the components and their props, the classes, the
-page shape, the facts and proof the notes hold, and the photographs in
-static/images/ with their pixels. Read it instead of opening the source.`);
+page shape, the facts and proof the notes hold (it compiles the notes first,
+as npm run content does), and the photographs in static/images/ with their
+pixels. Read it instead of opening the source.`);
 
 const read = (f) => (existsSync(f) ? readFileSync(f, "utf8") : "");
-const out = [];
+const out = ["list-parts: what a page is built from, read from the files now", ""];
 
 // components: name, props (from the destructured signature), the doc line above
 out.push("Components (import from \"../components\" and \"../components/facts\"):");
@@ -65,4 +66,5 @@ if (images.length) {
   const sizes = imageSizes(images.map((f) => `static/images/${f}`));
   images.forEach((f, i) => out.push(`  /images/${f}${sizes[i] ? `  ${sizes[i].width}x${sizes[i].height}` : ""}`));
 }
+out.push("", "Next: write the page from these; a part that is missing is a component to add, not a one-off in the page");
 console.log(out.join("\n"));

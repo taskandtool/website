@@ -24,7 +24,7 @@ markdown at request time.
 A field left empty, `null`, or "to fill" is treated as absent: the site
 renders without it and the JSON-LD omits it.
 
-With a database, `npm run db:setup` (every `npm run dev` and deploy) also
+With a database, `npm run migrate` (every `npm run dev` and deploy) also
 fills the project's business row, which texts, quotes and the texting box
 read (the CRM's Settings, Business), where it is empty: the `business`
 note's name and address, and the legal pages once `site.url` is set. It

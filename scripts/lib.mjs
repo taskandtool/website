@@ -1,9 +1,9 @@
 // What several scripts share: reading their arguments, walking a folder, the
-// page paths, a note's frontmatter, image sizes, and whether dev answers.
-import { execFileSync, spawnSync } from "node:child_process";
+// page paths, a note's frontmatter and image sizes.
+import { execFileSync } from "node:child_process";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { flags, has, misused, parseArgs, plain } from "../src/data/cli.mjs";
+import { parseArgs, plain } from "../src/data/cli.mjs";
 
 /**
  * A script's arguments, checked before it does anything: --help or -h prints
@@ -16,13 +16,6 @@ export function start(script, help, { flags = [], bools = [], args = false, tryH
   const a = parseArgs(process.argv.slice(2), { bare: bools });
   plain(a, help, script, { flags: [...flags, ...bools], args, tryCmd: tryHelp });
   return a;
-}
-
-/** tt-crawl shoot's flags from --width N ... and --first-screen; a width that is not a number exits 2. */
-export function shootFlags(a, script) {
-  const widths = flags(a, "width");
-  if (has(a, "width") && (!widths.length || !widths.every((w) => /^\d+$/.test(w)))) misused(`${script}: --width needs a number of pixels, e.g. --width 768`, `npm run ${script} -- --width 768`);
-  return [...widths.flatMap((w) => ["--width", w]), ...(has(a, "first-screen") ? ["--first-screen"] : [])];
 }
 
 /** Every file under a folder, node_modules left out. */
@@ -57,7 +50,3 @@ export const imageSizes = (files) => {
     return files.map(() => null);
   }
 };
-
-/** Dev answers on this machine; anything shot before it does looks missing. */
-export const devUp = () =>
-  spawnSync("curl", ["-s", "-o", "/dev/null", "-w", "%{http_code}", "--max-time", "5", "http://localhost:3000/"], { encoding: "utf8" }).stdout !== "000";

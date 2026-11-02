@@ -13,7 +13,7 @@ Which skill to read, by what the owner asks:
 - a new page, the page plan, what a page should say, a page's code: `pages`
 - words and headlines: `writing`; the tells of generated text: `tropes`
 - facts about the business (hours, phone, a new service), a crawl, a
-  document, photos or logos sent in chat (`uploads/`, then `npm run images`): `brand`
+  document, photos or logos sent in chat (`uploads/`): `brand`
 - a blog post: the website skill's `references/posts.md`, with `writing`
 - "help us rank for …": the website skill's `references/seo.md` ("Ranking for a search")
 - "migrate", "move", "clone" or "rebuild" a site they have, keeping its pages
@@ -34,39 +34,38 @@ Read the one that fits the ask rather than working from memory.
 
 The work is in these scripts; run them rather than doing the same by hand or
 writing a checker of your own. Each prints what it did and what to read next.
-The machine's one browser is tt-crawl's (shots, show); install no other.
+The machine's one browser is tt-crawl's; install no other.
 
 ```bash
-npm run from-site -- <url>   # a first homepage's start (a minute): their facts, logo, photos, colours, fonts and proof
-                             # into the notes and the record; prints what it wrote and what to read next
-npm run parts                # what a page is built from: components, classes, facts, photos; read it, not the source
-npm run images -- <file>...  # photos into static/images/ at web size (<=3000px, ~600 KB); prints their pixels
-npm run check [-- /path]     # is anything wrong: builds, then checks every area and lists every finding at once
-npm run check:<area>         # one area: copy (the words), design (the look), seo (search and readers),
-                             # facts (the notes, the proof), code (TypeScript, tests, build)
-npm run shots [-- /path|url] # the page at 1280 and 390 wide in uploads/<page>-<width>/ (--all: every page; a full
-                             # address, production too, opens as the person you work for sees it), to look at;
-                             # prints which image to read first
-npm run show                 # each page whole, one image per width, sent to the chat (what shots took; --retake after a change)
-npm run system               # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
-node scripts/forms.mjs list  # the project's forms and what came in; show, save, submissions: --help
-npm run db:setup             # the forms, booking, payments and customers tables (dev and deploy run it)
-npm run deploy               # production, only when the owner asks (the website skill's checklist first)
+npm run brand-from-site -- <url>  # a first homepage's start (a minute): their facts, logo, photos, colours, fonts
+                                  # and proof into the notes and the record; prints what it wrote and what to read next
+npm run list-parts                # what a page is built from: components, classes, facts, photos; read it, not the source
+npm run check [-- /path]          # is anything wrong: builds, then checks every area and lists every finding at once
+npm run check:<area>              # one area: copy (the words), design (the look), seo (search and readers),
+                                  # facts (the notes, the proof), code (TypeScript, tests, build)
+npm run apply-design              # design/system.yaml -> styles/theme.css, DESIGN.md, src/fonts.ts; after any design change
+tt-crawl shoot /path ...          # the page at 1280 and 390 wide in uploads/<page>-<width>/ (a path is dev; --sitemap:
+                                  # every page; a full address, production too); prints which image to read first
+python3 .claude/skills/brand/web_photos.py <file>... --to static/images --width 3000   # photos at web size; prints their pixels
+node scripts/forms.mjs list       # the project's forms and what came in; show, save, submissions: --help
+npm run migrate                   # the forms, booking, payments and customers tables (dev and deploy run it)
+npm run deploy                    # production, only when the owner asks (the website skill's checklist first)
 ```
 
 Each one with options takes `--help`. While working, check what you
 changed, naming its pages: words, `check:copy`; the look, `check:design`,
 then the design skill's review gate; notes, `check:facts`; code, `check:code`.
-Before committing or showing work: `npm run check` and `npm run shots`;
-`npm run show` sends the result. A small edit is fixed at its source (the
-note, the brief or the page).
+Before committing or showing work: `npm run check` and `tt-crawl shoot` the
+pages you changed; to show them in the chat, the work skill's
+`create-deliverables` with each width's `page.jpg`. A small edit is fixed at
+its source (the note, the brief or the page).
 
 ## Where things are
 
 - `brand/` the brand as notes (`BRAND.md`), and `public/` the facts as notes
   with typed frontmatter (`FACTS.md`); the `brand` skill writes both. A fact
   lives in a note, once; `npm run content` compiles the notes for the pages.
-- `design/system.yaml` the design system as one record; `npm run system`
+- `design/system.yaml` the design system as one record; `npm run apply-design`
   compiles it. Never edit `styles/theme.css`, `DESIGN.md` or `src/fonts.ts`
   by hand. Read `DESIGN.md` before designing.
 - `src/site.ts` the tagline, logo, nav and real domain (the name and

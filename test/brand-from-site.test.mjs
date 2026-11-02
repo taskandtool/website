@@ -1,10 +1,10 @@
-// What from-site writes, held to expected copies: a saved crawl of a small
-// bakery (test/fixtures/from-site/site/) and its Google listing (places/),
+// What brand-from-site writes, held to expected copies: a saved crawl of a small
+// bakery (test/fixtures/brand-from-site/site/) and its Google listing (places/),
 // run in a copy of this repository with tt-crawl and Google Fonts stubbed,
 // so nothing leaves this computer: once with the listing (expected/), once
-// without Google access (expected-site-only/). A change to what from-site writes shows
+// without Google access (expected-site-only/). A change to what brand-from-site writes shows
 // here as a diff; when it is meant, write the expected copies again:
-//   UPDATE_GOLDEN=1 node --test test/from-site.test.mjs
+//   UPDATE_GOLDEN=1 node --test test/brand-from-site.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -14,25 +14,24 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const fixture = join(root, "test/fixtures/from-site");
-/** The files from-site writes that are compared whole. */
+const fixture = join(root, "test/fixtures/brand-from-site");
+/** The files brand-from-site writes that are compared whole. */
 const WRITTEN = ["public/business.md", "public/proof.md", "brand/images.md", "src/site.ts", "design/system.yaml"];
 /** The folders whose file names are compared. */
 const LISTED = ["brand/logo", "static/images", "static/images/logos"];
 
-/** Still the starter: the expected copies are what from-site writes over it, so a site already filled in has nothing to compare. */
+/** Still the starter: the expected copies are what brand-from-site writes over it, so a site already filled in has nothing to compare. */
 const starter = () =>
   /^name: to fill$/m.test(readFileSync(join(root, "public/business.md"), "utf8")) &&
   /^id: starter$/m.test(readFileSync(join(root, "design/system.yaml"), "utf8")) &&
   /logo: \{ file: "", alt: "" \}/.test(readFileSync(join(root, "src/site.ts"), "utf8"));
 
-const resizes = () =>
-  spawnSync("ffmpeg", ["-version"]).status === 0 || spawnSync("python3", ["-c", "import PIL"]).status === 0;
-const skip = !starter() ? "this site is no longer the starter" : !resizes() && "needs ffmpeg or Pillow to resize the photos";
+const resizes = () => spawnSync("python3", ["-c", "import PIL"]).status === 0;
+const skip = !starter() ? "this site is no longer the starter" : !resizes() && "needs Pillow (the brand skill's web_photos.py) to resize the photos";
 
 /** This repository's tracked files in a temp folder, node_modules linked, the crawl and two stubs beside it. */
 function workspace() {
-  const dir = mkdtempSync(join(tmpdir(), "from-site-"));
+  const dir = mkdtempSync(join(tmpdir(), "brand-from-site-"));
   for (const f of execFileSync("git", ["ls-files"], { cwd: root, encoding: "utf8" }).split("\n").filter(Boolean)) {
     if (f.startsWith("test/fixtures/") || !existsSync(join(root, f))) continue;
     mkdirSync(join(dir, dirname(f)), { recursive: true });
@@ -41,7 +40,7 @@ function workspace() {
   symlinkSync(join(root, "node_modules"), join(dir, "node_modules"));
   cpSync(join(fixture, "site"), join(dir, "raw/site"), { recursive: true });
   mkdirSync(join(dir, "bin"));
-  // tt-crawl: places answers from the saved listing; anything else (a crawl, a sheet) fails, which from-site survives
+  // tt-crawl: places answers from the saved listing; anything else (a crawl, a sheet) fails, which brand-from-site survives
   writeFileSync(join(dir, "bin/tt-crawl"), `#!/bin/sh
 if [ "$1" = places ] && [ -z "$GOOGLE_PLACES_API_KEY" ]; then echo '{"error": "no Google Places access: GOOGLE_PLACES_API_KEY is not set"}' >&2; exit 2; fi
 if [ "$1" = places ]; then mkdir -p raw/places && cp "${fixture}/places/"* raw/places/ && echo '{"ok": true, "place_id": "ChIJharlow"}'; exit 0; fi
@@ -58,7 +57,7 @@ test("a logo already in brand/logo/ is the one the site uses, and the crawl's is
   try {
     writeFileSync(join(dir, "brand/logo/owner-logo.svg"), "<svg xmlns='http://www.w3.org/2000/svg'/>");
     const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir, GOOGLE_PLACES_API_KEY: "" };
-    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/from-site.mjs", "https://harlowbakery.com", "--max-pages", "1"],
+    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/brand-from-site.mjs", "https://harlowbakery.com", "--max-pages", "1"],
       { cwd: dir, env, encoding: "utf8", timeout: 120_000 });
     assert.equal(run.status, 0, run.stderr);
     assert.ok(!existsSync(join(dir, "brand/logo/harlow-bakery-logo-11aa22bb.png")), "the crawl's logo was copied beside the owner's");
@@ -69,7 +68,7 @@ test("a logo already in brand/logo/ is the one the site uses, and the crawl's is
   }
 });
 
-test("with no crawl yet, from-site reads twelve pages, or as many as --max-pages says", () => {
+test("with no crawl yet, brand-from-site reads twelve pages, or as many as --max-pages says", () => {
   for (const [extra, pages] of [[[], "12"], [["--max-pages", "1"], "1"]]) {
     const dir = workspace();
     try {
@@ -77,7 +76,7 @@ test("with no crawl yet, from-site reads twelve pages, or as many as --max-pages
       // a crawl that fails once it has written down what it was asked
       writeFileSync(join(dir, "bin/tt-crawl"), `#!/bin/sh\necho "$@" > "${join(dir, "asked")}"\nexit 1\n`);
       const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir };
-      const run = spawnSync(process.execPath, ["scripts/from-site.mjs", "https://harlowbakery.com", ...extra], { cwd: dir, env, encoding: "utf8", timeout: 60_000 });
+      const run = spawnSync(process.execPath, ["scripts/brand-from-site.mjs", "https://harlowbakery.com", ...extra], { cwd: dir, env, encoding: "utf8", timeout: 60_000 });
       assert.equal(run.status, 1, run.stderr);
       assert.equal(readFileSync(join(dir, "asked"), "utf8").trim(), `brand https://harlowbakery.com --max-pages ${pages}`);
     } finally {
@@ -95,14 +94,14 @@ const CASES = [
   { name: "from their site alone", expected: join(fixture, "expected-site-only"), key: "" },
 ];
 
-for (const { name, expected, key } of CASES) test(`from-site ${name} writes the notes, photos, logo and tokens it wrote before`, { skip }, () => {
+for (const { name, expected, key } of CASES) test(`brand-from-site ${name} writes the notes, photos, logo and tokens it wrote before`, { skip }, () => {
   const dir = workspace();
   try {
     const env = { PATH: `${join(dir, "bin")}:${process.env.PATH}`, HOME: dir, GOOGLE_PLACES_API_KEY: key };
-    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/from-site.mjs", "https://harlowbakery.com", "--max-pages", "1"],
+    const run = spawnSync(process.execPath, ["--import", join(dir, "bin/fonts.mjs"), "scripts/brand-from-site.mjs", "https://harlowbakery.com", "--max-pages", "1"],
       { cwd: dir, env, encoding: "utf8", timeout: 120_000 });
     assert.equal(run.status, 0, run.stderr);
-    assert.match(run.stdout, /^from-site: harlowbakery\.com\n/);
+    assert.match(run.stdout, /^brand-from-site: harlowbakery\.com\n/);
     assert.match(run.stdout, /raw\/site\/harlowbakery\.com\/: the crawl already there, as it was read \(--max-pages reads nothing more\)/);
     assert.match(run.stdout, /\nNext: describe each photograph and video once in brand\/images\.md/);
     assert.match(run.stdout, /\nIts sections, by heading: 1: Harlow Bakery\n/);

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // A first homepage's starting point from the business's current site:
-// `npm run from-site -- https://theirsite.com [--max-pages N]`.
+// `npm run brand-from-site -- https://theirsite.com [--max-pages N]`.
 //
 // Reads the page given and the pages its menu links to (tt-crawl brand, twelve
 // pages unless --max-pages says: their biggest photographs are rarely all on
@@ -19,15 +19,13 @@
 // and it says which.
 import { execFileSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { homedir } from "node:os";
 import { basename, join } from "node:path";
 import YAML from "yaml";
-import { fail, flag, has, machineEnv, misused } from "../src/data/cli.mjs";
-import { MAX_WIDTH, webSize } from "./images.mjs";
+import { fail, flag, has, misused } from "../src/data/cli.mjs";
 import { frontmatter, start } from "./lib.mjs";
 import { TEXT_PAIRS, chromaHue, isHex, luminance, ratio } from "./theme.mjs";
 
-const a = start("from-site", `usage: npm run from-site -- https://theirsite.com [--max-pages N]
+const a = start("brand-from-site", `usage: npm run brand-from-site -- https://theirsite.com [--max-pages N]
 
 Reads the page given and the pages its menu links to (and its gallery,
 services page and a page of reviews or clients), then writes the business note, the logo, their photographs at
@@ -38,18 +36,18 @@ Prints what it wrote, what it kept, and what to read next. Safe to run
 again: a note, logo or record already filled in is kept.
   --max-pages N   pages to read (default 12); 1 reads the page given alone.
                   The rest of their site later: tt-crawl brand <url> --resume`, { flags: ["max-pages"], args: true });
-if (a._.length > 1) misused(`from-site: one site at a time (given ${a._.join(" ")})`, "npm run from-site -- https://theirsite.com");
+if (a._.length > 1) misused(`brand-from-site: one site at a time (given ${a._.join(" ")})`, "npm run brand-from-site -- https://theirsite.com");
 const given = a._[0];
 // a bare domain is their site too
 const url = given && !/^https?:\/\//.test(given) && /^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(given) ? `https://${given}` : given;
 // the homepage and the pages its menu links to, where the big photographs are
 const maxPages = flag(a, "max-pages") ?? "12";
-if (!/^[1-9]\d*$/.test(maxPages)) misused(`from-site: --max-pages needs a number of pages, e.g. --max-pages 1`, "npm run from-site -- https://theirsite.com --max-pages 1");
-if (!/^https?:\/\//.test(url || "") || !URL.canParse(url)) misused("from-site: it needs the business's site as a full URL", "npm run from-site -- https://theirsite.com");
+if (!/^[1-9]\d*$/.test(maxPages)) misused(`brand-from-site: --max-pages needs a number of pages, e.g. --max-pages 1`, "npm run brand-from-site -- https://theirsite.com --max-pages 1");
+if (!/^https?:\/\//.test(url || "") || !URL.canParse(url)) misused("brand-from-site: it needs the business's site as a full URL", "npm run brand-from-site -- https://theirsite.com");
 const host = new URL(url).hostname.replace(/^www\./, "");
 // a profile or listing is not their site: its colours and facts would seed the note and the tokens for good
 if (/(^|\.)(facebook|instagram|linkedin|tiktok|youtube|twitter|x|yelp|tripadvisor|nextdoor|linktr)\.(com|ee)$|(^|\.)(fb\.com|google\.[a-z.]+|g\.page|goo\.gl)$/i.test(host))
-  misused(`from-site: ${host} is a profile or listing, not their own site (read it as proof); their Google listing names their site (the brand skill's listing row)`, "npm run from-site -- https://theirsite.com");
+  misused(`brand-from-site: ${host} is a profile or listing, not their own site (read it as proof); their Google listing names their site (the brand skill's listing row)`, "npm run brand-from-site -- https://theirsite.com");
 const dir = `raw/site/${host}`;
 const read = (f, fallback) => (existsSync(join(dir, f)) ? JSON.parse(readFileSync(join(dir, f), "utf8")) : fallback);
 const crawl = (cmd) => execFileSync("tt-crawl", cmd, { stdio: ["ignore", "ignore", "pipe"] });
@@ -73,8 +71,8 @@ const crawled = existsSync(join(dir, "_index/business-card.json"));
 try {
   if (!crawled) crawl(["brand", url, "--max-pages", maxPages]);
 } catch (e) {
-  if (e.code === "ENOENT") fail("from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
-  fail(`from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
+  if (e.code === "ENOENT") fail("brand-from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
+  fail(`brand-from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
 }
 if (crawled) kept.push(`${dir}/: the crawl already there, as it was read${has(a, "max-pages") ? " (--max-pages reads nothing more)" : ""}; more of their site: tt-crawl brand ${url} --resume, or tt-crawl add <page>`);
 const manifest = () => read("_index/manifest.json", {});
@@ -150,16 +148,26 @@ else if (logo) {
 }
 const photos = (card.photos || []).map(asItem);
 mkdirSync("static/images", { recursive: true });
+// A full-bleed photograph is at most this wide.
+const MAX_WIDTH = 3000;
+/** The brand skill's web_photos.py on one picture: { path, width, height, kb }, or null when it could not be made. */
+function webSize(src, name) {
+  try {
+    const args = [".claude/skills/brand/web_photos.py", src, "--to", "static/images", "--as", name, "--width", String(MAX_WIDTH), "--json"];
+    return JSON.parse(execFileSync("python3", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }))[0] ?? null;
+  } catch {
+    return null;
+  }
+}
 // an alt worth keeping says something: not a file name, a number or "image"
 const realAlt = (alt) => (alt && /[a-z]{3,}\s+[a-z]{3,}/i.test(alt) && !/\.(jpe?g|png|webp)|^(image|photo|img)\b/i.test(alt) ? alt : "");
 const photoRows = [];
 let photosThere = 0;
 const shown = photos.flatMap((it) => {
-  const name = it.file.replace(/\.[a-z0-9]+$/i, "") + ".jpg";
-  const dest = join("static/images", name);
-  const there = existsSync(dest);
+  const base = it.file.replace(/\.[a-z0-9]+$/i, "");
+  const there = ["jpg", "png"].map((ext) => join("static/images", `${base}.${ext}`)).find((f) => existsSync(f));
   if (there) photosThere++;
-  const out = there ? { width: Math.min(it.width, MAX_WIDTH) } : webSize(fileOf(it), dest);
+  const out = there ? { path: there, width: Math.min(it.width, MAX_WIDTH) } : webSize(fileOf(it), base);
   if (!out) {
     notes.push(`${it.file} (${it.width}px wide) could not be resized here and was left out`);
     return [];
@@ -168,8 +176,8 @@ const shown = photos.flatMap((it) => {
   const height = out.height || Math.round((it.height * width) / it.width);
   const where = it.heading ? ` beside "${it.heading}"` : "";
   const alt = realAlt(it.alt);
-  photoRows.push({ file: dest, source: fileOf(it), width, height });
-  return [`/images/${name}  ${width}x${height}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
+  photoRows.push({ file: out.path, source: fileOf(it), width, height });
+  return [`/images/${basename(out.path)}  ${width}x${height}${out.kb ? `  ${out.kb} KB` : ""}${where}${alt ? `  alt "${alt}"` : ""}`];
 });
 if (shown.length > photosThere) wrote.push(`static/images/: ${shown.length - photosThere} photographs at web size`);
 if (photosThere) kept.push(`static/images/: ${photosThere} photographs already there`);
@@ -245,41 +253,19 @@ const proof = YAML.parseDocument(proofFront);
 const PROOF_KINDS = ["reviews", "ratings", "logos", "people", "numbers", "posts"];
 const proofEmpty = PROOF_KINDS.every((k) => !proof.get(k)?.items?.length);
 
-// The crawler reads Places with GOOGLE_PLACES_API_KEY, at GOOGLE_PLACES_API_URL
-// when set. Without a key of the owner's, a Google Places Connection granted
-// to this app stands in: its gateway URL, with the machine token as the key
-// (the gateway swaps in the real one; neither leaves for Google).
-function placesEnv() {
-  const env = machineEnv();
-  if (env.GOOGLE_PLACES_API_KEY || !env.MACHINE_TOKEN) return env;
-  try {
-    const listed = execFileSync("python3", [join(homedir(), "tools", "taskandtool.py"), "list-connections", "--json"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
-    const places = (JSON.parse(listed)?.connections || []).find((c) => c.provider === "google-places" && c.gateway_url);
-    if (places) return { ...env, GOOGLE_PLACES_API_URL: places.gateway_url.replace(/\/$/, "") + "/v1", GOOGLE_PLACES_API_KEY: env.MACHINE_TOKEN };
-  } catch {
-    // No bridge here (off the platform): only the key, if any, counts.
-  }
-  return env;
-}
-
-// their Google listing, through a key or the Google Places Connection
+// their Google listing (tt-crawl finds the key, or this app's google-places
+// connection), kept only when it names the site crawled (--site)
 function google() {
   const filled = business.toJSON() || {};
   const name = filled.name;
   const where = [filled.address?.locality, filled.address?.region].filter(Boolean).join(", ") || filled.address?.street || "";
   if (!name || /to fill/i.test(name)) return null;
   try {
-    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--first", "--out", "raw/places", "--json"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], env: placesEnv() });
+    const out = execFileSync("tt-crawl", ["places", `${name}, ${where}`, "--site", url, "--out", "raw/places", "--json"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
     const answer = JSON.parse(out.trim().split("\n").pop());
     // tt-crawl's summary of Google's answer; the answer itself is the source
     const d = JSON.parse(readFileSync(join("raw/places", `${answer.place_id}.summary.json`), "utf8"));
     const src = `raw/places/${answer.place_id}.json`;
-    // only their own listing: its website is the site we crawled
-    const listed = (() => { try { return new URL(d.website).hostname.replace(/^www\./, ""); } catch { return ""; } })();
-    if (listed !== host) {
-      notes.push(`the Google listing found for "${name}, ${where}" is ${d.name || "another place"} (${listed || "no website"}), not ${host}: left out; find theirs with tt-crawl places --place-id`);
-      return null;
-    }
     fillFromListing(d, src);
     return {
       rating: d.rating ? { platform: "Google", value: d.rating, count: d.review_count || null, url: d.maps_url || "", source: src } : null,
@@ -289,7 +275,9 @@ function google() {
     const why = String(e.stderr || e.message);
     notes.push(/no Google Places access|unknown_connection|not granted/.test(why)
       ? 'no Google listing read: for their rating and reviews, ask for the connection (python3 ~/tools/taskandtool.py request-connection google-places --why "their Google rating and reviews") or find them elsewhere'
-      : `their Google listing could not be read: ${errorLine(e).slice(0, 160)}`);
+      : /nothing written/.test(why)
+        ? `${errorLine(e).slice(0, 200)}; find theirs with tt-crawl places --place-id`
+        : `their Google listing could not be read: ${errorLine(e).slice(0, 160)}`);
     return null;
   }
 }
@@ -503,13 +491,13 @@ else {
     }
     record.set("id", "site");
     record.set("title", card.name || host);
-    record.set("summary", `Seeded from ${host}'s colours and fonts by npm run from-site; the first homepage's design replaces this.`);
+    record.set("summary", `Seeded from ${host}'s colours and fonts by npm run brand-from-site; the first homepage's design replaces this.`);
     if (record.hasIn(["sections", "overview"])) {
       record.setIn(["sections", "overview"], `The page opens on the business's best photograph at full width behind the headline. Seeded from ${host}'s own colours (${tokens.accent} on ${tokens.canvas})${families.length ? ` and fonts (${families.join(" and ")})` : ""}. The first homepage's design replaces this paragraph.`);
     }
     writeFileSync(recordFile, record.toString());
-    execFileSync("node", ["scripts/system.mjs"], { stdio: "ignore" });
-    wrote.push(`${recordFile}: their colours (accent ${tokens.accent}, ink ${tokens.ink} on ${tokens.canvas})${families.length ? ` and fonts (${families.join(" and ")})` : ""}, then npm run system`);
+    execFileSync("node", ["scripts/apply-design.mjs"], { stdio: "ignore" });
+    wrote.push(`${recordFile}: their colours (accent ${tokens.accent}, ink ${tokens.ink} on ${tokens.canvas})${families.length ? ` and fonts (${families.join(" and ")})` : ""}, then npm run apply-design`);
   }
 }
 
@@ -526,7 +514,7 @@ const list = (title, items) => (items.length ? `${title}\n${items.map((d) => `  
 // the old homepage's sections, by their headings: the first screen's h1, then each h2
 const homeMd = existsSync(join(dir, "pages/index.md")) ? readFileSync(join(dir, "pages/index.md"), "utf8") : "";
 const sections = [...homeMd.matchAll(/^#{1,2} +(.+)$/gm)].map((m) => m[1].replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").trim()).filter(Boolean);
-console.log(`from-site: ${host}
+console.log(`brand-from-site: ${host}
 ${list("Wrote:", wrote)}${list("Kept:", kept)}${list("Check:", notes)}
 Their homepage, as text: ${dir}/pages/index.md (its content's words, links and pictures, in order)${services ? `\nThe services page:       ${dir}/${services}` : ""}
 How it looks today:      ${dir}/shots/index/

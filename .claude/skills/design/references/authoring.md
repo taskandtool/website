@@ -1,7 +1,7 @@
 # Writing the site's system record
 
 `design/system.yaml` is the site's design system as one record, in the
-design library's shape. `npm run system` compiles it into `styles/theme.css`,
+design library's shape. `npm run apply-design` compiles it into `styles/theme.css`,
 `DESIGN.md` and `src/fonts.ts`; nothing else holds a design value. The library's
 fourteen systems sit in `records/` in this shape (`library.md` previews
 them). Read the closest one whole before writing; they show the level of
@@ -37,7 +37,7 @@ designed with.
 The library names colours per system (`claret`, `cloth`, `wine`). The site
 names them by role, because the layout, the components and
 `styles/input.css` use these classes on every page. The record defines
-every role: `npm run system` names any role the base stylesheet reads that
+every role: `npm run apply-design` names any role the base stylesheet reads that
 the record lacks, and `npm run check:design` names any class a page uses that no
 token makes.
 
@@ -67,7 +67,7 @@ because the footer and the shared components use it.
    `src/pages/home.tsx` and the record's tokens: the colours, sizes, radii
    and spacings the page uses stay; a token it never uses goes, except the
    roles above.
-2. **Every rule carries its reason** (`npm run system` refuses a do or
+2. **Every rule carries its reason** (`npm run apply-design` refuses a do or
    don't without its `why`). "Don't use shadows" is a preference; "Don't
    use shadows: depth here is the two paper tones, and a shadow reads as a
    third surface the system does not have" lets the next page apply it to a
@@ -89,7 +89,7 @@ because the footer and the shared components use it.
 6. **Type has floors.** Body text at least 18px; section heads at least
    2.5 times the body.
 7. **Every reference is written `{group.name}`** (`{colors.night}`,
-   `{typography.title}`, `{spacing.section}`); `npm run system` rejects one
+   `{typography.title}`, `{spacing.section}`); `npm run apply-design` rejects one
    that does not resolve.
 
 ## x_layout: look, never content

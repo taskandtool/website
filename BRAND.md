@@ -33,14 +33,14 @@ Two files, in this order, whenever the brand changes:
 1. **`design/system.yaml`**: the colours from `visual-identity.md` assigned
    to *roles* (which brand colour is the accent, the night ground, the
    secondary ink), the two font families, and any rule the brand's
-   do-and-don't adds or removes; then `npm run system`, which writes
+   do-and-don't adds or removes; then `npm run apply-design`, which writes
    `styles/theme.css` and `DESIGN.md`. A brand colour that fails 4.5:1 as
    text gets a different role, never a squint; `npm run check:design` measures the
    pairs.
 2. **`src/site.ts`**: the tagline, description, locale and logo file,
    from `positioning.md` and `visual-identity.md`. The name, contact
    details and social links come from `public/business.md`, and the fonts' link
-   from the record (`npm run system` writes `src/fonts.ts`; self-hosted
+   from the record (`npm run apply-design` writes `src/fonts.ts`; self-hosted
    fonts go in `static/fonts/` with `@font-face` in `styles/input.css`).
 
 Then the pages, through the `design` and `writing` skills, with

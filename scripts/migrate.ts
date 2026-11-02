@@ -3,7 +3,7 @@
 // the skills' schema.sql files through applySchema (safe to re-run, behind
 // the lock every app on the project shares). Machine only.
 //
-//   npm run db:setup        `npm run dev` runs it before the server starts; `npm run deploy` before the build
+//   npm run migrate        `npm run dev` runs it before the server starts; `npm run deploy` before the build
 //
 // It also fills in what the project's business row (data/business.ts: the
 // name texts, quotes and the texting box use, set in the CRM's Settings,
@@ -70,7 +70,7 @@ const databaseUrl = () => machineEnv().DATABASE_URL || undefined;
 /** The database for a script, its tables set up first, so a script works on a fresh project too. */
 export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
   const url = databaseUrl();
-  if (!url) fail("database: DATABASE_URL is not set, so this site has no database yet", "python3 ~/tools/taskandtool.py request-capability postgres");
+  if (!url) fail("database: DATABASE_URL is not set, so this site has no database yet", "python3 ~/tools/taskandtool.py request-database");
   if (!/^postgres(ql)?:\/\//.test(url)) fail("database: DATABASE_URL is not a postgres:// address", "grep DATABASE_URL ~/.env");
   // A database that never answers fails in seconds, so `npm run dev` still starts the pages.
   const pool = new pg.Pool({ connectionString: url, max: 2, connectionTimeoutMillis: 20_000, query_timeout: 120_000 });
@@ -81,13 +81,13 @@ export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
     try {
       await setupDb(db);
     } catch (e) {
-      return fail(`database: ${why(e)}`, "npm run db:setup, which says whether the database answers");
+      return fail(`database: ${why(e)}`, "npm run migrate, which says whether the database answers");
     }
     // the command's own failure, named for the script that ran it, never a stack trace
     try {
       return await fn(db);
     } catch (e) {
-      return fail(`${basename(process.argv[1] ?? "db", ".ts")}: ${why(e)}`, "npm run db:setup, then the same command again");
+      return fail(`${basename(process.argv[1] ?? "db", ".ts")}: ${why(e)}`, "npm run migrate, then the same command again");
     }
   } finally {
     await pool.end();
@@ -95,17 +95,17 @@ export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  start("db", `usage: npm run db:setup
+  start("migrate", `usage: npm run migrate
 
 Brings the project database's forms, booking, payments and customers
 tables up to date, and fills the business row's empty parts (name,
 address, privacy and terms pages) from this site's notes. Safe to re-run;
-without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run db:setup -- --help" });
+without DATABASE_URL it says so and exits 0.`, { tryHelp: "npm run migrate -- --help" });
   if (!databaseUrl()) {
-    done("db", "no DATABASE_URL, nothing to set up", { lines: ["until there is one, the forms and booking pages answer 404 and /admin says so"] });
+    done("migrate", "no DATABASE_URL, nothing to set up", { lines: ["until there is one, the forms and booking pages answer 404 and /admin says so"] });
     process.exit(0);
   }
   const notes = await fromNotes();
   const lines = await withDb((db) => fillBusiness(db, notes));
-  done("db", `tables up to date (${SCHEMAS.join(", ")})`, { lines });
+  done("migrate", `tables up to date (${SCHEMAS.join(", ")})`, { lines });
 }
