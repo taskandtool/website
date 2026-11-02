@@ -359,7 +359,7 @@ export function pageFindings() {
         report(f.rule, page, locate(bands[j], f.match), `${say(f)} (said in band ${i + 1} too)`, f.severity === "hint" ? "hint" : "error");
       } else {
         const band = f.section === undefined ? null : bands[f.section];
-        const el = band && (["triads", "uniform-length", "dated-vocabulary"].includes(f.rule) ? band : locate(band, f.match));
+        const el = band && (["triads", "dated-vocabulary"].includes(f.rule) ? band : locate(band, f.match));
         report(f.rule, page, el, say(f), f.severity === "hint" ? "hint" : "error");
       }
     }
