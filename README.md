@@ -56,7 +56,8 @@ Beside the site, the two conventions Task & Tool reads:
   migrate-site/  replace an existing site page for page: inventory, facts, brand, look, page map, redirects, launch
   brand/         the brand and fact notes in brand/ and public/, from any source; the same skill
                  in every Starter App that carries it
-.taskandtool/setup.sh  npm install, the CSS, tt-crawl and its browsers, /admin kept for the team, the `web` service
+.taskandtool/setup.sh  npm install, the CSS, /admin kept for the team, the `web` service
+.taskandtool/after-setup.sh  tt-crawl and its browsers, once the site is up
 starter-app.json       the manifest: what "ready" means, and the suggestions an
                        empty chat offers
 ```
@@ -82,8 +83,8 @@ starter-app.json       the manifest: what "ready" means, and the suggestions an
 
 **On Task & Tool.** Pick Website when you create an app. The machine clones
 this repository into the app from its main branch and runs
-`.taskandtool/setup.sh` (`npm install`, the CSS, tt-crawl and its browsers,
-the `web` service). Nothing is sent into your chat: the manifest's suggestions are
+`.taskandtool/setup.sh` (`npm install`, the CSS, the `web` service), then
+`after-setup.sh` (tt-crawl and its browsers). Nothing is sent into your chat: the manifest's suggestions are
 what an empty chat offers. On machine replacement the clone and the setup
 happen again, and your own work comes back from your repository or a backup.
 
@@ -93,6 +94,7 @@ happen again, and your own work comes back from your repository or a backup.
 git clone https://github.com/taskandtool/website my-site
 cd my-site
 bash .taskandtool/setup.sh
+bash .taskandtool/after-setup.sh
 npm run dev                               # http://localhost:3000
 ```
 
@@ -116,7 +118,7 @@ state (`starter-app.json`'s `when` conditions).
 
 ## Third-party tools it installs
 
-- The shared crawler, `tt-crawl`, installed by `.taskandtool/setup.sh` with
+- The shared crawler, `tt-crawl`, installed by `.taskandtool/after-setup.sh` with
   pip from its public repo's main branch, and the two browsers it drives:
   Chrome (chrome-headless-shell from Google's Chrome for Testing, the
   default for reading pages and screenshots) and

@@ -6,7 +6,7 @@
 #     bash ~/app/.taskandtool/setup.sh
 #
 # The app's own files are not this script's business: they arrive with the
-# clone.
+# clone. tt-crawl and its browsers are after-setup.sh's, once the site is up.
 set -euo pipefail
 
 APP="$(pwd)"
@@ -49,34 +49,17 @@ if [ -f package.json ]; then
   fi
 fi
 
-# 3. tt-crawl (github.com/taskandtool/crawler), the site reader and
-# screenshots brand-from-site and the skills use, and the browsers it drives.
-CRAWLER_REF="${CRAWLER_REF:-main}"
-CRAWLER="git+https://github.com/taskandtool/crawler@$CRAWLER_REF"
-echo "== tt-crawl $CRAWLER_REF"
-# The crawler's main, every run: the first install brings its dependencies;
-# the second replaces its own code even when its version number did not move.
-python3 -m pip install --quiet --upgrade "ttcrawl @ $CRAWLER" 2>&1 | tail -2 || true
-python3 -m pip install --quiet --force-reinstall --no-deps "ttcrawl @ $CRAWLER" 2>&1 | tail -2 || true
-python3 -m ttcrawl --version || echo "tt-crawl did not install; site capture is unavailable until it does"
-python3 -c "import PIL" 2>/dev/null || python3 -m pip install --quiet pillow 2>&1 | tail -1 || echo "== warning: Pillow did not install; the brand skill's web_photos.py needs it"
-
-# tt-crawl on the PATH, then the browsers it drives: Chrome reads pages and
-# takes screenshots, Obscura is the small fallback. Done here so a first crawl
-# never downloads a browser mid-conversation.
-python3 -m ttcrawl setup || echo "tt-crawl setup did not finish every step; its output above says which"
-
-# 4. /admin is the team's: Task & Tool asks for a sign-in there even once the
+# 3. /admin is the team's: Task & Tool asks for a sign-in there even once the
 # site is public (src/business.tsx answers 404 to anyone it does not name).
 # Declaring a path already declared changes nothing.
 if [ -f "$HOME/tools/taskandtool.py" ]; then
   python3 "$HOME/tools/taskandtool.py" add-private-path /admin || true
 fi
 
-# 5. The web service, which the manifest's `ready` check looks for: a failure here fails the setup.
+# 4. The web service, which the manifest's `ready` check looks for: a failure here fails the setup.
 if [ -f "$HOME/tools/taskandtool.py" ] && [ -f package.json ]; then
   echo "== serving dev (npm run dev on port 3000)"
   python3 "$HOME/tools/taskandtool.py" serve "npm run dev" --port 3000
 fi
 
-echo "== website starter app setup done. Next: dev answers at localhost:3000; for a first homepage, npm run brand-from-site -- <their site>"
+echo "== website starter app setup done. Next: dev answers at localhost:3000; for a first homepage, npm run brand-from-site -- <their site> once after-setup.sh has installed tt-crawl"

@@ -71,7 +71,7 @@ const crawled = existsSync(join(dir, "_index/business-card.json"));
 try {
   if (!crawled) crawl(["brand", url, "--max-pages", maxPages]);
 } catch (e) {
-  if (e.code === "ENOENT") fail("brand-from-site: tt-crawl is not installed here", "bash ~/app/.taskandtool/setup.sh");
+  if (e.code === "ENOENT") fail("brand-from-site: tt-crawl is not installed here", "pgrep -f '[a]fter-setup.sh' prints a process while it is still installing; if it prints nothing: bash ~/app/.taskandtool/after-setup.sh");
   fail(`brand-from-site: could not read ${url}: ${errorLine(e)}\n  Is the address right?`, `curl -sI ${url}`);
 }
 if (crawled) kept.push(`${dir}/: the crawl already there, as it was read${has(a, "max-pages") ? " (--max-pages reads nothing more)" : ""}; more of their site: tt-crawl brand ${url} --resume, or tt-crawl add <page>`);
