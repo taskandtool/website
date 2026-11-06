@@ -11,6 +11,12 @@ const index: Page = {
   description: `Notes and news from ${site.name}.`,
 };
 
+/** "Oct 1, 2026" from a post's ISO date. */
+const postDate = (iso: string) => {
+  const d = new Date(`${iso}T00:00:00Z`);
+  return Number.isNaN(d.getTime()) ? iso : new Intl.DateTimeFormat(site.locale || "en", { dateStyle: "medium", timeZone: "UTC" }).format(d);
+};
+
 function Index() {
   return (
     <Section labelledBy="blog-title">
@@ -21,7 +27,7 @@ function Index() {
         <ol class="mt-lead divide-y divide-line border-y border-line">
           {content.posts.map((p) => (
             <li class="grid gap-3 py-8 sm:grid-cols-[8rem_1fr] sm:gap-6">
-              <time datetime={p.date} class="text-label uppercase text-ink-3">{p.date}</time>
+              <time datetime={p.date} class="text-label text-ink-3">{postDate(p.date)}</time>
               <div>
                 <h2 class="text-title">
                   <a href={p.path} class="no-underline hover:underline">{p.title}</a>
@@ -48,14 +54,14 @@ export function postPage(post: (typeof content.posts)[number]): { page: Page; Bo
   };
   const Body = () => (
     <Section labelledBy="post-title">
-      <p class="text-label uppercase text-ink-3">
-        <time datetime={post.date}>{post.date}</time>
+      <p class="text-label text-ink-3">
+        <time datetime={post.date}>{postDate(post.date)}</time>
         {post.author ? ` · ${post.author}` : ""}
       </p>
       <h1 id="post-title" class="mt-4 max-w-[16ch] text-section">{post.title}</h1>
       <div class="prose mt-lead max-w-prose">{raw(post.html)}</div>
       <p class="mt-lead">
-        <a href="/blog">All posts</a>
+        <a href="/blog" class="font-semibold text-accent underline">All posts</a>
       </p>
     </Section>
   );
