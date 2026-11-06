@@ -50,7 +50,7 @@ export const site = {
   /** Analytics and verification IDs carried over from the old site (the
    *  inventory's `tracking`), rendered by the layout. Empty = nothing rendered. */
   tracking: { ga4: "", metaPixel: "", searchConsole: "" },
-  /** The business's IANA zone (public/business.md `time_zone`): the team's views show times in it. */
+  /** The business's IANA zone (public/business.md `time_zone`): a team page shows it until the reader's own zone is known. */
   timeZone: typeof business.time_zone === "string" && business.time_zone ? business.time_zone : "UTC",
   /** true once a form sells things: every page loads /cart.js (the forms skill's cart: Add to order buttons, the count, the order form filled from it). */
   cart: false,
