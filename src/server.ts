@@ -22,7 +22,8 @@ server.use("/*", serveStatic({ root: "./static", onFound: fresh }));
 server.use("/cart.js", serveStatic({ path: "./src/forms/cart.js", onFound: fresh }));
 // A photo field's uploads on localhost (the routing worker answers them at the app's addresses).
 server.route("/", devFiles());
-server.route("/", app);
+// Handed over whole, so the app's own 404 and error pages answer here as they do at the edge.
+server.all("*", (c) => app.fetch(c.req.raw, c.env as object));
 
 serve({ fetch: server.fetch, port, hostname: "0.0.0.0" }, (info) => {
   console.log(`website listening on http://localhost:${info.port}`);
