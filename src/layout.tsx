@@ -35,7 +35,7 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         <script>{raw(ORIGIN_SCRIPT)}</script>
         <Tracking />
       </head>
-      <body class="min-h-screen bg-canvas text-ink font-body">
+      <body class="flex min-h-screen flex-col bg-canvas text-ink font-body">
         <a
           href="#main"
           class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-control focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
@@ -44,7 +44,7 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
         </a>
         <Notice />
         <Header current={page.path} />
-        <main id="main">{children}</main>
+        <main id="main" class="flex-1">{children}</main>
         <Footer />
       </body>
     </html>
