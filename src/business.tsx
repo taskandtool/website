@@ -218,6 +218,17 @@ const nav: NavItem[] = [
 const toSubmission = (id: string | null) => (id ? { href: `/admin/submissions/${id}`, label: "Back to the submission" } : null);
 const admin = new Hono<{ Variables: TeamVars }>();
 admin.use("*", teamOnly());
+admin.onError((e, c) => {
+  console.error(`${c.req.method} ${c.req.path}:`, e);
+  const retry = c.req.method === "GET" ? c.req.url : null;
+  return c.html(
+    <AdminLayout title="This page did not load" css={CSS} nav={nav} current="" user={c.get("user")}>
+      <p>Please try again in a moment.</p>
+      {retry ? <p class="mt-4"><a href={retry} class="font-semibold text-accent underline">Try again</a></p> : null}
+    </AdminLayout>,
+    500,
+  );
+});
 admin.use("*", async (c, next) =>
   hasDb(c)
     ? next()
