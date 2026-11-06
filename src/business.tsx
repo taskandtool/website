@@ -170,7 +170,7 @@ business.route(
     source: SOURCE,
     page: async (c, title, body) => String(await page(c.req.path, title, body)),
     steps: {
-      booking: bookingStep(getDb, { source: SOURCE }),
+      booking: bookingStep(getDb, { source: SOURCE, domain: DOMAIN }),
       payment: paymentStep(getDb, (c) => stripeFrom(envOf(c)), { source: SOURCE, connected: (c) => stripeConnected(envOf(c)) }),
     },
     // A booking in a form is confirmed when the whole form is done.
