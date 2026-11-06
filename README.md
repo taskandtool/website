@@ -3,16 +3,15 @@
 A Task & Tool **Starter App**: the business's public website, working from
 the first minute. A Hono site with a brand folder, a design system file, and
 one command that deploys it to production on Cloudflare. The AI builds it from the brand,
-from the owner's current site, or from a site they like, and ships it when
-the owner says so.
+from the owner's current site, or from a site they like.
 
 The repository *is* the app: what you clone is what runs. Installed with one
 click on Task & Tool, or cloned into a repository of your own (below). MIT
 licensed.
 
 It runs in dev on the machine while it is being built, and is pre-rendered
-to production on Cloudflare when the owner deploys. It needs nothing to start, needs managed
-Postgres only once a form stores submissions, and depends on nothing else.
+to production on Cloudflare when the owner deploys. It starts with nothing connected. A form
+that stores submissions needs managed Postgres.
 
 ## What is in the box
 
@@ -70,7 +69,7 @@ starter-app.json       the manifest: what "ready" means, and the suggestions an
 - **Production, on Cloudflare:** `npm run build` pre-renders every route (pages, posts,
   legal) to `dist/*.html` beside the static files, generates
   `sitemap.xml` and `robots.txt`, validates the redirect table, and
-  bundles the app to `build/worker.mjs`. `npm run deploy` builds and hands
+  bundles the app to `build/worker.mjs`. `npm run deploy` builds and uploads
   both to the platform. Static paths are served as
   assets, free and always on; paths that match no file (a redirect, a
   form post, a dynamic route, the 404) reach the Worker. Whatever `src/worker.ts` reaches must run on
@@ -99,8 +98,8 @@ npm run dev                               # http://localhost:3000
 ```
 
 Off the platform, `npm run build` then `npx wrangler deploy` with
-`wrangler.jsonc` deploys to your own Cloudflare account: no Task & Tool
-dependency, which is the point.
+`wrangler.jsonc` deploys to your own Cloudflare account and needs nothing from
+Task & Tool.
 
 ## Taking over an existing site
 

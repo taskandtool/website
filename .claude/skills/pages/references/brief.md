@@ -29,7 +29,7 @@ arrives: [search "fitted kitchens Bristol", the van's phone number]
 ---
 
 ## hero
-Headline: Fitted kitchens, made in our Bristol workshop
+Headline: Fitted kitchens made in our Bristol workshop
 Lead: Kitchens and wardrobes made to measure for old houses and new, fitted by the joiners who built them.
 Action: Book a workshop visit → /contact
 

@@ -22,7 +22,7 @@ Which skill to read, by what the owner asks:
   deploy; going live on their domain and the site audit: its
   `references/launch.md`
 - a form, an order, a booking page, payments, `/admin`, customers' notes,
-  a report or chart: `forms`, `booking`, `payments`, `admin`, `customers`,
+  sending leads to a CRM or webhook, a report or chart: `forms`, `booking`, `payments`, `admin`, `customers`,
   `reports`, all on `data`. An order or a paid appointment is a form with
   steps; `payments` adds the Stripe key and webhook.
 - a small edit (a typo, a line), running, code, deploying: `website`; what production is:
@@ -47,7 +47,7 @@ npm run apply-design              # design/system.yaml -> styles/theme.css, DESI
 tt-crawl shoot /path ...          # the page at 1280 and 390 wide in uploads/<page>-<width>/ (a path is dev; --sitemap:
                                   # every page; a full address, production too); prints which image to read first
 python3 .claude/skills/brand/web_photos.py <file>... --to static/images --width 3000   # photos at web size; prints their pixels
-node scripts/forms.mjs list       # the project's forms and what came in; show, save, submissions: --help
+node scripts/forms.mjs list       # the project's forms and what came in; show, save, submissions, destinations: --help
 npm run migrate                   # the forms, booking, payments and customers tables (dev and deploy run it)
 npm run deploy                    # production, only when the owner asks (the website skill's checklist first)
 ```
@@ -101,5 +101,5 @@ its source (the note, the brief or the page).
   the tokens lack is added there. No hex value or Tailwind default colour in
   markup, and no classes of the site's own in `styles/` (`check:design`).
 - Real content only. No invented customers, quotes, numbers, awards, or
-  prices; reserve an honest slot when the material does not exist yet.
+  prices; leave it out and add a `NEED:` line for the owner when the material does not exist yet.
   `check:copy` fails on a number or quote the notes do not hold.

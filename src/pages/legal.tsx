@@ -9,7 +9,7 @@ export function legalPage(doc: (typeof content.legal)[number]): { page: Page; Bo
   const page: Page = {
     path: doc.path,
     title: doc.title,
-    description: `${doc.title} for ${site.name}: the full text as it applies to this website and its services.`,
+    description: `${doc.title} for ${site.name}.`,
   };
   const Body = () => (
     <Section labelledBy="legal-title">

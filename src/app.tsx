@@ -5,6 +5,7 @@ import { Hono } from "hono";
 import type { FC } from "hono/jsx";
 import { pages } from "./pages";
 import { NotFound } from "./pages/not-found";
+import { errorPage, ServerError } from "./pages/error";
 import { Blog, postPage } from "./pages/blog";
 import { legalPage } from "./pages/legal";
 import { content } from "./content";
@@ -71,5 +72,9 @@ app.get("/robots.txt", (c) =>
 app.route("/", business);
 
 app.notFound((c) => c.html(render(NotFound.page, <NotFound.Body />), 404));
+app.onError((e, c) => {
+  console.error(`${c.req.method} ${c.req.path}:`, e);
+  return c.html(render(errorPage(c.req.path), <ServerError retry={c.req.method === "GET" ? c.req.url : null} />), 500);
+});
 
 export default app;

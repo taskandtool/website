@@ -21,7 +21,7 @@ function Body() {
     <section aria-labelledby="welcome-title" class="bg-canvas">
       <div class="mx-auto flex min-h-[70vh] max-w-wide flex-col justify-center px-5 py-section sm:px-8">
         <h1 id="welcome-title" class="text-display">
-          Welcome.
+          This site is being set up
         </h1>
         <p class="mt-6 max-w-xl text-lede text-ink-2">
           Chat with AI to get this site up and running.

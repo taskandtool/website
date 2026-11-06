@@ -25,13 +25,15 @@ import { fromNeon } from "./data/neon";
 import { pushAfterWrites } from "./booking/sync";
 import { afterResponse, sendEmail } from "./data/send";
 import { formsAdmin } from "./forms/admin";
+import { leadMoment } from "./forms/destinations";
+import { ORIGIN_KEYS } from "./forms/origin";
 import { formRoutes } from "./forms/routes";
 import { BOOKING_PAGE, completePaidSubmission, recordNotified } from "./forms/store";
 import { formatSlot } from "./booking/slots";
 import { Layout, render } from "./layout";
 import { paymentsAdmin } from "./payments/admin";
 import { paymentStep } from "./payments/form-step";
-import { stripeFrom } from "./payments/stripe";
+import { stripeConnected, stripeFrom } from "./payments/stripe";
 import { stripeWebhook } from "./payments/webhook";
 import { site } from "./site";
 import { unsubscribeRoutes } from "./data/unsubscribe";
@@ -50,6 +52,11 @@ const confirm = (c: Context, e: BookingNotice) => afterResponse(c, notifyBooking
 /** The booking pages' address for a manage link: the site's own once set, else this request's host (a visitor's). */
 const BOOK = site.url ? `${site.url.replace(/\/$/, "")}/book` : null;
 
+/** A submission's page on the team's side, for the emails about it. */
+const submissionLink = (c: Context, id: string) => new URL(`/admin/submissions/${id}`, c.req.url).href;
+/** A finished submission goes to its destinations, after the response. */
+const sendLead = (c: Context, db: Db, id: string) => afterResponse(c, leadMoment(db, envOf(c), id, "complete", { link: submissionLink(c, id) }));
+
 /**
  * A booking made at /book, or by the team on the Schedule, is a submission
  * too, so the team reads every booking where it reads every form. Once per
@@ -60,12 +67,13 @@ const BOOK = site.url ? `${site.url.replace(/\/$/, "")}/book` : null;
 export async function bookingSubmission(db: Db, e: Pick<BookingNotice, "booking" | "type" | "host">, page: string | null): Promise<string | null> {
   const b = e.booking;
   const notes = typeof b.answers.notes === "string" ? b.answers.notes : undefined;
-  const data = JSON.stringify({ service: e.type.name, with: e.host.name, ...(notes ? { notes } : {}) });
+  const origin = Object.fromEntries(ORIGIN_KEYS.flatMap((k) => (b.answers[k] ? [[k, b.answers[k]]] : [])));
+  const data = JSON.stringify({ service: e.type.name, with: e.host.name, ...(notes ? { notes } : {}), ...origin });
   const [made] = await db.sql<{ id: string }>`
     with made as (
-      insert into submissions (form_key, name, email, phone, data, source, page, status, completed_at)
-      select ${BOOKING_PAGE.key}, ${b.name}, ${b.email}, ${b.phone}, ${data}::jsonb, ${SOURCE}, ${page}, 'new', now()
-      where exists (select 1 from bookings where id = ${b.id}::bigint and submission_id is null)
+      insert into submissions (form_key, name, email, phone, data, source, page, status, completed_at, text_consent, text_consent_at)
+      select ${BOOKING_PAGE.key}, ${b.name}, ${b.email}, ${b.phone}, ${data}::jsonb, ${SOURCE}, ${page}, 'new', now(), k.text_consent, k.text_consent_at
+      from bookings k where k.id = ${b.id}::bigint and k.submission_id is null
       returning id)
     update bookings set submission_id = made.id from made where bookings.id = ${b.id}::bigint
     returning made.id::text as id`;
@@ -84,7 +92,7 @@ async function tellHost(c: Context, db: Db, id: string, e: BookingNotice): Promi
   const sent = await sendEmail(envOf(c), {
     to,
     subject: `New booking: ${e.type.name} with ${b.name || b.email}`,
-    text: `${b.name || b.email} booked ${e.type.name} with ${e.host.name}.\n\n${when}\n\n${new URL(`/admin/submissions/${id}`, c.req.url).href}`,
+    text: `${b.name || b.email} booked ${e.type.name} with ${e.host.name}.\n\n${when}\n\n${submissionLink(c, id)}`,
     replyTo: b.email,
     team: true,
   });
@@ -105,6 +113,8 @@ export const filed = (page: (e: BookingNotice) => string | null, dbOf: (c: Conte
   const where = page(e);
   const id = await bookingSubmission(db, e, where);
   if (id && where && e.host.email) afterResponse(c, tellHost(c, db, id, e));
+  // Booked online by the booker: a lead like any form's, sent wherever those go.
+  if (id && where) sendLead(c, db, id);
 };
 
 /** No database yet: these paths do not exist. */
@@ -115,7 +125,6 @@ const needsDb: MiddlewareHandler = async (c, next) => (hasDb(c) ? next() : c.not
 // shows the texting box, once the project has a business number (the
 // CRM's) and the business's name (forms/consent.ts).
 const consentHere = (about: "request" | "booking") => (c: Context) => textingBox(getDb(c), about);
-const later = (c: Context, work: Promise<unknown>) => afterResponse(c, work.catch((e) => console.error("after the response:", e)));
 
 /** A form's or a booking's page in the site's own layout. */
 const Shell = ({ children }: { children?: Child }) => <section class="mx-auto max-w-xl px-4 py-12">{children}</section>;
@@ -141,6 +150,8 @@ business.route(
     afterPaid: async (c, paymentId) => {
       const id = await completePaidSubmission(getDb(c), paymentId);
       if (!id) return;
+      // Ahead of the confirmation, whose failure makes Stripe deliver again.
+      sendLead(c, getDb(c), id);
       const sent = await confirmFormBooking(getDb(c), id, emailSender(envOf(c)), { domain: DOMAIN, manageBase: BOOK });
       if (sent.status === "failed") throw new Error(`booking confirmation for submission ${id}: ${sent.error}`);
     },
@@ -160,11 +171,11 @@ business.route(
     page: async (c, title, body) => String(await page(c.req.path, title, body)),
     steps: {
       booking: bookingStep(getDb, { source: SOURCE }),
-      payment: paymentStep(getDb, (c) => stripeFrom(envOf(c)), { source: SOURCE }),
+      payment: paymentStep(getDb, (c) => stripeFrom(envOf(c)), { source: SOURCE, connected: (c) => stripeConnected(envOf(c)) }),
     },
     // A booking in a form is confirmed when the whole form is done.
     onComplete: (c, id) => {
-      later(c, confirmFormBooking(getDb(c), id, emailSender(envOf(c)), { domain: DOMAIN, manageBase: BOOK ?? new URL("/book", c.req.url).href }));
+      afterResponse(c, confirmFormBooking(getDb(c), id, emailSender(envOf(c)), { domain: DOMAIN, manageBase: BOOK ?? new URL("/book", c.req.url).href }));
     },
     textConsent: consentHere("request"),
   }),
@@ -213,8 +224,7 @@ admin.use("*", async (c, next) =>
     : c.html(
         <AdminLayout title="Submissions" css={CSS} nav={nav} current="/admin/submissions" user={c.get("user")}>
           <p class="max-w-prose">
-            This site has no database yet, so its forms and booking page are switched off. Ask the AI to set one up, and what people send
-            shows up here.
+            This site has no database yet, so its forms and booking page are switched off. Ask the AI to set one up, and what people send shows up here.
           </p>
         </AdminLayout>,
         503,

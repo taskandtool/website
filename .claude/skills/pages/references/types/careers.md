@@ -2,7 +2,7 @@
 
 <job>
 A candidate is deciding whether to apply. They want to know what the open roles are, what the work
-and the pay are like, and how to apply. An honest "no openings right now" with a way to get in touch
+and the pay are like, and how to apply. A plain "no openings right now" with a way to get in touch
 beats a stale posting. A careers page that is only a link to an applicant system gives no reason to
 apply.
 </job>
@@ -28,7 +28,7 @@ apply.
 </select>
 
 <sections>
-  roles       core      Each open role with title, place, type, pay and a link to apply; or an honest
+  roles       core      Each open role with title, place, type, pay and a link to apply; or a plain
                         line that none are open, and how to get in touch anyway.
   offer       optional  Pay, benefits, hours, training. When: the brand states them.
   people      optional  Staff in their own words, named. When: the brand has them.

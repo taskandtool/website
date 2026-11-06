@@ -23,7 +23,7 @@ identity:
   source: "to fill: the real-world artifact or behaviour it borrows from"
   signature: "to fill: the one moment a visitor should remember"
   rejection: "to fill: the familiar pattern this site deliberately avoids"
-  photography: "to fill: real photos the owner has, or the honest slot until they do"
+  photography: "to fill: real photos the owner has, or a NEED line until they do"
 
 tokens:
   # Every colour by role. Markup uses only these (bg-*, text-*, border-*);

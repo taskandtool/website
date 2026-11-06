@@ -10,9 +10,9 @@ const page: Page = {
 function Body() {
   return (
     <Section labelledBy="nf-title">
-      <h1 id="nf-title" class="max-w-[12ch] text-section">There is no page here.</h1>
+      <h1 id="nf-title" class="max-w-[12ch] text-section">There is no page here</h1>
       <p class="mt-6 max-w-md text-lede text-ink-2">
-        The address may have changed, or the link was wrong. The home page has everything.
+        The address may have changed, or the link was wrong.
       </p>
       <div class="mt-10">
         <Button href="/">Go to the home page</Button>

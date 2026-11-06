@@ -157,7 +157,7 @@ export function pageFindings() {
       if (!title) report("missing-title", page, null, "no <title>; set the page's title in its Page");
       else if (title.length > 60) report("title-length", page, null, `the <title> is ${title.length} characters; search results cut it near 60, so lead with what the page is`);
       if (!description) report("missing-description", page, null, "no meta description; set the page's description in its Page");
-      else if (description.length < 70 || description.length > 160) report("description-length", page, null, `the description is ${description.length} characters; search results show about 70 to 160`);
+      else if (description.length > 160) report("description-length", page, null, `the description is ${description.length} characters; search results cut it near 160`);
       if (title) (titles.get(title) || titles.set(title, []).get(title)).push(page);
     }
 

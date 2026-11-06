@@ -16,7 +16,7 @@ Direction:          to fill: the chosen direction's name and one-sentence thesis
 Source:             to fill: the real-world artifact or behaviour it borrows from
 Signature:          to fill: the one moment a visitor should remember
 Rejection:          to fill: the familiar pattern this site deliberately avoids
-Photography:        to fill: real photos the owner has, or the honest slot until they do
+Photography:        to fill: real photos the owner has, or a NEED line until they do
 ```
 
 ## Visual Theme & Atmosphere

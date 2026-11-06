@@ -2,7 +2,7 @@
 
 <job>
 A blog post answers one question a real customer has, shows the company has done the thing, and
-hands interested readers to the matching service page. Success is the reader getting the answer;
+links interested readers to the matching service page. Success is the reader getting the answer;
 the second job is the path to the money page. A post earns its place by
 answering a question people search for; thin or machine-made posts weigh on the whole site.
 </job>
@@ -17,7 +17,7 @@ hold first-hand material for it: a job the company did, a question customers hav
 fact, the owner's own view. Otherwise: improve a post that has traffic or links; merge overlapping
 weak posts into one and redirect the rest; retire posts with no traffic, links or first-hand
 material. Retiring a whole blog is legitimate when nothing survives. Mass-produced AI posts are
-named spam. The case for retiring is quality and honesty, not a traffic promise.
+named spam.
 </exists>
 
 <inventory>

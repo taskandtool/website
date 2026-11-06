@@ -4,6 +4,7 @@
 import { html, raw } from "hono/html";
 import type { Child } from "hono/jsx";
 import { googleFontsUrl } from "./fonts";
+import { ORIGIN_SCRIPT } from "./forms/origin";
 import { site, pageTitle, logoUrl, canonicalUrl, formatHours, type Page } from "./site";
 
 export function Layout({ page, children }: { page: Page; children?: Child }) {
@@ -31,6 +32,7 @@ export function Layout({ page, children }: { page: Page; children?: Child }) {
           <script type="application/ld+json">{raw(JSON.stringify(obj))}</script>
         ))}
         {site.cart ? <script src="/cart.js" defer /> : null}
+        <script>{raw(ORIGIN_SCRIPT)}</script>
         <Tracking />
       </head>
       <body class="min-h-screen bg-canvas text-ink font-body">
