@@ -13,7 +13,7 @@
 import { Hono, type Context, type MiddlewareHandler } from "hono";
 import type { Child } from "hono/jsx";
 import { teamOnly, type TeamVars } from "./admin/guard";
-import { AdminLayout, type NavItem } from "./admin/layout";
+import { sidebarFrame, type NavItem } from "./admin/layout";
 import { bookingAdmin, peopleRoutes, typeRoutes } from "./booking/admin";
 import { confirmFormBooking } from "./booking/confirm";
 import { bookingStep } from "./booking/form-step";
@@ -35,7 +35,7 @@ import { paymentsAdmin } from "./payments/admin";
 import { paymentStep } from "./payments/form-step";
 import { stripeConnected, stripeFrom } from "./payments/stripe";
 import { stripeWebhook } from "./payments/webhook";
-import { site } from "./site";
+import { logoUrl, site } from "./site";
 import { unsubscribeRoutes } from "./data/unsubscribe";
 import { textingBox } from "./forms/consent";
 
@@ -203,29 +203,38 @@ business.route(
 
 // The team's side, private: Task & Tool lets only the team reach /admin
 // (add-private-path, which setup.sh declares) and teamOnly answers 404 to
-// anyone else. Submissions (every form and booking, a booking rescheduled or
-// cancelled and a payment refunded from its submission), the week's
-// Schedule (and booking for someone), the Services people can book, and the
-// Team who take them (hours, time off). Forms are changed by asking the AI.
+// anyone else. In a sidebar: Leads (every form and booking, a booking rescheduled or
+// cancelled and a payment refunded from its lead) and Appointments (the week's
+// Schedule and booking for someone, the Services people can book, the Team who
+// take them). Forms are changed by asking the AI.
 const sections = { schedule: "/admin/schedule", services: "/admin/services", team: "/admin/team" };
-const nav: NavItem[] = [
-  { href: "/admin/submissions", label: "Submissions" },
+const appointments: NavItem[] = [
   { href: sections.schedule, label: "Schedule" },
   { href: sections.services, label: "Services" },
   { href: sections.team, label: "Team" },
-  { href: "/", label: "View site" },
 ];
-const toSubmission = (id: string | null) => (id ? { href: `/admin/submissions/${id}`, label: "Back to the submission" } : null);
+const AdminFrame = sidebarFrame({
+  brand: site.name, logo: logoUrl() ?? undefined, css: CSS,
+  items: [
+    { href: "/admin/submissions", label: "Leads", icon: "leads", under: ["/admin/submissions", "/admin/payments"] },
+    { href: sections.schedule, label: "Appointments", icon: "appointments", under: Object.values(sections) },
+    { href: "/", label: "View site", icon: "site" },
+  ],
+});
+const toSubmission = (id: string | null) => (id ? { href: `/admin/submissions/${id}`, label: "Back to the lead" } : null);
 const admin = new Hono<{ Variables: TeamVars }>();
 admin.use("*", teamOnly());
 admin.onError((e, c) => {
   console.error(`${c.req.method} ${c.req.path}:`, e);
   const retry = c.req.method === "GET" ? c.req.url : null;
   return c.html(
-    <AdminLayout title="This page did not load" css={CSS} nav={nav} current="" user={c.get("user")}>
+    AdminFrame({
+      title: "This page did not load", current: "", user: c.get("user"),
+      children: <>
       <p>Please try again in a moment.</p>
       {retry ? <p class="mt-4"><a href={retry} class="font-semibold text-accent underline">Try again</a></p> : null}
-    </AdminLayout>,
+      </>,
+    }),
     500,
   );
 });
@@ -233,17 +242,20 @@ admin.use("*", async (c, next) =>
   hasDb(c)
     ? next()
     : c.html(
-        <AdminLayout title="Submissions" css={CSS} nav={nav} current="/admin/submissions" user={c.get("user")}>
+        AdminFrame({
+          title: "Leads", current: "/admin/submissions", user: c.get("user"),
+          children: <>
           <p class="max-w-prose">
             This site has no database yet, so its forms and booking page are switched off. Ask the AI to set one up, and what people send shows up here.
           </p>
-        </AdminLayout>,
+          </>,
+        }),
         503,
       ),
 );
 admin.get("/", (c) => c.redirect("/admin/submissions"));
 // Calendar sync and reminders are scheduled jobs the CRM runs; this site has none.
-const team = { css: CSS, source: SOURCE, nav, timeZone: site.timeZone, sections, manageBase: BOOK ?? undefined, calendars: false };
+const team = { css: CSS, source: SOURCE, Frame: AdminFrame, nav: appointments, timeZone: site.timeZone, sections, manageBase: BOOK ?? undefined, calendars: false };
 admin.route(
   "/schedule",
   bookingAdmin(getDb, {
@@ -259,14 +271,14 @@ admin.route("/team", peopleRoutes(getDb, { ...team, base: sections.team }));
 admin.route(
   "/payments",
   paymentsAdmin(getDb, {
-    base: "/admin/payments", css: CSS, timeZone: site.timeZone, nav,
+    base: "/admin/payments", css: CSS, timeZone: site.timeZone, Frame: AdminFrame, nav: [],
     returnTo: (p) => toSubmission(p.ref_type === "submission" ? p.ref_id : null),
   }),
 );
 admin.route(
   "/submissions",
   formsAdmin(getDb, {
-    base: "/admin/submissions", css: CSS, timeZone: site.timeZone, nav,
+    base: "/admin/submissions", css: CSS, timeZone: site.timeZone, Frame: AdminFrame, nav: [], label: "Leads",
     links: { booking: (id) => `/admin/schedule/${id}`, payment: (id) => `/admin/payments/${id}` },
   }),
 );

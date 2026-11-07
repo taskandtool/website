@@ -72,7 +72,7 @@ its source (the note, the brief or the page).
   contact details come from `public/business.md`);
   `src/pages/*.tsx` the pages, listed in `src/pages/index.ts`.
 - `src/business.tsx` mounts the forms, `/book`, Stripe's webhook and the
-  private `/admin` (Submissions, Schedule, Services, Team), all on the
+  private `/admin` (Leads, and Appointments: Schedule, Services, Team), all on the
   project's database; without one, the forms and `/book` answer 404 and
   `/admin` says so. To change services, people, hours or time off for the
   owner, call the writes in `src/booking/hours.ts` (`createType`,
