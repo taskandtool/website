@@ -7,10 +7,11 @@ description: "Plans and builds this website's pages like an agency: which pages 
 
 The design system (`design/system.yaml`) decides how a page looks. The page
 type decides what can go on it, and the brief decides the words. All the
-judgement happens in the brief, where the owner can see it and the page can
-be held to it; building the page then lays out approved words.
+judgement happens in the brief. The owner can see it there, and the page is
+held to it. Building the page then lays out words that are already approved.
 
-Read the `writing` skill with this one.
+Read the `writing` skill with this one. It sets the standard for every word
+on the page.
 
 ## 1. Plan the site
 
@@ -63,9 +64,14 @@ out and why. Its page type's guide, `references/types/<type>.md` (and its
   floor for how complete the new one is, not the template for its shape:
   each of its sections is carried, improved, or dropped in `omit:` with the
   reason. A page the owner names to be like: the `design` skill.
-- **The copy,** in the business's voice and plainer where their voice is
-  marketese, from this business's material alone, never wording from a
-  guide or another page; then the search fields.
+- **The copy.** Write it in the business's voice, and plainer where their
+  own copy is marketese. Use only this business's material. Wording from a
+  guide or another page never goes in. Then fill the search fields.
+
+  Draft hero: "Bespoke kitchens crafted with passion and precision." <!-- tropes-allow -->
+  Rewrite: "Solid oak kitchens, made in our Leeds workshop and fitted in
+  three days." The rewrite names the material, the place and the wait,
+  which are the facts a buyer compares.
 
 ## 3. Build each page
 
