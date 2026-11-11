@@ -17,7 +17,7 @@ import { readFileSync } from "node:fs";
 import { basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import { done, fail, machineEnv } from "../src/data/cli.mjs";
+import { askForDatabase, done, fail, machineEnv } from "../src/data/cli.mjs";
 import type { Db } from "../src/data/db";
 import { businessOf, saveBusiness, type Business } from "../src/data/business";
 import { applySchema } from "../src/data/migrate";
@@ -70,7 +70,7 @@ const databaseUrl = () => machineEnv().DATABASE_URL || undefined;
 /** The database for a script, its tables set up first, so a script works on a fresh project too. */
 export async function withDb<T>(fn: (db: Db) => Promise<T>): Promise<T> {
   const url = databaseUrl();
-  if (!url) fail("database: DATABASE_URL is not set, so this site has no database yet", "python3 ~/tools/taskandtool.py request-database");
+  if (!url) fail("database: DATABASE_URL is not set, so this site has no database yet", askForDatabase());
   if (!/^postgres(ql)?:\/\//.test(url)) fail("database: DATABASE_URL is not a postgres:// address", "grep DATABASE_URL ~/.env");
   // A database that never answers fails in seconds, so `npm run dev` still starts the pages.
   const pool = new pg.Pool({ connectionString: url, max: 2, connectionTimeoutMillis: 20_000, query_timeout: 120_000 });
