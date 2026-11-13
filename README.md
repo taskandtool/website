@@ -19,7 +19,8 @@ Click the button above, or pick Website when you create an app on [Task &
 Tool](https://taskandtool.com/starter-apps/website). Then ask for a homepage
 in the chat.
 
-See it in use on the [Website page](https://taskandtool.com/starter-apps/website).
+See it in use on the [Website
+page](https://taskandtool.com/starter-apps/website).
 
 ## Features
 
@@ -47,7 +48,7 @@ for it.
 
 ![The Bellwork Boxing prices: first class $0, unlimited $179 a month, ten classes $220](https://taskandtool.com/images/marketing/bellwork-boxing-site-prices.webp)
 
-### Your colors and fonts are set in one design file
+### One design file for colors and fonts
 
 The agent takes your colors and fonts from your current site and logo. It
 saves them in one design file and builds every page from that file. If the
@@ -119,7 +120,7 @@ export to CSV.
 
 <img src="https://taskandtool.com/images/marketing/northline-gardens-site-book-phone.webp" width="300" alt="The Northline Gardens Book a visit form at phone width: what needs doing, with Fall cleanup and Hedges picked, then a choice of days">
 
-### You can run a prompt or a script on a schedule
+### Scheduled prompts and scripts
 
 Ask the agent to schedule a job. It can run now, once at a set time, or on a
 repeat as often as every 15 minutes. A prompt job starts a fresh chat with
