@@ -24,9 +24,11 @@ in the chat.
 ### Your business facts are plain text notes
 
 Facts such as your address, phone number, services, FAQs, reviews and prices
-are in plain text notes in the repo. The agent reads them before it writes a
-page. When a price changes, the agent edits one note. You see the new price
-on every page after the next build.
+are in plain text notes in the repo. AI agents work best with plain text
+files on a computer. Keeping your facts this way follows best practice for
+AI. The agent reads the notes before it writes a page. When a price changes,
+the agent edits one note. You see the new price on every page after the next
+build.
 
 ### Facts can come from your site, your files or the chat
 
@@ -87,8 +89,7 @@ when a task needs it. This repo has 15:
 | `forms` `booking` `payments` `admin` `customers` `reports` `data` | add forms, bookings, Stripe payments, an admin page for the team, customer notes and reports. `data` is the database code they share |
 
 The agent runs scripts to read a website, list the photos a page can use and
-do other repeated steps. Each one has a `--help`. `npm test` runs 343 tests
-on the scripts and the business code. 106 of them need a Postgres database.
+do other repeated steps. Each one has a `--help`.
 
 ### Old URLs redirect to the new site
 
