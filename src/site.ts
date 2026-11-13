@@ -31,7 +31,7 @@ export const site = {
   /** The business name as it should appear: header, <title>, footer. */
   name: business.name || "Your business",
   tagline: "",
-  description: "A new website, being set up now. The full site will be here soon; chat with AI to get it running.",
+  description: "A new website, being set up now. Chat with AI to get it running.",
   locale: "en",
   /** The canonical origin (https://example.com) once the site has one; the
    *  canonical tag points here so the platform's address never competes with it. */

@@ -43,9 +43,9 @@ export function projectFindings({ built = true } = {}) {
   const recordProblems = problems(record);
   for (const p of recordProblems) push("", `${RECORD}: ${p}`);
   if (!recordProblems.length) {
-    if (theme !== themeCss(record)) push("", `${THEME} does not match ${RECORD}: change the record and run npm run system`);
-    if (!existsSync(FONTS) || readFileSync(FONTS, "utf8") !== fontsTs(record)) push("", `${FONTS} does not match ${RECORD}: run npm run system`);
-    if (readFileSync(DESIGN, "utf8") !== designMd(record)) push("", `${DESIGN} does not match ${RECORD}: change the record and run npm run system`);
+    if (theme !== themeCss(record)) push("", `${THEME} does not match ${RECORD}: change the record and run npm run apply-design`);
+    if (!existsSync(FONTS) || readFileSync(FONTS, "utf8") !== fontsTs(record)) push("", `${FONTS} does not match ${RECORD}: run npm run apply-design`);
+    if (readFileSync(DESIGN, "utf8") !== designMd(record)) push("", `${DESIGN} does not match ${RECORD}: change the record and run npm run apply-design`);
   }
 
   // contrast of the role pairs the layout and components use (WCAG 2.x)

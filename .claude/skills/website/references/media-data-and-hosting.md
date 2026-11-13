@@ -13,7 +13,7 @@ here in five mechanical steps:
    `{"{"}` or `{"}"}`.
 4. Repeated blocks with facts in them (services, reviews, FAQ) become a
    `.map()` over `content`, or the matching section from
-   `src/components/facts.tsx`, so each fact lives once, in its note.
+   `src/components/facts.tsx`, so each fact is written once, in its note.
 5. Classes stay as they are when they use the site's tokens. `npm run
    check:design` names any other: map it to a token, or add the value to
    `design/system.yaml` and say so.

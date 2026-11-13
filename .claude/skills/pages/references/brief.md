@@ -64,7 +64,7 @@ up. The body is markdown with a few labelled lines:
 
 - **Literal words, never pointers.** The owner approves what the page will
   say, so the brief says it: the phone number, the hours, the price. On the
-  page, a fact that lives in `public/` is read from the content, not typed
+  page, a fact in `public/` is read from the content, not typed
   into the JSX; the brief and the note must agree.
 - **Only what will appear.** A reviews page's brief holds the six reviews
   chosen, not all of them. "The rest are in raw/" means the choosing is

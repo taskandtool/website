@@ -45,7 +45,7 @@ export function proofFindings() {
     if (!items.length) return;
     const byHand = items.filter((it) => anywhere.includes(opening(label(it)))).length;
     const how = byHand === items.length ? `on the page, but not through ${COMPONENT[kind]}, so without what the platforms show beside them` : `not on the homepage`;
-    add(kind, `${items.length} ${how} (${items.map((it) => String(label(it)).slice(0, 40)).join("; ")}); show them with ${COMPONENT[kind]} (npm run parts) and restyle it to fit`);
+    add(kind, `${items.length} ${how} (${items.map((it) => String(label(it)).slice(0, 40)).join("; ")}); show them with ${COMPONENT[kind]} (npm run list-parts) and restyle it to fit`);
   };
 
   const logos = list("logos").filter((l) => l?.file);
@@ -53,14 +53,14 @@ export function proofFindings() {
   const missingLogos = logos.filter((l) => !logoMarkup.includes(l.file));
   const unnamed = logos.filter((l) => !l.name);
   if (unnamed.length) add("logos", `${unnamed.length} logo${unnamed.length === 1 ? " has" : "s have"} no name in public/proof.md: name them from raw/logos.png (numbered in the note's order)`);
-  if (missingLogos.length) add("logos", `${missingLogos.length} of ${logos.length} are not in LogosSection (${missingLogos.map((l) => l.name || l.file).join(", ")}); show every one with LogosSection (npm run parts)`);
+  if (missingLogos.length) add("logos", `${missingLogos.length} of ${logos.length} are not in LogosSection (${missingLogos.map((l) => l.name || l.file).join(", ")}); show every one with LogosSection (npm run list-parts)`);
 
   const ratingText = shown("ratings").text;
   // under 4 stars hurts more than it helps; the note keeps it, the page need not show it
   const good = (stars) => !(Number(stars) < 4);
   const ratings = list("ratings").filter((r) => r?.value && good(r.value));
   const missingRatings = ratings.filter((r) => !ratingText.includes(bare(r.value)) || (r.count && !ratingText.includes(bare(r.count))));
-  if (missingRatings.length) add("ratings", `${missingRatings.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`).join("; ")}: not through RatingLine, which shows the platform, the stars and the count; put RatingLine on the page (npm run parts)`);
+  if (missingRatings.length) add("ratings", `${missingRatings.map((r) => `${r.value} from ${r.count || "?"} on ${r.platform}`).join("; ")}: not through RatingLine, which shows the platform, the stars and the count; put RatingLine on the page (npm run list-parts)`);
 
   const reviewText = shown("reviews").text;
   const reviews = list("reviews").filter((r) => r?.quote && good(r.stars));

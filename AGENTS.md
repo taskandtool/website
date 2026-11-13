@@ -64,7 +64,7 @@ its source (the note, the brief or the page).
 
 - `brand/` the brand as notes (`BRAND.md`), and `public/` the facts as notes
   with typed frontmatter (`FACTS.md`); the `brand` skill writes both. A fact
-  lives in a note, once; `npm run content` compiles the notes for the pages.
+  is written in one note, once; `npm run content` compiles the notes for the pages.
 - `design/system.yaml` the design system as one record; `npm run apply-design`
   compiles it. Never edit `styles/theme.css`, `DESIGN.md` or `src/fonts.ts`
   by hand. Read `DESIGN.md` before designing.
@@ -97,7 +97,7 @@ its source (the note, the brief or the page).
   skill's command code and tests are machine only (`npm run check:code`). Files and
   heavy work happen at build time, on this machine.
 - Style with Tailwind utilities on the markup, in the tokens: colours and
-  fonts live in `design/system.yaml`, set from the brand notes, and a value
+  fonts are in `design/system.yaml`, set from the brand notes, and a value
   the tokens lack is added there. No hex value or Tailwind default colour in
   markup, and no classes of the site's own in `styles/` (`check:design`).
 - Real content only. No invented customers, quotes, numbers, awards, or

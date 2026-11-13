@@ -25,11 +25,11 @@ A field left empty, `null`, or "to fill" is treated as absent: the site
 renders without it and the JSON-LD omits it.
 
 With a database, `npm run migrate` (every `npm run dev` and deploy) also
-fills the project's business row, which texts, quotes and the texting box
-read (the CRM's Settings, Business), where it is empty: the `business`
-note's name and address, and the legal pages once `site.url` is set. It
-never overwrites the row; a name that differs from the note's is printed,
-and the two should be made the same.
+fills the empty parts of the project's business row: the `business` note's
+name and address, and the legal pages once `site.url` is set. Texts, quotes
+and the texting box read that row (the CRM's Settings, Business). Migrate
+never overwrites it. When the row's name differs from the note's, migrate
+prints both; make them the same.
 
 ## The other collections
 

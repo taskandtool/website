@@ -6,7 +6,7 @@ description: "Moves an existing website here page for page: an inventory, the fa
 # Migrate a site
 
 Done when every old URL answers on the new site (a page or a redirect),
-every fact the old site stated lives once in a note, and `npm run check`
+every fact the old site stated is in one note, once, and `npm run check`
 passes. The rule: **facts first, pages second, URLs preserved.** Converting
 the old pages one by one carries over dead sections, duplicated facts and
 the old design.
