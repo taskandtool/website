@@ -19,6 +19,8 @@ Click the button above, or pick Website when you create an app on [Task &
 Tool](https://taskandtool.com/starter-apps/website). Then ask for a homepage
 in the chat.
 
+See it in use on the [Website page](https://taskandtool.com/starter-apps/website).
+
 ## Features
 
 ### Your business facts are plain text notes
