@@ -1,13 +1,14 @@
 # Website
 
-**A business website your AI agent builds, checks and updates by chat.** The
-agent writes each page from notes it keeps on the business.
+**A business website your AI agent builds, checks and updates when you ask
+in the chat.** The agent writes each page from notes it keeps on the
+business.
 
 [![Deploy on Task & Tool](https://taskandtool.com/images/deploy-button.svg)](https://taskandtool.com/accounts/register?starter_app=website)
 
-![The Northline Gardens and Bellwork Boxing websites, both built with this Starter App](https://taskandtool.com/images/starter-apps/website.webp)
+![Two sites the agent built from this Starter App: Northline Gardens and Bellwork Boxing](https://taskandtool.com/images/starter-apps/website.webp)
 
-It's made to run on Task & Tool. There, each app has its own computer for
+It's made to run on Task & Tool. Each app there has its own computer for
 your AI agent. The project has a Postgres database for leads and bookings.
 The agent uses the skills and scripts in this repo to build a site in your
 brand and check every page against your business facts. The site is built
@@ -28,32 +29,31 @@ page](https://taskandtool.com/starter-apps/website).
 
 Facts such as your address, phone number, services, FAQs, reviews and prices
 are in plain text notes in the repo. AI agents work best with plain text
-files on a computer. Keeping your facts this way follows best practice for
-AI. The agent reads the notes before it writes a page. When a price changes,
-the agent edits one note. You see the new price on every page after the next
-build.
+files on a computer. That's best practice for AI. The agent reads the notes
+before it writes a page. When you ask for a new price, the agent edits one
+note. You see the new price on every page after the next build.
 
-### Facts can come from your site, your files or the chat
+### Add facts from your site, your files or the chat
 
 Send the agent your current site. It reads the main pages and your Google
 listing in about a minute. Attach price lists, brochures or photos in chat,
 or upload whole folders on the app's Files tab. Anything you tell it in chat
-counts as a source. The agent records where each fact came from.
+is a source too. The agent notes the source of each fact.
 
-### Prices and quotes come only from your notes
+### The agent takes prices and quotes only from your notes
 
-If a number or quote on a page isn't in your notes, the copy check fails.
-The agent then fixes the page. When a fact is missing, the agent asks you
-for it.
+The agent checks the numbers and quotes on a page against your notes. It
+fixes any that aren't there. When a fact is missing, the agent asks you for
+it.
 
 ![The Bellwork Boxing prices: first class $0, unlimited $179 a month, ten classes $220](https://taskandtool.com/images/marketing/bellwork-boxing-site-prices.webp)
 
 ### One design file for colors and fonts
 
 The agent takes your colors and fonts from your current site and logo. It
-saves them in one design file and builds every page from that file. If the
-business has no site yet, it starts from the one of 14 ready-made designs
-that suits the business best. These two sites came from this repo:
+saves them in one design file and builds every page from that file. If you
+have no site yet, the agent picks the best of 14 ready-made designs for your
+business. The agent built these two sites from this repo:
 
 <p>
   <img src="https://taskandtool.com/images/marketing/northline-gardens-site-patios-phone.webp" width="300" alt="The Northline Gardens patios page at phone width: a serif heading, Stone patios and paths, over a photo of a stone patio in Oak Park">
@@ -66,18 +66,18 @@ Before you see any work, the agent runs `npm run check` and fixes what it
 finds. Then it sends you screenshots of each changed page on a phone and a
 desktop.
 
-| Check | What fails it |
+| Check | What the agent looks for |
 |---|---|
-| SEO | Missing titles, descriptions and alt text, broken links, and old pages that no longer redirect |
+| SEO | Missing titles, descriptions and alt text, broken links, and old links without a redirect |
 | Facts | Reviews and ratings in your notes that are missing from the homepage |
-| Code | Type errors, failing tests and a build that breaks |
+| Code | Type errors, test failures and a broken build |
 | Copy | Prices and quotes that aren't in your notes, and wording that sounds like AI |
 | Design | Colors outside your design, low contrast, small text, and sideways scrolling on a phone |
 
 ### Skills in this repo
 
-A skill is a set of instructions for one kind of work. The agent loads one
-when a task needs it. This repo has 15:
+A skill is a set of instructions for one kind of work. The agent loads a
+skill when it needs one. This repo has 15:
 
 | Skill | The agent uses it to |
 |---|---|
@@ -85,70 +85,72 @@ when a task needs it. This repo has 15:
 | `pages` | plan the pages a business needs. It has guides for 18 kinds of page |
 | `design` | set the colors, type, photos and layout, and review each page |
 | `writing` | write in the owner's voice and edit the draft |
-| `tropes` | spot phrases that read as machine-written |
+| `tropes` | spot machine-sounding phrases |
 | `brand` | gather facts and the brand's look from the sources above |
 | `migrate-site` | move your current site to the new one and redirect every old link |
 | `website` | run the site day to day: edits, blog posts, SEO and going live |
-| `forms` `booking` `payments` `admin` `customers` `reports` `data` | add forms, bookings, Stripe payments, an admin page for the team, customer notes and reports. `data` is the database code they share |
+| `forms` `booking` `payments` `admin` `customers` `reports` `data` | add forms, bookings, Stripe payments, an admin page for the team, customer notes and reports. `data` is their shared database code |
 
-The agent runs scripts to read a website, list the photos a page can use and
-do other repeated steps. Each one has a `--help`.
+The agent runs scripts to read a website, list the photos it can put on a
+page and do other repeated steps. Each one has a `--help`.
 
-### Old URLs redirect to the new site
+### The agent redirects old URLs to the new site
 
-The agent reads the old site and redirects old pages to their new ones. The
-build stops if a redirect loops or points to a missing page. The agent
-copies your Google Analytics and ad tracking IDs. It also moves your
-WordPress blog posts over with their dates and authors.
+The agent reads the old site and redirects old pages to their new ones. It
+won't build the site while there's a redirect loop or a redirect to a
+missing page. The agent copies your Google Analytics and ad tracking IDs. It
+also moves your WordPress blog posts over with their dates and authors.
 
 ### Forms, bookings and payments
 
-You can make a form with several steps that ends in a booking and a payment.
+You can make a form with several steps and a booking and payment at the end.
 You can get an email when someone submits a form, or send submissions to
-your CRM. A submission that fills a hidden field or comes in under three
-seconds is kept as spam. Someone who gets in touch twice still has one
-customer record. Your team sees that record in the CRM and your other apps.
+your CRM. We mark a submission as spam when someone fills in a hidden field
+or sends the form in under three seconds. Someone who gets in touch twice
+still has one customer record. Your team sees that record in the CRM and
+your other apps.
 
 Customers see open times based on your staff's hours and days off. Two
 people can't book the same slot. Once you connect Resend or Postmark, people
-who book get a calendar invite and a link to move or cancel. Payments go
-through your Stripe account: orders, deposits, paid bookings and refunds.
+who book get a calendar invite and a link to move or cancel. You take
+payments for orders, deposits and paid bookings through your Stripe account.
+You can give refunds there too.
 
 Your team sees submissions, bookings and payments on a private admin page.
 They can search, filter, change a status, act on many rows at once and
 export to CSV.
 
-<img src="https://taskandtool.com/images/marketing/northline-gardens-site-book-phone.webp" width="300" alt="The Northline Gardens Book a visit form at phone width: what needs doing, with Fall cleanup and Hedges picked, then a choice of days">
+<img src="https://taskandtool.com/images/marketing/northline-gardens-site-book-phone.webp" width="300" alt="The Northline Gardens Book a visit form at phone width. Fall cleanup and Hedges are picked under What needs doing. Below is a choice of days.">
 
 ### Scheduled prompts and scripts
 
-Ask the agent to schedule a job. It can run now, once at a set time, or on a
-repeat as often as every 15 minutes. A prompt job starts a fresh chat with
-the agent. A script job runs a command. For example:
+Ask the agent to schedule a job. You can run it now, once at a set time, or
+as often as every 15 minutes. A prompt job is a new chat with the agent. A
+script job is a command. For example:
 
 | Job | What runs |
 |---|---|
-| Weekly site audit | An audit of the live site for broken links and missing titles. You get a note in the chat when a run fails |
+| Weekly site audit | An audit of the live site for broken links and missing titles. You get a note in the chat about any failed run |
 | A blog post every Friday | Prompt: "Draft next week's blog post and show it to me" |
 | Monthly report | A PDF of your leads, bookings and Google search figures |
-| Calendar sync and reminders | Busy times from Google or Outlook calendars, and booking reminders. Needs the [CRM Starter App](https://github.com/taskandtool/crm) |
+| Calendar sync and reminders | Busy times from Google or Outlook calendars, and booking reminders. You need the [CRM Starter App](https://github.com/taskandtool/crm) |
 
 ### Production pages are plain HTML on Cloudflare
 
 Before a deploy, the agent builds every page into a plain HTML file.
-Cloudflare serves those files from servers near your visitors. Only forms
-and a few dynamic pages run code. The build also includes the sitemap,
+Visitors get those files from Cloudflare servers near them. Only forms and a
+few dynamic pages have server code. The build also includes the sitemap,
 `robots.txt`, canonical tags and the business's structured data for Google.
 
 ## Why run it on Task & Tool
 
 Task & Tool is the easiest place to run it. The database is included. The
-agent publishes the site to Cloudflare when you ask. Each app gets:
+agent publishes the site to Cloudflare when you ask. With each app you get:
 
 - Its own computer for the agent
-- A dev address your team opens to see changes before they go live
-- A Postgres database for leads, bookings and payments. You can roll it back
-  to an earlier point in time.
+- A dev address where your team sees changes before you publish them
+- Access to the project's Postgres database for leads, bookings and
+  payments. You can roll it back to an earlier point in time.
 - Publishing on your own domain with a free SSL certificate. Only your team
   sees production until you make it public.
 - Connections to Stripe, Google, email and other services. Their keys are
@@ -187,18 +189,20 @@ starter-app.json  what the app needs and its chat suggestions
 The agent runs these on the app's computer. With Node 20 or later, you can
 run them on your own computer too. Run `npm install` first.
 
-- `npm run dev` serves the site on localhost:3000 and restarts on every
-  change. Forms, bookings and payments need a database in `DATABASE_URL`.
-- `npm run check` runs the five checks. The browser checks need `tt-crawl`.
-- `npm test` runs the tests.
-- `npm run deploy` builds the site and publishes it to production. It works
-  only on Task & Tool.
+- Run `npm run dev` to serve the site on localhost:3000. You see each change
+  without restarting it. For forms, bookings and payments, set a database in
+  `DATABASE_URL`.
+- Run `npm run check` for the five checks. You need `tt-crawl` for the
+  browser checks.
+- Run `npm test` for the tests.
+- Run `npm run deploy` to build the site and publish it to production. You
+  can deploy only on Task & Tool.
 
 ## Third-party tools
 
 - [`tt-crawl`](https://github.com/taskandtool/crawler), our crawler (MIT).
-  It reads sites and takes screenshots in headless Chrome. Obscura is its
-  fallback browser.
+  The agent uses it to read sites and take screenshots in headless Chrome.
+  Obscura is its fallback browser.
 - npm packages, MIT: `hono`, `@hono/node-server`,
   `@neondatabase/serverless`, `marked`, `tailwindcss` + `@tailwindcss/cli`,
   `esbuild`, `tsx`, `node-html-parser`, `pg`; `yaml` (ISC) and `typescript`
@@ -207,7 +211,7 @@ run them on your own computer too. Run `npm install` first.
 ## Contributing
 
 Pull requests are welcome. Please keep credentials out of your changes. We
-scan our own pushes for secrets.
+scan our pushes for secrets.
 
 ## License
 
