@@ -96,9 +96,10 @@ blog across post by post with its dates and authors.
 ### Forms, bookings and payments
 
 A single form can run over several steps and end with a booking and a
-payment. Each submission can email your team or go to your CRM. A hidden
-spam trap catches bots. Each person who gets in touch has one customer
-record, and the CRM and your other apps read the same records.
+payment. You can get an email when someone submits a form, or send each
+submission to your CRM. A hidden spam trap catches bots. Each person who
+gets in touch has one customer record, and the CRM and your other apps
+read the same records.
 
 A booking page shows open times from each person's hours and days off. Two
 people can't book the same slot. Once you connect Resend or Postmark, each

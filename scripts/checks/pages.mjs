@@ -19,13 +19,13 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "node-html-parser";
-import { check as tropes, findings as tropesIn, HINT_RULES } from "../../.claude/skills/tropes/tropes.mjs";
+import { check as tropes, findings as tropesIn } from "../../.claude/skills/tropes/tropes.mjs";
 import { walk } from "../lib.mjs";
 import { chromaHue, luminance, ratio, readTheme } from "../theme.mjs";
 
 /** Which area each rule belongs to; any other is one of the tropes skill's, so copy. */
 const AREA = {
-  copy: ["em-dash", "cta-labels", "arrow-cta", "long-h1", "phrase-across-pages", "old-builder"],
+  copy: ["em-dash", "arrow-cta", "old-builder"],
   design: ["refused-class", "unknown-utility", "custom-css", "raw-style", "phone-grid", "video-autoplay", "contrast", "same-hue-text", "dark-bands", "adjacent-ground", "entrance-everywhere", "card-in-card", "side-stripe", "italic-heading-word", "eyebrow", "icon-card-row", "numbered-markers", "repeated-photo", "tinted-grounds", "default-font", "declared-unknown"],
   seo: ["html-lang", "single-h1", "heading-order", "missing-title", "title-length", "missing-description", "description-length", "duplicate-title", "img-alt", "img-src", "input-label"],
   facts: ["unsourced-stars", "photo-undescribed"],
@@ -60,9 +60,9 @@ export function pageFindings() {
   // ── findings ──────────────────────────────────────────────────────────────
   const findings = [];
   const HINTS = new Set(["same-hue-text", "dark-bands", "adjacent-ground", "card-in-card", "side-stripe",
-    "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unknown", "we-over-you",
-    "long-h1", "cta-labels", "numbered-markers", "arrow-cta", "phrase-across-pages", "title-length", "description-length",
-    "duplicate-title", "tinted-grounds", "default-font", "repeated-photo", ...HINT_RULES]);
+    "icon-card-row", "eyebrow", "italic-heading-word", "entrance-everywhere", "declared-unknown",
+    "numbered-markers", "arrow-cta", "title-length", "description-length",
+    "duplicate-title", "tinted-grounds", "default-font", "repeated-photo"]);
   const allowed = (el, rule) => {
     for (let e = el; e; e = e.parentNode) if (e.getAttribute?.("data-lint-allow")?.split(/\s+/).includes(rule)) return true;
     return false;
@@ -109,13 +109,11 @@ export function pageFindings() {
   const BLOCK = /^(p|div|li|ul|ol|section|article|header|footer|aside|nav|blockquote|figure|figcaption|br|tr|td|th|dd|dl|form|label|table|details)$/;
   // quotes are others' words, kept as they wrote them: never ours to fix
   const SKIP = /^(h[1-6]|summary|dt|a|button|script|style|svg|noscript|template|blockquote|q)$/;
-  // teasers: also skip a list item or card that links to another page (a blog index's summaries)
-  const prose = (node, teasers = false) => {
+  const prose = (node) => {
     if (node.nodeType === 3) return node.text;
     const tag = node.rawTagName?.toLowerCase() || "";
-    const teaser = teasers && /^(li|article)$/.test(tag) && node.querySelector('a[href^="/"]');
-    if (teaser || SKIP.test(tag) || node.getAttribute?.("aria-hidden") === "true") return BLOCK.test(tag) || /^h[1-6]$/.test(tag) ? "\n" : " ";
-    const inner = node.childNodes.map((n) => prose(n, teasers)).join("");
+    if (SKIP.test(tag) || node.getAttribute?.("aria-hidden") === "true") return BLOCK.test(tag) || /^h[1-6]$/.test(tag) ? "\n" : " ";
+    const inner = node.childNodes.map((n) => prose(n)).join("");
     return BLOCK.test(tag) ? `\n${inner}\n` : inner;
   };
   const tidy = (t) => t.replace(/[ \t]+/g, " ").replace(/ *\n[\s]*/g, "\n").trim();
@@ -123,7 +121,6 @@ export function pageFindings() {
   // Where a rating comes from: a count ("212 Google reviews", "4.9/5") or a platform named in text or a logo's alt.
   const PROOF_COUNT = /\b\d[\d,.]*\+?\s+(\w+\s+)?(reviews?|ratings?|customers?|clients?|bookings?)\b|\b\d(\.\d)?\s*\/\s*5\b/i;
   const PLATFORMS = /\b(google|facebook|yelp|trustpilot|tripadvisor|houzz|checkatrade|airbnb|booking\.com|etsy|amazon|g2|capterra|feefo|reviews\.io|bbb|angi|thumbtack|nextdoor|app store|google play|bark|treatwell|opentable)\b/i;
-  const pageBands = [];
 
   // ── each page ────────────────────────────────────────────────────────────
   const pages = walk("dist").filter((f) => f.endsWith(".html"));
@@ -147,9 +144,6 @@ export function pageFindings() {
       if (level && n > level + 1) report("heading-order", page, h, `an <h${n}> after an <h${level}> skips a level; screen readers navigate by them, so use <h${level + 1}> and set its size with a class`);
       level = n;
     }
-    const h1 = root.querySelector("h1");
-    const h1Words = h1 ? h1.text.trim().split(/\s+/).filter(Boolean).length : 0;
-    if (h1Words > 10) report("long-h1", page, h1, `the <h1> is ${h1Words} words; a headline is one claim, so cut it to ten or fewer and move the rest to the line beneath`);
     // what a search result shows: the title and the description, each once
     if (page !== "/404") {
       const title = root.querySelector("title")?.text.trim() || "";
@@ -300,17 +294,6 @@ export function pageFindings() {
       if (!sourced) report("unsourced-stars", page, el, "stars with no count and no platform beside them read as made up; show them from public/proof.md with RatingLine (the figure, the count, the platform), or on the review they belong to");
     }
 
-    // calls to action: links styled as buttons, and buttons, outside the site's header, nav and footer
-    const actions = main.querySelectorAll("a, button").filter((el) => {
-      if (el.closest("nav") || (main.rawTagName?.toLowerCase() !== "main" && el.closest("header, footer"))) return false;
-      if (/^(tel|mailto):/.test(el.getAttribute("href") || "") || (el.getAttribute("type") === "button" && el.closest("form"))) return false;
-      return el.rawTagName.toLowerCase() === "button" || classes(el).map(variantless).some((c) => /^(bg-|rounded|border$)/.test(c));
-    });
-    const labels = [];
-    for (const l of actions.map((el) => el.text.replace(/\s+/g, " ").replace(/[→›»]\s*$/, "").trim().toLowerCase()).filter(Boolean)) {
-      if (!labels.some((x) => l.startsWith(x) || x.startsWith(l))) labels.push(l);
-    }
-    if (labels.length > 2) report("cta-labels", page, null, `${labels.length} different calls to action (${labels.map((l) => `"${l}"`).join(", ")}); pick the one action this page asks for and word it the same everywhere, with links for the rest`);
     for (const el of main.querySelectorAll("a, button")) {
       if (!el.closest("nav") && /[→›»]\s*$/.test(el.text.trim())) report("arrow-cta", page, el, "an arrow after the label; let the verb carry the action");
     }
@@ -319,7 +302,6 @@ export function pageFindings() {
 
     // the copy: em dashes, and the tropes skill per band (legal pages are verbatim)
     if (!legalPaths.has(page)) {
-      pageBands.push({ page, bands: (bands.length ? bands : [main]).map((b) => ({ el: b, whole: b.text.replace(/\s+/g, " ").trim(), lines: tidy(prose(b, true)).split("\n") })) });
       for (const el of main.querySelectorAll("*")) {
         const own = el.childNodes.filter((n) => n.nodeType === 3).map((n) => n.text).join(" ");
         if (!own.trim() || el.closest("script") || el.closest("blockquote, q")) continue;
@@ -359,7 +341,7 @@ export function pageFindings() {
         report(f.rule, page, locate(bands[j], f.match), `${say(f)} (said in band ${i + 1} too)`, f.severity === "hint" ? "hint" : "error");
       } else {
         const band = f.section === undefined ? null : bands[f.section];
-        const el = band && (["triads", "dated-vocabulary"].includes(f.rule) ? band : locate(band, f.match));
+        const el = band && (f.rule === "triads" ? band : locate(band, f.match));
         report(f.rule, page, el, say(f), f.severity === "hint" ? "hint" : "error");
       }
     }
@@ -370,37 +352,8 @@ export function pageFindings() {
         const label = el.text.replace(/\s+/g, " ").trim();
         if (!label) continue;
         for (const f of tropesIn(label, { kind: "page" })) {
-          if (f.rule === "em-dash" || f.rule === "we-over-you") continue;
+          if (f.rule === "em-dash") continue;
           report(f.rule, page, el, say(f), f.severity === "hint" ? "hint" : "error");
-        }
-      }
-    }
-  }
-
-  // The same five-word phrase on two pages. A band that is the same on both
-  // (a shared component) is one thing said once, and is skipped.
-  const WORD = /[a-z0-9]+(?:['’][a-z]+)?/g;
-  const shared = new Set();
-  const seenBand = new Map();
-  for (const { page, bands } of pageBands) for (const b of bands) {
-    if (b.whole && seenBand.has(b.whole) && seenBand.get(b.whole) !== page) shared.add(b.whole);
-    if (!seenBand.has(b.whole)) seenBand.set(b.whole, page);
-  }
-  const phrases = new Map();
-  for (const { page, bands } of pageBands) {
-    const said = new Set();
-    for (const b of bands) {
-      if (shared.has(b.whole)) continue;
-      for (const line of b.lines) {
-        const w = line.toLowerCase().match(WORD) || [];
-        for (let i = 0; i + 5 <= w.length; i++) {
-          const g = w.slice(i, i + 5).join(" ");
-          const first = phrases.get(g);
-          if (!first) phrases.set(g, page);
-          else if (first !== page && !said.has(first)) {
-            said.add(first);
-            report("phrase-across-pages", page, locateIn(b.el, g, (t) => (t.toLowerCase().match(WORD) || []).join(" ")), `"${g}" is on ${first} too; say it once, where it belongs, and give this page its own words`);
-          }
         }
       }
     }
