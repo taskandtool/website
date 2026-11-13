@@ -246,7 +246,7 @@ admin.use("*", async (c, next) =>
           title: "Leads", current: "/admin/submissions", user: c.get("user"),
           children: <>
           <p class="max-w-prose">
-            This site has no database yet, so its forms and booking page are switched off. Ask the AI to set one up, and what people send shows up here.
+            Your forms and booking page are off until this site has a database. Ask the AI to set one up.
           </p>
           </>,
         }),

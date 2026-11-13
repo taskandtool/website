@@ -27,5 +27,5 @@ test("/admin is 404 to a visitor, and tells the team there is no database yet", 
   assert.equal((await app.request("/admin/forms")).status, 404);
   assert.equal((await app.request("/admin/forms", { headers: { "x-tasktool-user": "Owner@Example.com" } })).status, 503);
   const res = await app.request("/admin", { headers: { "x-tasktool-user": "owner@example.com" } });
-  assert.match(await res.text(), /no database yet/);
+  assert.match(await res.text(), /until this site has a database/);
 });
