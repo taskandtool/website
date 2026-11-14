@@ -2,8 +2,8 @@
 
 <job>
 Diners come for three things: the menu, the hours and the location. The menu is the most-visited
-page of a restaurant site and often the one that decides the visit; most menu reading is on a phone
-and is sequential, like reading a book.
+page of a restaurant site and often the one that decides the visit. Most people read it on a phone,
+from top to bottom.
 </job>
 
 <reader>
@@ -37,8 +37,8 @@ services    core      Each menu (lunch, dinner, drinks, brunch) with when it is 
   notes       optional  Service charge, allergen policy, substitutions, as the restaurant words them.
                         When: the restaurant has them.
   photographs  optional  A few dishes, captioned with the dish's menu name.
-                        When: the business's photographs have good ones. The menu stays dense; pictures do not
-                        push the items apart.
+                        When: the business has good photographs of them. Keep the menu dense: don't let
+                        pictures push the items apart.
   specials    optional  Seasonal or set menus, dated. When: current ones exist.
   download    optional  A PDF for printing, as an addition to the HTML menu, never instead of it.
                         When: the restaurant supplies one.
@@ -50,8 +50,7 @@ services    core      Each menu (lunch, dinner, drinks, brunch) with when it is 
 </phrase>
 
 <show>
-  - The menu page needs few pictures; keep it dense. The room and the food carry the rest of
-    the site.
+  - Few pictures here. Photographs of the room and the food go on the rest of the site.
 </show>
 
 <variant name="site" label="the rest of a restaurant site">

@@ -59,7 +59,7 @@ From: the homepage's latest band. To: ticketing or booking, and the location pag
 <variant name="event" label="one event's page" mode="retrieval">
 The name, date and time with timezone, place and address, what happens, who hosts, price and the
 booking link, status. Add-to-calendar where the builder can provide it. One page per event only
-when events are big enough to need it; otherwise the list carries them.
+when events are big enough to need it; otherwise list them on the events page.
 </variant>
 
 </page_type>

@@ -15,11 +15,11 @@ Read when writing or changing a page's code.
 
 ## How a page is written
 
-Pages are Hono JSX: mostly markup, written the way the HTML will read, so
-the next turn can change them safely.
+Pages are Hono JSX. Write them as mostly markup, close to the HTML they
+become. They are then safe to change in a later turn.
 
-- Logic stays small: a `.map()` over a list, a condition around a block.
-  Anything bigger belongs in `src/content.ts`, typed, where `npm run
-  check:code` checks it.
+- Keep logic small: a `.map()` over a list, a condition around a block.
+  Put anything bigger in `src/content.ts`, typed. `npm run check:code`
+  checks it there.
 - JSX escapes text by default. `raw()` is only for markup the site
   generates itself (JSON-LD, a post's rendered markdown).

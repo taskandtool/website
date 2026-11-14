@@ -1,9 +1,9 @@
 <industries>
 
 <model>
-Industries differ in the doubt the visitor arrives with and the proof that answers it, not in
-design principles. Answer five questions
-once per site, before planning pages:
+Industries differ in the doubt the visitor arrives with and the proof that
+answers it. Design principles stay the same. Answer
+five questions once per site, before planning pages:
 
   1. What does the visitor doubt, in their words? Is it trust (are you real, good, safe) or
      logistics (are you open, what does it cost, can I book)? Returning customers and diners
@@ -28,7 +28,7 @@ Two more that hold everywhere:
     reader can verify (platform, count, recency, a link), and keep the site's facts consistent with
     the Google profile.
   - Some businesses serve several audiences with different doubts (donor, volunteer, beneficiary;
-    new and existing patient). The doubt is per audience, and the homepage routes between them.
+    new and existing patient). Each audience has its own doubt; route them from the homepage.
 </model>
 
 <industry name="restaurant, café, bar">
@@ -119,7 +119,7 @@ page's brief.
   nonprofit             homepage · about (mission, where the money goes) · service per programme ·
                         landing (donate) · events · team · article/index (stories) · contact · careers
 
-A landing page sits outside the nav, one per campaign, whatever the kind of site.
+A landing page is outside the nav, one per campaign, whatever the kind of site.
 </sitemaps>
 
 </industries>

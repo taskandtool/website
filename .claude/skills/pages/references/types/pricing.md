@@ -31,7 +31,7 @@ options     core      Each option with its price, unit, tax status and who it is
   included    core      What each option includes, and what it does not.
   compare     optional  A comparison table. When: two to five real alternatives with shared attributes.
   fees        optional  Extras, minimums, call-out charges, deposits.
-                        When: they exist. When they do, they are never left for later.
+                        When: they exist. Then state them here, never later.
   financing   optional  Payment plans or financing, with terms. When: the brand offers them.
   guarantee   optional  Refunds, warranties, cancellation. When: the brand states them.
   questions   optional  The company's own answers about paying, cancelling, changing.
@@ -56,7 +56,7 @@ In from the service pages and homepage; out to the matching service page and to 
 </links>
 
 <industry>
-Where the law requires price disclosure, the page carries it: total price including
+Where the law requires price disclosure, put it on the page: total price including
 mandatory fees for US lodging; price information for listed services for UK solicitors
 (industries.md).
 </industry>

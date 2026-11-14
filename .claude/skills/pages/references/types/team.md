@@ -2,7 +2,7 @@
 
 <job>
 The people a customer will deal with, and why they are qualified. Where the person is what is bought
-(a lawyer, a dentist, an accountant, a therapist, a consultant), this page carries the decision.
+(a lawyer, a dentist, an accountant, a therapist, a consultant), customers choose on this page.
 Where the crew is what is bought, a band on the about page is usually enough. A team page with
 placeholders, missing photographs or people who have left is worse than none.
 </job>

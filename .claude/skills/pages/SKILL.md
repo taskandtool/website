@@ -5,13 +5,13 @@ description: "Plans and builds this website's pages like an agency: which pages 
 
 # Pages
 
-The design system (`design/system.yaml`) decides how a page looks. The page
-type decides what can go on it, and the brief decides the words. All the
-judgement happens in the brief. The owner can see it there, and the page is
-held to it. Building the page then lays out words that are already approved.
+How a page looks is in the system record, `design/system.yaml`. What can go
+on it depends on its page type, and its words are in its brief. You make
+every judgement in the brief. The owner can read it there, and the page must
+match it. When you build the page, you lay out words already approved.
 
-Read the `writing` skill with this one. It sets the standard for every word
-on the page.
+Read the `writing` skill with this one. Write every word on the page to its
+standard.
 
 ## 1. Plan the site
 
@@ -28,7 +28,7 @@ on the page.
 3. **One row per page in `site-map.md`**, with its job and the notes it
    draws on, status `planned`. Write the nav under "Architecture", with the
    action as the button.
-4. **Show the plan in one message**, the least that lets them say yes:
+4. **Show the owner the plan in one message**, with just enough for a yes:
 
    ```
    Five pages: Home, Kitchens, Wardrobes, About, Contact.
@@ -38,72 +38,72 @@ on the page.
    Two things would make it better: a typical price, and photographs of a wardrobe.
    ```
 
-   Then carry on: build them all and show them together, except in a
-   migration (`migrate-site`), where each page is built and reviewed in its
-   own turn. What the owner changes later goes into the briefs.
+   Then carry on: build them all and show them together. In a migration
+   (`migrate-site`), build and review each page in its own turn instead. Put
+   what the owner changes later into the briefs.
 
 ## 2. A brief per page
 
-For each planned page, `design/briefs/<slug>.md` in the format of
+Write `design/briefs/<slug>.md` for each planned page, in the format of
 `references/brief.md`. A brief is done when the owner could approve the
 page from it alone: its angle, every band's real words, and what was left
-out and why. Its page type's guide, `references/types/<type>.md` (and its
-`<variant>`), says what the type can hold; you choose:
+out and why. The guide for its page type, `references/types/<type>.md` (and
+its `<variant>`), lists what the type can hold. You choose:
 
 - **The angle:** the guide's `<angle>` (reader, pain, offer, lead) or
   `<reader>`, decided for this page from this business's material.
 - **The bands,** from the guide's `<sections>`, in page order: the `core`
   ones, every section the old page had (its words in `raw/site/<host>/pages/`),
-  and any other the material answers well; what you left out goes in
+  and any other the material answers well. Put what you leave out in
   `omit:`, one clause each.
 - **The material,** sorted into the guide's `<inventory>` bins with sources
   (`public/`, `brand/`, `brand/images.md`, and every page, review and
-  listing the crawl saved in `raw/`). A page of
-  their site the crawl did not read is one `tt-crawl add <url>` away; fetch
-  rather than ask. When the page replaces an old one, the old page is the
-  floor for how complete the new one is, not the template for its shape:
-  each of its sections is carried, improved, or dropped in `omit:` with the
-  reason. A page the owner names to be like: the `design` skill.
+  listing the crawl saved in `raw/`). When the crawl missed a page of
+  their site, fetch it with `tt-crawl add <url>` rather than ask. When the
+  page replaces an old one, the new page holds at least what the old one
+  did, in a shape of your own: carry or improve each old section, or drop
+  it in `omit:` with the reason. When the owner names a page to model this
+  one on, use the `design` skill.
 - **The copy.** Write it in the business's voice, and plainer where their
-  own copy is marketese. Use only this business's material. Wording from a
-  guide or another page never goes in. Then fill the search fields.
+  own copy is marketese. Use only this business's material. Don't copy
+  wording from a guide or another page. Then fill the search fields.
 
   Draft hero: "Bespoke kitchens crafted with passion and precision." <!-- tropes-allow -->
-  Rewrite: "Solid oak kitchens, made in our Leeds workshop and fitted in
-  three days." The rewrite names the material, the place and the wait,
-  which are the facts a buyer compares.
+  Rewrite: "We make solid oak kitchens in our Leeds workshop and fit them in
+  three days." The rewrite has the material, the place and the wait: the
+  facts a buyer compares.
 
 ## 3. Build each page
 
-From its brief, in the record:
+Build each page from its brief, in the system record:
 
-- **The register:** the guide's mode (persuasion, retrieval, reading) picks
-  `x_layout.registers.<mode>` in `design/system.yaml`: the head (`statement`
-  or `plain`), the type, the rhythm.
+- **The register:** use `x_layout.registers.<mode>` in `design/system.yaml`
+  for the guide's mode (persuasion, retrieval, reading). It sets the head
+  (`statement` or `plain`), the type and the rhythm.
 - **Each band** by its shape and count: a list of named things is `items`,
-  questions are `qa`, steps are `sequence`, and so on, laid out as
-  `x_layout.shapes.<shape>` says for that many. The page's last ask is
-  `x_layout.close`. When the record has no `x_layout` (as the starter's
-  does not), `DESIGN.md` and the design skill decide the layout instead.
+  questions are `qa`, steps are `sequence`, and so on. Lay it out as
+  `x_layout.shapes.<shape>` says for that many. Build the page's last ask
+  from `x_layout.close`. When the record has no `x_layout` (the starter's
+  has none), take the layout from `DESIGN.md` and the design skill.
 - **The code:** `references/page-code.md` (a module in `src/pages`, listed
   in `src/pages/index.ts`, facts read from the content), with `page.title`
   and `page.description` from the brief.
-- **The words are the brief's.** A line that does not fit is changed in the
-  brief first, then on the page. Build without the fact a `NEED:` names;
+- **The words are the brief's.** When a line does not fit, change it in the brief first, then on the page. Build without the fact a `NEED:` names;
   never fill the gap with a placeholder sentence.
 - **The nav** from `site-map.md` into `site.nav` in `src/site.ts`.
 
 ## 4. Check and show
 
-1. The design skill's review gate on every new page, the writing skill's
-   cold read, and `.claude/skills/website/references/seo.md`'s "By hand"
-   list. Put everything they find in one list and fix it in one pass.
+1. On every new page, run the design skill's review gate, the writing
+   skill's cold read, and the "By hand" list in
+   `.claude/skills/website/references/seo.md`. Collect every finding in one
+   list and fix them in one pass.
 2. Mark the rows `built` in `site-map.md`, show the pages together, then
    the one line of what would make them better (the `NEED:`s, rolled up).
 
 ## Changing a page later
 
-How a page looks changes in the record (the `design` skill), never on one
-page. A page that needs a pattern the site does not have yet (a photograph banner per menu
-section) gets it as a component in `src/components`, in the record's
-tokens, so the next page can use it too.
+Change how a page looks in the record (the `design` skill), never on one
+page. When a page needs a pattern the site lacks (a photograph banner per
+menu section), build it as a component in `src/components` from the
+record's tokens. The next page can then use it too.

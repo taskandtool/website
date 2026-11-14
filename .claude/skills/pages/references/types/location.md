@@ -43,7 +43,7 @@ name swapped.
                         When: something does differ. It is what justifies the page.
   people      optional  The staff at this location, named, with photographs.
                         When: the brand has them.
-  photographs  optional  The premises, inside and out, and work done nearby. When: the business's photographs have them.
+  photographs  optional  The premises, inside and out, and work done nearby. When: the business has photographs of them.
   proof       optional  Reviews that mention this place. When: they exist.
   nearby      optional  The neighbourhoods or towns this location serves, named.
                         When: it serves an area beyond its door.
@@ -55,7 +55,7 @@ name swapped.
 </phrase>
 
 <show>
-  - A photograph of the outside, so a visitor recognises it when they arrive, where the business's photographs have one.
+  - A photograph of the outside, where the business has one. A visitor then recognises it on arrival.
 </show>
 
 <links>

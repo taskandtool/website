@@ -8,12 +8,12 @@ the commonest way to fail.
 </job>
 
 <angle>
-  reader  who this page is for, narrowly. One audience; the page says nothing to anyone else.
+  reader  who this page is for, narrowly. One audience; say nothing to anyone else.
   pain    the doubt or problem they arrive with, in words they would use.
   offer   what they get for acting now: the terms that make yes cheap.
   lead    which of reader, pain or offer the headline answers first.
   arrives (when known) the ad, email or search terms that send the traffic. The headline must
-          match it: message match is the best-evidenced lever a landing page has.
+          match it. Matching the message is the best-evidenced way to raise a landing page's conversions.
 </angle>
 
 <inventory>
@@ -75,8 +75,8 @@ An item that serves another audience is not in the inventory at all.
   reviews       core      Several named, on-audience reviews together. Each carries its source's
                           square icon (Google's G, Facebook's f) and its star rating as star
                           graphics, and a review that came with the customer's own photograph is
-                          shown with it. Without review photographs, photographs of finished
-                          jobs sit in the same band, beside or alternating with the reviews.
+                          shown with it. Without review photographs, put photographs of finished
+                          jobs in the same band, beside the reviews or alternating with them.
                           When there are no reviews, the band is a NEED, not filler.
   work          optional  Photographs of finished jobs, the more local the better ("what we did
                           for your neighbours"), each captioned with the job and the place. Best
@@ -88,7 +88,7 @@ An item that serves another audience is not in the inventory at all.
                           warranty tier, factory-trained crews), beyond the logos already in the
                           proof strip. When: the brand says what it means.
   team          optional  The actual people, with a photograph of them.
-                          When: the brand has the photograph. Never names over stock.
+                          When: the brand has the photograph. Never names on stock photographs.
   questions     optional  The company's own FAQ answers for this offer, shortened.
                           When: real questions exist. Never invented ones.
   area          optional  The places, named. When: the business travels to customers.
@@ -97,20 +97,20 @@ An item that serves another audience is not in the inventory at all.
                           number, always, as text, when the work is licensed. Nothing that
                           leads away from the page.
 
-A lander is carried by features, benefits, guarantees and proof, and it shows more than it tells:
+Build a lander from features, benefits, guarantees and proof, and show more than you tell:
 photographs of the work and of what the reader gets, checks rather than paragraphs. The proof bands
-(proof strip, reviews, work) belong on the page whatever the design system; the system decides how
-they look, never whether they appear.
+(proof strip, reviews, work) go on the page whatever the design system. The system sets how they
+look, not whether they appear.
 
 When the action is a form (a quote, a booking), the form is on the first screen, beside the promise.
-Where the action repeats further down, the form itself repeats, never a button that scrolls back to
-it: the reader is convinced where they are, and sending them back up adds a decision and loses
-their place. A form that asks choices asks one per step. On a phone, when the brand has a phone
+Where the action repeats further down, repeat the form itself, never a button that scrolls back to
+it. A reader is convinced where they are; sending them back up adds a decision and loses their
+place. Ask one choice per step. On a phone, when the brand has a phone
 number, the action and the number can stay reachable at the foot of the screen.
 
 A form is on the page only when the brief gives its fields and where it sends. Without them the
-action is a button to the brand's own form (the booking or quote link the crawl found), and the missing form is a NEED;
-never a form a builder made up, which submits nowhere and loses the lead.
+action is a button to the brand's own form (the booking or quote link the crawl found), and the
+missing form is a NEED. Never make up a form: it submits nowhere and loses the lead.
 
 Beside every form: what happens after it is sent (who replies, how soon), when the brand says.
 Keep the form fields that describe the reader's job; cut the administrative ones.

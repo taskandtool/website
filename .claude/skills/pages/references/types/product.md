@@ -20,10 +20,10 @@ Who buys this item, for what use, and what they compare it with.
 </inventory>
 
 <select>
-  - The total cost and the returns policy sit near the buy button.
+  - Put the total cost and the returns policy near the buy button.
   - Variants are visible choices, with unavailable ones shown as such, not hidden in a menu.
-  - A few feature highlights beat a block of text or a long bullet list; the full specs live
-    separately.
+  - A few feature highlights beat a block of text or a long bullet list; put the full specs in
+    their own band.
   - Every value in the product's markup is visible on the page.
 </select>
 
@@ -38,7 +38,7 @@ buy         core      Name, price, variants as visible choices with stock, the a
   sizing      optional  A size or fit guide. When: the product comes in sizes.
   questions   optional  The seller's own answers about this product. When: real questions exist.
   related     optional  Two separate rows: alternatives, and things that go with it.
-                        When: the business's photographs have real alternatives or add-ons for this item.
+                        When: the business sells real alternatives or add-ons for this item.
 </sections>
 
 <phrase>

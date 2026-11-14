@@ -1,10 +1,10 @@
 <page_type name="about" mode="persuasion" goals="credibility transfer" nav="full">
 
 <job>
-Who these people are and why to trust them. Readers arrive sceptical, close to choosing, and see
-through corporate language and stock photographs; a real place and visible people are what make a
-business credible. It is on the path to buying, so it ends in the action. Many readers skip it, so
-its trust facts also belong on the homepage and service pages.
+Who these people are and why to trust them. Readers arrive sceptical and close to choosing. They see
+through corporate language and stock photographs, and trust a real place and visible people. The
+page is on the path to buying: end it in the action. Many readers skip it: put its trust facts on
+the homepage and service pages too.
 
 This type does not cover contact, location or team pages: those are
 `contact.md`, `location.md` and `team.md`.
@@ -74,8 +74,8 @@ and the footer.
 </links>
 
 <industry>
-Clinics and professional services: the practitioner is what is bought, so bios with qualifications
-and approach carry the page. Trades: the people who turn up, and the licence. Software: how the
+Clinics and professional services: the practitioner is what is bought. Lead with bios that give
+qualifications and approach. Trades: the people who turn up, and the licence. Software: how the
 company operates and keeps data safe matters more than leadership. Regulated work carries what the
 law requires (industries.md).
 </industry>

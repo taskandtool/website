@@ -31,7 +31,7 @@ someone who needs directions. Which channel each one wants, and whether any of i
 <sections>
   reach       core      The main phone number and email as links, with hours and how fast they reply.
   urgent      optional  The emergency or after-hours line and what it covers.
-                        When: the brand offers one. Then it sits beside the main number.
+                        When: the brand offers one. Then put it beside the main number.
   by purpose  optional  Other numbers or addresses, each labelled by what the reader needs.
                         When: the business has more than one real channel.
   form        optional  A short enquiry or booking form, with what happens after it is sent.
@@ -49,7 +49,7 @@ someone who needs directions. Which channel each one wants, and whether any of i
 
 <show>
   - Usually no photographs. The premises or the storefront only where it helps someone find it.
-  - A map sits beside an address written out as text, never instead of it. On a phone the text comes first.
+  - Put a map beside the address written out as text, never instead of it. On a phone the text comes first.
 </show>
 
 <links>

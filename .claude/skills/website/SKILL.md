@@ -1,14 +1,14 @@
 ---
 name: website
-description: "Runs, changes, deploys and launches this business website: the Hono app, the dev loop, the checks, blog posts, SEO, the pre-deploy checklist, going live on their domain and the site audit. Use for a small edit, the site's code, deploying, or an audit alert. Not for a new site (new-site), a page (pages) or the look (design)."
+description: "Runs, changes, deploys and launches this business website: the Hono app, the dev loop, the checks, blog posts, SEO, the pre-deploy checklist, going live on their domain and the site audit. Use for a small edit, a code change, a deploy or an audit alert. Not for a new site (new-site), a page (pages) or the look (design)."
 ---
 
 # Website
 
 This app is a website on Hono: server-rendered JSX, Tailwind v4, no client
-framework. **Dev** is this machine's `web` service, where every edit shows
-on refresh. **Production** is the site deployed to Cloudflare: every page
-pre-rendered to HTML, with a small Worker behind it for anything dynamic.
+framework. **Dev** is this machine's `web` service; edits show on refresh.
+**Production** is the site deployed to Cloudflare. Every page there is
+pre-rendered to HTML, and a small Worker handles anything dynamic.
 
 In `references/`, read when the request needs it:
 
@@ -22,21 +22,22 @@ In `references/`, read when the request needs it:
 
 ## The facts
 
-`npm run content` (every build, and the dev loop when a note changes)
-compiles `public/`, `posts/` and `legal/` into `src/generated/content.json`,
-which the pages, the footer and the JSON-LD read. `site-map.md`'s notes
-column lists the pages that show each note, so a changed note points at its
-pages. The sections in `src/components/facts.tsx` (`npm run list-parts` lists
-them) render from the notes, and render nothing while their note is empty:
-compose around them rather than retyping a fact.
+`npm run content` compiles `public/`, `posts/` and `legal/` into
+`src/generated/content.json`. It runs on every build, and in the dev loop
+when a note changes. The pages, the footer and the JSON-LD read that file.
+In `site-map.md`, the notes column lists the pages that show each note:
+after changing a note, look at those pages. The sections in
+`src/components/facts.tsx` (`npm run list-parts` lists them) render from
+the notes, and render nothing while their note is empty. Build around them
+instead of retyping a fact.
 
 ## Before each deploy
 
 1. **The checks pass:** `npm run check`, with what it lists fixed.
 2. **You looked at it:** `tt-crawl shoot <each changed page>`, and new
    copy has had the `writing` skill's cold read.
-3. **Going live on their domain** follows `references/launch.md`.
+3. **Going live on their domain:** `references/launch.md`.
 
 Then `npm run deploy` (it sets up the tables, builds, then deploys); read
-what the build prints. What production is, and when: the platform's
-`deploy` skill.
+what the build prints. For what production is and when to deploy, see the
+platform's `deploy` skill.

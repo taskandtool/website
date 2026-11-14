@@ -41,7 +41,7 @@ apply.
 </phrase>
 
 <show>
-  - The actual team at work, where the business's photographs have it. Never stock.
+  - The actual team at work, where the business has photographs of them. Never stock.
 </show>
 
 <links>

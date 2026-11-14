@@ -1,10 +1,10 @@
 <page_type name="homepage" mode="persuasion" goals="many" nav="full">
 
 <job>
-The front door for everyone: a first-timer deciding whether this is the right company, a returning
-customer after the phone number, someone checking whether they cover their town. It is an elevator
-pitch and a router: say what the company does, for whom and where, prove it is real, and send each
-reader onward. It is not a long argument; that is a landing page's job.
+Everyone arrives here: a first-timer deciding whether this is the right company, a returning
+customer after the phone number, someone checking whether they cover their town. Say what the
+company does, for whom and where, prove it is real, and send each reader onward. Leave the long
+argument to a landing page.
 </job>
 
 <angle>
@@ -12,10 +12,10 @@ reader onward. It is not a long argument; that is a landing page's job.
   pain    what the main reader arrives needing to know or fix, in their words.
   offer   the company's strongest reason to choose them: the thing only they can say.
   lead    what the first screen answers first. Almost always what the company does and where,
-          unless the name already says it; the best line sits beside it.
+          unless the name already says it. Put the best line beside it.
 
-The commonest miss is a buried best line: the most useful thing the company says (made while you
-wait, open 24 hours, the owner answers the phone) sits halfway down an old page. Find it.
+The commonest miss is a buried best line. The most useful thing the company says (made while you
+wait, open 24 hours, the owner answers the phone) is often halfway down an old page. Find it.
 </angle>
 
 <inventory>
@@ -30,16 +30,16 @@ wait, open 24 hours, the owner answers the phone) sits halfway down an old page.
 
 <select>
   - The first screen says what the company does and where, carries the primary action, and shows
-    a real photograph of the work if the business's photographs have one that can hold a hero.
+    a real photograph of the work if the business has one that can hold a hero.
   - Which fact leads the first screen follows the industry (industries.md): a restaurant's menu,
     hours and booking; a trade's area and credentials; software's product and price.
-  - Examples of the offerings beat category names: a real job, dish or product per offering.
-    The homepage samples the site with one line per offering (not three offerings out of seven): every product line or main service the company
-    sells is named on the homepage, with its line and, when the business's photographs have one, its photograph.
-  - The old homepage is a floor, not a template. What it carried that still answers a reader (each
-    product line, a buying guide, a planning tool, a guarantee, a certification) is carried or
-    improved; a drop is a decision named in `omit:`. When the old homepage was thin (a banner and a
-    paragraph), don't copy its shape: build from the rest of the old site and the photographs.
+  - Name every product line or main service the company sells (all seven, not three of them).
+    Give each one line, a real example (a job, a dish, a product) and its photograph when the
+    business has one. A real example beats a category name.
+  - Carry or improve everything the old homepage had that still answers a reader (each product
+    line, a buying guide, a planning tool, a guarantee, a certification); a drop is a decision
+    named in `omit:`. When the old homepage was thin (a banner and a paragraph), build from the rest
+    of the old site and the photographs instead of copying its shape.
   - One statement of coverage and one main phone number.
   - Cut welcome text, announcements and promotions that crowd out what the company does.
   - Each item once; a service is summarised here and described on its own page.
@@ -47,21 +47,21 @@ wait, open 24 hours, the owner answers the phone) sits halfway down an old page.
 
 <sections>
 A homepage for a business with one service and little material is short; one for a
-company with seven product lines, a guide and a guarantee is long, and should be: leaving its
-material out makes the new site look less complete than the old. Each line says what the
-band holds, then when it earns its place.
+company with seven product lines, a guide and a guarantee is long, and should be. Leaving its
+material out makes the new site look less complete than the old one. Each line gives what the
+band holds, then when to include it.
 
   hero        core      What they do, for whom, where; the primary action; the best line. A real
-                        photograph of the work when the business's photographs have one that can hold a hero.
-  trust       core      Everything in public/proof.md that is not a review: every logo,
-                        ratings with platform and count, people, numbers: all of it, boldly.
+                        photograph of the work when the business has one that can hold a hero.
+  trust       core      Everything in public/proof.md except reviews, shown boldly: every logo,
+                        ratings with platform and count, people, numbers.
   offerings   core      Each service, product line or menu by its search name, with a real example
                         and a link to its page. For a restaurant this is the menu's route: what they
                         cook, a few named dishes, and the link.
   proof       core      Reviews with name and platform, or the strongest named review beside the
                         claim it proves. When there are none, the band is a NEED, not filler.
   work        optional  Photographs of real jobs, dishes, rooms or products, captioned.
-                        When: the business's photographs have usable ones. With none, the work is set in type.
+                        When: the business has usable ones. With none, set the work in type.
   process     optional  The steps from first contact to done.
                         When: the buying process is unfamiliar or feared (legal, medical,
                         remodelling, a first booking). Omit for a purchase everyone understands.

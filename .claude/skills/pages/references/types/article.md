@@ -1,10 +1,10 @@
 <page_type name="article" mode="retrieval, then persuasion" goals="be read, then act" nav="full">
 
 <job>
-A blog post answers one question a real customer has, shows the company has done the thing, and
+A blog post answers one question a real customer has. It shows the company has done the thing and
 links interested readers to the matching service page. Success is the reader getting the answer;
-the second job is the path to the money page. A post earns its place by
-answering a question people search for; thin or machine-made posts weigh on the whole site.
+the second job is the path to the money page. Write a post only for a question people search for.
+Thin or machine-made posts hurt the whole site's ranking.
 </job>
 
 <reader>
@@ -16,8 +16,8 @@ Decide first whether the post, or the blog, should exist. Keep a post only when 
 hold first-hand material for it: a job the company did, a question customers have asked, a local
 fact, the owner's own view. Otherwise: improve a post that has traffic or links; merge overlapping
 weak posts into one and redirect the rest; retire posts with no traffic, links or first-hand
-material. Retiring a whole blog is legitimate when nothing survives. Mass-produced AI posts are
-named spam.
+material. Retiring a whole blog is legitimate when nothing survives. Google counts mass-produced AI
+posts as spam.
 </exists>
 
 <inventory>

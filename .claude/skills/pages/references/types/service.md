@@ -2,8 +2,8 @@
 
 <job>
 One service, for someone who searched for it by name. They doubt: is this the right place, do they
-do this well here, what will it involve and cost. The page confirms, proves and prices it, and gets
-them to act. One page per service is how a site answers a search for that service.
+do this well here, what will it involve and cost. Confirm it, prove it, price it, and get them to
+act. A site needs one page per service to answer a search for that service.
 </job>
 
 <angle>
@@ -30,7 +30,7 @@ gather from all of them.
 <select>
   - Only material about this service. A review praising a different job goes elsewhere.
   - Problem first: the reader recognises their situation on the first screen.
-  - What's included is concrete and complete; an incomplete description breeds doubt.
+  - What's included is concrete and complete; an incomplete one makes readers doubt.
   - A price or typical-job price beats silence, when the brand has one.
   - The company's own FAQ answers for this service beat anything you could write.
   - Photographs of this service, being done and finished, beat any other picture.
@@ -41,12 +41,12 @@ gather from all of them.
 hero        core      The service by its search name, the problem it fixes, where, the action.
   included    core      What the customer gets, as named items.
   proof       core      Reviews about this service, job photographs, results, and every logo in
-                        public/proof.md. The strongest sits beside the claim it proves. None:
+                        public/proof.md. Put the strongest beside the claim it proves. None:
                         a NEED.
   price       optional  Prices, ranges or typical-job prices, with units.
                         When: the brand has them.
   work        optional  Photographs of this service being done and finished; before-and-after pairs.
-                        When: the business's photographs have photographs of THIS service.
+                        When: the business has photographs of this service.
   process     optional  What happens, in order, and how long it takes.
                         When: the job takes several visits or days, or the reader fears disruption.
   options     optional  The choices, each framed by what it is good for.
@@ -57,8 +57,8 @@ hero        core      The service by its search name, the problem it fixes, wher
                         When: their own text answers them.
   questions   optional  The company's FAQ for this service. When: real questions exist.
   area        optional  One line or a short list of the places this service covers, named.
-                        When: the business travels to customers. A map is not needed; a list is.
-                        A storefront business leaves this to its location page.
+                        When: the business travels to customers. A list is enough; skip the map.
+                        For a storefront business, leave this to its location page.
   related     optional  Two or three services a customer of this one often needs next, in context.
                         When: the site has them.
   action      core      The action, with what happens after.
@@ -68,25 +68,25 @@ hero        core      The service by its search name, the problem it fixes, wher
   - Headline: the service by the name a customer searches for, and where; its benefit or the
     problem it solves in the subtext.
   - Included items are named things, not adjectives.
-  - Invite, don't instruct. What happens after they get in touch in one line.
+  - Invite the reader rather than instruct them. Say in one line what happens after they get in touch.
 </phrase>
 
 <show>
   - Photographs of the service being done and of the result; before-and-after pairs where the
-    brand has them. A photograph about another service is not used because it is pretty.
+    brand has them. Don't use a photograph of another service because it is pretty.
 </show>
 
 <links>
 Up to the services index (or home). Across, in context, to two or three services a customer of
-this one often needs next. Out to area pages where this service's local proof lives. In context,
-not as a list dumped in the footer.
+this one often needs next. Out to the area pages that hold local proof for this service. Link in
+context, not as a list in the footer.
 </links>
 
 <variant name="index" label="services index" mode="retrieval">
 The list of every service, so a reader finds theirs in one click. Each entry: the search name, one
 line on what it involves, one distinguishing fact where the brand has it (a "from" price, a typical
 duration, who it is for), a photograph of that work, and a link. Every service represented evenly,
-in the same structure. A line or two of context at the top; no proof or long copy (that lives on
+in the same structure. A line or two of context at the top; no proof or long copy (that goes on
 the service pages). Skip the index when there are only a few services and the nav lists them all.
 Area pages are `location.md`, and exist only where `public/` and `brand/` hold local proof for that
 place; otherwise the places are named on the service page.

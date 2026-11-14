@@ -10,7 +10,7 @@ website's roles, its components, layout and rules. Read the record of a
 system you borrow from before writing the site's.
 
 **Proven** means two blind builds from the system's record came out as the
-same design, so the record alone reproduces the look.
+same design: the record alone is enough to reproduce the look.
 
 | id | family | suits | the look in one line | preview |
 |---|---|---|---|---|
@@ -39,7 +39,7 @@ group, one line each:
 ```bash
 python3 ~/tools/taskandtool.py create-deliverables --file - \
   --message "Starting points from the design library: tell me what you like in each" <<'EOF'
-[{"path": ".claude/skills/design/references/library/tally.webp", "title": "Tally: checked claims and proof, for trust on a phone", "status": "info"},
+[{"path": ".claude/skills/design/references/library/tally.webp", "title": "Tally: checked claims and proof for trust on a phone", "status": "info"},
  {"path": ".claude/skills/design/references/library/crest.webp", "title": "Crest: the work at full width under a dark fade", "status": "info"}]
 EOF
 ```

@@ -2,12 +2,11 @@
 
 `design/system.yaml` is the site's design system as one record, in the
 design library's shape. `npm run apply-design` compiles it into `styles/theme.css`,
-`DESIGN.md` and `src/fonts.ts`; nothing else holds a design value. The library's
-fourteen systems are in `records/` in this shape (`library.md` previews
-them). Read the closest one whole before writing; they show the level of
-detail that lets a page be rebuilt from the record alone, and their
-`x_components` hold proof patterns (rating banners, review cards, logo
-bars) to borrow.
+`DESIGN.md` and `src/fonts.ts`. No other file holds a design value. The
+library's fourteen systems are in `records/` in this shape, with previews
+in `library.md`. Read the closest one whole before writing. Each has enough
+detail to rebuild a page from the record alone, and its `x_components`
+have proof patterns to borrow (rating banners, review cards, logo bars).
 
 ## What the site's record holds
 
@@ -36,8 +35,8 @@ designed with.
 
 The library names colours per system (`claret`, `cloth`, `wine`). The site
 names them by role, because the layout, the components and
-`styles/input.css` use these classes on every page. The record defines
-every role: `npm run apply-design` names any role the base stylesheet reads that
+`styles/input.css` use these classes on every page. Define every role in
+the record: `npm run apply-design` names any role the base stylesheet reads that
 the record lacks, and `npm run check:design` names any class a page uses that no
 token makes.
 
@@ -52,38 +51,37 @@ token makes.
 | `accent`, `accent-ink`, `accent-hover` | the action fill, its text, its hover | `primary`, `claret`, `primary-deep` |
 | `line`, `line-strong`, `line-on-night` | hairlines | `line` |
 
-A system's own extra colours (a star yellow, a second dark) are added under
-their own names, and get a sentence in `sections.colors`. Typography needs
-`display`, `section`, `title`, `lede`, `copy` and `label`; the family of
-`display` becomes `font-display`, and the family of `copy` becomes
-`font-body`. Spacing needs
-`section` and `lead`, containers `content` and `wide`, rounded `control`
-and `card`. A role the system has no use for still gets the nearest value,
-because the footer and the shared components use it.
+Add a system's own extra colours (a star yellow, a second dark) under
+their own names, with a sentence each in `sections.colors`. Typography
+needs `display`, `section`, `title`, `lede`, `copy` and `label`; the family
+of `display` becomes `font-display`, and the family of `copy` becomes
+`font-body`. Spacing needs `section` and `lead`, containers `content` and
+`wide`, rounded `control` and `card`. Give a role the system has no use for
+the nearest value anyway: the footer and the shared components use it.
 
 ## The bar
 
 1. **Every value comes from the homepage the owner liked.** Read
-   `src/pages/home.tsx` and the record's tokens: the colours, sizes, radii
-   and spacings the page uses stay; a token it never uses goes, except the
-   roles above.
+   `src/pages/home.tsx` and the record's tokens. Keep the colours, sizes,
+   radii and spacings the page uses. Remove a token it never uses, except
+   the roles above.
 2. **Every rule carries its reason** (`npm run apply-design` refuses a do or
-   don't without its `why`). "Don't use shadows" is a preference; "Don't
-   use shadows: depth here is the two paper tones, and a shadow reads as a
-   third surface the system does not have" lets the next page apply it to a
-   case you did not foresee.
-3. **Colour has relief, and text is neutral.** A dark or saturated ground
-   runs about half the bands at most; at least one band sits on the opposite
-   value. Text on a coloured ground is the neutral, or a deep shade of the
-   ground's hue at 7:1 that reads as ink, never a mid tint of the same
-   family. The accent is a fill on a dark or coloured ground, never text
-   there. `npm run check:design` hints at the first two (`dark-bands`,
+   don't without its `why`). "Don't use shadows" is a preference. Give the
+   reason: "Don't use shadows: depth here is the two paper tones, and a
+   shadow reads as a third surface the system does not have." Then whoever
+   builds the next page can apply the rule to a case you did not foresee.
+3. **Colour has relief, and text is neutral.** Use a dark or saturated
+   ground on about half the bands at most, and put at least one band on the
+   opposite value. Set text on a coloured ground in the neutral, or in a
+   deep shade of the ground's hue at 7:1 that looks like ink. Never use a
+   mid tint of the same family. On a dark or coloured ground the accent is a
+   fill, never text. `npm run check:design` hints at the first two (`dark-bands`,
    `same-hue-text`).
 4. **The head is a shot list.** `x_layout.head.statement` says the media it
    needs (subject, orientation, where the subject sits, room left for the
    words), where the words go and how they stay readable, and the fallback
    when there is no such picture.
-5. **Imagery and motion are never silent.** `x_imagery` says what role
+5. **Imagery and motion are always stated.** `x_imagery` says what role
    pictures play and what happens with none; `x_motion` is one entrance and
    one gesture, or `principle: "still: <why>"` and `reduced`.
 6. **Type has floors.** Body text at least 18px; section heads at least
@@ -92,11 +90,11 @@ because the footer and the shared components use it.
    `{typography.title}`, `{spacing.section}`); `npm run apply-design` rejects one
    that does not resolve.
 
-## x_layout: look, never content
+## x_layout: how bands look
 
 `x_layout` says how a band of a given shape and count looks in this system.
-It never names a page type and never says what goes where; the page's brief
-does that.
+It names no page type and says nothing about what goes where: that belongs
+in the page's brief.
 
 ```yaml
 x_layout:
@@ -116,9 +114,9 @@ x_layout:
   never: ["<a layout don't: why>"]
 ```
 
-Counts are the lever: six services, forty menu items and four people must
-each come out right, and a count that divides badly (four people in three
-columns) says what to do instead. Tally's `shapes` block is the fullest
+Plan for counts: six services, forty menu items and four people must each
+come out right. For a count that divides badly (four people in three
+columns), say what to do instead. Tally's `shapes` block is the fullest
 example.
 
 ## A worked example: the identity

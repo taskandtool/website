@@ -1,14 +1,14 @@
 # Launching on their domain
 
-The cutover is the moment the owner's domain starts serving this site, and,
-when they had one, stops serving their old site. Done when the domain serves
+At the cutover, you point the owner's domain at this site instead of any old one. Done when the domain serves
 this site, email still works, and every old address still answers.
 
 ## Before deploying
 
-`npm run check` passes. When there was an old site, its seo area holds this
-one to the old one's crawl, so every old URL answers as a page or a 301
-straight to one; show the owner what moved where, as a table.
+`npm run check` passes. When there was an old site, the seo part of the
+check compares this site with the old site's crawl: every old URL must
+answer as a page or as a 301 straight to one. Show the owner what moved
+where, as a table.
 
 ## The cutover
 
@@ -29,10 +29,10 @@ straight to one; show the owner what moved where, as a table.
    ```
 
 5. Offer a regular site audit, weekly or monthly, as a team-only
-   **scheduled job**. How often, and whether it runs at all, is the
-   owner's: they change or remove it on the app's Jobs tab. A run that
-   finds anything exits 1, which puts a note in the app's chat and its
-   activity (once, until a run passes again); `raw/audit/_latest.json`
+   **scheduled job**. The owner decides how often it runs, or whether it
+   runs at all, and changes or removes it on the app's Jobs tab. A run
+   that finds a problem exits 1. Task & Tool then posts a note in the
+   app's chat and activity, once, until a run passes again. `raw/audit/_latest.json`
    names the latest report. Weekly, Mondays at 07:00 UTC:
 
    ```bash
@@ -49,8 +49,8 @@ straight to one; show the owner what moved where, as a table.
 
 In plain words: how many old addresses still work, how many redirect,
 anything missing and what you did about it, and that rankings usually
-settle within a few weeks after a clean move. When the audit alerts
-them, read the latest report, fix what is in the site's control (a
+settle within a few weeks after a clean move. After an audit alert, read
+the latest report, fix what is in the site's control (a
 broken internal link, a missing description, a page that lost its h1),
 tell the owner about what is not (a partner's site that went away), and
 offer to deploy the fix.

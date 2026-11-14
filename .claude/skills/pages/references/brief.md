@@ -2,9 +2,9 @@
 
 One file per page, `design/briefs/<slug>.md` (`home` for `/`, the path with
 slashes as dashes otherwise: `services-kitchens` for `/services/kitchens`).
-It holds what goes on the page and the words it says, so the owner can
-approve them and the page can be held to them. It never says how the page
-looks; the system record does.
+It holds what goes on the page and its words. The owner approves them
+there, and the page must match them. Leave out how the page looks: that is
+in the system record.
 
 > Write: *the four services, each by the name a customer would search for, one line on what it involves.*
 > Never: *a three-up card grid.*
@@ -21,7 +21,7 @@ pain: showroom kitchens that do not fit an old house's walls
 offer: made to measure in their own workshop, fitted by the people who made it
 lead: what they make and where, with made-to-measure beside it
 omit:                 # each section of the page this replaces (raw/site/<host>/) left out, and why; empty means all of it is carried
-  - team: one photograph of two people, carried by the about band instead
+  - team: one photograph of two people; the about band has it instead
 query: fitted kitchens Bristol
 title: Fitted kitchens made in Bristol
 description: Kitchens and wardrobes made to measure in our Bristol workshop and fitted by the joiners who built them. Visits across Bristol and Bath.
@@ -30,10 +30,10 @@ arrives: [search "fitted kitchens Bristol", the van's phone number]
 
 ## hero
 Headline: Fitted kitchens made in our Bristol workshop
-Lead: Kitchens and wardrobes made to measure for old houses and new, fitted by the joiners who built them.
+Lead: We make kitchens and wardrobes to measure for old houses and new. The joiners who make them fit them too.
 Action: Book a workshop visit → /contact
 
-![Oak kitchen with a deep sink under a sash window, finished last spring](static/images/kitchen-oak.jpg)
+![Oak kitchen with a deep sink under a sash window](static/images/kitchen-oak.jpg)
 
 ## offerings
 Heading: What we make
@@ -62,24 +62,24 @@ up. The body is markdown with a few labelled lines:
 
 ## The rules
 
-- **Literal words, never pointers.** The owner approves what the page will
-  say, so the brief says it: the phone number, the hours, the price. On the
-  page, a fact in `public/` is read from the content, not typed
-  into the JSX; the brief and the note must agree.
+- **Literal words, never pointers.** Write the phone number, the hours and the price into
+  the brief: the owner approves what the page will say. On the page, read a
+  fact in `public/` from the content rather than typing it into the JSX;
+  the brief and the note must agree.
 - **Only what will appear.** A reviews page's brief holds the six reviews
   chosen, not all of them. "The rest are in raw/" means the choosing is
   not done.
 - **No derived numbers.** A range or a count worked out in your head goes
   stale; use the values the material states.
 - **No dated fact without its year**, and only when the material confirms it.
-- **Each fact once per site as a lead figure.** A figure the site leads on
-  ("15 towns") is set as a figure on one page; elsewhere it is a sentence.
+- **Each fact once per site as a lead figure.** Set a figure the site leads
+  on ("15 towns") as a figure on one page; elsewhere write it in a sentence.
 - **The action's link** is the one the business already uses (a booking or
   quote link from the crawl or `public/business.md`); with none, the phone,
   and a `NEED:` for the link.
-- **Gaps are never questions.** A missing fact is a `NEED:` line, and the
-  page is built without it. All of them roll into one short "what would make
-  this better" line when the pages are shown.
+- **Don't ask about gaps.** Write a missing fact as a `NEED:` line and build
+  the page without it. Roll them all into one short "what would make this
+  better" line when you show the pages.
 
 ## The search fields
 

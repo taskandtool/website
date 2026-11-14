@@ -1,7 +1,7 @@
 <page_type name="work" mode="persuasion" goals="prove it with a real job" nav="full">
 
 <job>
-One real job, told so a buyer can see themselves in it. It says who it was for, what was wrong, what
+One real job, told so a buyer with the same problem recognises it. It says who it was for, what was wrong, what
 the company did, and what changed. This covers the case study, the project page and the before-and-after.
 For a considered purchase it is the strongest proof a site can carry. It needs
 an outcome.
@@ -34,8 +34,8 @@ an outcome.
   problem     core      What was wrong before.
   work        core      What the company did, named as the services it sells.
   result      core      What changed, with numbers and their source where the brand has them.
-  pictures    optional  Before, during and after, captioned. When: the business's photographs have them.
-                        For a trade or a remodel this band carries the page.
+  pictures    optional  Before, during and after, captioned. When: the business has those photographs.
+                        For a trade or a remodel, this is the main band.
   voice       optional  The client's own words, with name and role. When: the brand has them.
   facts       optional  Scope, timeline, budget band, the team. When: the brand states them.
   related     optional  Other jobs of the same kind, or the service page.
@@ -61,8 +61,8 @@ To: the services used, named. From: those service pages, beside the claim this j
 Every job, each with a photograph, what it was, where, and a link to its page where it has one.
 Filter by kind of job or service when there are enough to need it. A gallery is captioned: a grid
 of uncaptioned pictures proves nothing. Supplier or stock images never appear. There is always a
-route to enquire. A gallery with too few real photographs is not made at all, and the work goes
-on the service pages instead.
+route to enquire. With too few real photographs, make no gallery and put the work on the
+service pages instead.
 </variant>
 
 <industry>

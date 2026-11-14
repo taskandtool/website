@@ -1,7 +1,7 @@
 # When the site grows
 
-When the owner wants more than the homepage, the record carries the look to
-every page:
+When the owner wants more than the homepage, finish the record so every
+page can follow it:
 
 1. **Fill the rest of the record** by `references/authoring.md`: the rules
    with their reasons, the imagery, the motion, `x_layout` for every shape
@@ -11,10 +11,10 @@ every page:
    `public/`, `brand/` and `design/system.yaml`,
    and have it build the homepage as a scratch page at `/rebuild`
    (`src/pages/rebuild.tsx`, listed in `src/pages/index.ts`). Screenshot both (`tt-crawl shoot / /rebuild`).
-   Where the two differ in a way the owner would notice, the record left
-   something out: add it, rebuild once more, then delete the scratch page. Without a
+   Where the two differ in a way the owner would notice, the record is
+   missing something: add it, rebuild once more, then delete the scratch page. Without a
    sub-agent, skip this and say so.
 3. **Check it:** `npm run check`.
 
-The other pages then follow the record (the `pages` skill). A later change
-to the look is a change to the record.
+Then build the other pages from the record (the `pages` skill). Make any
+later change to the look in the record.

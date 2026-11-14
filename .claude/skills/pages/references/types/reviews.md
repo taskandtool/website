@@ -2,10 +2,10 @@
 
 <job>
 Several customers, in their own words, about real jobs, so a reader who doubts the company can check
-it. Reviews work best beside the claim they prove, so they are placed on the homepage and service
-pages first. A page of their own is worth making when there are many (twenty or more real ones) or
+it. Reviews work best beside the claim they prove: put them on the homepage and service pages
+first. A page of their own is worth making when there are many (twenty or more real ones) or
 the category is decided by reviews (trades, clinics, venues). Readers suspect on-site reviews are
-curated and cross-check them elsewhere, so the page points to where they can be checked. Google
+curated and check them elsewhere. Link to the platforms where readers can check them. Google
 has not shown stars for a business's own reviews since 2019. This page is for readers, not for
 search features.
 </job>
